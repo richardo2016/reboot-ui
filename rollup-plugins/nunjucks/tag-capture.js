@@ -1,5 +1,4 @@
 const nunjucks = require('nunjucks')
-const escapeHtml = require('escape-html')
 const { highlightCode } = require('./_utils');
 
 function CaptureTag() {
@@ -56,7 +55,7 @@ function CaptureTag() {
 
                 ret = new nunjucks.runtime.SafeString(`\
                     <div class="bd-example">${html}</div>\
-                    ${highlightCode(escapeHtml(html).trim(), 'html')}
+                    ${highlightCode(/* escapeHtml */(html).trim(), 'html')}
                 `);
                 break
             case 'callout':
