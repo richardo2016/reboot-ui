@@ -1,11 +1,13 @@
 import React from 'react'
+import Router from 'preact-router';
+import Match, { Link } from 'preact-router/match';
+
 import useInterval from '../../utils/react-hooks/use-interval'
 
 import './app.scss';
-
 import { Layout, Navbar, Nav } from '../../library/reboot-ui'
 
-import './setup';
+import { ComponentsNavs } from './docs'
 
 export default function App () {
   const [count, setCount] = React.useState(0);
@@ -49,105 +51,138 @@ export default function App () {
                   Components
                 </a>
 
-                <ul class="nav bd-sidenav"><li>
-                      <a href="/docs/4.4/components/alerts/">
-                        Alerts
-                      </a>
-                    </li><li>
-                      <a href="/docs/4.4/components/badge/">
-                        Badge
-                      </a>
-                    </li><li>
-                      <a href="/docs/4.4/components/breadcrumb/">
-                        Breadcrumb
-                      </a>
-                    </li><li>
-                      <a href="/docs/4.4/components/buttons/">
-                        Buttons
-                      </a>
-                    </li><li>
-                      <a href="/docs/4.4/components/button-group/">
-                        Button group
-                      </a>
-                    </li><li>
-                      <a href="/docs/4.4/components/card/">
-                        Card
-                      </a>
-                    </li><li>
-                      <a href="/docs/4.4/components/carousel/">
-                        Carousel
-                      </a>
-                    </li><li>
-                      <a href="/docs/4.4/components/collapse/">
-                        Collapse
-                      </a>
-                    </li><li>
-                      <a href="/docs/4.4/components/dropdowns/">
-                        Dropdowns
-                      </a>
-                    </li><li>
-                      <a href="/docs/4.4/components/forms/">
-                        Forms
-                      </a>
-                    </li><li>
-                      <a href="/docs/4.4/components/input-group/">
-                        Input group
-                      </a>
-                    </li><li>
-                      <a href="/docs/4.4/components/jumbotron/">
-                        Jumbotron
-                      </a>
-                    </li><li>
-                      <a href="/docs/4.4/components/list-group/">
-                        List group
-                      </a>
-                    </li><li>
-                      <a href="/docs/4.4/components/media-object/">
-                        Media object
-                      </a>
-                    </li><li>
-                      <a href="/docs/4.4/components/modal/">
-                        Modal
-                      </a>
-                    </li><li class="active bd-sidenav-active">
-                      <a href="/docs/4.4/components/navs/">
-                        Navs
-                      </a>
-                    </li><li>
-                      <a href="/docs/4.4/components/navbar/">
-                        Navbar
-                      </a>
-                    </li><li>
-                      <a href="/docs/4.4/components/pagination/">
-                        Pagination
-                      </a>
-                    </li><li>
-                      <a href="/docs/4.4/components/popovers/">
-                        Popovers
-                      </a>
-                    </li><li>
-                      <a href="/docs/4.4/components/progress/">
-                        Progress
-                      </a>
-                    </li><li>
-                      <a href="/docs/4.4/components/scrollspy/">
-                        Scrollspy
-                      </a>
-                    </li><li>
-                      <a href="/docs/4.4/components/spinners/">
-                        Spinners
-                      </a>
-                    </li><li>
-                      <a href="/docs/4.4/components/toasts/">
-                        Toasts
-                      </a>
-                    </li><li>
-                      <a href="/docs/4.4/components/tooltips/">
-                        Tooltips
-                      </a>
-                    </li></ul>
+                <ul class="nav bd-sidenav">
+                  <li>
+                    <Link href="/docs/4.4/components/alerts/">
+                      Alerts
+                    </Link>
+                  </li>
+                  <li>
+                    <a href="/docs/4.4/components/badge/">
+                      Badge
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/docs/4.4/components/breadcrumb/">
+                      Breadcrumb
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/docs/4.4/components/buttons/">
+                      Buttons
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/docs/4.4/components/button-group/">
+                      Button group
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/docs/4.4/components/card/">
+                      Card
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/docs/4.4/components/carousel/">
+                      Carousel
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/docs/4.4/components/collapse/">
+                      Collapse
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/docs/4.4/components/dropdowns/">
+                      Dropdowns
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/docs/4.4/components/forms/">
+                      Forms
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/docs/4.4/components/input-group/">
+                      Input group
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/docs/4.4/components/jumbotron/">
+                      Jumbotron
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/docs/4.4/components/list-group/">
+                      List group
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/docs/4.4/components/media-object/">
+                      Media object
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/docs/4.4/components/modal/">
+                      Modal
+                    </a>
+                  </li>
+                  <li class="active bd-sidenav-active">
+                    <a href="/docs/4.4/components/navs/">
+                      Navs
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/docs/4.4/components/navbar/">
+                      Navbar
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/docs/4.4/components/pagination/">
+                      Pagination
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/docs/4.4/components/popovers/">
+                      Popovers
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/docs/4.4/components/progress/">
+                      Progress
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/docs/4.4/components/scrollspy/">
+                      Scrollspy
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/docs/4.4/components/spinners/">
+                      Spinners
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/docs/4.4/components/toasts/">
+                      Toasts
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/docs/4.4/components/tooltips/">
+                      Tooltips
+                    </a>
+                  </li>
+                </ul>
               </div>
             </Nav>
+          </Layout.Col>
+
+          <Layout.Col className="py-md-3 pl-md-5 bd-content" md={{ span: 9 }} xl={{ span: 8 }}>
+            <Router>
+              <div default>
+                <div className="bd-markdown-content" dangerouslySetInnerHTML={{ __html: ComponentsNavs.html }}></div>
+              </div>
+            </Router>
           </Layout.Col>
         </Layout.Row>
       </Layout.Container>

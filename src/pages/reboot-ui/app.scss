@@ -8,3 +8,10 @@ $navbar-padding-x: .5rem;
 .bg-navbar {
     background-color: #563d7c;
 }
+
+.bd-markdown-content {
+    blockquote {
+        @extend .bd-callout;
+        @extend .bd-callout-info;
+    }
+}

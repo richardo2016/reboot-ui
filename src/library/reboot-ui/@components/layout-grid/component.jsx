@@ -2,7 +2,7 @@ import React from 'react'
 
 import classnames from 'classnames'
 
-import { getClsNameListFromBreakPointConfig } from '../../utils/ui'
+import { getClsNameListFromBreakPointConfig, resolveJSXElement } from '../../utils/ui'
 
 export const Container = ({
     children,
@@ -61,6 +61,7 @@ export const Row = ({
 
 export const Col = ({
     children,
+    as: _as = 'div',
     span = undefined,
     offset = undefined,
     /**
@@ -86,8 +87,10 @@ export const Col = ({
     if (!breakPointAboutClsList)
         breakPointAboutClsList.push('col')
 
+    const JSXEl = resolveJSXElement()
+
     return (
-        <div
+        <JSXEl
             {...props}
             className={
                 classnames([
@@ -96,6 +99,6 @@ export const Col = ({
             }
         >
             {children}
-        </div>
+        </JSXEl>
     )
 }

@@ -13,6 +13,7 @@ import pug from 'rollup-plugin-pug';
 import postcss from 'rollup-plugin-postcss';
 import image from '@rollup/plugin-image';
 import cleanup from 'rollup-plugin-cleanup';
+import markdown from './rollup-plugins/markdown';
 
 import preactHooks from 'preact/hooks';
 
@@ -138,10 +139,7 @@ function getConfigItem (name, opts) {
 		rollup_cfg.plugins.push(
 			cleanup({
 				comments: 'none',
-				extensions: [
-					'.js',
-					'.css'
-				]
+				extensions: [ '.js', '.css' ]
 			})
 		)
 	}
@@ -154,5 +152,17 @@ function getConfigItem (name, opts) {
 
 export default [
 	getConfigItem('reboot-ui', { format: 'umd', name: 'RebootUI', mvvm_type: 'preact', app_type: 'library' }),
-	getConfigItem('reboot-ui', { format: 'iife', name: 'RebootUISample', mvvm_type: 'preact', app_type: 'pages' }),
+	getConfigItem('reboot-ui', {
+		format: 'iife',
+		name: 'RebootUISample',
+		mvvm_type: 'preact',
+		app_type: 'pages',
+		postConfig: (rollup_cfg) => {
+			rollup_cfg.plugins.unshift(
+				markdown({
+					basedir: path.resolve(__dirname, './src/pages/reboot-ui/docs'),
+				})
+			)
+		}
+	}),
 ];

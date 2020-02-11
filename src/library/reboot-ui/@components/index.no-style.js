@@ -11,3 +11,4 @@ export const Layout = {
 
 export { default as Navbar } from './navbar/component'
 export { default as Nav } from './navs/component'
+export { default as Table } from './table/component'
