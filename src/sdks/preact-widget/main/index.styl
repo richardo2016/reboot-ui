@@ -1,0 +1,154 @@
+@require "../styles/variables.styl"
+
+$sub-color = rgb(101, 119, 134);
+
+$parent-container = '.preact-twitter'
+$parent-container-common = $parent-container
+
+{$parent-container-common}
+    .img-container > img
+        width: 100%
+        height: auto
+    
+    a, a:hover, a:focus, a:active
+        color $active-color !important
+    &.no-deco
+        text-decoration: none
+
+{$parent-container}
+    .bg-wrapper
+        line-height: 0.8
+
+    .bg-wrapper > img
+        width: 100%
+        height: auto
+
+{$parent-container} .profile-container
+    position: relative
+    border 1px solid #eee
+    border-top 0
+
+{$parent-container} .avatar-wrapper
+    $w = 140px
+    max-width: 230px
+    width: $w
+    border-radius: 50%
+    position absolute
+    top -($w / 2)
+    left 8px
+    overflow: hidden;
+    padding: 4px;
+    background: white;
+
+    > img
+        border-radius: 50%;
+        // border: 1px solid #eee;
+        box-shadow: 1px 2px 7px #eee;
+        &:hover
+            box-shadow: 1px 2px 7px #e2dfdf
+
+{$parent-container} .profile-container .profile-text-content
+    padding 15px
+    padding-top 10px
+
+{$parent-container} .profile-container .bar.J-operation
+    display flex
+    justify-content: flex-end
+    margin-bottom 30px
+    
+    $button-radius = 15px
+    $button-padding = $button-radius
+    $button-color = rgb(29, 161, 242)
+
+    .button-wrapper
+        cursor pointer
+        display flex
+        height 36px
+        line-height: @height
+        padding-left $button-padding
+        padding-right $button-padding
+        border-radius $button-radius + 3
+        border 1px solid $button-color
+        color $button-color
+
+    .button-wrapper .button
+        flex-grow: 1;
+        display flex
+
+    .button + .button
+    .button-wrapper + .button-wrapper
+        margin-left 12px
+
+{$parent-container} .profile-container .bar.nickname
+    margin-top 4px
+    padding 0
+
+    .nickname-wrapper
+        font-size 19px
+        font-weight: 800
+
+{$parent-container} .profile-container .bar.twitterid
+    padding 0
+
+    .twitterid-wrapper
+        font-size 15px
+        font-weight: normal
+        color $sub-color
+
+{$parent-container} .profile-container .bar.introduction
+    padding 0
+
+    .introduction-wrapper
+        font-size 15px
+        font-weight: normal
+        color rgb(20, 23, 26);
+        overflow-wrap: break-word;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
+        margin-top 0
+        margin-bottom 0
+
+{$parent-container} .profile-container .bar.otherinfo
+    padding 0
+
+    .otherinfo-wrapper
+        font-size 15px
+        font-weight: normal
+        margin-top 0
+        margin-bottom 0
+
+    .otherinfo-wrapper .info-item
+        line-height: 1.325
+        color $sub-color
+
+        & + .info-item
+            margin-left .5em
+        
+    .otherinfo-wrapper .info-item .info-item-icon,
+    .otherinfo-wrapper .info-item > svg
+        position relative
+        top 4px
+        height 1.25em
+        margin-right .2em
+
+{$parent-container} .profile-container .bar.followinfo
+    padding-top 0
+    padding-bottom 0
+
+    .followinfo-wrapper
+        font-size 15px
+        font-weight: normal
+        color black
+        margin-top 0
+        margin-bottom 0
+
+    .followinfo-wrapper .followinfo-item
+        line-height: 1.325
+        color $sub-color
+
+        & + .followinfo-item
+            margin-left .5em
+
+        > b
+            color black
+            padding-left .2em
+            padding-right .2em
