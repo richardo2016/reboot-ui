@@ -14,19 +14,19 @@ import { resolveJSXElement } from '../../utils/ui'
  * @inner-content `.navbar-text`
  * @inner-content `.collapse.navbar-collapse`
  */
-export default function Navbar ({
+export default function Nav ({
     children,
-    as: _as = 'div',
+    as: _as = 'nav',
     ...props
 }) {
-    const JSXEl = resolveJSXElement(_as, { allowedHTMLTags: ['div', 'nav', 'header'] });
+    const JSXEl = resolveJSXElement(_as, { allowedHTMLTags: ['div', 'nav'] });
 
     return (
         <JSXEl
             {...props}
             className={classnames([
                 props.className,
-                "navbar"
+                "nav"
             ])}
         >
             {children}

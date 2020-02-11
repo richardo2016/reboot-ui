@@ -1,4 +1,5 @@
 import { coerceInteger } from '../../../utils/coerce'
+import { arraify } from '../../../utils/array'
 
 const VALID_RESPONSIVE_BRKPOINT = [
     'sm',
@@ -115,10 +116,24 @@ export function getClsNameListFromBreakPointConfig ({
     return breakPointAboutClsList
 }
 
-export function resolveJSXElement (el) {
-    if (!el)
+export function resolveJSXElement (
+    inputEl,
+    {
+        allowedHTMLTags = undefined
+    } = {}
+) {
+    if (!inputEl)
         return 'div'
-        // throw new Error(`[resolveJSXElement] el must be valid string/functional-component`)
 
-    return el
+    if (allowedHTMLTags && typeof inputEl === 'string') {
+        inputEl = inputEl.toString()
+        allowedHTMLTags = arraify(allowedHTMLTags)
+            .filter(x => typeof x === 'string')
+            .map(x => x.toString())
+        
+        if (allowedHTMLTags.length && !allowedHTMLTags.includes(inputEl))
+            throw new Error(`[resolveJSXElement] inputEl must be valid string: ${allowedHTMLTags.join(', ')}; but ${inputEl} given!`)
+    }
+
+    return inputEl
 }

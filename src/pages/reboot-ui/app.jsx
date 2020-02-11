@@ -3,7 +3,7 @@ import useInterval from '../../utils/react-hooks/use-interval'
 
 import './app.scss';
 
-import { Layout, Navbar } from '../../library/reboot-ui'
+import { Layout, Navbar, Nav } from '../../library/reboot-ui'
 
 import './setup';
 
@@ -41,27 +41,115 @@ export default function App () {
         </div>
       </Navbar>
       <Layout.Container className="app" fluid>
-        <Layout.Row>
-          <h1>assets-rollup-mvvm: react</h1>
+        <Layout.Row className="flex-xl-nowrap">
+          <Layout.Col className="bd-sidebar" md={{ span: 3 }} xl={{ span: 2 }}>
+            <Nav className="bd-links">
+              <div class="bd-toc-item active">
+                <a class="bd-toc-link" href="/docs/4.4/components/alerts/">
+                  Components
+                </a>
+
+                <ul class="nav bd-sidenav"><li>
+                      <a href="/docs/4.4/components/alerts/">
+                        Alerts
+                      </a>
+                    </li><li>
+                      <a href="/docs/4.4/components/badge/">
+                        Badge
+                      </a>
+                    </li><li>
+                      <a href="/docs/4.4/components/breadcrumb/">
+                        Breadcrumb
+                      </a>
+                    </li><li>
+                      <a href="/docs/4.4/components/buttons/">
+                        Buttons
+                      </a>
+                    </li><li>
+                      <a href="/docs/4.4/components/button-group/">
+                        Button group
+                      </a>
+                    </li><li>
+                      <a href="/docs/4.4/components/card/">
+                        Card
+                      </a>
+                    </li><li>
+                      <a href="/docs/4.4/components/carousel/">
+                        Carousel
+                      </a>
+                    </li><li>
+                      <a href="/docs/4.4/components/collapse/">
+                        Collapse
+                      </a>
+                    </li><li>
+                      <a href="/docs/4.4/components/dropdowns/">
+                        Dropdowns
+                      </a>
+                    </li><li>
+                      <a href="/docs/4.4/components/forms/">
+                        Forms
+                      </a>
+                    </li><li>
+                      <a href="/docs/4.4/components/input-group/">
+                        Input group
+                      </a>
+                    </li><li>
+                      <a href="/docs/4.4/components/jumbotron/">
+                        Jumbotron
+                      </a>
+                    </li><li>
+                      <a href="/docs/4.4/components/list-group/">
+                        List group
+                      </a>
+                    </li><li>
+                      <a href="/docs/4.4/components/media-object/">
+                        Media object
+                      </a>
+                    </li><li>
+                      <a href="/docs/4.4/components/modal/">
+                        Modal
+                      </a>
+                    </li><li class="active bd-sidenav-active">
+                      <a href="/docs/4.4/components/navs/">
+                        Navs
+                      </a>
+                    </li><li>
+                      <a href="/docs/4.4/components/navbar/">
+                        Navbar
+                      </a>
+                    </li><li>
+                      <a href="/docs/4.4/components/pagination/">
+                        Pagination
+                      </a>
+                    </li><li>
+                      <a href="/docs/4.4/components/popovers/">
+                        Popovers
+                      </a>
+                    </li><li>
+                      <a href="/docs/4.4/components/progress/">
+                        Progress
+                      </a>
+                    </li><li>
+                      <a href="/docs/4.4/components/scrollspy/">
+                        Scrollspy
+                      </a>
+                    </li><li>
+                      <a href="/docs/4.4/components/spinners/">
+                        Spinners
+                      </a>
+                    </li><li>
+                      <a href="/docs/4.4/components/toasts/">
+                        Toasts
+                      </a>
+                    </li><li>
+                      <a href="/docs/4.4/components/tooltips/">
+                        Tooltips
+                      </a>
+                    </li></ul>
+              </div>
+            </Nav>
+          </Layout.Col>
         </Layout.Row>
-        <Layout.Row>
-          <Layout.Col span={6} offset={3} />
-        </Layout.Row>
-        <Layout.Row>
-          <Layout.Col sm={{ span: 6 }} md={{ span: 4 }} lg={{ span: 3 }} />
-        </Layout.Row>
-        <Layout.Row>
-          <Layout.Col sm={{ span: 6, offset: 1 }} md={{ span: 4, offset: 3 }} lg={{ span: 3, offset: 2 }} />
-        </Layout.Row>
-        <button
-          class="app-inner"
-          onClick={() => setCount(count + 1)}
-          >
-          count: {count}
-        </button>
-        <p style={{ color: 'black' }}>
-          autoCount: {autoCount}
-        </p>
       </Layout.Container>
     </>
   );

@@ -1,5 +1,8 @@
 $navbar-padding-x: .5rem;
 
+@import "../../library/reboot-ui/@styles/base";
+
+@import "./scss/docs";
 @import "../../library/reboot-ui/index.scss";
 
 .bg-navbar {

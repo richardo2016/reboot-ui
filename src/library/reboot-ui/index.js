@@ -3,5 +3,6 @@ export {
     Container,
     Row,
     Col,
-    Navbar
+    Navbar,
+    Nav,
 } from './@components/index.no-style'
