@@ -4,6 +4,36 @@ import classnames from 'classnames'
 
 import { getClsNameListFromBreakPointConfig } from '../../utils/ui'
 
+export const Container = ({
+    children,
+    fluid = false,
+    breakpoint = '',
+    ...props
+}) => {
+    let classnameBase = 'container'
+    if (!fluid) {
+        if (breakpoint) {
+            checkResponsiveBreakPoint(breakpoint)
+            classnameBase += `-${breakpoint}`
+        }
+    } else
+        classnameBase = 'container-fluid'
+
+    return (
+        <div
+            {...props}
+            className={
+                classnames([
+                    props.className,
+                    classnameBase
+                ])
+            }
+        >
+            {children}
+        </div>
+    )
+}
+
 /**
  * @description
  * @see `.no-gutters`: https://getbootstrap.com/docs/4.4/layout/grid/#no-gutters

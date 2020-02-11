@@ -114,3 +114,11 @@ export function getClsNameListFromBreakPointConfig ({
 
     return breakPointAboutClsList
 }
+
+export function resolveJSXElement (el) {
+    if (!el)
+        return 'div'
+        // throw new Error(`[resolveJSXElement] el must be valid string/functional-component`)
+
+    return el
+}
