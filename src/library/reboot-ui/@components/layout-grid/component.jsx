@@ -87,15 +87,17 @@ export const Col = ({
     if (!breakPointAboutClsList)
         breakPointAboutClsList.push('col')
 
-    const JSXEl = resolveJSXElement()
+    const JSXEl = resolveJSXElement(_as)
 
     return (
         <JSXEl
             {...props}
             className={
-                classnames([
-                    props.className,
-                ].concat(breakPointAboutClsList))
+                classnames(
+                    breakPointAboutClsList.concat([
+                        props.className,
+                    ])
+                )
             }
         >
             {children}

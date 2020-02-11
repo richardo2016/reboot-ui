@@ -54,7 +54,7 @@ $floating-top-offset: 4rem;
   @include media-breakpoint-up(md) {
     @supports (position: sticky) {
       position: sticky;
-      top: 0;// top: 4rem;
+      top: $floating-top-offset;// top: 4rem;
       z-index: 1000;
       height: subtract(100vh, $floating-top-offset);
     }
@@ -74,7 +74,7 @@ $floating-top-offset: 4rem;
 
   @include media-breakpoint-up(md) {
     @supports (position: sticky) {
-      max-height: subtract(100vh, 9rem - $floating-top-offset);
+      max-height: subtract(100vh, 9rem - $floating-top-offset - 1rem);
       overflow-y: auto;
     }
   }
