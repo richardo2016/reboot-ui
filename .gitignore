@@ -17,3 +17,6 @@ coverage/
 .params.json
 
 package-lock.json
+
+!bootstrap-master/**/*.scss
+bootstrap-master

@@ -32,7 +32,7 @@ function getConfigItem (name, opts) {
 		app_type = 'pages',
 		production: isProduction = production,
 		postConfig,
-		umdName = '',
+		name: umdName = '',
 	} = opts || {};
 
 	switch (mvvm_type) {
@@ -153,7 +153,6 @@ function getConfigItem (name, opts) {
 }
 
 export default [
-	getConfigItem('react', { mvvm_type: 'react', app_type: 'pages' }),
-	getConfigItem('preact', { mvvm_type: 'preact', app_type: 'sdks' }),
-	getConfigItem('preact-widget', { mvvm_type: 'preact', app_type: 'sdks' }),
+	getConfigItem('reboot-ui', { format: 'umd', name: 'RebootUI', mvvm_type: 'preact', app_type: 'library' }),
+	getConfigItem('reboot-ui', { format: 'iife', name: 'RebootUISample', mvvm_type: 'preact', app_type: 'pages' }),
 ];
