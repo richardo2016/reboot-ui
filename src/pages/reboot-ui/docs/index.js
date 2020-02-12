@@ -1,3 +1,4 @@
-import ComponentsNavs from './components/navs.md'
-
-export { ComponentsNavs }
+/**
+ * import markdowns but never use it, just trigger compilation for markdowns
+ */
+import './components/navs.md'

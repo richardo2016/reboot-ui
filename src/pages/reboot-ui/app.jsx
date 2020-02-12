@@ -7,14 +7,23 @@ import useInterval from '../../utils/react-hooks/use-interval'
 import './app.scss';
 import { Layout, Navbar, Nav } from '../../library/reboot-ui'
 
-import { ComponentsNavs } from './docs'
+import { getJSON } from '../../utils/fetch'
+
+window.__static_prefix__ = window.__static_prefix__ || './reboot-ui/static'
 
 export default function App () {
   const [count, setCount] = React.useState(0);
   const [autoCount, setAutoCount] = React.useState(0);
 
+  const [curPageData, setCurPageData] = React.useState(null);
+
   React.useEffect(() => {
     // fetch initial data
+    getJSON(`${window.__static_prefix__}/docs/components/navs.json`)
+      .catch(error => null)
+      .then(json => {
+        setCurPageData(json || null)
+      })
   }, []);
 
   useInterval(() => {
@@ -53,9 +62,9 @@ export default function App () {
 
                 <ul class="nav bd-sidenav">
                   <li>
-                    <Link href="/docs/4.4/components/alerts/">
+                    <a href="/docs/4.4/components/alerts/">
                       Alerts
-                    </Link>
+                    </a>
                   </li>
                   <li>
                     <a href="/docs/4.4/components/badge/">
@@ -180,7 +189,9 @@ export default function App () {
           <Layout.Col as="main" className="py-md-3 pl-md-5 bd-content" md={{ span: 9 }} xl={{ span: 8 }}>
             <Router>
               <div default>
-                <div className="bd-markdown-content" dangerouslySetInnerHTML={{ __html: ComponentsNavs.html }}></div>
+                {curPageData ? (
+                  <div className="bd-markdown-content" dangerouslySetInnerHTML={{ __html: curPageData.html }}></div>
+                ) : null}
               </div>
             </Router>
           </Layout.Col>

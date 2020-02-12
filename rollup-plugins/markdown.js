@@ -1,9 +1,13 @@
+import fs from 'fs'
 import path from 'path'
 import frontmatter from 'front-matter'
 import { createFilter } from '@rollup/pluginutils';
 
 import marked from 'marked'
 import nunjucks from 'nunjucks'
+import shelljs from 'shelljs'
+
+import { isProduction } from './build-env'
 
 function registerNunjucksTag () {
     const env = new nunjucks.Environment();
@@ -14,28 +18,42 @@ function registerNunjucksTag () {
     return env;
 }
 
-const toSource = function (str) {
-    return JSON.stringify(str)
+const toSource = function (input, { pretty = false } = {}) {
+    if (pretty)
+        return JSON.stringify(input, null, '\t')
+        
+    return JSON.stringify(input)
 }
  
 const defaults = {
   dom: false,
   exclude: null,
   include: ['**/*.md', '**/*.markdown'],
-  basedir: process.cwd()
+  basedir: process.cwd(),
+  destjsondir: null
 };
 
 // export a function that can take configuration options
-const markdown = (options = {}) => {
-    options = Object.assign({}, defaults, options);
+const markdown = (inputopts = {}) => {
+    const options = Object.assign({}, defaults, inputopts);
 
     // include or exclude files
     const filter = createFilter(options.include, options.exclude);
 
     const njenv = registerNunjucksTag();
 
+    const navs = [];
+
     const plugin = {
         name: 'markdown',
+
+        writeBundle: () => {
+            if (inputopts.destjsondir) {
+                const jsonpath = path.resolve(options.destjsondir, 'manifest.json')
+                shelljs.mkdir('-p', path.dirname(jsonpath))
+                fs.writeFileSync(jsonpath, toSource(navs, { pretty: !isProduction }))
+            }
+        },
 
         // transform source code
         transform: (sourcecode, id) => {
@@ -58,15 +76,24 @@ const markdown = (options = {}) => {
             const basename = path.basename(id)
 
             const [type = 'common'] = path.posix.normalize(relname).split('/') || []
+            const regexp = new RegExp(`${extname}$`, 'i')
+
+            const reljsonpath = relname.replace(regexp, '.json')
+            navs.push(reljsonpath)
 
             const code = {
-                name: basename.replace(new RegExp(`${extname}$`, 'i'), ''),
+                name: basename.replace(regexp, ''),
                 type,
                 basename,
-                relname,
-                frontmatter: (fm),
-                source: (sourcecode),
+                relname: reljsonpath,
+                attributes: fm.attributes,
                 html: (result),
+            }
+
+            if (inputopts.destjsondir) {
+                const jsonpath = path.resolve(options.destjsondir, reljsonpath)
+                shelljs.mkdir('-p', path.dirname(jsonpath))
+                fs.writeFileSync(jsonpath, toSource(code, { pretty: !isProduction }))
             }
             
             return {

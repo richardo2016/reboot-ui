@@ -21,7 +21,7 @@ import shelljs from 'shelljs'
 
 // `npm run build` -> `production` is true
 // `npm run dev` -> `production` is false
-const production = !process.env.ROLLUP_WATCH;
+import { isProduction as production } from './rollup-plugins/build-env'
 
 function getConfigItem (name, opts) {
 	const {
@@ -158,11 +158,18 @@ export default [
 		format: 'iife',
 		name: 'RebootUISample',
 		mvvm_type: 'preact',
+		app_type: 'pages'
+	}),
+	getConfigItem('reboot-ui/docs', {
+		format: 'iife',
+		name: 'RebootUIDoc',
+		mvvm_type: 'preact',
 		app_type: 'pages',
 		postConfig: (rollup_cfg) => {
 			rollup_cfg.plugins.unshift(
 				rebootmarkdown({
 					basedir: path.resolve(__dirname, './src/pages/reboot-ui/docs'),
+					destjsondir: path.resolve(__dirname, './build/pages/reboot-ui/static/docs')
 				})
 			)
 
@@ -186,5 +193,5 @@ export default [
 				})({})
 			)
 		}
-	}),
+	})
 ];
