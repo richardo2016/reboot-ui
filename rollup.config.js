@@ -13,9 +13,11 @@ import pug from 'rollup-plugin-pug';
 import postcss from 'rollup-plugin-postcss';
 import image from '@rollup/plugin-image';
 import cleanup from 'rollup-plugin-cleanup';
-import markdown from './rollup-plugins/markdown';
+import rebootmarkdown from './rollup-plugins/markdown';
 
 import preactHooks from 'preact/hooks';
+
+import shelljs from 'shelljs'
 
 // `npm run build` -> `production` is true
 // `npm run dev` -> `production` is false
@@ -159,9 +161,29 @@ export default [
 		app_type: 'pages',
 		postConfig: (rollup_cfg) => {
 			rollup_cfg.plugins.unshift(
-				markdown({
+				rebootmarkdown({
 					basedir: path.resolve(__dirname, './src/pages/reboot-ui/docs'),
 				})
+			)
+
+			rollup_cfg.plugins.push(
+				((options) => {
+					return {
+						name: 'afterbuild',
+						writeBundle (bundle) {
+							if (!production) return 
+
+							const dest = path.resolve(`./docs`)
+							shelljs.rm('-rf', path.resolve(dest, './reboot-ui'))
+							shelljs.mkdir('-p', dest)
+							shelljs.cp(
+								'-fR',
+								path.resolve(`./build/pages/reboot-ui`),
+								dest
+							)
+						}
+					}
+				})({})
 			)
 		}
 	}),
