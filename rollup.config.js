@@ -188,13 +188,14 @@ export default [
 						writeBundle (bundle) {
 							if (!production) return 
 
-							const dest = path.resolve(`./docs`)
-							shelljs.rm('-rf', path.resolve(dest, './reboot-ui'))
-							shelljs.mkdir('-p', dest)
+							const dest = path.resolve(`./docs/reboot-ui/`)
+							const pdest = path.dirname(dest)
+							shelljs.rm('-rf', dest)
+							shelljs.mkdir('-p', pdest)
 							shelljs.cp(
 								'-fR',
 								path.resolve(`./build/pages/reboot-ui`),
-								dest
+								pdest
 							)
 						}
 					}
