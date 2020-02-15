@@ -170,12 +170,9 @@ export default [
 		postConfig: (rollup_cfg) => {
 			rollup_cfg.plugins.unshift(
 				rebootdocs({
-					outputOnly: true,
+					writeFileOnly: true,
 					basedir: path.resolve(__dirname, `./src/pages/reboot-ui/docs/${DOC_VERSION}`),
 					destjsondir: path.resolve(__dirname, `./build/pages/reboot-ui/static/docs/${DOC_VERSION}`),
-					nujunks: {
-						searchpath: path.resolve(__dirname, './src/pages/reboot-ui/_includes'),
-					},
 					liquidjs: {
 						root: path.resolve(__dirname, './src/pages/reboot-ui/_includes'),
 						extname: '',

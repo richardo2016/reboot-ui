@@ -48,6 +48,14 @@ const toSource = function (input, { pretty = false } = {}) {
         
     return JSON.stringify(input)
 }
+
+function addLeadInfoForPage (html, attributes) {
+    return `\
+<h1 class="bd-title" id="content">${attributes.title}</h1>\
+<p class="bd-lead">${attributes.description}</p>\
+${html}\
+`
+}
  
 const defaults = {
   dom: false,
@@ -97,6 +105,7 @@ const markdown = (inputopts = {}) => {
             // exit without transforming if the filter prohibits this id
             if (!filter(id)) return null;
 
+            /* transform :start */
             const fm = frontmatter(sourcecode)
             let result = fm.body
             
@@ -109,6 +118,7 @@ const markdown = (inputopts = {}) => {
                 },
                 ...options.marked,
             })
+            /* transform :end */
             
             const relname = path.relative(options.basedir, id)
             const extname = path.extname(id)
@@ -119,30 +129,28 @@ const markdown = (inputopts = {}) => {
             
             const name = basename.replace(regexp, '')
             const reljsonpath = relname.replace(regexp, '.json')
-            
-            navs.push({
-                type: type,
-                relpath: reljsonpath,
-                name: name,
-            })
 
-            const code = {
+            result = addLeadInfoForPage(result, fm.attributes)
+
+            const navInfo = {
                 name: name,
                 type,
                 basename,
-                relname: reljsonpath,
+                relpath: reljsonpath,
                 attributes: fm.attributes,
-                html: (result),
             }
+            
+            navs.push(navInfo)
+            const pageInfo = {...navInfo, html: result}
 
             if (inputopts.destjsondir) {
                 const jsonpath = path.resolve(options.destjsondir, reljsonpath)
                 shelljs.mkdir('-p', path.dirname(jsonpath))
-                fs.writeFileSync(jsonpath, toSource(code, { pretty: !isProduction }))
+                fs.writeFileSync(jsonpath, toSource(pageInfo, { pretty: !isProduction }))
             }
             
             return {
-                code: `export default ${options.outputOnly ? toSource(null) : toSource(code)}`,
+                code: `export default ${options.writeFileOnly ? toSource(null) : toSource(pageInfo)}`,
                 map: { mappings: '' }
             }
         }

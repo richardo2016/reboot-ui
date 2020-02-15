@@ -1,14 +1,15 @@
 import React from 'react'
-import Router from 'preact-router';
+import Router, { route } from 'preact-router';
 import Match, { Link } from 'preact-router/match';
-
-import useInterval from '../../utils/react-hooks/use-interval'
+import { createHashHistory } from 'history';
 
 import './app.scss';
 import { Layout, Navbar, Nav } from '../../library/reboot-ui'
 
 import { getJSON } from '../../utils/fetch'
 import { ucfirst } from '../../utils/string'
+
+const DOC_VERSION = process.env.DOC_VERSION
 
 window.__static_prefix__ = window.__static_prefix__ || './reboot-ui/static'
 
@@ -18,44 +19,69 @@ function parseNavData (navData) {
   return {
     components: navData.filter(info => info.type === 'components').sort(sortCb),
     content: navData.filter(info => info.type === 'content').sort(sortCb),
+    all: navData,
   }
 }
 
-export default function App () {
-  const [count, setCount] = React.useState(0);
-  const [autoCount, setAutoCount] = React.useState(0);
+class Redirect extends React.Component {
+  componentWillMount() {
+    route(this.props.to, true);
+  }
 
+  render() {
+    return null;
+  }
+}
+
+const HASH_ROUTE = createHashHistory()
+
+export default function App () {
   const [navData, setNavData] = React.useState(parseNavData([]));
-  const [curPageData, setCurPageData] = React.useState(null);
+  const [curPageData, setCurPageData] = React.useState({ relpath: null });
 
   const fetchNavData = () => {
     // fetch initial data
-    getJSON(`${window.__static_prefix__}/docs/4.4/manifest.json`)
+    return getJSON(`${window.__static_prefix__}/docs/${DOC_VERSION}/manifest.json`)
       .catch(error => null)
       .then(json => {
-        setNavData(
-          parseNavData(json || [])
-        )
+        const data = parseNavData(json || [])
+
+        setNavData(data)
+
+        return data
       })
   }
 
-  const fetchMainContent = (jsonpath) => {
+  const updateCurRelpath = (relpath) => {
+    setCurPageData({
+      ...curPageData,
+      relpath,
+    })
+  }
+
+  const fetchMainContent = (jsonpath = curPageData.relpath) => {
+    if (!jsonpath) return ;
+
     // fetch initial data
-    getJSON(`${window.__static_prefix__}/docs/4.4/components/alerts.json`)
+    return getJSON(`${window.__static_prefix__}/docs/${DOC_VERSION}/${jsonpath}`)
       .catch(error => null)
       .then(json => {
-        setCurPageData(json || null)
+        setCurPageData({
+          relpath: jsonpath,
+          ...json,
+        })
+
+        return json;
       })
   }
 
   React.useEffect(() => {
-    fetchMainContent()
     fetchNavData()
   }, []);
 
-  useInterval(() => {
-    setAutoCount(autoCount + 1)
-  }, 1000);
+  React.useEffect(() => {
+    fetchMainContent(curPageData.relpath)
+  }, [curPageData.relpath])
 
   return (
     <>
@@ -82,156 +108,84 @@ export default function App () {
         <Layout.Row className="flex-xl-nowrap">
           <Layout.Col className="bd-sidebar" md={{ span: 3 }} xl={{ span: 2 }}>
             <Nav className="bd-links" id="bd-docs-nav">
-              <div class="bd-toc-item active">
-                <a class="bd-toc-link" href="/docs/4.4/components/alerts/">
-                  Components
-                </a>
+              {[
+                'components',
+                'content'
+              ].map((toc) => {
+                return (
+                  <Match path={`/${toc}/:basename`}>
+                    {({ matches, path: curRoutePath }) => {
+                      return (
+                        <div
+                          key={`toc-${toc}`}
+                          class={[
+                            "bd-toc-item",
+                            matches && "active"
+                          ].filter(x => x).join(' ')}
+                        >
+                          
+                            <Link
+                              class="bd-toc-link"
+                              href={`/${navData[toc][0] ? `${navData[toc][0].relpath}` : ''}`}
+                            >
+                              {ucfirst(toc)}
+                            </Link>
 
-                <ul class="nav bd-sidenav">
-                  {navData.components.map(component => {
-                    return (
-                      <li
-                        key={`${component.type}://${component.relpath}`}
-                      >
-                        <a href={`/docs/4.4/${component.relpath}`}>
-                          {ucfirst(component.name)}
-                        </a>
-                      </li>
-                    )
-                  })}
-                  <hr />
-                  <li>
-                    <a href="/docs/4.4/components/alerts/">
-                      Alerts
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/docs/4.4/components/badge/">
-                      Badge
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/docs/4.4/components/breadcrumb/">
-                      Breadcrumb
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/docs/4.4/components/buttons/">
-                      Buttons
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/docs/4.4/components/button-group/">
-                      Button group
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/docs/4.4/components/card/">
-                      Card
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/docs/4.4/components/carousel/">
-                      Carousel
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/docs/4.4/components/collapse/">
-                      Collapse
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/docs/4.4/components/dropdowns/">
-                      Dropdowns
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/docs/4.4/components/forms/">
-                      Forms
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/docs/4.4/components/input-group/">
-                      Input group
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/docs/4.4/components/jumbotron/">
-                      Jumbotron
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/docs/4.4/components/list-group/">
-                      List group
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/docs/4.4/components/media-object/">
-                      Media object
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/docs/4.4/components/modal/">
-                      Modal
-                    </a>
-                  </li>
-                  <li class="active bd-sidenav-active">
-                    <a href="/docs/4.4/components/navs/">
-                      Navs
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/docs/4.4/components/navbar/">
-                      Navbar
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/docs/4.4/components/pagination/">
-                      Pagination
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/docs/4.4/components/popovers/">
-                      Popovers
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/docs/4.4/components/progress/">
-                      Progress
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/docs/4.4/components/scrollspy/">
-                      Scrollspy
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/docs/4.4/components/spinners/">
-                      Spinners
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/docs/4.4/components/toasts/">
-                      Toasts
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/docs/4.4/components/tooltips/">
-                      Tooltips
-                    </a>
-                  </li>
-                </ul>
-              </div>
+                          <ul class="nav bd-sidenav">
+                            {navData[toc].map(info => {
+                              const matches = `/${info.relpath}` === curRoutePath;
+
+                              return (
+                                <li
+                                  className={[
+                                    matches && 'active bd-sidenav-active'                                
+                                  ].filter(x => x).join(' ')}
+                                >
+                                  {matches && <a href="javascript:void(0);">{info.attributes.title}</a>}
+                                  {!matches && (
+                                    <Link href={`/${info.relpath}`}>
+                                      {info.attributes.title}
+                                    </Link>
+                                  )}
+                                </li>
+                              )
+                            })}
+                          </ul>
+                        </div>
+                      )
+                    }}
+                  </Match>
+                )
+              })}
             </Nav>
           </Layout.Col>
 
-          <Router>
-            <Layout.Col default
-              as="main" className="py-md-3 pl-md-5 bd-content" md={{ span: 9 }} xl={{ span: 8 }}
-              {...curPageData && {
-                dangerouslySetInnerHTML: { __html: curPageData.html }
-              }}
-            />
+          <Router
+            onChange={(evt) => {
+              const nextUrl = evt.url.slice(1)
+
+              if (nextUrl)
+                updateCurRelpath(nextUrl)
+            }}
+            history={HASH_ROUTE}
+          >
+            {navData.all && navData.all[0] && navData.all[0].relpath ? (
+              <Redirect path="/" to={navData.all[0].relpath} />
+            ) : (
+              <div path="/">loading...</div>
+            )}
+            {navData.components.map((component, idx) => {
+              return (
+                <Layout.Col
+                  {...idx === 0 && { default: true }}
+                  path={`/${component.relpath}`}
+                  as="main" className="py-md-3 pl-md-5 bd-content" md={{ span: 9 }} xl={{ span: 8 }}
+                  {...curPageData.html && {
+                    dangerouslySetInnerHTML: { __html: curPageData.html }
+                  }}
+                />
+              )
+              })}
           </Router>
         </Layout.Row>
       </Layout.Container>
