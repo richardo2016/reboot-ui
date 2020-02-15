@@ -4,7 +4,6 @@ import frontmatter from 'front-matter'
 import { createFilter } from '@rollup/pluginutils';
 
 import marked from 'marked'
-import nunjucks from 'nunjucks'
 import shelljs from 'shelljs'
 
 import YAML from 'js-yaml'
@@ -12,17 +11,6 @@ import YAML from 'js-yaml'
 import { Liquid } from '@reboot-ui/liquidjs';
 
 import { isProduction } from './build-env'
-
-function getNunjucksEnv ({ searchpath } = {}) {
-    const env = new nunjucks.Environment(
-        !searchpath ? undefined : new nunjucks.FileSystemLoader(searchpath)
-    );
-
-    require('./rollup-plugins/nunjucks/tag-capture')(env);
-    require('./rollup-plugins/nunjucks/tag-highlight')(env);
-
-    return env;
-}
 
 function getLiquidEngine (options = {}) {
     const lqengine = new Liquid(options);
