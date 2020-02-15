@@ -14,12 +14,12 @@ toc: true
 Alerts are available for any length of text, as well as an optional dismiss button. For proper styling, use one of the eight **required** contextual classes (e.g., `.alert-success`). For inline dismissal, use the [alerts jQuery plugin](#dismissing).
 
 {% capture example %}
-{% for color in (1..5) %}
+{% for color in site.data.theme-colors %}
 <div class="alert alert-{{ color.name }}" role="alert">
   A simple {{ color.name }} alert—check it out!
 </div>{% endfor %}
 {% endcapture %}
-{% include example.html with content='example' %}
+{% include example.html content=example %}
 
 {% include callout-warning-color-assistive-technologies.md %}
 

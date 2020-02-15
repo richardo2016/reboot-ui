@@ -13,7 +13,7 @@ import pug from 'rollup-plugin-pug';
 import postcss from 'rollup-plugin-postcss';
 import image from '@rollup/plugin-image';
 import cleanup from 'rollup-plugin-cleanup';
-import rebootmarkdown from './rollup-plugins/markdown';
+import rebootdocs from './rollup-plugins/rebootdocs';
 
 import preactHooks from 'preact/hooks';
 
@@ -169,7 +169,7 @@ export default [
 		app_type: 'pages',
 		postConfig: (rollup_cfg) => {
 			rollup_cfg.plugins.unshift(
-				rebootmarkdown({
+				rebootdocs({
 					outputOnly: true,
 					basedir: path.resolve(__dirname, `./src/pages/reboot-ui/docs/${DOC_VERSION}`),
 					destjsondir: path.resolve(__dirname, `./build/pages/reboot-ui/static/docs/${DOC_VERSION}`),

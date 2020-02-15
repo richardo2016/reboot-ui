@@ -9,7 +9,7 @@ import shelljs from 'shelljs'
 
 import YAML from 'js-yaml'
 
-import { Liquid } from 'liquidjs';
+import { Liquid } from '@reboot-ui/liquidjs';
 
 import { isProduction } from './build-env'
 
@@ -28,6 +28,7 @@ function getLiquidEngine (options = {}) {
     const lqengine = new Liquid(options);
 
     lqengine.plugin(require('./rollup-plugins/liquidjs/tag-highlight'))
+    lqengine.plugin(require('./rollup-plugins/liquidjs/filter-markdownify'))
 
     return lqengine;
 }
@@ -78,9 +79,7 @@ const markdown = (inputopts = {}) => {
     const navs = [];
     const sitedata = loadSiteData();
     const lqglobals = {
-        site: {
-            data: sitedata
-        },
+        site: { data: sitedata },
     }
 
     options.globals = lqglobals;
@@ -95,7 +94,7 @@ const markdown = (inputopts = {}) => {
     });
 
     const plugin = {
-        name: 'markdown',
+        name: 'rebootdocs',
 
         writeBundle: () => {
             if (inputopts.destjsondir) {
@@ -113,9 +112,9 @@ const markdown = (inputopts = {}) => {
             const fm = frontmatter(sourcecode)
             let result = fm.body
             
-            result = lqengine.parseAndRenderSync(result, {...lqglobals}, {})
-            result = lqengine2.parseAndRenderSync(result, {...lqglobals}, {})
-
+            result = lqengine.parseAndRenderSync(result, {...lqglobals}, {globals: lqglobals})
+            result = lqengine2.parseAndRenderSync(result, {...lqglobals}, {globals: lqglobals})
+            
             result = marked(result, {
                 highlight: function(code) {
                     return code;

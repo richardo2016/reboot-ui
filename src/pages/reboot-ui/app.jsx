@@ -225,15 +225,14 @@ export default function App () {
             </Nav>
           </Layout.Col>
 
-          <Layout.Col as="main" className="py-md-3 pl-md-5 bd-content" md={{ span: 9 }} xl={{ span: 8 }}>
-            <Router>
-              <div default>
-                {curPageData ? (
-                  <div className="bd-markdown-content" dangerouslySetInnerHTML={{ __html: curPageData.html }}></div>
-                ) : null}
-              </div>
-            </Router>
-          </Layout.Col>
+          <Router>
+            <Layout.Col default
+              as="main" className="py-md-3 pl-md-5 bd-content" md={{ span: 9 }} xl={{ span: 8 }}
+              {...curPageData && {
+                dangerouslySetInnerHTML: { __html: curPageData.html }
+              }}
+            />
+          </Router>
         </Layout.Row>
       </Layout.Container>
     </>

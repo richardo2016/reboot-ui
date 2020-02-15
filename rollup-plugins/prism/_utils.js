@@ -31,7 +31,7 @@ exports.highlightCode = (code, lang) => {
 
     code = htmlEscaper.unescape(code);
 
-    return `\
+    return /* htmlEscaper.escape */(`\
 <div class="bd-clipboard">\
     <button type="button" class="btn-clipboard" title="" data-original-title="Copy to clipboard">\
         Copy\
@@ -40,5 +40,5 @@ exports.highlightCode = (code, lang) => {
 <figure class="highlight">
     <pre><code class="language-${lang}" data-lang="${lang}">${Prism.highlight(code, Prism.languages[lang], lang)}</code></pre>
 </figure>
-`
+`)
 }
