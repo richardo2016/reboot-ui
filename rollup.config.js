@@ -192,10 +192,17 @@ export default [
 							const pdest = path.dirname(dest)
 							shelljs.rm('-rf', dest)
 							shelljs.mkdir('-p', pdest)
+							
 							shelljs.cp(
 								'-fR',
 								path.resolve(`./build/pages/reboot-ui`),
 								pdest
+							)
+
+							shelljs.cp(
+								'-fR',
+								path.resolve(`./static/`),
+								dest
 							)
 						}
 					}
