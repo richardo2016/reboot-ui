@@ -1,5 +1,5 @@
 const nunjucks = require('nunjucks')
-const { highlightCode } = require('./_utils');
+const { highlightCode } = require('../prism/_utils');
 
 function CaptureTag() {
     this.tags = ['capture'];

@@ -1,6 +1,6 @@
 const nunjucks = require('nunjucks')
 
-const { highlightCode } = require('./_utils');
+const { highlightCode } = require('../prism/_utils');
 
 function HighlightExtension() {
     this.tags = ['highlight'];

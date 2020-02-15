@@ -8,22 +8,49 @@ import './app.scss';
 import { Layout, Navbar, Nav } from '../../library/reboot-ui'
 
 import { getJSON } from '../../utils/fetch'
+import { ucfirst } from '../../utils/string'
 
 window.__static_prefix__ = window.__static_prefix__ || './reboot-ui/static'
+
+function parseNavData (navData) {
+  const sortCb = (a, b) => a.name < b.name ? -1 : 1
+
+  return {
+    components: navData.filter(info => info.type === 'components').sort(sortCb),
+    content: navData.filter(info => info.type === 'content').sort(sortCb),
+  }
+}
 
 export default function App () {
   const [count, setCount] = React.useState(0);
   const [autoCount, setAutoCount] = React.useState(0);
 
+  const [navData, setNavData] = React.useState(parseNavData([]));
   const [curPageData, setCurPageData] = React.useState(null);
 
-  React.useEffect(() => {
+  const fetchNavData = () => {
     // fetch initial data
-    getJSON(`${window.__static_prefix__}/docs/components/navs.json`)
+    getJSON(`${window.__static_prefix__}/docs/4.4/manifest.json`)
+      .catch(error => null)
+      .then(json => {
+        setNavData(
+          parseNavData(json || [])
+        )
+      })
+  }
+
+  const fetchMainContent = (jsonpath) => {
+    // fetch initial data
+    getJSON(`${window.__static_prefix__}/docs/4.4/components/alerts.json`)
       .catch(error => null)
       .then(json => {
         setCurPageData(json || null)
       })
+  }
+
+  React.useEffect(() => {
+    fetchMainContent()
+    fetchNavData()
   }, []);
 
   useInterval(() => {
@@ -61,6 +88,18 @@ export default function App () {
                 </a>
 
                 <ul class="nav bd-sidenav">
+                  {navData.components.map(component => {
+                    return (
+                      <li
+                        key={`${component.type}://${component.relpath}`}
+                      >
+                        <a href={`/docs/4.4/${component.relpath}`}>
+                          {ucfirst(component.name)}
+                        </a>
+                      </li>
+                    )
+                  })}
+                  <hr />
                   <li>
                     <a href="/docs/4.4/components/alerts/">
                       Alerts

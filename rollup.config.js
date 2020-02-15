@@ -23,6 +23,8 @@ import shelljs from 'shelljs'
 // `npm run dev` -> `production` is false
 import { isProduction as production } from './rollup-plugins/build-env'
 
+const DOC_VERSION = `4.4`
+
 function getConfigItem (name, opts) {
 	const {
 		/**
@@ -71,6 +73,7 @@ function getConfigItem (name, opts) {
 				[`require('moment')`]: JSON.stringify(null),
 				'window.process.env.NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development'),
 				'process.env.NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development'),
+				'process.env.DOC_VERSION': JSON.stringify(DOC_VERSION)
 			}),
 			postcss({
 				extract: true,
@@ -153,23 +156,31 @@ function getConfigItem (name, opts) {
 }
 
 export default [
-	getConfigItem('reboot-ui', { format: 'umd', name: 'RebootUI', mvvm_type: 'preact', app_type: 'library' }),
+	getConfigItem('reboot-ui', {
+		format: 'umd',
+		name: 'RebootUI',
+		mvvm_type: 'preact',
+		app_type: 'library'
+	}),
 	getConfigItem('reboot-ui', {
 		format: 'iife',
-		name: 'RebootUISample',
-		mvvm_type: 'preact',
-		app_type: 'pages'
-	}),
-	getConfigItem('reboot-ui/docs', {
-		format: 'iife',
-		name: 'RebootUIDoc',
+		name: 'RebootUIDocs',
 		mvvm_type: 'preact',
 		app_type: 'pages',
 		postConfig: (rollup_cfg) => {
 			rollup_cfg.plugins.unshift(
 				rebootmarkdown({
-					basedir: path.resolve(__dirname, './src/pages/reboot-ui/docs'),
-					destjsondir: path.resolve(__dirname, './build/pages/reboot-ui/static/docs')
+					outputOnly: true,
+					basedir: path.resolve(__dirname, `./src/pages/reboot-ui/docs/${DOC_VERSION}`),
+					destjsondir: path.resolve(__dirname, `./build/pages/reboot-ui/static/docs/${DOC_VERSION}`),
+					nujunks: {
+						searchpath: path.resolve(__dirname, './src/pages/reboot-ui/_includes'),
+					},
+					liquidjs: {
+						root: path.resolve(__dirname, './src/pages/reboot-ui/_includes'),
+						extname: '',
+						dynamicPartials: false
+					},
 				})
 			)
 

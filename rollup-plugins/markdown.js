@@ -7,15 +7,50 @@ import marked from 'marked'
 import nunjucks from 'nunjucks'
 import shelljs from 'shelljs'
 
+import YAML from 'js-yaml'
+
+import { Liquid } from 'liquidjs';
+
 import { isProduction } from './build-env'
 
-function registerNunjucksTag () {
-    const env = new nunjucks.Environment();
+function getNunjucksEnv ({ searchpath } = {}) {
+    const env = new nunjucks.Environment(
+        !searchpath ? undefined : new nunjucks.FileSystemLoader(searchpath)
+    );
 
     require('./rollup-plugins/nunjucks/tag-capture')(env);
     require('./rollup-plugins/nunjucks/tag-highlight')(env);
 
     return env;
+}
+
+function getLiquidEngine (options = {}) {
+    const lqengine = new Liquid(options);
+
+    lqengine.plugin(require('./rollup-plugins/liquidjs/tag-highlight'))
+
+    return lqengine;
+}
+
+function loadSiteData () {
+    const sitedata = {};
+    const basedir = path.resolve(__dirname, './src/pages/reboot-ui/_data')
+
+    const ymls = fs.readdirSync(basedir)
+
+    ymls.forEach((ymlname) => {
+        const ext = path.extname(ymlname);
+        const filename = path.resolve(basedir, ymlname);
+        const fieldname = ymlname.replace( new RegExp(`${ext}$`), '' )
+
+        const filecontent = YAML.safeLoad(
+            fs.readFileSync(filename, 'utf8')
+        )
+
+        sitedata[fieldname] = filecontent;
+    })
+
+    return sitedata;
 }
 
 const toSource = function (input, { pretty = false } = {}) {
@@ -40,9 +75,24 @@ const markdown = (inputopts = {}) => {
     // include or exclude files
     const filter = createFilter(options.include, options.exclude);
 
-    const njenv = registerNunjucksTag();
-
     const navs = [];
+    const sitedata = loadSiteData();
+    const lqglobals = {
+        site: {
+            data: sitedata
+        },
+    }
+
+    options.globals = lqglobals;
+
+    const lqengine = getLiquidEngine(options.liquidjs);
+    const lqengine2 = getLiquidEngine({
+        ...options.liquidjs,
+        tagDelimiterLeft: '{%-',
+        tagDelimiterRight: '-%}',
+        outputDelimiterLeft: '{{-',
+        outputDelimiterRight: '-}}',
+    });
 
     const plugin = {
         name: 'markdown',
@@ -63,13 +113,15 @@ const markdown = (inputopts = {}) => {
             const fm = frontmatter(sourcecode)
             let result = fm.body
             
+            result = lqengine.parseAndRenderSync(result, {...lqglobals}, {})
+            result = lqengine2.parseAndRenderSync(result, {...lqglobals}, {})
+
             result = marked(result, {
                 highlight: function(code) {
-                    return require('highlight.js').highlightAuto(code, ['html']).value;
+                    return code;
                 },
                 ...options.marked,
             })
-            result = njenv.renderString(result, {})
             
             const relname = path.relative(options.basedir, id)
             const extname = path.extname(id)
@@ -77,12 +129,18 @@ const markdown = (inputopts = {}) => {
 
             const [type = 'common'] = path.posix.normalize(relname).split('/') || []
             const regexp = new RegExp(`${extname}$`, 'i')
-
+            
+            const name = basename.replace(regexp, '')
             const reljsonpath = relname.replace(regexp, '.json')
-            navs.push(reljsonpath)
+            
+            navs.push({
+                type: type,
+                relpath: reljsonpath,
+                name: name,
+            })
 
             const code = {
-                name: basename.replace(regexp, ''),
+                name: name,
                 type,
                 basename,
                 relname: reljsonpath,
@@ -97,7 +155,7 @@ const markdown = (inputopts = {}) => {
             }
             
             return {
-                code: `export default ${toSource(code)}`,
+                code: `export default ${options.outputOnly ? toSource(null) : toSource(code)}`,
                 map: { mappings: '' }
             }
         }
