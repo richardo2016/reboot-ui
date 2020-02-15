@@ -1,4 +1,9 @@
 const Prism = require('prismjs')
+require('prismjs/components/prism-scss')
+require('prismjs/components/prism-sass')
+require('prismjs/components/prism-bash')
+require('prismjs/components/prism-powershell')
+
 const htmlEscaper = require('html-escaper');
 
 function filterPrismLang (lang) {

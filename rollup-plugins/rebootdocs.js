@@ -112,12 +112,11 @@ const markdown = (inputopts = {}) => {
             result = lqengine.parseAndRenderSync(result, {...lqglobals}, {globals: lqglobals})
             result = lqengine2.parseAndRenderSync(result, {...lqglobals}, {globals: lqglobals})
             
-            result = marked(result, {
-                highlight: function(code) {
-                    return code;
-                },
+            const markedOptions = {
+                highlight: function(code) { return code },
                 ...options.marked,
-            })
+            }
+            result = marked(result, markedOptions)
             /* transform :end */
             
             const relname = path.relative(options.basedir, id)

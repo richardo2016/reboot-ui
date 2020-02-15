@@ -19,6 +19,9 @@ function parseNavData (navData) {
   return {
     components: navData.filter(info => info.type === 'components').sort(sortCb),
     content: navData.filter(info => info.type === 'content').sort(sortCb),
+    layout: navData.filter(info => info.type === 'layout').sort(sortCb),
+    extend: navData.filter(info => info.type === 'extend').sort(sortCb),
+    utilities: navData.filter(info => info.type === 'utilities').sort(sortCb),
     all: navData,
   }
 }
@@ -83,6 +86,8 @@ export default function App () {
     fetchMainContent(curPageData.relpath)
   }, [curPageData.relpath])
 
+  const NAVKEYS = Object.keys(navData).filter(x => x !== 'all')
+
   return (
     <>
       <Navbar as={'header'} className="bd-navbar navbar-expand navbar-dark flex-column flex-md-row">
@@ -108,10 +113,7 @@ export default function App () {
         <Layout.Row className="flex-xl-nowrap">
           <Layout.Col className="bd-sidebar" md={{ span: 3 }} xl={{ span: 2 }}>
             <Nav className="bd-links" id="bd-docs-nav">
-              {[
-                'components',
-                'content'
-              ].map((toc) => {
+              {NAVKEYS.map((toc) => {
                 return (
                   <Match path={`/${toc}/:basename`}>
                     {({ matches, path: curRoutePath }) => {
@@ -123,13 +125,12 @@ export default function App () {
                             matches && "active"
                           ].filter(x => x).join(' ')}
                         >
-                          
-                            <Link
-                              class="bd-toc-link"
-                              href={`/${navData[toc][0] ? `${navData[toc][0].relpath}` : ''}`}
-                            >
-                              {ucfirst(toc)}
-                            </Link>
+                          <Link
+                            class="bd-toc-link"
+                            href={`/${navData[toc][0] ? `${navData[toc][0].relpath}` : ''}`}
+                          >
+                            {ucfirst(toc)}
+                          </Link>
 
                           <ul class="nav bd-sidenav">
                             {navData[toc].map(info => {
