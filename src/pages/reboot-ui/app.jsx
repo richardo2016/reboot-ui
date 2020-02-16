@@ -62,7 +62,13 @@ const evalDocJs = () => {
     const ID = script.getAttribute('data-js-id')
 
     try {
-      eval(script.innerHTML);
+      const jsscript = script.innerText;
+      script.remove();
+
+      const newScript = document.createElement('script')
+      newScript.id = ID;
+      newScript.innerText = jsscript;
+      document.body.appendChild(newScript);
     } catch(error) {
       console.log(`[error] occured when running example <script data-js-id=${ID}>`)
     }

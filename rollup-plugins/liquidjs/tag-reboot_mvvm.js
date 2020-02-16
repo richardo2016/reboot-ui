@@ -53,8 +53,6 @@ module.exports = function (Liquid) {
             })
 
             const coloredCode = ctx.globals.NOHIGHLIGHT ? originalCode : highlightCode(originalCode, 'js');
-
-            // console.log('originalCode', originalCode);
             
             ctx.front()[this.mvvm_type] = {
               js: output,

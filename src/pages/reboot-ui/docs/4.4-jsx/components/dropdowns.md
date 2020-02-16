@@ -92,7 +92,7 @@ const Sample = () => {
     // 'light',
     // 'dark',
     // 'link',
-  ]
+  ];
 
   return (
     <>
@@ -143,7 +143,7 @@ const Sample = () => {
     // 'light',
     // 'dark',
     // 'link',
-  ]
+  ];
 
   return (
     <>
