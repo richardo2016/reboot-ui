@@ -3,6 +3,8 @@ require('prismjs/components/prism-scss')
 require('prismjs/components/prism-sass')
 require('prismjs/components/prism-bash')
 require('prismjs/components/prism-powershell')
+require('prismjs/components/prism-jsx')
+require('prismjs/components/prism-typescript')
 
 const htmlEscaper = require('html-escaper');
 
@@ -13,6 +15,10 @@ function filterPrismLang (lang) {
             break
         case 'js':
         case 'javascript':
+        case 'jsx':
+        case 'typescript':
+            break
+        case 'ts': lang = 'typescript'
             break
         case 'css':
             break
@@ -20,8 +26,9 @@ function filterPrismLang (lang) {
         case 'sass':
             break
 
+        case 'shell': lang = 'bash'
+            break
         case 'bash':
-        case 'shell':
         case 'powershell':
             break
         default:

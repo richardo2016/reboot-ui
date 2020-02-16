@@ -10,13 +10,41 @@ toc: true
 
 Bootstrap includes several predefined button styles, each serving its own semantic purpose, with a few extras thrown in for more control.
 
-{% capture example %}
-{% for color in site.data.theme-colors %}
-<button type="button" class="btn btn-{{ color.name }}">{{ color.name | capitalize }}</button>{% endfor %}
+{% reboot_mvvm mexample %}
+const Sample = () => {
+  const types = [
+    'primary',
+    'secondary',
+    'success',
+    'danger',
+    'warning',
+    'info',
+    'light',
+    'dark',
+    'link',
+  ]
 
-<button type="button" class="btn btn-link">Link</button>
-{% endcapture %}
-{% include example.html content=example %}
+  return (
+    <>
+      <p style={{ display: 'flex', flexWrap: 'wrap' }}>
+        {types.map(type =>
+          <div
+            className="example-btn-wrapper mb-3 pr-3"
+          >
+            <Button
+              class="mb-3"
+              type={type}
+            >
+              {`${type.slice(0, 1).toUpperCase()}${type.slice(1)}`}
+            </Button>
+          </div>
+        )}
+      </p>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample %}
 
 {% include callout-warning-color-assistive-technologies.md %}
 

@@ -15,6 +15,7 @@ import { isProduction } from './build-env'
 function getLiquidEngine (options = {}) {
     const lqengine = new Liquid(options);
 
+    lqengine.plugin(require('./rollup-plugins/liquidjs/tag-reboot_mvvm'))
     lqengine.plugin(require('./rollup-plugins/liquidjs/tag-highlight'))
     lqengine.plugin(require('./rollup-plugins/liquidjs/filter-markdownify'))
 
@@ -120,11 +121,11 @@ const markdown = (inputopts = {}) => {
             const fm = frontmatter(sourcecode)
             let result = fm.body
             
-            result = lqengine.parseAndRenderSync(result, {...lqglobals}, {globals: lqglobals})
-            result = lqengine2.parseAndRenderSync(result, {...lqglobals}, {globals: lqglobals})
-            
+            result = lqengine.parseAndRenderSync(result, {...lqglobals}, {globals: {NOHIGHTLITHGT: false}})
+            result = lqengine2.parseAndRenderSync(result, {...lqglobals}, {globals: {NOHIGHTLITHGT: true}})
+
             const markedOptions = {
-                highlight: function(code) { return code },
+                highlight: undefined,
                 ...options.marked,
             }
             result = marked(result, markedOptions)

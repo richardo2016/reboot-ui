@@ -1,5 +1,3 @@
-import '../../../utils/preact-helpers/preact-compat-patch'
-
 import { Container, Row, Col } from './layout-grid/component'
 export { Container, Row, Col }
 
@@ -15,3 +13,4 @@ export { default as Table } from './tables/component'
 export { default as Dropdown } from './dropdown/component'
 export { default as DropdownMenu } from './dropdown-menu/component'
 export { default as DropdownItem } from './dropdown-item/component'
+export { default as Button } from './button/component'

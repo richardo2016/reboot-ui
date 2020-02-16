@@ -7,7 +7,7 @@ import { createPopper } from '@popperjs/core';
 import { resolveJSXElement } from '../../utils/ui'
 import { arraify } from '../../../../utils/array';
 import useClickaway from '../../../../utils/react-hooks/use-clickaway';
-import { isReactTypeOf } from '../../../../utils/react-like'
+import { isReactTypeOf, getHTMLElementFromJSXElement } from '../../../../utils/react-like'
 
 import DropdownMenu from '../../@components/dropdown-menu/component';
 
@@ -41,7 +41,6 @@ export default function Dropdown ({
         triggerElRef,
         undefined,
         {
-            deps: [showDropdown],
             clickIn: (() => {
                 setShowDropdown(!showDropdown)
             }),
@@ -52,8 +51,8 @@ export default function Dropdown ({
                 if (
                     clkAwayEl
                     && overlayRef.current
-                    && overlayRef.current
-                    && overlayRef.current.contains(clkAwayEl)
+                    && getHTMLElementFromJSXElement(overlayRef.current)
+                    && getHTMLElementFromJSXElement(overlayRef.current).contains(clkAwayEl)
                 ) return ;
                 setShowDropdown(false)
             }
@@ -61,9 +60,9 @@ export default function Dropdown ({
     )
 
     React.useLayoutEffect(() => {
-        if (overlayRef.current && (overlayRef.current))
+        if (overlayRef.current)
             try {
-                const _overlayEl = (overlayRef.current)
+                const _overlayEl = getHTMLElementFromJSXElement(overlayRef.current)
 
                 if (_overlayEl.classList.contains('dropdown-menu'))
                     if (showDropdown) _overlayEl.classList.add('show')
@@ -75,8 +74,8 @@ export default function Dropdown ({
         if (!overlayRef.current) return ;
 
         const instance = createPopper(
-            triggerElRef.current,
-            overlayRef.current
+            getHTMLElementFromJSXElement(triggerElRef.current),
+            getHTMLElementFromJSXElement(overlayRef.current)
         )
 
         return () => {

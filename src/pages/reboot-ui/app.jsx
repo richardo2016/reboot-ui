@@ -1,3 +1,5 @@
+import '../../utils/preact-helpers/preact-compat-patch'
+
 import React from 'react'
 import Router, { route } from 'preact-router';
 import Match, { Link } from 'preact-router/match';
@@ -6,6 +8,7 @@ import classnames from 'classnames'
 
 import './app.scss';
 
+import './reg-reboot-ui'
 import {
   Layout,
   Navbar,
@@ -49,6 +52,23 @@ class Redirect extends React.Component {
 
 const HASH_ROUTE = createHashHistory()
 
+const evalDocJs = () => {
+  const allJSScripts = document.querySelectorAll('script[data-js-id]')
+
+  allJSScripts.forEach(script => {
+    if (script.getAttribute('data-finished')) return ;
+    
+    script.setAttribute('data-finished', true)
+    const ID = script.getAttribute('data-js-id')
+
+    try {
+      eval(script.innerHTML);
+    } catch(error) {
+      console.log(`[error] occured when running example <script data-js-id=${ID}>`)
+    }
+  })
+}
+
 export default function App () {
   const [docVersion, setDocVersion] = React.useState('4.4-jsx'/* REBOOT_DOC_VERSION */);
   const [navData, setNavData] = React.useState(parseNavData([]));
@@ -78,6 +98,10 @@ export default function App () {
           relpath: jsonpath,
           ...json,
         })
+
+        setTimeout(() => {
+          evalDocJs();
+        }, 50);
 
         return json;
       })

@@ -53,7 +53,7 @@ function Button ({
         <JSXEl
             {...props}
             {...isJSXWithDisabledAttr && disabled && { disabled }}
-            {...type && { type }}
+            {...JSXEl === 'button' && { type: 'button' }}
             ref={ref}
             className={classnames([
                 props.className,

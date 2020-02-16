@@ -1,0 +1,9 @@
+{%- assign mexample = include.mexample -%}
+{%- assign class = include.class -%}
+
+<div class="bd-example{% if class %} {{ class }}{% endif %}" id="{{- mexample.id -}}" data-mvvm-type="{{- mexample.mvvm_type -}}">
+</div>
+
+<script type="text/plain" data-js-id={{- mexample.id -}}>
+{{- mexample.js -}}
+</script>

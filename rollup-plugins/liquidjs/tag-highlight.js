@@ -4,7 +4,6 @@
  * @param Liquid: provides facilities to implement tags and filters.
  */
 const assert = require('assert')
-const htmlEscaper = require('html-escaper');
 
 const identifier = /[\w-]+[?]?/;
 const reg = new RegExp(`(${identifier.source})`)
@@ -35,7 +34,9 @@ module.exports = function (Liquid) {
             const text = this.tokens.map((token) => token.raw).join('')
 
             if (!text) return ;
-            if ([`{%-`, `-%}`].some(token => ~text.indexOf(token))) return ;
+            if ([`{%-`, `-%}`].some(delimiter => ~text.indexOf(delimiter))) return ;
+
+            if (ctx.globals.NOHIGHLIGHT) return text;
 
             return highlightCode(text, this.lang)
         },
