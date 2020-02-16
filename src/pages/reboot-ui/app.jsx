@@ -69,6 +69,8 @@ const evalDocJs = () => {
       newScript.id = ID;
       newScript.innerHTML = jsscript;
       document.body.appendChild(newScript);
+
+      newScript.remove();
     } catch(error) {
       console.log(`[error] occured when running example <script data-js-id=${ID}>`)
     }
