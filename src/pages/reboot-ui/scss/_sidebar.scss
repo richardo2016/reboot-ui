@@ -3,7 +3,7 @@
 //
 // Right side table of contents
 //
-$floating-top-offset: 4rem;
+$floating-top-offset: 0;
 
 .bd-toc {
   @supports (position: sticky) {
@@ -54,9 +54,9 @@ $floating-top-offset: 4rem;
   @include media-breakpoint-up(md) {
     @supports (position: sticky) {
       position: sticky;
-      top: $floating-top-offset;// top: 4rem;
+      top: (4rem - $floating-top-offset);// top: 4rem;
       z-index: 1000;
-      height: subtract(100vh, $floating-top-offset);
+      height: subtract(100vh, (4rem - $floating-top-offset));
     }
     border-right: 1px solid rgba(0, 0, 0, .1);
   }

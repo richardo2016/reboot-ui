@@ -20,6 +20,7 @@
     }
   ],
   "dependencies": {
+    "@popperjs/core": "^2.0.6",
     "@reboot-ui/liquidjs": "^9.7.0",
     "axios": "^0.19.2",
     "axios-jsonp": "^1.0.4",

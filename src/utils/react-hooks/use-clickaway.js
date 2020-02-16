@@ -1,0 +1,49 @@
+import React from 'react'
+
+export default function (
+    clkEleRef,
+    getTerminalElement = document,
+    {
+        /**
+         * @notice wrap it with `useCallback` recommended
+         */
+        clickAway,
+        /**
+         * @notice wrap it with `useCallback` recommended
+         */
+        clickIn,
+    } = {}
+) {
+    clickAway = React.useCallback(clickAway);
+    clickIn = React.useCallback(clickIn);
+
+    React.useLayoutEffect(() => {
+        const bubleEl = typeof getTerminalElement === 'function' ? getTerminalElement() : getTerminalElement
+
+        const handler = (
+            (evt) => {
+                const el = evt.target
+                const { current: clkEle } = clkEleRef;
+                
+                if (clkEle && clkEle.contains(el)) {
+                    evt.stopPropagation();
+
+                    if (typeof clickIn === 'function')
+                        clickIn(evt);
+
+                    return ;
+                }
+
+                if (typeof clickAway === 'function')
+                    clickAway(evt);
+            }
+        )
+        bubleEl.addEventListener('mousedown', handler)
+        bubleEl.addEventListener('touchstart', handler)
+
+        return () => {
+            bubleEl.removeEventListener('mousedown', handler)
+            bubleEl.removeEventListener('touchstart', handler)
+        }
+    }, [clkEleRef, clickAway, clickIn])
+}
