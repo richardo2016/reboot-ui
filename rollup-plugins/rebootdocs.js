@@ -65,6 +65,10 @@ const defaults = {
   destjsondir: null
 };
 
+function sortNavs (navs) {
+    return navs.sort((a, b) => a.relpath < b.relpath ? -1 : 1)
+}
+
 // export a function that can take configuration options
 const markdown = (inputopts = {}) => {
     const options = Object.assign({}, defaults, inputopts);
@@ -96,7 +100,8 @@ const markdown = (inputopts = {}) => {
             if (inputopts.destjsondir) {
                 const jsonpath = path.resolve(options.destjsondir, 'manifest.json')
                 shelljs.mkdir('-p', path.dirname(jsonpath))
-                fs.writeFileSync(jsonpath, toSource(navs, { pretty: !isProduction }))
+
+                fs.writeFileSync(jsonpath, toSource(sortNavs(navs), { pretty: !isProduction }))
             }
         },
 
