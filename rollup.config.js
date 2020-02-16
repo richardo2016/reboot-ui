@@ -1,3 +1,4 @@
+import fs from 'fs';
 import path from 'path';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
@@ -22,8 +23,6 @@ import shelljs from 'shelljs'
 // `npm run build` -> `production` is true
 // `npm run dev` -> `production` is false
 import { isProduction as production } from './rollup-plugins/build-env'
-
-const DOC_VERSION = `4.4`
 
 function getConfigItem (name, opts) {
 	const {
@@ -73,7 +72,6 @@ function getConfigItem (name, opts) {
 				[`require('moment')`]: JSON.stringify(null),
 				'window.process.env.NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development'),
 				'process.env.NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development'),
-				'process.env.DOC_VERSION': JSON.stringify(DOC_VERSION)
 			}),
 			postcss({
 				extract: true,
@@ -168,13 +166,28 @@ export default [
 		mvvm_type: 'preact',
 		app_type: 'pages',
 		postConfig: (rollup_cfg) => {
+			const basedir = path.resolve(__dirname, `./src/pages/reboot-ui/docs/`)
+			const destdir = path.resolve(__dirname, `./build/pages/reboot-ui/static/docs/`)
+			const allDocVersions = fs.readdirSync(basedir)
+			const REBOOT_DOC_VERSION = process.env.REBOOT_DOC_VERSION || allDocVersions[0];
+
+			rollup_cfg.plugins.unshift(
+				replace({
+					// no `moment` used
+					'process.env.REBOOT_DOC_VERSION': JSON.stringify(REBOOT_DOC_VERSION),
+					[`process.env.REBOOT_DOC_VERSIONS`]: JSON.stringify(allDocVersions.join(';')),
+				}),
+			)
+
+			const LIQUID_INCLUDE_BASE = path.resolve(__dirname, './src/pages/reboot-ui/_includes')
+
 			rollup_cfg.plugins.unshift(
 				rebootdocs({
 					writeFileOnly: true,
-					basedir: path.resolve(__dirname, `./src/pages/reboot-ui/docs/${DOC_VERSION}`),
-					destjsondir: path.resolve(__dirname, `./build/pages/reboot-ui/static/docs/${DOC_VERSION}`),
+					basedir: basedir,
+					destjsondir: destdir,
 					liquidjs: {
-						root: path.resolve(__dirname, './src/pages/reboot-ui/_includes'),
+						root: LIQUID_INCLUDE_BASE,
 						extname: '',
 						dynamicPartials: false
 					},

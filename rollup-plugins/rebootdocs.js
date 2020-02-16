@@ -69,6 +69,10 @@ function sortNavs (navs) {
     return navs.sort((a, b) => a.relpath < b.relpath ? -1 : 1)
 }
 
+function normalizeToPosixPath (relpath) {
+    return path.normalize(relpath).split(path.sep).join(path.posix.sep)
+}
+
 // export a function that can take configuration options
 const markdown = (inputopts = {}) => {
     const options = Object.assign({}, defaults, inputopts);
@@ -76,7 +80,7 @@ const markdown = (inputopts = {}) => {
     // include or exclude files
     const filter = createFilter(options.include, options.exclude);
 
-    const navs = [];
+    const navs = {};
     const sitedata = loadSiteData();
     const lqglobals = {
         site: { data: sitedata },
@@ -98,10 +102,12 @@ const markdown = (inputopts = {}) => {
 
         writeBundle: () => {
             if (inputopts.destjsondir) {
-                const jsonpath = path.resolve(options.destjsondir, 'manifest.json')
-                shelljs.mkdir('-p', path.dirname(jsonpath))
+                Object.keys(navs).forEach(versionType => {
+                    const jsonpath = path.resolve(options.destjsondir, `${versionType}/manifest.json`)
+                    shelljs.mkdir('-p', path.dirname(jsonpath))
 
-                fs.writeFileSync(jsonpath, toSource(sortNavs(navs), { pretty: !isProduction }))
+                    fs.writeFileSync(jsonpath, toSource(sortNavs(navs[versionType]), { pretty: !isProduction }))
+                });
             }
         },
 
@@ -123,28 +129,35 @@ const markdown = (inputopts = {}) => {
             }
             result = marked(result, markedOptions)
             /* transform :end */
-            
-            const relname = path.relative(options.basedir, id)
+
+            const basedir = path.normalize(options.basedir)
+            const relname = path.relative(basedir, id)
             const extname = path.extname(id)
             const basename = path.basename(id)
+            const platform_relname = path.normalize(relname)
 
-            const [type = 'common'] = path.posix.normalize(relname).split('/') || []
+            const [versionType, group = 'common'] = path.normalize(relname).split(path.sep) || []
             const regexp = new RegExp(`${extname}$`, 'i')
             
             const name = basename.replace(regexp, '')
-            const reljsonpath = relname.replace(regexp, '.json')
+            const reljsonpath = platform_relname.replace(regexp, '.json')
 
             result = addLeadInfoForPage(result, fm.attributes)
 
             const navInfo = {
-                name: name,
-                type,
+                name,
+                versionType,
+                type: group,
+                group,
                 basename,
-                relpath: reljsonpath,
+                relpath: normalizeToPosixPath(platform_relname).replace(regexp, '.json'),
                 attributes: fm.attributes,
             }
+
+            // console.log('navInfo', navInfo);
             
-            navs.push(navInfo)
+            navs[versionType] = navs[versionType] || [];
+            navs[versionType].push(navInfo)
             const pageInfo = {...navInfo, html: result}
 
             if (inputopts.destjsondir) {

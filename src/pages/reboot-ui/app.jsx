@@ -9,20 +9,20 @@ import { Layout, Navbar, Nav } from '../../library/reboot-ui'
 import { getJSON } from '../../utils/fetch'
 import { ucfirst, unprefix } from '../../utils/string'
 
-const DOC_VERSION = process.env.DOC_VERSION
+const REBOOT_DOC_VERSION = process.env.REBOOT_DOC_VERSION
 
 window.__static_prefix__ = window.__static_prefix__ || './reboot-ui/static'
 
-function parseNavData (navData) {
+function parseNavData (versionedNavData) {
   const sortCb = (a, b) => a.name < b.name ? -1 : 1
 
   return {
-    components: navData.filter(info => info.type === 'components').sort(sortCb),
-    content: navData.filter(info => info.type === 'content').sort(sortCb),
-    layout: navData.filter(info => info.type === 'layout').sort(sortCb),
-    extend: navData.filter(info => info.type === 'extend').sort(sortCb),
-    utilities: navData.filter(info => info.type === 'utilities').sort(sortCb),
-    all: navData,
+    components: versionedNavData.filter(info => info.group === 'components').sort(sortCb),
+    content: versionedNavData.filter(info => info.group === 'content').sort(sortCb),
+    layout: versionedNavData.filter(info => info.group === 'layout').sort(sortCb),
+    extend: versionedNavData.filter(info => info.group === 'extend').sort(sortCb),
+    utilities: versionedNavData.filter(info => info.group === 'utilities').sort(sortCb),
+    all: versionedNavData,
   }
 }
 
@@ -39,12 +39,13 @@ class Redirect extends React.Component {
 const HASH_ROUTE = createHashHistory()
 
 export default function App () {
+  const [docVersion, setDocVersion] = React.useState(REBOOT_DOC_VERSION);
   const [navData, setNavData] = React.useState(parseNavData([]));
   const [curPageData, setCurPageData] = React.useState({ relpath: null });
 
-  const fetchNavData = () => {
+  const fetchNavData = (dv = docVersion) => {
     // fetch initial data
-    return getJSON(`${window.__static_prefix__}/docs/${DOC_VERSION}/manifest.json`)
+    return getJSON(`${window.__static_prefix__}/docs/${dv}/manifest.json`)
       .catch(error => null)
       .then(json => {
         const data = parseNavData(json || [])
@@ -55,18 +56,11 @@ export default function App () {
       })
   }
 
-  const updateCurRelpath = (relpath) => {
-    setCurPageData({
-      ...curPageData,
-      relpath,
-    })
-  }
-
   const fetchMainContent = (jsonpath = curPageData.relpath) => {
     if (!jsonpath) return ;
 
     // fetch initial data
-    return getJSON(`${window.__static_prefix__}/docs/${DOC_VERSION}/${jsonpath}`)
+    return getJSON(`${window.__static_prefix__}/docs/${jsonpath}`)
       .catch(error => null)
       .then(json => {
         setCurPageData({
@@ -91,8 +85,8 @@ export default function App () {
             <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" className="d-inline-block align-top mr-2" viewBox="0 0 612 612" role="img" focusable="false"><title>Bootstrap</title><path fill="currentColor" d="M510 8a94.3 94.3 0 0 1 94 94v408a94.3 94.3 0 0 1-94 94H102a94.3 94.3 0 0 1-94-94V102a94.3 94.3 0 0 1 94-94h408m0-8H102C45.9 0 0 45.9 0 102v408c0 56.1 45.9 102 102 102h408c56.1 0 102-45.9 102-102V102C612 45.9 566.1 0 510 0z"></path><path fill="currentColor" d="M196.77 471.5V154.43h124.15c54.27 0 91 31.64 91 79.1 0 33-24.17 63.72-54.71 69.21v1.76c43.07 5.49 70.75 35.82 70.75 78 0 55.81-40 89-107.45 89zm39.55-180.4h63.28c46.8 0 72.29-18.68 72.29-53 0-31.42-21.53-48.78-60-48.78h-75.57zm78.22 145.46c47.68 0 72.73-19.34 72.73-56s-25.93-55.37-76.46-55.37h-74.49v111.4z"></path></svg>
             Reboot UI
         </a>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
+        <div class="navbar-nav-scroll">
+          <ul class="navbar-nav bd-navbar-nav flex-row">
             <li class="nav-item active">
               <a class="nav-link" href="#">
                 Home
@@ -100,22 +94,44 @@ export default function App () {
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Components</a>
+              <Link class="nav-link" href="#">Docs(JSX)</Link>
+            </li>
+            <li class="nav-item">
+              <Link class="nav-link" href="#">Docs(Orignal)</Link>
             </li>
           </ul>
         </div>
+        <ul className="navbar-nav ml-md-auto">
+          <li class="nav-item dropdown">
+            <a
+              class="nav-item nav-link dropdown-toggle mr-md-2"
+              href="#" id="bd-versions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+            >
+              v4.4
+            </a>
+            <div class="dropdown-menu dropdown-menu-md-right" aria-labelledby="bd-versions">
+              <a class="dropdown-item active" href="/docs/4.4/">Latest (4.4.x)</a>
+              <a class="dropdown-item" href="https://getbootstrap.com/docs/4.3/">v4.3.1</a>
+              <a class="dropdown-item" href="https://getbootstrap.com/docs/4.2/">v4.2.1</a>
+              <a class="dropdown-item" href="https://getbootstrap.com/docs/4.0/">v4.0.0</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/docs/versions/">All versions</a>
+            </div>
+          </li>
+        </ul>
       </Navbar>
       <Layout.Container className="app" fluid>
         <Layout.Row className="flex-xl-nowrap">
           <Layout.Col className="bd-sidebar" md={{ span: 3 }} xl={{ span: 2 }}>
             <Nav className="bd-links" id="bd-docs-nav">
-              {NAVKEYS.map((toc) => {
+              {NAVKEYS.map((group) => {
+
                 return (
-                  <Match path={`/${toc}/:basename`}>
+                  <Match path={`/${docVersion}/${group}/:basename`}>
                     {({ matches, path: curRoutePath }) => {
                       return (
                         <div
-                          key={`toc-${toc}`}
+                          key={`toc-${group}`}
                           class={[
                             "bd-toc-item",
                             matches && "active"
@@ -123,13 +139,13 @@ export default function App () {
                         >
                           <Link
                             class="bd-toc-link"
-                            href={`/${navData[toc][0] ? `${navData[toc][0].relpath}` : ''}`}
+                            href={`/${navData[group][0] ? `${navData[group][0].relpath}` : ''}`}
                           >
-                            {ucfirst(toc)}
+                            {ucfirst(group)}
                           </Link>
 
                           <ul class="nav bd-sidenav">
-                            {navData[toc].map(info => {
+                            {navData[group].map(info => {
                               const matches = `/${info.relpath}` === curRoutePath;
 
                               return (
