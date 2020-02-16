@@ -153,8 +153,6 @@ const markdown = (inputopts = {}) => {
                 relpath: normalizeToPosixPath(platform_relname).replace(regexp, '.json'),
                 attributes: fm.attributes,
             }
-
-            // console.log('navInfo', navInfo);
             
             navs[versionType] = navs[versionType] || [];
             navs[versionType].push(navInfo)

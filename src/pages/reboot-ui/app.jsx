@@ -2,12 +2,23 @@ import React from 'react'
 import Router, { route } from 'preact-router';
 import Match, { Link } from 'preact-router/match';
 import { createHashHistory } from 'history';
+import classnames from 'classnames'
 
 import './app.scss';
-import { Layout, Navbar, Nav, Dropdown } from '../../library/reboot-ui'
+
+import {
+  Layout,
+  Navbar,
+  Nav,
+  Dropdown,
+  DropdownMenu,
+  DropdownItem,
+} from '../../library/reboot-ui'
 
 import { getJSON } from '../../utils/fetch'
 import { ucfirst, unprefix } from '../../utils/string'
+
+import allDocVersions from './envs/docVersions'
 
 const REBOOT_DOC_VERSION = process.env.REBOOT_DOC_VERSION
 
@@ -105,16 +116,6 @@ export default function App () {
           <Dropdown
             className="nav-item"
             as="li"
-            overlay={(
-              <div class="dropdown-menu dropdown-menu-md-right" aria-labelledby="bd-versions">
-                <a class="dropdown-item active" href="/docs/4.4/">Latest (4.4.x)</a>
-                <a class="dropdown-item" href="https://getbootstrap.com/docs/4.3/">v4.3.1</a>
-                <a class="dropdown-item" href="https://getbootstrap.com/docs/4.2/">v4.2.1</a>
-                <a class="dropdown-item" href="https://getbootstrap.com/docs/4.0/">v4.0.0</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/docs/versions/">All versions</a>
-              </div>
-            )}
           >
             <a
               class="nav-item nav-link dropdown-toggle mr-md-2"
@@ -126,6 +127,40 @@ export default function App () {
             >
               v{docVersion}
             </a>
+            {/* we can also set it as Dropdown::props['overlay'] */}
+            <DropdownMenu
+                className="dropdown-menu-md-right"
+                aria-labelledby="bd-versions"
+              >
+                {allDocVersions
+                  .map((_dversion, idx) => {
+                    const active = _dversion === docVersion;
+
+                    return (
+                      <DropdownItem
+                        as={Link}
+                        class={classnames(
+                          'dropdown-item',
+                          active && 'active'
+                        )}
+                        href={`/${_dversion}/`}
+                      >
+                        {idx === 0 ? (
+                          <>Latest (v{_dversion})</>
+                        ) : (
+                          <>v{_dversion}</>
+                        )}
+                      </DropdownItem>
+                    )
+                })}
+                <DropdownItem divider />
+                <DropdownItem
+                  as={Link}
+                  href={`/versions/`}
+                >
+                  All versions
+                </DropdownItem>
+              </DropdownMenu>
           </Dropdown>
         </ul>
       </Navbar>

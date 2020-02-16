@@ -25,6 +25,7 @@ export const Container = ({
             className={
                 classnames([
                     props.className,
+                    props.class,
                     classnameBase
                 ])
             }
@@ -50,6 +51,7 @@ export const Row = ({
             className={
                 classnames([
                     props.className,
+                    props.class,
                     'row'
                 ])
             }

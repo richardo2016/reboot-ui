@@ -5,5 +5,7 @@ export {
     Col,
     Navbar,
     Nav,
-    Dropdown
+    Dropdown,
+    DropdownMenu,
+    DropdownItem,
 } from './@components/index.no-style'

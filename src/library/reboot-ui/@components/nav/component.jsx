@@ -26,6 +26,7 @@ export default function Nav ({
             {...props}
             className={classnames([
                 props.className,
+                props.class,
                 "nav"
             ])}
         >

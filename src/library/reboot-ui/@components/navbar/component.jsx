@@ -26,6 +26,7 @@ export default function Navbar ({
             {...props}
             className={classnames([
                 props.className,
+                props.class,
                 "navbar"
             ])}
         >

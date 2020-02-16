@@ -117,23 +117,23 @@ export function getClsNameListFromBreakPointConfig ({
 }
 
 export function resolveJSXElement (
-    inputEl,
+    inputJSXElement,
     {
         allowedHTMLTags = undefined
     } = {}
 ) {
-    if (!inputEl)
+    if (!inputJSXElement)
         return 'div'
 
-    if (allowedHTMLTags && typeof inputEl === 'string') {
-        inputEl = inputEl.toString()
+    if (allowedHTMLTags && typeof inputJSXElement === 'string') {
+        inputJSXElement = inputJSXElement.toString()
         allowedHTMLTags = arraify(allowedHTMLTags)
             .filter(x => typeof x === 'string')
             .map(x => x.toString())
         
-        if (allowedHTMLTags.length && !allowedHTMLTags.includes(inputEl))
-            throw new Error(`[resolveJSXElement] inputEl must be valid string: ${allowedHTMLTags.join(', ')}; but ${inputEl} given!`)
+        if (allowedHTMLTags.length && !allowedHTMLTags.includes(inputJSXElement))
+            throw new Error(`[resolveJSXElement] inputJSXElement must be valid string: ${allowedHTMLTags.join(', ')}; but ${inputJSXElement} given!`)
     }
 
-    return inputEl
+    return inputJSXElement
 }
