@@ -67,7 +67,7 @@ const evalDocJs = () => {
 
       const newScript = document.createElement('script')
       newScript.id = ID;
-      newScript.innerText = jsscript;
+      newScript.innerHTML = jsscript;
       document.body.appendChild(newScript);
     } catch(error) {
       console.log(`[error] occured when running example <script data-js-id=${ID}>`)
