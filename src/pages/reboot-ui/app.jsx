@@ -7,7 +7,7 @@ import './app.scss';
 import { Layout, Navbar, Nav } from '../../library/reboot-ui'
 
 import { getJSON } from '../../utils/fetch'
-import { ucfirst } from '../../utils/string'
+import { ucfirst, unprefix } from '../../utils/string'
 
 const DOC_VERSION = process.env.DOC_VERSION
 
@@ -81,10 +81,6 @@ export default function App () {
   React.useEffect(() => {
     fetchNavData()
   }, []);
-
-  React.useEffect(() => {
-    fetchMainContent(curPageData.relpath)
-  }, [curPageData.relpath])
 
   const NAVKEYS = Object.keys(navData).filter(x => x !== 'all')
 
@@ -163,10 +159,7 @@ export default function App () {
 
           <Router
             onChange={(evt) => {
-              const nextUrl = evt.url.slice(1)
-
-              if (nextUrl)
-                updateCurRelpath(nextUrl)
+              fetchMainContent(unprefix('/', evt.url))
             }}
             history={HASH_ROUTE}
           >
