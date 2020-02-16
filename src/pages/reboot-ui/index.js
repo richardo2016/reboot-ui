@@ -10,4 +10,3 @@ React.render(
     <App />,
     document.querySelector('#app')
 )
-// console.log('123')
