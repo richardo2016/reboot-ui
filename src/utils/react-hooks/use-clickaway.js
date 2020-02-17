@@ -38,12 +38,10 @@ export default function (
                     clickAway(evt);
             }
         )
-        bubleEl.addEventListener('mousedown', handler)
-        bubleEl.addEventListener('touchstart', handler)
+        bubleEl.addEventListener('click', handler)
 
         return () => {
-            bubleEl.removeEventListener('mousedown', handler)
-            bubleEl.removeEventListener('touchstart', handler)
+            bubleEl.removeEventListener('click', handler)
         }
     }, [clkEleRef, clickAway, clickIn])
 }

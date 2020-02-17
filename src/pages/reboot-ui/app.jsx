@@ -78,6 +78,7 @@ const evalDocJs = () => {
 }
 
 export default function App () {
+  const [showNavs, setShowNavs] = React.useState(false);
   const [docVersion, setDocVersion] = React.useState('4.4-jsx'/* REBOOT_DOC_VERSION */);
   const [navData, setNavData] = React.useState(parseNavData([]));
   const [curPageData, setCurPageData] = React.useState({ relpath: null });
@@ -161,57 +162,74 @@ export default function App () {
             </a>
             {/* we can also set it as Dropdown::props['overlay'] */}
             <DropdownMenu
-                className="dropdown-menu-md-right"
-                aria-labelledby="bd-versions"
-              >
-                {allDocVersions
-                  .map((_dversion, idx) => {
-                    const active = _dversion === docVersion;
+              className="dropdown-menu-md-right"
+              aria-labelledby="bd-versions"
+            >
+              {allDocVersions
+                .map((_dversion, idx) => {
+                  const active = _dversion === docVersion;
 
-                    return (
-                      <DropdownItem
-                        as={Link}
-                        class={classnames(
-                          'dropdown-item',
-                          active && 'active'
-                        )}
-                        href={`/${_dversion}/`}
-                      >
-                        {idx === 0 ? (
-                          <>Latest (v{_dversion})</>
-                        ) : (
-                          <>v{_dversion}</>
-                        )}
-                      </DropdownItem>
-                    )
-                })}
-                <DropdownItem divider />
-                <DropdownItem
-                  as={Link}
-                  href={`/versions/`}
-                >
-                  All versions
-                </DropdownItem>
-              </DropdownMenu>
+                  return (
+                    <DropdownItem
+                      as={Link}
+                      class={classnames(
+                        'dropdown-item',
+                        active && 'active'
+                      )}
+                      href={`/${_dversion}/`}
+                    >
+                      {idx === 0 ? (
+                        <>Latest (v{_dversion})</>
+                      ) : (
+                        <>v{_dversion}</>
+                      )}
+                    </DropdownItem>
+                  )
+              })}
+              <DropdownItem divider />
+              <DropdownItem
+                as={Link}
+                href={`/versions/`}
+              >
+                All versions
+              </DropdownItem>
+            </DropdownMenu>
           </Dropdown>
         </ul>
       </Navbar>
       <Layout.Container className="app" fluid>
         <Layout.Row className="flex-xl-nowrap">
           <Layout.Col className="bd-sidebar" md={{ span: 3 }} xl={{ span: 2 }}>
-          <form role="search" class="bd-search d-flex align-items-center">
-            <span class="algolia-autocomplete" style="position: relative; display: inline-block; direction: ltr;">
-              <input type="search" class="form-control ds-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off" data-docs-version="4.4" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto" style="position: relative; vertical-align: top;" />
-              <pre aria-hidden="true" style="position: absolute; visibility: hidden; white-space: pre; font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;, Arial, &quot;Noto Sans&quot;, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;; font-size: 16px; font-style: normal; font-variant: normal; font-weight: 400; word-spacing: 0px; letter-spacing: normal; text-indent: 0px; text-rendering: auto; text-transform: none;"></pre>
-              <span class="ds-dropdown-menu" role="listbox" id="algolia-autocomplete-listbox-0" style="position: absolute; top: 100%; z-index: 100; display: none; left: 0px; right: auto;">
-              <div class="ds-dataset-1" />
-            </span>
-            </span>
-            <button class="btn btn-link bd-search-docs-toggle d-md-none p-0 ml-3" type="button" data-toggle="collapse" data-target="#bd-docs-nav" aria-controls="bd-docs-nav" aria-expanded="false" aria-label="Toggle docs navigation">
-              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" role="img" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg>
-            </button>
-          </form>
-            <Nav className="collapse bd-links" id="bd-docs-nav">
+            <form role="search" class="bd-search d-flex align-items-center">
+              <span class="algolia-autocomplete" style="position: relative; display: inline-block; direction: ltr;">
+                <input type="search" class="form-control ds-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off" data-docs-version="4.4" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto" style="position: relative; vertical-align: top;" />
+                <pre aria-hidden="true" style="position: absolute; visibility: hidden; white-space: pre; font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;, Arial, &quot;Noto Sans&quot;, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;; font-size: 16px; font-style: normal; font-variant: normal; font-weight: 400; word-spacing: 0px; letter-spacing: normal; text-indent: 0px; text-rendering: auto; text-transform: none;"></pre>
+                <span class="ds-dropdown-menu" role="listbox" id="algolia-autocomplete-listbox-0" style="position: absolute; top: 100%; z-index: 100; display: none; left: 0px; right: auto;">
+                <div class="ds-dataset-1" />
+              </span>
+              </span>
+              <button
+                class="btn btn-link bd-search-docs-toggle d-md-none p-0 ml-3"
+                type="button"
+                data-toggle="collapse"
+                data-target="#bd-docs-nav"
+                aria-controls="bd-docs-nav"
+                aria-expanded="false"
+                aria-label="Toggle docs navigation"
+                onClick={() => {
+                  setShowNavs(!showNavs)
+                }}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" role="img" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg>
+              </button>
+            </form>
+            <Nav
+              className={[
+                "collapse bd-links",
+                showNavs && 'show',
+              ].filter(x => x).join(' ')}
+              id="bd-docs-nav"
+            >
               {NAVKEYS.map((group) => {
 
                 return (
