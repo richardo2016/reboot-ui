@@ -78,9 +78,7 @@ function loadSiteData () {
         const filename = path.resolve(basedir, ymlname);
         const fieldname = ymlname.replace( new RegExp(`${ext}$`), '' )
 
-        const filecontent = YAML.safeLoad(
-            fs.readFileSync(filename, 'utf8')
-        )
+        const filecontent = YAML.safeLoad(fs.readFileSync(filename, 'utf8'))
 
         sitedata[fieldname] = filecontent;
     })
@@ -215,7 +213,10 @@ export default function markdown (inputopts = {}) {
             }
             
             navs[versionType] = navs[versionType] || [];
-            navs[versionType].push(navInfo)
+            let idx = navs[versionType].findIndex(item => item.name === navInfo.name)
+            if (idx === -1) navs[versionType].push(navInfo)
+            else navs[versionType][idx] = navInfo
+            
             const pageInfo = {...navInfo, html: result}
 
             if (inputopts.destjsondir) {

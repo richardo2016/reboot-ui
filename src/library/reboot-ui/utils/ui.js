@@ -119,11 +119,12 @@ export function getClsNameListFromBreakPointConfig ({
 export function resolveJSXElement (
     inputJSXElement,
     {
+        default: defaultValue = 'div',
         allowedHTMLTags = undefined
     } = {}
 ) {
     if (!inputJSXElement)
-        return 'div'
+        return defaultValue
 
     if (allowedHTMLTags && typeof inputJSXElement === 'string') {
         inputJSXElement = inputJSXElement.toString()

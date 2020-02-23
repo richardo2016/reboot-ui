@@ -37,11 +37,11 @@ const Sample = () => {
       <Dropdown
         as={null}
         overlay={(
-          <DropdownMenu aria-labelledby="dropdownMenuButton">
+          <Dropdown.Menu aria-labelledby="dropdownMenuButton">
             <a class="dropdown-item" href="#">Action</a>
             <a class="dropdown-item" href="#">Another action</a>
             <a class="dropdown-item" href="#">Something else here</a>
-          </DropdownMenu>
+          </Dropdown.Menu>
         )}
       >
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -63,11 +63,11 @@ const Sample = () => {
       <Dropdown
         as={null}
         overlay={(
-          <DropdownMenu aria-labelledby="dropdownMenuButton">
+          <Dropdown.Menu aria-labelledby="dropdownMenuButton">
             <a class="dropdown-item" href="javascript:void(0);">Action</a>
             <a class="dropdown-item" href="javascript:void(0);">Another action</a>
             <a class="dropdown-item" href="javascript:void(0);">Something else here</a>
-          </DropdownMenu>
+          </Dropdown.Menu>
         )}
       >
         <a class="btn btn-secondary dropdown-toggle" href="javascript:void(0);" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -91,9 +91,6 @@ const Sample = () => {
     'info',
     'warning',
     'danger',
-    // 'light',
-    // 'dark',
-    // 'link',
   ];
 
   return (
@@ -103,20 +100,18 @@ const Sample = () => {
           <Dropdown
             as={null}
             overlay={(
-              <DropdownMenu aria-labelledby="dropdownMenuButton">
+              <Dropdown.Menu aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="javascript:void(0)">Action</a>
                 <a class="dropdown-item" href="javascript:void(0)">Another action</a>
                 <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="javascript:void(0)">Separated link</a>
-              </DropdownMenu>
+              </Dropdown.Menu>
             )}
           >
-              <button type="button" class={[
-                `btn btn-${type} dropdown-toggle`
-              ].join(' ')} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {`${type.slice(0, 1).toUpperCase()}${type.slice(1)}`}
-              </button>
+            <Dropdown.Toggle as={Button} type={type}>
+              {`${type.slice(0, 1).toUpperCase()}${type.slice(1)}`}
+            </Dropdown.Toggle>
           </Dropdown>
         </div>
       )}
@@ -142,9 +137,6 @@ const Sample = () => {
     'info',
     'warning',
     'danger',
-    // 'light',
-    // 'dark',
-    // 'link',
   ];
 
   return (
@@ -154,23 +146,21 @@ const Sample = () => {
           <Dropdown
             as={null}
             overlay={(
-              <DropdownMenu aria-labelledby="dropdownMenuButton">
+              <Dropdown.Menu aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="javascript:void(0)">Action</a>
                 <a class="dropdown-item" href="javascript:void(0)">Another action</a>
                 <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="javascript:void(0)">Separated link</a>
-              </DropdownMenu>
+              </Dropdown.Menu>
             )}
           >
-            <button type="button" class={`btn btn-${type}`} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <Button type={type}>
               {`${type.slice(0, 1).toUpperCase()}${type.slice(1)}`}
-            </button>
-            <button dropdownTrigger type="button" class={[
-              `btn btn-${type} dropdown-toggle dropdown-toggle-split`
-            ].join(' ')} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            </Button>
+            <Dropdown.Toggle as={Button} type={type} split>
               <span class="sr-only">Toggle Dropdown</span>
-            </button>
+            </Dropdown.Toggle>
           </Dropdown>
         </div>
       )}

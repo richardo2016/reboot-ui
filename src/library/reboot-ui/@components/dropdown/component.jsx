@@ -10,6 +10,7 @@ import useClickaway from '../../../../utils/react-hooks/use-clickaway';
 import { isReactTypeOf, getHTMLElementFromJSXElement } from '../../../../utils/react-like'
 
 import DropdownMenu from '../../@components/dropdown-menu/component';
+import DropdownItem from '../../@components/dropdown-item/component';
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/dropdown/#supported-content
@@ -35,7 +36,7 @@ export default function Dropdown ({
 
     const children = arraify(childEles).filter(x => x)
 
-    let triggerJsxElIdx = children.findIndex(child => child.props.dropdownTrigger)
+    let triggerJsxElIdx = children.findIndex(child => child.props.dropdownTrigger || isReactTypeOf(child, Dropdown.Toggle))
     triggerJsxElIdx = triggerJsxElIdx > -1 ? triggerJsxElIdx : 0
     let triggerJsxEl = children[triggerJsxElIdx] || null
     if (triggerJsxEl) {
@@ -128,3 +129,33 @@ export default function Dropdown ({
         </JSXEl>
     )
 }
+
+Dropdown.Menu = DropdownMenu;
+Dropdown.Item = DropdownItem;
+
+function Toggle ({
+    children,
+    as: _as = 'div',
+    split = false,
+    ...props
+}, ref) {
+    const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
+
+    return (
+        <JSXEl
+            {...props}
+            {...ref && { ref }}
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+            className={classnames([
+                props.className,
+                props.class,
+                'dropdown-toggle',
+                split && 'dropdown-toggle-split'
+            ])}
+        >
+            {children}
+        </JSXEl>
+    )
+}
+
+Dropdown.Toggle = React.forwardRef(Toggle)
