@@ -138,3 +138,9 @@ export function resolveJSXElement (
 
     return inputJSXElement
 }
+
+export function getHTMLAttributesFromProps (props) {
+    const { __htmlAttributes } = props || {};
+
+    return {...__htmlAttributes}
+}

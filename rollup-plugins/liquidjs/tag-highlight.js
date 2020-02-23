@@ -5,6 +5,8 @@
  */
 const assert = require('assert')
 
+const { highlightCode } = require('../prism/_utils')
+
 const identifier = /[\w-]+[?]?/;
 const reg = new RegExp(`(${identifier.source})`)
 
@@ -16,6 +18,7 @@ module.exports = function (Liquid) {
 
             this.lang = match[1];
             this.tokens = []
+            this.templates = []
 
             const stream = this.liquid.parser.parseStream(remainTokens)
             stream
@@ -29,19 +32,26 @@ module.exports = function (Liquid) {
             stream.start()
         },
         * render (ctx) {
-            const originalCode = this.tokens.map((token) => token.raw).join('')
+            let text = this.tokens.map((token) => token.raw).join('')
 
-            if (!originalCode) return ;
-            if ([`{%-`, `-%}`].some(delimiter => ~originalCode.indexOf(delimiter))) return ;
+            if (!text) return ;
+            if ([`{%-`, `-%}`, `{{-`, `-}}`].some(delimiter => ~text.indexOf(delimiter))) {
+              text = text.replace(/\{\%\-/g, '{%')
+              text = text.replace(/\-\%\}/g, '%}')
+              text = text.replace(/\{\{\-/g, '{{')
+              text = text.replace(/\-\}\}/g, '}}')
+              
+              const templates = this.liquid.parse(text)
+              const html = yield this.liquid.renderer.renderTemplates(templates, ctx)
+              
+              text = escape(html);
+              return highlightCode(html, this.lang);
+            }
 
-            if (ctx.globals.NOHIGHLIGHT) return originalCode;
-
-            const markdownCode = ''
-              + '```' + this.lang + '\n'
-              + originalCode + '\n'
-              + '```' + '\n'
-
-            return markdownCode;
+            return ''
+            + '```' + this.lang + '\n'
+            + text
+            + '```' + '\n'
         },
     });
 }

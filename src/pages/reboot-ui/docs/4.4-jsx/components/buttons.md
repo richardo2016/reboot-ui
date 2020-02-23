@@ -10,7 +10,7 @@ toc: true
 
 Bootstrap includes several predefined button styles, each serving its own semantic purpose, with a few extras thrown in for more control.
 
-{% reboot_mvvm mexample %}
+{% reboot_mvvm mexample_with_code %}
 const Sample = () => {
   const types = [
     'primary',
@@ -44,7 +44,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 {% include callout-warning-color-assistive-technologies.md %}
 
@@ -58,14 +58,21 @@ The `.btn` classes are designed to be used with the `<button>` element. However,
 
 When using button classes on `<a>` elements that are used to trigger in-page functionality (like collapsing content), rather than linking to new pages or sections within the current page, these links should be given a `role="button"` to appropriately convey their purpose to assistive technologies such as screen readers.
 
-{% capture example %}
-<a class="btn btn-primary" href="#" role="button">Link</a>
-<button class="btn btn-primary" type="submit">Button</button>
-<input class="btn btn-primary" type="button" value="Input">
-<input class="btn btn-primary" type="submit" value="Submit">
-<input class="btn btn-primary" type="reset" value="Reset">
-{% endcapture %}
-{% include example.html content=example %}
+
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Button as="a" href="#" class="mr-1" type="primary" role="button">Link</Button>
+      <Button class="mr-1" type="primary" role="button" __htmlAttributes={{ type: 'submit' }}>Button</Button>
+      <Button as="input" class="mr-1" type="primary" role="button" value="Input" __htmlAttributes={{ type: 'button' }} />
+      <Button as="input" class="mr-1" type="primary" role="button" value="Submit" __htmlAttributes={{ type: 'submit' }} />
+      <Button as="input" class="mr-1" type="primary" role="button" value="Reset" __htmlAttributes={{ type: 'reset' }} />
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Outline buttons
 

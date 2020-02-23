@@ -1,4 +1,6 @@
-export function filterPrismLang (lang) {
+const { Prism } = require('./index')
+
+const filterPrismLang = exports.filterPrismLang = function (lang) {
     switch (lang) {
         case 'html':
         case 'xml':
@@ -29,7 +31,7 @@ export function filterPrismLang (lang) {
     return lang
 }
 
-export function wrapHtml (code, lang) {
+const wrapHtml = exports.wrapHtml = function (code, lang) {
     return /* htmlEscaper.escape */(`\
 <div class="bd-clipboard">
     <button type="button" class="btn-clipboard" title="" data-original-title="Copy to clipboard">
@@ -40,14 +42,14 @@ export function wrapHtml (code, lang) {
 `)
 }
 
-export const highlightCode = (
+exports.highlightCode = function (
     code,
     lang,
     {
         noWrapHTML = false,
         useClientHighlight = false
     } = {}
-) => {
+) {
     filterPrismLang(lang);
 
     code = code.trim();

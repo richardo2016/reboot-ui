@@ -47,7 +47,9 @@ export default function Dropdown ({
     let overlayJsxElIdx = -1
     if (
         !overlayJsxEl
-        && (overlayJsxElIdx = children.findIndex(child => isReactTypeOf(child, DropdownMenu)) > -1)
+        && (
+            overlayJsxElIdx = children.findIndex(child => isReactTypeOf(child, DropdownMenu))
+        ) > -1
     ) {
         overlayJsxEl = children[overlayJsxElIdx]
     }

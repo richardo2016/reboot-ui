@@ -16,8 +16,6 @@ import {
   Navbar,
   Nav,
   Dropdown,
-  DropdownMenu,
-  DropdownItem,
 } from '../../library/reboot-ui'
 
 import { getJSON } from '../../utils/fetch'
@@ -167,7 +165,7 @@ export default function App () {
               v{docVersion}
             </a>
             {/* we can also set it as Dropdown::props['overlay'] */}
-            <DropdownMenu
+            <Dropdown.Menu
               className="dropdown-menu-md-right"
               aria-labelledby="bd-versions"
             >
@@ -176,7 +174,7 @@ export default function App () {
                   const active = _dversion === docVersion;
 
                   return (
-                    <DropdownItem
+                    <Dropdown.Item
                       as={Link}
                       class={classnames(
                         'dropdown-item',
@@ -189,17 +187,17 @@ export default function App () {
                       ) : (
                         <>v{_dversion}</>
                       )}
-                    </DropdownItem>
+                    </Dropdown.Item>
                   )
               })}
-              <DropdownItem divider />
-              <DropdownItem
+              <Dropdown.Item divider />
+              <Dropdown.Item
                 as={Link}
                 href={`/versions/`}
               >
                 All versions
-              </DropdownItem>
-            </DropdownMenu>
+              </Dropdown.Item>
+            </Dropdown.Menu>
           </Dropdown>
         </ul>
       </Navbar>

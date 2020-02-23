@@ -10,4 +10,4 @@ require('prismjs/components/prism-typescript')
 
 require('prismjs/plugins/normalize-whitespace/prism-normalize-whitespace')
 
-export default Prism
+exports.Prism = Prism

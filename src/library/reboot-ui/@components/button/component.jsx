@@ -2,7 +2,7 @@ import React from 'react'
 
 import classnames from 'classnames'
 
-import { resolveJSXElement } from '../../utils/ui'
+import { resolveJSXElement, getHTMLAttributesFromProps } from '../../utils/ui'
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/button
@@ -16,6 +16,7 @@ function Button ({
     type = '',
     size = '',
     active = false,
+    __htmlAttributes,
     ...props
 }, ref) {
     const JSXEl = resolveJSXElement(_as, { allowedHTMLTags: ['button', 'input', 'a'] });
@@ -52,6 +53,7 @@ function Button ({
     return (
         <JSXEl
             {...props}
+            {...__htmlAttributes}
             {...isJSXWithDisabledAttr && disabled && { disabled }}
             {...JSXEl === 'button' && { type: 'button' }}
             ref={ref}

@@ -9,9 +9,10 @@ import YAML from 'js-yaml'
 import htmlEscaper from 'html-escaper'
 
 import { Liquid } from '@reboot-ui/liquidjs';
-import Prism from './prism/index'
 
 import { isProduction } from './build-env'
+
+const { Prism } = require('./rollup-plugins/prism')
 
 /**
  * @description for customize marked render
@@ -132,7 +133,7 @@ export default function markdown (inputopts = {}) {
 
     options.globals = lqglobals;
 
-    const lqengine = getLiquidEngine(options.liquidjs);
+    const lqengine = getLiquidEngine({...options.liquidjs});
     const lqengine2 = getLiquidEngine({
         ...options.liquidjs,
         tagDelimiterLeft: '{%-',
@@ -174,7 +175,7 @@ export default function markdown (inputopts = {}) {
             
             result = lqengine.parseAndRenderSync(result, {...lqglobals}, {globals: {NOHIGHTLITHGT: false}})
             // result = lqengine2.parseAndRenderSync(result, {...lqglobals}, {globals: {NOHIGHTLITHGT: true}})
-
+            
             const markedOptions = {
                 ...options.marked,
                 renderer: markedRenderer,
