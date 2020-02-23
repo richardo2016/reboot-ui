@@ -127,8 +127,9 @@ export default function markdown (inputopts = {}) {
 
     const navs = {};
     const sitedata = loadSiteData();
+    const sitedataWrapper = { data: sitedata }
     const lqglobals = {
-        site: { data: sitedata },
+        site: sitedataWrapper,
     }
 
     options.globals = lqglobals;
@@ -161,6 +162,11 @@ export default function markdown (inputopts = {}) {
                         )
                     )
                 });
+
+                const siteDataFilePath = path.resolve(options.destjsondir, `data.json`)
+                shelljs.mkdir('-p', path.dirname(siteDataFilePath))
+
+                fs.writeFileSync(siteDataFilePath, toSource(sitedataWrapper, {pretty: isProduction}))
             }
         },
 

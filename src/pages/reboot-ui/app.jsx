@@ -22,7 +22,6 @@ import { getJSON } from '../../utils/fetch'
 import { ucfirst, unprefix, prefix } from '../../utils/string'
 
 import allDocVersions from './envs/docVersions'
-import { getHTMLElementFromJSXElement } from '../../utils/react-like';
 
 const REBOOT_DOC_VERSION = process.env.REBOOT_DOC_VERSION
 
