@@ -19,7 +19,7 @@ import {
 } from '../../library/reboot-ui'
 
 import { getJSON } from '../../utils/fetch'
-import { ucfirst, unprefix } from '../../utils/string'
+import { ucfirst, unprefix, prefix } from '../../utils/string'
 
 import allDocVersions from './envs/docVersions'
 import { getHTMLElementFromJSXElement } from '../../utils/react-like';
@@ -124,6 +124,15 @@ export default function App () {
     fetchNavData()
   }, []);
 
+  React.useEffect(() => {
+    fetchNavData(docVersion)
+      .then((navData) => {
+        const relpathP = Object.values(navData).find(x => !!x.length)
+        if (relpathP && relpathP[0].relpath)
+          route(prefix('/', relpathP[0].relpath), true)
+      })
+  }, [docVersion])
+
   const NAVKEYS = Object.keys(navData).filter(x => x !== 'all')
 
   return (
@@ -181,6 +190,9 @@ export default function App () {
                         active && 'active'
                       )}
                       href={`/${_dversion}/`}
+                      onClick={() => {
+                        setDocVersion(_dversion)
+                      }}
                     >
                       {idx === 0 ? (
                         <>Latest (v{_dversion})</>
@@ -238,7 +250,6 @@ export default function App () {
               id="bd-docs-nav"
             >
               {NAVKEYS.map((group) => {
-
                 return (
                   <Match path={`/${docVersion}/${group}/:basename`}>
                     {({ matches, path: curRoutePath }) => {

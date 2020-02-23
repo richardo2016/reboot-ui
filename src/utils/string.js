@@ -13,3 +13,13 @@ export function unprefix (prefix = '/', str = '') {
 
     return str
 }
+
+export function prefix (prefix = '/', str = '') {
+    if (typeof prefix !== 'string') return str
+    if (typeof str !== 'string') return ''
+
+    if (str.slice(prefix.length) !== prefix)
+        str = prefix + str
+
+    return str
+}

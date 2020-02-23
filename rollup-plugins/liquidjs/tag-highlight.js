@@ -5,6 +5,8 @@
  */
 const assert = require('assert')
 
+const htmlEscaper = require('html-escaper');
+
 const { highlightCode } = require('../prism/_utils')
 
 const identifier = /[\w-]+[?]?/;
@@ -35,6 +37,7 @@ module.exports = function (Liquid) {
             let text = this.tokens.map((token) => token.raw).join('')
 
             if (!text) return ;
+
             if ([`{%-`, `-%}`, `{{-`, `-}}`].some(delimiter => ~text.indexOf(delimiter))) {
               text = text.replace(/\{\%\-/g, '{%')
               text = text.replace(/\-\%\}/g, '%}')
@@ -44,13 +47,12 @@ module.exports = function (Liquid) {
               const templates = this.liquid.parse(text)
               const html = yield this.liquid.renderer.renderTemplates(templates, ctx)
               
-              text = escape(html);
-              return highlightCode(html, this.lang);
+              return highlightCode(htmlEscaper.unescape(html), this.lang);
             }
 
             return ''
             + '```' + this.lang + '\n'
-            + text
+            + text + '\n'
             + '```' + '\n'
         },
     });
