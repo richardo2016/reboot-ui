@@ -16,7 +16,11 @@ import DropdownMenu from '../../@components/dropdown-menu/component';
  */
 export default function Dropdown ({
     disabled = false,
-    children,
+    /**
+     * @see placment option.placement in poper.js
+     */
+    placement = 'bottom-start',
+    children: childEles,
     as: _as = 'div',
     overlay: overlayJsxEl = null,
     ...props
@@ -29,14 +33,29 @@ export default function Dropdown ({
 
     const [showDropdown, setShowDropdown] = React.useState(false);
 
-    children = arraify(children).filter(x => x)
+    const children = arraify(childEles).filter(x => x)
 
-    let triggerJsxEl = children.find(child => child.dropdownTrigger) || children[0] || null
-    overlayJsxEl = overlayJsxEl || children.find(child => isReactTypeOf(child, DropdownMenu))
-    const restChildren = children.filter(x => x !== triggerJsxEl && x !== overlayJsxEl)
-    
-    if (triggerJsxEl) triggerJsxEl = React.cloneElement(triggerJsxEl, {ref: triggerElRef})
-    if (overlayJsxEl) overlayJsxEl = React.cloneElement(overlayJsxEl, {ref: overlayRef})
+    let triggerJsxElIdx = children.findIndex(child => child.props.dropdownTrigger)
+    triggerJsxElIdx = triggerJsxElIdx > -1 ? triggerJsxElIdx : 0
+    let triggerJsxEl = children[triggerJsxElIdx] || null
+    if (triggerJsxEl) {
+        triggerJsxEl = React.cloneElement(triggerJsxEl, {ref: triggerElRef})
+        if (triggerJsxElIdx > -1) children[triggerJsxElIdx] = triggerJsxEl
+    }
+
+    let overlayJsxElIdx = -1
+    if (
+        !overlayJsxEl
+        && (overlayJsxElIdx = children.findIndex(child => isReactTypeOf(child, DropdownMenu)) > -1)
+    ) {
+        overlayJsxEl = children[overlayJsxElIdx]
+    }
+    if (overlayJsxEl) {
+        overlayJsxEl = React.cloneElement(overlayJsxEl, {ref: overlayRef})
+        if (overlayJsxElIdx > -1) children[overlayJsxElIdx] = overlayJsxEl
+    }
+
+    const restChildren = children.filter(x => x !== overlayJsxEl)
 
     useClickaway(
         triggerElRef,
@@ -76,7 +95,8 @@ export default function Dropdown ({
 
         const instance = createPopper(
             getHTMLElementFromJSXElement(triggerElRef.current),
-            getHTMLElementFromJSXElement(overlayRef.current)
+            getHTMLElementFromJSXElement(overlayRef.current),
+            { placement }
         )
 
         return () => {
@@ -86,9 +106,8 @@ export default function Dropdown ({
 
     const INNER_NODE = (
         <>
-            {triggerJsxEl}
-            {showDropdown && overlayJsxEl}
             {restChildren}
+            {showDropdown && overlayJsxEl}
         </>
     )
 

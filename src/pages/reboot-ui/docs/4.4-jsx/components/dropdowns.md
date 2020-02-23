@@ -114,7 +114,7 @@ const Sample = () => {
           >
               <button type="button" class={[
                 `btn btn-${type} dropdown-toggle`
-              ]} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              ].join(' ')} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {`${type.slice(0, 1).toUpperCase()}${type.slice(1)}`}
               </button>
           </Dropdown>
@@ -166,9 +166,9 @@ const Sample = () => {
             <button type="button" class={`btn btn-${type}`} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               {`${type.slice(0, 1).toUpperCase()}${type.slice(1)}`}
             </button>
-            <button type="button" class={[
+            <button dropdownTrigger type="button" class={[
               `btn btn-${type} dropdown-toggle dropdown-toggle-split`
-            ]} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            ].join(' ')} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="sr-only">Toggle Dropdown</span>
             </button>
           </Dropdown>
