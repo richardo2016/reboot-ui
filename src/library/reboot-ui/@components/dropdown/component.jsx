@@ -24,6 +24,7 @@ export default function Dropdown ({
     children: childEles,
     as: _as = 'div',
     overlay: overlayJsxEl = null,
+    noWrap = false,
     ...props
 }) {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
@@ -114,7 +115,7 @@ export default function Dropdown ({
         </>
     )
 
-    if (!_as)
+    if (!_as || (noWrap))
         return INNER_NODE
 
     return (

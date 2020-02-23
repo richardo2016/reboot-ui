@@ -2,7 +2,7 @@ import React from 'react'
 
 import classnames from 'classnames'
 
-import { resolveJSXElement, getHTMLAttributesFromProps } from '../../utils/ui'
+import { resolveJSXElement } from '../../utils/ui'
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/button
