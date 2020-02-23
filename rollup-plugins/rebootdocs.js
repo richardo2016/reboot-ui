@@ -184,8 +184,8 @@ export default function markdown (inputopts = {}) {
 
                     return Prism.highlight(code, Prism.languages[lang], lang)
                 },
-                xhtml: false,
-                gfm: false,
+                xhtml: true,
+                gfm: true,
             }
             result = marked(result, markedOptions)
 
