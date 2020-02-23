@@ -96,6 +96,21 @@ export default function App () {
 
         return data
       })
+      .then((navData) => {
+        const navDatas = Object.values(navData);
+        const relpathP = navDatas.find(x => !!x.length)
+
+        if (relpathP) {
+          const currentMatched = navDatas.some(
+            x1 => x1.some(x2 => 
+              x2.relpath === unprefix('/', HASH_ROUTE.location.pathname)
+            )
+          )
+
+          if (!currentMatched && relpathP[0].relpath)
+            route(prefix('/', relpathP[0].relpath), true)
+        }
+      })
   }
 
   const fetchMainContent = (jsonpath = curPageData.relpath) => {
@@ -125,11 +140,6 @@ export default function App () {
 
   React.useEffect(() => {
     fetchNavData(docVersion)
-      .then((navData) => {
-        const relpathP = Object.values(navData).find(x => !!x.length)
-        if (relpathP && relpathP[0].relpath)
-          route(prefix('/', relpathP[0].relpath), true)
-      })
   }, [docVersion])
 
   const NAVKEYS = Object.keys(navData).filter(x => x !== 'all')
