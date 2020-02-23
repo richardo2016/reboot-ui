@@ -8,8 +8,6 @@ const assert = require('assert')
 const identifier = /[\w-]+[?]?/;
 const reg = new RegExp(`(${identifier.source})`)
 
-const { highlightCode } = require('../prism/_utils');
-
 module.exports = function (Liquid) {
     this.registerTag('highlight', {
         parse (tagToken, remainTokens) {
@@ -31,14 +29,19 @@ module.exports = function (Liquid) {
             stream.start()
         },
         * render (ctx) {
-            const text = this.tokens.map((token) => token.raw).join('')
+            const originalCode = this.tokens.map((token) => token.raw).join('')
 
-            if (!text) return ;
-            if ([`{%-`, `-%}`].some(delimiter => ~text.indexOf(delimiter))) return ;
+            if (!originalCode) return ;
+            if ([`{%-`, `-%}`].some(delimiter => ~originalCode.indexOf(delimiter))) return ;
 
-            if (ctx.globals.NOHIGHLIGHT) return text;
+            if (ctx.globals.NOHIGHLIGHT) return originalCode;
 
-            return highlightCode(text, this.lang)
+            const markdownCode = ''
+              + '```' + this.lang + '\n'
+              + originalCode + '\n'
+              + '```' + '\n'
+
+            return markdownCode;
         },
     });
 }

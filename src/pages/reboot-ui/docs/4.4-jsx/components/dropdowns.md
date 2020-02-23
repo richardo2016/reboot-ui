@@ -35,6 +35,7 @@ const Sample = () => {
   return (
     <>
       <Dropdown
+        as={null}
         overlay={(
           <DropdownMenu aria-labelledby="dropdownMenuButton">
             <a class="dropdown-item" href="#">Action</a>
@@ -60,6 +61,7 @@ const Sample = () => {
   return (
     <>
       <Dropdown
+        as={null}
         overlay={(
           <DropdownMenu aria-labelledby="dropdownMenuButton">
             <a class="dropdown-item" href="javascript:void(0);">Action</a>
@@ -96,33 +98,33 @@ const Sample = () => {
 
   return (
     <>
-    <div class="btn-group">
       {types.map(type =>
-        <Dropdown
-          overlay={(
-            <DropdownMenu aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="javascript:void(0)">Action</a>
-              <a class="dropdown-item" href="javascript:void(0)">Another action</a>
-              <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="javascript:void(0)">Separated link</a>
-            </DropdownMenu>
-          )}
-        >
-          <button type="button" class={[
-            `btn btn-${type} dropdown-toggle`
-          ]} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {`${type.slice(0, 1).toUpperCase()}${type.slice(1)}`}
-          </button>
-        </Dropdown>
+        <div class="btn-group mr-1">
+          <Dropdown
+            as={null}
+            overlay={(
+              <DropdownMenu aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="javascript:void(0)">Action</a>
+                <a class="dropdown-item" href="javascript:void(0)">Another action</a>
+                <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="javascript:void(0)">Separated link</a>
+              </DropdownMenu>
+            )}
+          >
+              <button type="button" class={[
+                `btn btn-${type} dropdown-toggle`
+              ]} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {`${type.slice(0, 1).toUpperCase()}${type.slice(1)}`}
+              </button>
+          </Dropdown>
+        </div>
       )}
-    </div>
     </>
   )
 }
 {% endreboot_mvvm %}
 {% include mvvm-example.html mexample=mexample_with_code %}
-{{ mexample_with_code.coloredCode }}
 
 ### Split button
 
@@ -147,36 +149,36 @@ const Sample = () => {
 
   return (
     <>
-    <div class="btn-group">
       {types.map(type =>
-        <Dropdown
-          overlay={(
-            <DropdownMenu aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="javascript:void(0)">Action</a>
-              <a class="dropdown-item" href="javascript:void(0)">Another action</a>
-              <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="javascript:void(0)">Separated link</a>
-            </DropdownMenu>
-          )}
-        >
-          <button type="button" class={`btn btn-${type} dropdown-toggle`} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {`${type.slice(0, 1).toUpperCase()}${type.slice(1)}`}
-          </button>
-          <button type="button" class={[
-            `btn btn-${type} dropdown-toggle dropdown-toggle-split`
-          ]} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="sr-only">Toggle Dropdown</span>
-          </button>
-        </Dropdown>
+        <div class="btn-group mr-1">
+          <Dropdown
+            as={null}
+            overlay={(
+              <DropdownMenu aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="javascript:void(0)">Action</a>
+                <a class="dropdown-item" href="javascript:void(0)">Another action</a>
+                <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="javascript:void(0)">Separated link</a>
+              </DropdownMenu>
+            )}
+          >
+            <button type="button" class={`btn btn-${type}`} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {`${type.slice(0, 1).toUpperCase()}${type.slice(1)}`}
+            </button>
+            <button type="button" class={[
+              `btn btn-${type} dropdown-toggle dropdown-toggle-split`
+            ]} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+          </Dropdown>
+        </div>
       )}
-    </div>
     </>
   )
 }
 {% endreboot_mvvm %}
 {% include mvvm-example.html mexample=mexample_with_code %}
-{{ mexample_with_code.coloredCode }}
 
 ## Sizing
 

@@ -6,6 +6,7 @@ import uglify from 'rollup-plugin-uglify';
 import copyGlob from 'rollup-plugin-copy-glob';
 
 import buble from '@rollup/plugin-buble';
+import babel from 'rollup-plugin-babel';
 
 import alias from '@rollup/plugin-alias';
 import resolveAliases from 'rollup-plugin-resolve-aliases'
@@ -34,6 +35,8 @@ function getConfigItem (name, opts) {
 		mvvm_type = 'preact',
 
 		app_type = 'pages',
+		babel_options = undefined,
+
 		production: isProduction = production,
 		postConfig,
 		name: umdName = '',
@@ -54,7 +57,8 @@ function getConfigItem (name, opts) {
 		format = app_type === 'sdks' ? 'umd' : 'iife'
 	} = opts || {}
 
-	const use_buble = use_preact || use_react || app_type === 'sdks';
+	const use_babel = !!babel_options;
+	const use_buble = !use_babel && (use_react || use_preact || app_type === 'sdks');
 
 	const rollup_cfg = {
 		input: `src/${app_type}/${name}/index.js`,
@@ -82,6 +86,17 @@ function getConfigItem (name, opts) {
 			image(),
 			use_buble && buble({
 				objectAssign: 'Object.assign',
+			}),
+			use_babel && babel({
+				babelrc: false,
+				exclude: 'node_modules/**',
+				presets: [
+					[ '@babel/preset-env', {
+						"modules": false
+					} ],
+					(use_react || use_preact) && '@babel/preset-react'
+				].filter(x => x),
+				...babel_options
 			}),
 			
 			resolve({
@@ -158,13 +173,15 @@ export default [
 		format: 'umd',
 		name: 'RebootUI',
 		mvvm_type: 'preact',
-		app_type: 'library'
+		app_type: 'library',
+		babel_options: {},
 	}),
 	getConfigItem('reboot-ui', {
 		format: 'iife',
 		name: 'RebootUIDocs',
 		mvvm_type: 'preact',
 		app_type: 'pages',
+		babel_options: {},
 		postConfig: (rollup_cfg) => {
 			const basedir = path.resolve(__dirname, `./src/pages/reboot-ui/docs/`)
 			const destdir = path.resolve(__dirname, `./build/pages/reboot-ui/static/docs/`)

@@ -5,12 +5,57 @@ import { createFilter } from '@rollup/pluginutils';
 
 import marked from 'marked'
 import shelljs from 'shelljs'
-
 import YAML from 'js-yaml'
+import htmlEscaper from 'html-escaper'
 
 import { Liquid } from '@reboot-ui/liquidjs';
+import Prism from './prism/index'
 
 import { isProduction } from './build-env'
+
+/**
+ * @description for customize marked render
+ */
+function getMarkedRender () {
+    const renderer = new marked.Renderer();
+    const origCode = renderer.code;
+
+    function wrapToFigureTag(html) {
+        return ''
+        + '<figure class="highlight">'
+        + html
+        + '</figure>\n';
+    }
+
+    renderer.code = function (code, infostring, escaped) {
+        let lang = (infostring || '').match(/\S*/)[0];
+        
+        switch (lang) {
+            case 'reboot_jsx':
+                lang = 'jsx';
+                code = Prism.highlight(htmlEscaper.unescape(code), Prism.languages[lang], lang)
+
+                const html = ''
+                + `<pre><code class="${this.options.langPrefix}${escape(lang, true)}">`
+                + code
+                + '</code></pre>\n'
+
+                return ''
+                + `<div class="bd-clipboard">
+                    <button type="button" class="btn-clipboard" title="" data-original-title="Copy to clipboard">
+                        Copy
+                    </button>
+                </div>`
+                + wrapToFigureTag(html);
+            default:
+                return wrapToFigureTag(
+                    origCode.call(this, code, infostring, escaped)
+                );
+        }
+      }
+
+    return renderer
+}
 
 function getLiquidEngine (options = {}) {
     const lqengine = new Liquid(options);
@@ -75,7 +120,7 @@ function normalizeToPosixPath (relpath) {
 }
 
 // export a function that can take configuration options
-const markdown = (inputopts = {}) => {
+export default function markdown (inputopts = {}) {
     const options = Object.assign({}, defaults, inputopts);
 
     // include or exclude files
@@ -98,6 +143,8 @@ const markdown = (inputopts = {}) => {
         outputDelimiterRight: '-}}',
     });
 
+    const markedRenderer = getMarkedRender();
+
     const plugin = {
         name: 'rebootdocs',
 
@@ -107,7 +154,13 @@ const markdown = (inputopts = {}) => {
                     const jsonpath = path.resolve(options.destjsondir, `${versionType}/manifest.json`)
                     shelljs.mkdir('-p', path.dirname(jsonpath))
 
-                    fs.writeFileSync(jsonpath, toSource(sortNavs(navs[versionType]), { pretty: !isProduction }))
+                    fs.writeFileSync(
+                        jsonpath,
+                        toSource(
+                            sortNavs(navs[versionType]),
+                            { pretty: !isProduction }
+                        )
+                    )
                 });
             }
         },
@@ -122,14 +175,20 @@ const markdown = (inputopts = {}) => {
             let result = fm.body
             
             result = lqengine.parseAndRenderSync(result, {...lqglobals}, {globals: {NOHIGHTLITHGT: false}})
-            result = lqengine2.parseAndRenderSync(result, {...lqglobals}, {globals: {NOHIGHTLITHGT: true}})
+            // result = lqengine2.parseAndRenderSync(result, {...lqglobals}, {globals: {NOHIGHTLITHGT: true}})
 
             const markedOptions = {
-                highlight: undefined,
                 ...options.marked,
+                renderer: markedRenderer,
+                highlight: (code, lang) => {
+                    if (!Prism.languages[lang]) return code;
+
+                    return Prism.highlight(code, Prism.languages[lang], lang)
+                },
+                xhtml: false,
+                gfm: false,
             }
             result = marked(result, markedOptions)
-            /* transform :end */
 
             const basedir = path.normalize(options.basedir)
             const relname = path.relative(basedir, id)
@@ -174,7 +233,4 @@ const markdown = (inputopts = {}) => {
     };
 
     return plugin;
-
 };
-
-export default markdown;

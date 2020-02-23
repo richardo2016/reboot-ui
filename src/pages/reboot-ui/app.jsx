@@ -5,6 +5,8 @@ import Router, { route } from 'preact-router';
 import Match, { Link } from 'preact-router/match';
 import { createHashHistory } from 'history';
 import classnames from 'classnames'
+import Prism from 'prismjs'
+Prism.manual = true
 
 import './app.scss';
 
@@ -22,6 +24,7 @@ import { getJSON } from '../../utils/fetch'
 import { ucfirst, unprefix } from '../../utils/string'
 
 import allDocVersions from './envs/docVersions'
+import { getHTMLElementFromJSXElement } from '../../utils/react-like';
 
 const REBOOT_DOC_VERSION = process.env.REBOOT_DOC_VERSION
 
@@ -83,6 +86,8 @@ export default function App () {
   const [navData, setNavData] = React.useState(parseNavData([]));
   const [curPageData, setCurPageData] = React.useState({ relpath: null });
 
+  const mainContentRef = React.useRef(null);
+
   const fetchNavData = (dv = docVersion) => {
     // fetch initial data
     return getJSON(`${window.__static_prefix__}/docs/${dv}/manifest.json`)
@@ -110,6 +115,7 @@ export default function App () {
 
         setTimeout(() => {
           evalDocJs();
+          // if (mainContentRef.current) Prism.highlightAllUnder(getHTMLElementFromJSXElement(mainContentRef.current), true)
         }, 50);
 
         return json;
@@ -197,7 +203,10 @@ export default function App () {
           </Dropdown>
         </ul>
       </Navbar>
-      <Layout.Container className="app" fluid>
+      <Layout.Container
+        fluid
+        ref={mainContentRef}
+      >
         <Layout.Row className="flex-xl-nowrap">
           <Layout.Col className="bd-sidebar" md={{ span: 3 }} xl={{ span: 2 }}>
             <form role="search" class="bd-search d-flex align-items-center">
@@ -297,7 +306,10 @@ export default function App () {
                 <Layout.Col
                   {...idx === 0 && { default: true }}
                   path={`/${component.relpath}`}
-                  as="main" className="py-md-3 pl-md-5 bd-content" md={{ span: 9 }} xl={{ span: 8 }}
+                  as="main"
+                  className="py-md-3 pl-md-5 bd-content"
+                  md={{ span: 9 }}
+                  xl={{ span: 8 }}
                   {...curPageData.html && {
                     dangerouslySetInnerHTML: { __html: curPageData.html }
                   }}

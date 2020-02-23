@@ -33,6 +33,7 @@ export default function Dropdown ({
 
     let triggerJsxEl = children.find(child => child.dropdownTrigger) || children[0] || null
     overlayJsxEl = overlayJsxEl || children.find(child => isReactTypeOf(child, DropdownMenu))
+    const restChildren = children.filter(x => x !== triggerJsxEl && x !== overlayJsxEl)
     
     if (triggerJsxEl) triggerJsxEl = React.cloneElement(triggerJsxEl, {ref: triggerElRef})
     if (overlayJsxEl) overlayJsxEl = React.cloneElement(overlayJsxEl, {ref: overlayRef})
@@ -83,6 +84,17 @@ export default function Dropdown ({
         }
     }, [showDropdown])
 
+    const INNER_NODE = (
+        <>
+            {triggerJsxEl}
+            {showDropdown && overlayJsxEl}
+            {restChildren}
+        </>
+    )
+
+    if (!_as)
+        return INNER_NODE
+
     return (
         <JSXEl
             {...props}
@@ -93,8 +105,7 @@ export default function Dropdown ({
                 'dropdown'
             ])}
         >
-            {triggerJsxEl}
-            {showDropdown && overlayJsxEl}
+            {INNER_NODE}
         </JSXEl>
     )
 }

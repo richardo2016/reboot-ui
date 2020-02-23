@@ -4,14 +4,11 @@
  * @param Liquid: provides facilities to implement tags and filters.
  */
 const buble = require('buble');
-const htmlEscaper = require('html-escaper')
 
 const assert = require('assert')
 
 const identifier = /[\w-]+[?]?/;
 const reg = new RegExp(`(${identifier.source})`)
-
-const { highlightCode } = require('../prism/_utils');
 
 function md5 (input) {
   const crypto = require('crypto');
@@ -51,16 +48,20 @@ module.exports = function (Liquid) {
             let { code: output } = buble.transform(source, {
               jsx: 'React.createElement'
             })
-
-            const coloredCode = ctx.globals.NOHIGHLIGHT ? originalCode : highlightCode(originalCode, 'js');
+              
+            const markdownCode = ''
+              + '```reboot_jsx' + '\n'
+              + originalCode + '\n'
+              + '```' + '\n'
             
             ctx.front()[this.mvvm_type] = {
-              js: output,
               uuid,
               id: sampleElId,
               mvvm_type: this.mvvm_type,
+              
+              clientRenderJs: output,
               originalCode,
-              coloredCode,
+              markdownCode
             };
         },
     });

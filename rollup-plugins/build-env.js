@@ -1,1 +1,1 @@
-export const isProduction = !process.env.ROLLUP_WATCH
+export const isProduction = process.env.NODE_ENV === 'production'

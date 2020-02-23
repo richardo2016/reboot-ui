@@ -1,19 +1,10 @@
-const Prism = require('prismjs')
-require('prismjs/components/prism-scss')
-require('prismjs/components/prism-sass')
-require('prismjs/components/prism-bash')
-require('prismjs/components/prism-powershell')
-require('prismjs/components/prism-jsx')
-require('prismjs/components/prism-typescript')
-
-const htmlEscaper = require('html-escaper');
-
-function filterPrismLang (lang) {
+export function filterPrismLang (lang) {
     switch (lang) {
         case 'html':
         case 'xml':
             break
-        case 'js':
+        case 'js': lang = 'javascript'
+            break
         case 'javascript':
         case 'jsx':
         case 'typescript':
@@ -38,19 +29,41 @@ function filterPrismLang (lang) {
     return lang
 }
 
-exports.highlightCode = (code, lang) => {
+export function wrapHtml (code, lang) {
+    return /* htmlEscaper.escape */(`\
+<div class="bd-clipboard">
+    <button type="button" class="btn-clipboard" title="" data-original-title="Copy to clipboard">
+        Copy
+    </button>
+</div>
+<figure class="highlight"><pre><code class="language-${lang}" data-lang="${lang}">${code}</code></pre></figure>
+`)
+}
+
+export const highlightCode = (
+    code,
+    lang,
+    {
+        noWrapHTML = false,
+        useClientHighlight = false
+    } = {}
+) => {
     filterPrismLang(lang);
 
-    code = htmlEscaper.unescape(code);
+    code = code.trim();
 
-    return /* htmlEscaper.escape */(`\
-<div class="bd-clipboard">\
-    <button type="button" class="btn-clipboard" title="" data-original-title="Copy to clipboard">\
-        Copy\
-    </button>\
-</div>\
-<figure class="highlight">
-    <pre><code class="language-${lang}" data-lang="${lang}">${Prism.highlight(code, Prism.languages[lang], lang)}</code></pre>
-</figure>
-`)
+    const nw = Prism.plugins.NormalizeWhitespace;
+    code = nw.normalize(code, {
+        'remove-trailing': true,
+        'remove-indent': true,
+        'left-trim': true,
+        'right-trim': true,
+    });
+
+    if (useClientHighlight)
+        return noWrapHTML ? code : wrapHtml(code, lang)
+
+    const colored = Prism.highlight(code, Prism.languages[lang], lang);
+
+    return noWrapHTML ? colored : wrapHtml(colored, lang)
 }
