@@ -7,29 +7,27 @@ group: components
 
 ## Example
 
-{% capture example %}
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item active" aria-current="page">Home</li>
-  </ol>
-</nav>
-
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Library</li>
-  </ol>
-</nav>
-
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item"><a href="#">Library</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Data</li>
-  </ol>
-</nav>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Breadcrumb>
+        <Breadcrumb.Item active aria-current="page">Home</Breadcrumb.Item>
+      </Breadcrumb>
+      <Breadcrumb>
+        <Breadcrumb.Item><a href="#">Home</a></Breadcrumb.Item>
+        <Breadcrumb.Item active aria-current="page">Library</Breadcrumb.Item>
+      </Breadcrumb>
+      <Breadcrumb>
+        <Breadcrumb.Item><a href="#">Home</a></Breadcrumb.Item>
+        <Breadcrumb.Item><a href="#">Library</a></Breadcrumb.Item>
+        <Breadcrumb.Item active aria-current="page">Data</Breadcrumb.Item>
+      </Breadcrumb>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Changing the separator
 

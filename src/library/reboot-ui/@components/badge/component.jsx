@@ -9,7 +9,6 @@ import { resolveJSXElement, getHTMLAttributesFromProps } from '../../utils/ui'
  */
 function Badge ({
     children,
-    divider = false,
     as: _as = 'span',
     type = '',
     pill = false,
