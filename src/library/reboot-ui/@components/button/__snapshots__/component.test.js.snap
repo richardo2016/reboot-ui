@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button - html attributes 1`] = `
+<button
+  className="btn"
+  type="button"
+>
+  Reboot UI
+</button>
+`;
+
+exports[`Button - html attributes 2`] = `
+<button
+  className="btn"
+  type="button"
+>
+  Reboot UI
+</button>
+`;
+
+exports[`Button - html attributes 3`] = `
+<button
+  className="btn"
+  type="button"
+>
+  Reboot UI
+</button>
+`;

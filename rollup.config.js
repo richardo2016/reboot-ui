@@ -125,18 +125,16 @@ function getConfigItem (name, opts) {
 		rollup_cfg.external = [ 'react', 'react-dom' ]
 
 		rollup_cfg.plugins.push(
-			copyGlob(
-				[
-					{
-						files: 'node_modules/react/umd/react.production.min.js',
-						dest: `build/${app_type}/${name}/cdn`
-					},
-					{
-						files: 'node_modules/react-dom/umd/react-dom.production.min.js',
-						dest: `build/${app_type}/${name}/cdn`
-					}
-				]
-			)
+			copyGlob([
+				{
+					files: 'node_modules/react/umd/react.production.min.js',
+					dest: `build/${app_type}/${name}/cdn`
+				},
+				{
+					files: 'node_modules/react-dom/umd/react-dom.production.min.js',
+					dest: `build/${app_type}/${name}/cdn`
+				}
+			])
 		)
 	} else if (use_preact) {
 		rollup_cfg.plugins.unshift(
@@ -175,6 +173,14 @@ export default [
 		mvvm_type: 'preact',
 		app_type: 'library',
 		babel_options: {},
+		postConfig: (rollup_cfg) => {
+			rollup_cfg.output.globals = {
+				'react': 'React',
+				'react-dom': 'ReactDOM',
+				'preact': 'preact',
+			}
+			rollup_cfg.external = [ 'react', 'react-dom', 'preact' ]
+		}
 	}),
 	getConfigItem('reboot-ui', {
 		format: 'iife',
@@ -190,7 +196,6 @@ export default [
 
 			rollup_cfg.plugins.unshift(
 				replace({
-					// no `moment` used
 					'process.env.REBOOT_DOC_VERSION': JSON.stringify(REBOOT_DOC_VERSION),
 					[`process.env.REBOOT_DOC_VERSIONS`]: JSON.stringify(allDocVersions.join(';')),
 				}),
