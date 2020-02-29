@@ -22,6 +22,46 @@ Click the buttons below to show and hide another element via class changes:
 
 You can use a link with the `href` attribute, or a button with the `data-target` attribute. In both cases, the `data-toggle="collapse"` is required.
 
+
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  const [collapse, setCollapse] = React.useState(true)
+
+  return (
+    <>
+      <p>
+        <Button
+          href="javascript:void(0)"
+          type="link"
+          className="mr-1"
+          aria-controls="collapseExample"
+          onClick={() => {
+            setCollapse(!collapse)
+          }}
+        >
+          Link with href
+        </Button>
+        <Button
+          type="primary"
+          aria-controls="collapseExample"
+          onClick={() => {
+            setCollapse(!collapse)
+          }}
+        >
+          Button with data-target
+        </Button>
+      </p>
+      <Collapse collapse={collapse}>
+        <div class="card card-body">
+          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+        </div>
+      </Collapse>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
+
 {% capture example %}
 <p>
   <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">

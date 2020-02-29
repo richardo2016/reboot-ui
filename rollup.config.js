@@ -17,7 +17,8 @@ import image from '@rollup/plugin-image';
 import cleanup from 'rollup-plugin-cleanup';
 import rebootdocs from './rollup-plugins/rebootdocs';
 
-import preactHooks from 'preact/hooks';
+import reactNamedExports from './rollup-cjs-named-exports/react-named-exports';
+import preactNamedExports from './rollup-cjs-named-exports/preact-named-exports';
 
 import shelljs from 'shelljs'
 
@@ -106,13 +107,12 @@ function getConfigItem (name, opts) {
 			}),
 			commonjs({
 				namedExports: {
+					...use_react && reactNamedExports,
 					// add hooks exports when using preact, but you still need to import 'preact/hooks' and patch preact by your self,
-					[path.resolve(__dirname,  './node_modules/preact/dist/preact.js')]: Object.keys(preactHooks),
-					[path.resolve(__dirname,  './node_modules/preact/dist/preact.module.js')]: Object.keys(preactHooks),
-					[path.resolve(__dirname,  './node_modules/preact/dist/preact.umd.js')]: Object.keys(preactHooks)
+					...use_preact && preactNamedExports,
 				},
 				sourceMap: !isProduction
-			}), // converts date-fns to ES modules
+			}),
 			isProduction && uglify(), // minify, but only in production
 		]
 	}

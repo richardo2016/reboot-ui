@@ -19,8 +19,6 @@ function Button ({
     __htmlAttributes,
     ...props
 }, ref) {
-    const JSXEl = resolveJSXElement(_as, { allowedHTMLTags: ['button', 'input', 'a'] });
-
     switch (type) {
         case 'primary':
         case 'secondary':
@@ -33,11 +31,14 @@ function Button ({
             break
         case 'link':
             outline = false
+            _as = 'a'
             break
         default:
             type = ''
             break
     }
+
+    const JSXEl = resolveJSXElement(_as, { allowedHTMLTags: ['button', 'input', 'a'] });
 
     switch (size) {
         case 'lg':

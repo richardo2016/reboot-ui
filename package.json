@@ -30,7 +30,8 @@
     "history": "^4.10.1",
     "preact": "^10.3.2",
     "preact-async-route": "^2.2.1",
-    "preact-router": "^3.2.1"
+    "preact-router": "^3.2.1",
+    "react-transition-group": "^4.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
