@@ -14,6 +14,7 @@ import replace from '@rollup/plugin-replace';
 import pug from 'rollup-plugin-pug';
 import postcss from 'rollup-plugin-postcss';
 import image from '@rollup/plugin-image';
+import json from '@rollup/plugin-json';
 import cleanup from 'rollup-plugin-cleanup';
 import rebootdocs from './rollup-plugins/rebootdocs';
 
@@ -86,6 +87,7 @@ function getConfigItem (name, opts) {
 			}),
 			pug(),
 			image(),
+			json(),
 			use_buble && buble({
 				objectAssign: 'Object.assign',
 			}),
@@ -209,6 +211,7 @@ export default [
 					writeFileOnly: true,
 					basedir: basedir,
 					destjsondir: destdir,
+					sourcecodedir: path.resolve(__dirname, `./src/`),
 					liquidjs: {
 						root: LIQUID_INCLUDE_BASE,
 						extname: '',

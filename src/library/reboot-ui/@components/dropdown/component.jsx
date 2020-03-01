@@ -4,8 +4,9 @@ import classnames from 'classnames'
 
 // import { createPopper } from '@popperjs/core';
 import { createPopper } from '@popperjs/core/lib/popper-lite';
-import flip from '@popperjs/core/lib/modifiers/flip';
-import preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow';
+import cpm_flip from '@popperjs/core/lib/modifiers/flip';
+import cpm_preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow';
+import cpm_offset from '@popperjs/core/lib/modifiers/offset';
 
 import { resolveJSXElement } from '../../utils/ui'
 import { filterPlacement } from '../../utils/poper'
@@ -34,7 +35,6 @@ export default function Dropdown ({
     noWrap = false,
     ...props
 }) {
-    placement = filterPlacement(placement)
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
     
     const wrapperRef = React.useRef(null)
@@ -130,8 +130,9 @@ export default function Dropdown ({
                 placement: overlayPlacement,
                 ...poperOptions,
                 modifiers: dedupe([
-                    flip,
-                    preventOverflow,
+                    cpm_flip,
+                    cpm_preventOverflow,
+                    cpm_offset,
                     ...(poperOptions.modifiers || []),
                 ])
             }

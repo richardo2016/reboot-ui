@@ -165,8 +165,18 @@ export default function markdown (inputopts = {}) {
 
                 const siteDataFilePath = path.resolve(options.destjsondir, `data.json`)
                 shelljs.mkdir('-p', path.dirname(siteDataFilePath))
-
                 fs.writeFileSync(siteDataFilePath, toSource(sitedataWrapper, {pretty: isProduction}))
+            }
+
+            if (options.sourcecodedir) {
+                const sourceDataFilePath = path.resolve(options.sourcecodedir, './library/reboot-ui/@data/data.json')
+                shelljs.mkdir('-p', path.dirname(sourceDataFilePath))
+                if (!fs.existsSync(sourceDataFilePath))
+                    fs.writeFileSync(sourceDataFilePath, toSource({
+                        breakpoints: sitedataWrapper.data.breakpoints,
+                        colors: sitedataWrapper.data.colors,
+                        'theme-colors': sitedataWrapper.data['theme-colors'],
+                    }, {pretty: isProduction}))
             }
         },
 
