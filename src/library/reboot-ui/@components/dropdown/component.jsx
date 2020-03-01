@@ -1,17 +1,23 @@
 import React from 'react'
 
+import classnames from 'classnames'
+
 // import { createPopper } from '@popperjs/core';
 import { createPopper } from '@popperjs/core/lib/popper-lite';
 import flip from '@popperjs/core/lib/modifiers/flip';
 import preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow';
 
 import { resolveJSXElement } from '../../utils/ui'
+import { filterPlacement } from '../../utils/poper'
 import { dedupe } from '../../../../utils/array';
 import useClickaway from '../../../../utils/react-hooks/use-clickaway';
 import { isReactTypeOf, getHTMLElementFromJSXElement, parseChildrenProp, rclassnames } from '../../../../utils/react-like'
 
 import DropdownMenu from '../../@components/dropdown-menu/component';
 import DropdownItem from '../../@components/dropdown-item/component';
+import Button from '../../@components/button/component';
+
+const DropdownCtx = React.createContext()
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/dropdown/#supported-content
@@ -29,6 +35,7 @@ export default function Dropdown ({
     noWrap = false,
     ...props
 }) {
+    placement = filterPlacement(placement)
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
     
     const wrapperRef = React.useRef(null)
@@ -119,10 +126,10 @@ export default function Dropdown ({
     }, [showDropdown])
 
     const INNER_NODE = (
-        <>
+        <DropdownCtx.Provider value={{ placement }}>
             {restChildren}
             {showDropdown && overlayJsxEl}
-        </>
+        </DropdownCtx.Provider>
     )
 
     if (!_as || noWrap)
@@ -153,24 +160,97 @@ function Toggle ({
     children,
     as: _as = 'div',
     split = false,
+    type,
+    label,
+    size,
     ...props
 }, ref) {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
 
-    return (
-        <JSXEl
-            {...props}
-            ref={ref}
-            data-toggle="dropdown"
-            // aria-haspopup="true"
-            // aria-expanded="false"
-            className={rclassnames(props, [
+    const FinalJSX = ({ children }) => {
+        return (
+            <JSXEl
+                className={rclassnames(props, [
+                    'btn-group',
+                    !isCaretPlaceLeft && directionCls
+                ])}
+            >
+                {children}
+            </JSXEl>
+        )
+    }
+    
+    const buttonType = type;
+    const buttonLabel = label || (!split ? children : null);
+    const buttonSize = size;
+
+    if (!split)
+        return (
+            <FinalJSX>
+                <Button
+                    ref={ref}
+                    type={buttonType}
+                    size={buttonSize}
+                    data-toggle='dropdown'
+                    className={classnames([
+                        'dropdown-toggle'
+                    ])}
+                >
+                    {buttonLabel}
+                </Button>
+            </FinalJSX>
+        )
+
+    let splitedButtonGroupTuple = [
+        <Button
+            type={buttonType}
+            size={buttonSize}
+        >
+            {buttonLabel}
+        </Button>,
+        <Button
+            type={buttonType}
+            size={buttonSize}
+            {...split && { ref }}
+            data-toggle='dropdown'
+            className={classnames([
                 'dropdown-toggle',
-                split && 'dropdown-toggle-split'
+                'dropdown-toggle-split'
             ])}
         >
             {children}
-        </JSXEl>
+        </Button>
+    ]
+
+    const ddCtx = React.useContext(DropdownCtx)
+    let isCaretPlaceLeft = false, directionCls = null
+    switch (ddCtx.placement) {
+        case 'top-start':
+        case 'top-end':
+        case 'top': directionCls = 'dropup'; break;
+        case 'bottom-start':
+        case 'bottom-end':
+        case 'bottom': directionCls = 'dropbottom'; break;
+        case 'left-start':
+        case 'left-end':
+        case 'left': directionCls = 'dropleft'; isCaretPlaceLeft = true; break;
+        case 'right-start':
+        case 'right-end':
+        case 'right': directionCls = 'dropright'; break;
+        default: break
+    }
+
+    if (isCaretPlaceLeft) {
+        splitedButtonGroupTuple = splitedButtonGroupTuple.reverse()
+        splitedButtonGroupTuple[0] = (
+            <div className={`btn-group ${directionCls}`}>
+                {React.cloneElement(splitedButtonGroupTuple[0], { ref })}
+            </div>
+        )
+    }
+
+    return (
+        <FinalJSX>{splitedButtonGroupTuple}</FinalJSX>
     )
 }
 

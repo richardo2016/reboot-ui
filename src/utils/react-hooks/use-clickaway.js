@@ -24,8 +24,9 @@ export default function (
         const handler = (
             (evt) => {
                 const el = evt.target
-                let { current: clkEle } = clkEleRef;
 
+                let { current: clkEle } = clkEleRef;
+                
                 if (clkEle /* && (clkEle = getHTMLElementFromJSXElement(clkEle)) */ && clkEle.contains(el)) {
                     evt.stopPropagation();
 

@@ -109,8 +109,8 @@ const Sample = () => {
               </Dropdown.Menu>
             )}
           >
-            <Dropdown.Toggle as={Button} type={type}>
-              {`${type.slice(0, 1).toUpperCase()}${type.slice(1)}`}
+            <Dropdown.Toggle type={type}>
+              {stringUtils.ucfirst(type)}
             </Dropdown.Toggle>
           </Dropdown>
         </div>
@@ -155,10 +155,11 @@ const Sample = () => {
               </Dropdown.Menu>
             )}
           >
-            <Button type={type}>
-              {`${type.slice(0, 1).toUpperCase()}${type.slice(1)}`}
-            </Button>
-            <Dropdown.Toggle as={Button} type={type} split>
+            <Dropdown.Toggle
+              split
+              label={stringUtils.ucfirst(type)}
+              type={type}
+            >
               <span class="sr-only">Toggle Dropdown</span>
             </Dropdown.Toggle>
           </Dropdown>
@@ -193,43 +194,28 @@ const Sample = () => {
             {
               samples.map(({ split, size, labelPrefix }, idx) => {
                 return (
-                  <div
-                    class={
-                      ['btn-group', idx > 0 && 'ml-2'].filter(x => x).join(' ')
-                    }
+                  <Dropdown
+                    as={null}
+                    overlay={(
+                      <Dropdown.Menu aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="javascript:void(0)">Action</a>
+                        <a class="dropdown-item" href="javascript:void(0)">Another action</a>
+                        <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="javascript:void(0)">Separated link</a>
+                      </Dropdown.Menu>
+                    )}
                   >
-                    <Dropdown
-                      as={null}
-                      overlay={(
-                        <Dropdown.Menu aria-labelledby="dropdownMenuButton">
-                          <a class="dropdown-item" href="javascript:void(0)">Action</a>
-                          <a class="dropdown-item" href="javascript:void(0)">Another action</a>
-                          <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
-                          <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" href="javascript:void(0)">Separated link</a>
-                        </Dropdown.Menu>
-                      )}
+                    <Dropdown.Toggle
+                      class={classnames([idx > 0 && 'ml-2'])}
+                      type="secondary"
+                      label={split ? `${labelPrefix} split button` : `${labelPrefix} button`}
+                      size={size}
+                      split={split}
                     >
-                      {split ? (
-                        <>
-                          <Button type="secondary" size={size}>
-                            {labelPrefix} split button
-                          </Button>
-                          <Dropdown.Toggle as={Button} type="secondary" size={size} split>
-                            <span class="sr-only">Toggle Dropdown</span>
-                          </Dropdown.Toggle>
-                        </>
-                      ) : (
-                        <Dropdown.Toggle
-                          as={Button}
-                          type="secondary"
-                          size={size}
-                        >
-                          {labelPrefix} button
-                        </Dropdown.Toggle>
-                      )}
-                    </Dropdown>
-                  </div>
+                      <span class="sr-only">Toggle Dropdown</span>
+                    </Dropdown.Toggle>
+                  </Dropdown>
                 )
               })
             }
@@ -262,44 +248,44 @@ const Sample = () => {
           {split: true, placement: 'top', className: 'dropup', label: `Split dropup`},
         ],
         [
-          {split: false, placement: 'top-end', className: 'dropup', label: `Dropup end`},
-          {split: true, placement: 'top-end', className: 'dropup', label: `Split dropup end`},
+          {split: false, placement: 'top-end', label: `Dropup end`},
+          {split: true, placement: 'top-end', label: `Split dropup end`},
         ],
         [
-          {split: false, placement: 'left-start', className: 'dropleft', label: `Dropleft start`},
-          {split: true, placement: 'left-start', className: 'dropleft', label: `Split dropleft start`},
+          {split: false, placement: 'left-start', label: `Dropleft start`},
+          {split: true, placement: 'left-start', label: `Split dropleft start`},
         ],
         [
-          {split: false, placement: 'left', className: 'dropleft', label: `Dropleft`},
-          {split: true, placement: 'left', className: 'dropleft', label: `Split dropleft`},
+          {split: false, placement: 'left', label: `Dropleft`},
+          {split: true, placement: 'left', label: `Split dropleft`},
         ],
         [
-          {split: false, placement: 'left-end', className: 'dropleft', label: `Dropleft end`},
-          {split: true, placement: 'left-end', className: 'dropleft', label: `Split dropleft end`},
+          {split: false, placement: 'left-end', label: `Dropleft end`},
+          {split: true, placement: 'left-end', label: `Split dropleft end`},
         ],
         [
-          {split: false, placement: 'right-start', className: 'dropright', label: `Dropright start`},
-          {split: true, placement: 'right-start', className: 'dropright', label: `Split dropright start`},
+          {split: false, placement: 'right-start', label: `Dropright start`},
+          {split: true, placement: 'right-start', label: `Split dropright start`},
         ],
         [
-          {split: false, placement: 'right', className: 'dropright', label: `Dropright`},
-          {split: true, placement: 'right', className: 'dropright', label: `Split dropright`},
+          {split: false, placement: 'right', label: `Dropright`},
+          {split: true, placement: 'right', label: `Split dropright`},
         ],
         [
-          {split: false, placement: 'right-end', className: 'dropright', label: `Dropright end`},
-          {split: true, placement: 'right-end', className: 'dropright', label: `Split dropright end`},
+          {split: false, placement: 'right-end', label: `Dropright end`},
+          {split: true, placement: 'right-end', label: `Split dropright end`},
         ],
         [
-          {split: false, placement: 'bottom-start', className: 'dropbottom', label: `Dropbottom start`},
-          {split: true, placement: 'bottom-start', className: 'dropbottom', label: `Split dropbottom start`},
+          {split: false, placement: 'bottom-start', label: `Dropbottom start`},
+          {split: true, placement: 'bottom-start', label: `Split dropbottom start`},
         ],
         [
-          {split: false, placement: 'bottom', className: 'dropbottom', label: `Dropbottom`},
-          {split: true, placement: 'bottom', className: 'dropbottom', label: `Split dropbottom`},
+          {split: false, placement: 'bottom', label: `Dropbottom`},
+          {split: true, placement: 'bottom', label: `Split dropbottom`},
         ],
         [
-          {split: false, placement: 'bottom-end', className: 'dropbottom', label: `Dropbottom end`},
-          {split: true, placement: 'bottom-end', className: 'dropbottom', label: `Split dropbottom end`},
+          {split: false, placement: 'bottom-end', label: `Dropbottom end`},
+          {split: true, placement: 'bottom-end', label: `Split dropbottom end`},
         ],
       ].map(samples => {
         return (
@@ -307,54 +293,31 @@ const Sample = () => {
             {samples.map(({ split, placement, className, label }, idx) => {
               const isLeft = placement.indexOf('left') > -1
               return (
-                <div
-                  class={
-                    ['btn-group', className, idx > 0 && 'ml-2'].filter(x => x).join(' ')
-                  }
+                <Dropdown
+                  placement={placement}
+                  as={null}
+                  className="btn-group"
+                  overlay={(
+                    <Dropdown.Menu aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" href="javascript:void(0)">Action</a>
+                      <a class="dropdown-item" href="javascript:void(0)">Another action</a>
+                      <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="javascript:void(0)">Separated link</a>
+                    </Dropdown.Menu>
+                  )}
                 >
-                  <Dropdown
-                    placement={placement}
-                    as={isLeft ? 'div' : null}
-                    className="btn-group"
-                    overlay={(
-                      <Dropdown.Menu aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="javascript:void(0)">Action</a>
-                        <a class="dropdown-item" href="javascript:void(0)">Another action</a>
-                        <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="javascript:void(0)">Separated link</a>
-                      </Dropdown.Menu>
-                    )}
+                  <Dropdown.Toggle
+                    class={
+                      [idx > 0 && 'ml-2'].filter(x => x).join(' ')
+                    }
+                    type="secondary"
+                    label={label}
+                    split={split}
                   >
-                    {split ? (
-                      !isLeft ?
-                      (
-                        <>
-                          <Button type="secondary">{label}</Button>
-                          <Dropdown.Toggle as={Button} type="secondary" split>
-                            <span class="sr-only">Toggle Dropdown</span>
-                          </Dropdown.Toggle>
-                        </>
-                      )
-                      :
-                      (
-                        <>
-                          <Dropdown.Toggle as={Button} type="secondary" split>
-                            <span class="sr-only">Toggle Dropdown</span>
-                          </Dropdown.Toggle>
-                          <Button type="secondary">{label}</Button>
-                        </>
-                      )
-                    ) : (
-                      <Dropdown.Toggle
-                        as={Button}
-                        type="secondary"
-                      >
-                        {label}
-                      </Dropdown.Toggle>
-                    )}
-                  </Dropdown>
-                </div>
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </Dropdown.Toggle>
+                </Dropdown>
               )
             })}
           </div>

@@ -1,3 +1,4 @@
+import React from 'react'
 import { coerceInteger } from '../../../utils/coerce'
 import { arraify } from '../../../utils/array'
 
@@ -119,7 +120,7 @@ export function getClsNameListFromBreakPointConfig ({
 export function resolveJSXElement (
     inputJSXElement,
     {
-        default: defaultValue = 'div',
+        default: defaultValue = React.Fragment,
         allowedHTMLTags = undefined
     } = {}
 ) {
