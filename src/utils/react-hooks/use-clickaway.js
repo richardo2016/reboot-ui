@@ -24,7 +24,7 @@ export default function (
             (evt) => {
                 const el = evt.target
                 const { current: clkEle } = clkEleRef;
-                
+
                 if (clkEle && clkEle.contains(el)) {
                     evt.stopPropagation();
 
@@ -43,5 +43,5 @@ export default function (
         return () => {
             bubleEl.removeEventListener('click', handler)
         }
-    }, [clkEleRef, clickAway, clickIn])
+    }, [clkEleRef.current, clickAway, clickIn])
 }

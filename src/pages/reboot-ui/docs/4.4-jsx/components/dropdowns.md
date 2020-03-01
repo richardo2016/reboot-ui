@@ -174,106 +174,74 @@ const Sample = () => {
 
 Button dropdowns work with buttons of all sizes, including default and split dropdown buttons.
 
-<div class="bd-example">
-  <div class="btn-toolbar" role="toolbar">
-    <div class="btn-group">
-      <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Large button
-      </button>
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#">Separated link</a>
-      </div>
-    </div><!-- /btn-group -->
-    <div class="btn-group ml-2">
-      <button type="button" class="btn btn-lg btn-secondary">Large split button</button>
-      <button type="button" class="btn btn-lg btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span class="sr-only">Toggle Dropdown</span>
-      </button>
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#">Separated link</a>
-      </div>
-    </div><!-- /btn-group -->
-  </div><!-- /btn-toolbar -->
-  <div class="btn-toolbar" role="toolbar">
-    <div class="btn-group">
-      <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Small button
-      </button>
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#">Separated link</a>
-      </div>
-    </div><!-- /btn-group -->
-    <div class="btn-group ml-2">
-      <button type="button" class="btn btn-sm btn-secondary">Small split button</button>
-      <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span class="sr-only">Toggle Dropdown</span>
-      </button>
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#">Separated link</a>
-      </div>
-    </div><!-- /btn-group -->
-  </div><!-- /btn-toolbar -->
-</div><!-- /example -->
 
-{% highlight html %}
-<!-- Large button groups (default and split) -->
-<div class="btn-group">
-  <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Large button
-  </button>
-  <div class="dropdown-menu">
-    ...
-  </div>
-</div>
-<div class="btn-group">
-  <button class="btn btn-secondary btn-lg" type="button">
-    Large split button
-  </button>
-  <button type="button" class="btn btn-lg btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <span class="sr-only">Toggle Dropdown</span>
-  </button>
-  <div class="dropdown-menu">
-    ...
-  </div>
-</div>
-
-<!-- Small button groups (default and split) -->
-<div class="btn-group">
-  <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Small button
-  </button>
-  <div class="dropdown-menu">
-    ...
-  </div>
-</div>
-<div class="btn-group">
-  <button class="btn btn-secondary btn-sm" type="button">
-    Small split button
-  </button>
-  <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <span class="sr-only">Toggle Dropdown</span>
-  </button>
-  <div class="dropdown-menu">
-    ...
-  </div>
-</div>
-{% endhighlight %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      {[
+        [
+          {split: false, size: 'lg', labelPrefix: `Large`},
+          {split: true, size: 'lg', labelPrefix: `Large`},
+        ],
+        [
+          {split: false, size: 'sm', labelPrefix: `Small`},
+          {split: true, size: 'sm', labelPrefix: `Small`},
+        ],
+      ].map((samples) => {
+        return (
+          <div class="btn-toolbar" role="toolbar">
+            {
+              samples.map(({ split, size, labelPrefix }, idx) => {
+                return (
+                  <div
+                    class={
+                      ['btn-group', idx > 0 && 'ml-2'].filter(x => x).join(' ')
+                    }
+                  >
+                    <Dropdown
+                      as={null}
+                      overlay={(
+                        <Dropdown.Menu aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item" href="javascript:void(0)">Action</a>
+                          <a class="dropdown-item" href="javascript:void(0)">Another action</a>
+                          <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="javascript:void(0)">Separated link</a>
+                        </Dropdown.Menu>
+                      )}
+                    >
+                      {split ? (
+                        <>
+                          <Button type="secondary" size={size}>
+                            {labelPrefix} split button
+                          </Button>
+                          <Dropdown.Toggle as={Button} type="secondary" size={size} split>
+                            <span class="sr-only">Toggle Dropdown</span>
+                          </Dropdown.Toggle>
+                        </>
+                      ) : (
+                        <Dropdown.Toggle
+                          as={Button}
+                          type="secondary"
+                          size={size}
+                        >
+                          {labelPrefix} button
+                        </Dropdown.Toggle>
+                      )}
+                    </Dropdown>
+                  </div>
+                )
+              })
+            }
+          </div>
+        )
+      })}
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Directions
 

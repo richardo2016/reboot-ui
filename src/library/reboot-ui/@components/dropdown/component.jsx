@@ -7,7 +7,7 @@ import { createPopper } from '@popperjs/core';
 import { resolveJSXElement } from '../../utils/ui'
 import { arraify } from '../../../../utils/array';
 import useClickaway from '../../../../utils/react-hooks/use-clickaway';
-import { isReactTypeOf, getHTMLElementFromJSXElement } from '../../../../utils/react-like'
+import { isReactTypeOf, getHTMLElementFromJSXElement, parseChildrenProp } from '../../../../utils/react-like'
 
 import DropdownMenu from '../../@components/dropdown-menu/component';
 import DropdownItem from '../../@components/dropdown-item/component';
@@ -35,7 +35,8 @@ export default function Dropdown ({
 
     const [showDropdown, setShowDropdown] = React.useState(false);
 
-    const children = arraify(childEles).filter(x => x)
+    const { isFragment: childIsFragment, childNodeList } = parseChildrenProp(childEles)
+    const children = childNodeList.filter(x => x)
 
     let triggerJsxElIdx = children.findIndex(child => child.props.dropdownTrigger || isReactTypeOf(child, Dropdown.Toggle))
     triggerJsxElIdx = triggerJsxElIdx > -1 ? triggerJsxElIdx : 0
@@ -59,7 +60,9 @@ export default function Dropdown ({
         if (overlayJsxElIdx > -1) children[overlayJsxElIdx] = overlayJsxEl
     }
 
-    const restChildren = children.filter(x => x !== overlayJsxEl)
+    let restChildren = children.filter(x => x !== overlayJsxEl)
+    if (childIsFragment)
+        restChildren = React.cloneElement(childEles, { children: restChildren })
 
     useClickaway(
         triggerElRef,
@@ -147,7 +150,7 @@ function Toggle ({
     return (
         <JSXEl
             {...props}
-            {...ref && { ref }}
+            ref={ref}
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
             className={classnames([
                 props.className,

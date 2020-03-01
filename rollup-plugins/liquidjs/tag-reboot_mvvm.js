@@ -46,7 +46,8 @@ module.exports = function (Liquid) {
 
             source += `;ReactDOM.render(<Sample uuid={'${uuid}'} />, document.getElementById('${sampleElId}'));`
             let { code: output } = buble.transform(source, {
-              jsx: 'React.createElement'
+              jsx: 'React.createElement',
+              objectAssign: 'Object.assign',
             })
               
             const markdownCode = ''
