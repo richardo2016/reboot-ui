@@ -16,12 +16,11 @@ const Sample = () => {
     <>
       {Array.apply(null, {length: 6})
         .map((_, idx) => {
+          const JSXEl = `h${idx + 1}`
           return (
-            React.createElement(`h${idx + 1}`, null, (
-              <>
-                Example heading <Badge type="secondary">New</Badge>
-              </>
-            ))
+            <JSXEl>
+              Example heading <Badge type="secondary">New</Badge>
+            </JSXEl>
           )
         })
       }
