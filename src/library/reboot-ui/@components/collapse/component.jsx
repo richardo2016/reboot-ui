@@ -8,6 +8,7 @@ import { isReactTypeOf, getHTMLElementFromJSXElement } from '../../../../utils/r
 import useSelectorsListener from '../../../../utils/react-hooks/use-selectors-listener'
 import { arraify } from '../../../../utils/array';
 import useDefaultValue from '../../../../utils/react-hooks/use-default-value';
+import { TransitionTimeouts } from '../common';
 
 function getTransitionClass(status) {
     return transtionClasses[status] || 'collapse';
@@ -25,13 +26,6 @@ const transtionClasses = {
     [`exiting`]: 'collapsing',
     [`exited`]: 'collapse',
 }
-
-const TransitionTimeouts = {
-    Fade:     150, // $transition-fade
-    Collapse: 350, // $transition-collapse
-    Modal:    300, // $modal-transition
-    Carousel: 600, // $carousel-transition
-};
 
 function CollapseProto ({
     children,
@@ -176,6 +170,14 @@ Collapse.Uncontrolled = /* React.forwardRef */(
     }
 )
 
+Collapse.useGroup = () => {
+    const groupContext = React.createContext({
+        activeKey: null
+    })
+
+    return [groupContext]
+}
+
 /**
  * @see https://getbootstrap.com/docs/4.4/components/collapse/#supported-content
  */
@@ -191,12 +193,14 @@ Collapse.Group = function CollapseGroup ({
 }) {
     const JSXEl = resolveJSXElement(_as, { default: null, /* allowedHTMLTags: ['div'] */ });
 
+    const context = React.createContext({ activeKey })
+
     const children = arraify(childEles)
     const getAllPanels = () => {
         return children
             .map((panel, idx) => {
                 if (typeof panel === 'function')
-                    return panel({ activeKey }) || null
+                    return panel({ activeKey, context }) || null
 
                 if (isReactTypeOf(panel, Collapse))
                  return panel
