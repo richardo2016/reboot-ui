@@ -1,5 +1,6 @@
 import React from 'react'
-import { arraify } from './array'
+import { arraify, dedupe, flatten } from './array'
+import classnames from 'classnames'
 
 export function getHTMLElementFromJSXElement (jsxElement) {
     if (typeof jsxElement === 'object') {
@@ -25,4 +26,16 @@ export function parseChildrenProp (childEle) {
         childNodes,
         childNodeList: arraify(childNodes),
     }
+}
+
+export function rclassnames (props, ...args) {
+    return classnames(
+        dedupe(
+            [
+                props.className || props.class,
+            ].concat(
+                flatten(args)
+            )
+        )
+    )
 }

@@ -1,8 +1,7 @@
 import React from 'react'
 
-import classnames from 'classnames'
-
 import { resolveJSXElement } from '../../utils/ui'
+import { rclassnames } from '../../../../utils/react-like';
 
 /**
  */
@@ -16,9 +15,7 @@ export default function Table ({
     return (
         <JSXEl
             {...props}
-            className={classnames([
-                props.className,
-                props.class,
+            className={rclassnames(props, [
                 "table"
             ])}
         >

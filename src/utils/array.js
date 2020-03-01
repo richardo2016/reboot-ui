@@ -8,3 +8,16 @@ export function dedupe(list) {
 
     return Array.from(new Set(list))
 }
+
+export function flatten (listOrItem) {
+    let newList = []
+
+    if (Array.isArray(listOrItem)) {
+        listOrItem.forEach(item => {
+            newList = newList.concat(flatten(item))
+        })
+    } else
+        newList.push(listOrItem)
+
+    return newList
+}

@@ -1,8 +1,7 @@
 import React from 'react'
 
-import classnames from 'classnames'
-
 import { resolveJSXElement } from '../../utils/ui'
+import { rclassnames } from '../../../../utils/react-like';
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/dropdown/#supported-content
@@ -19,9 +18,7 @@ function DropdownItem ({
         <JSXEl
             {...props}
             {...ref && { ref }}
-            className={classnames([
-                props.className,
-                props.class,
+            className={rclassnames(props, [
                 !divider ? 'dropdown-item' : 'dropdown-divider'
             ])}
         >

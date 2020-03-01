@@ -1,8 +1,7 @@
 import React from 'react'
 
-import classnames from 'classnames'
-
 import { resolveJSXElement } from '../../utils/ui'
+import { rclassnames } from '../../../../utils/react-like';
 
 const ButtonToolbar = React.forwardRef((
     function ({
@@ -18,7 +17,7 @@ const ButtonToolbar = React.forwardRef((
                 {...props}
                 {...__htmlAttributes}
                 ref={ref}
-                className={classnames([
+                className={rclassnames(props, [
                     props.className,
                     props.class,
                     'btn-toolbar',

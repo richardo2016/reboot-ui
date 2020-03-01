@@ -1,13 +1,14 @@
 import React from 'react'
 
-import classnames from 'classnames'
-
-import { createPopper } from '@popperjs/core';
+// import { createPopper } from '@popperjs/core';
+import { createPopper } from '@popperjs/core/lib/popper-lite';
+import flip from '@popperjs/core/lib/modifiers/flip';
+import preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow';
 
 import { resolveJSXElement } from '../../utils/ui'
-import { arraify } from '../../../../utils/array';
+import { dedupe } from '../../../../utils/array';
 import useClickaway from '../../../../utils/react-hooks/use-clickaway';
-import { isReactTypeOf, getHTMLElementFromJSXElement, parseChildrenProp } from '../../../../utils/react-like'
+import { isReactTypeOf, getHTMLElementFromJSXElement, parseChildrenProp, rclassnames } from '../../../../utils/react-like'
 
 import DropdownMenu from '../../@components/dropdown-menu/component';
 import DropdownItem from '../../@components/dropdown-item/component';
@@ -21,6 +22,7 @@ export default function Dropdown ({
      * @see placment option.placement in poper.js
      */
     placement = 'bottom-start',
+    poperOptions = {},
     children: childEles,
     as: _as = 'div',
     overlay: overlayJsxEl = null,
@@ -36,6 +38,7 @@ export default function Dropdown ({
     const [showDropdown, setShowDropdown] = React.useState(false);
 
     const { isFragment: childIsFragment, childNodeList } = parseChildrenProp(childEles)
+
     const children = childNodeList.filter(x => x)
 
     let triggerJsxElIdx = children.findIndex(child => child.props.dropdownTrigger || isReactTypeOf(child, Dropdown.Toggle))
@@ -61,8 +64,8 @@ export default function Dropdown ({
     }
 
     let restChildren = children.filter(x => x !== overlayJsxEl)
-    if (childIsFragment)
-        restChildren = React.cloneElement(childEles, { children: restChildren })
+    // if (childIsFragment)
+    //     restChildren = React.cloneElement(childEles, { children: restChildren })
 
     useClickaway(
         triggerElRef,
@@ -103,7 +106,11 @@ export default function Dropdown ({
         const instance = createPopper(
             getHTMLElementFromJSXElement(triggerElRef.current),
             getHTMLElementFromJSXElement(overlayRef.current),
-            { placement }
+            {
+                placement,
+                ...poperOptions,
+                modifiers: dedupe([flip, preventOverflow, ...(poperOptions.modifiers || [])])
+            }
         )
 
         return () => {
@@ -118,21 +125,24 @@ export default function Dropdown ({
         </>
     )
 
-    if (!_as || (noWrap))
+    if (!_as || noWrap)
         return INNER_NODE
 
     return (
-        <JSXEl
-            {...props}
-            ref={wrapperRef}
-            className={classnames([
-                props.className,
-                props.class,
-                'dropdown'
-            ])}
-        >
-            {INNER_NODE}
-        </JSXEl>
+        <>
+            <JSXEl
+                {...props}
+                ref={wrapperRef}
+                className={rclassnames(props, [
+                    'dropdown'
+                ])}
+            >
+                {INNER_NODE}
+            </JSXEl>
+            {placement.indexOf('left') > -1 && (
+                <span style={{display: 'none'}} />
+            )}
+        </>
     )
 }
 
@@ -151,10 +161,10 @@ function Toggle ({
         <JSXEl
             {...props}
             ref={ref}
-            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-            className={classnames([
-                props.className,
-                props.class,
+            data-toggle="dropdown"
+            // aria-haspopup="true"
+            // aria-expanded="false"
+            className={rclassnames(props, [
                 'dropdown-toggle',
                 split && 'dropdown-toggle-split'
             ])}

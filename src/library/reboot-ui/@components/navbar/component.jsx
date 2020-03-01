@@ -1,8 +1,7 @@
 import React from 'react'
 
-import classnames from 'classnames'
-
 import { resolveJSXElement } from '../../utils/ui'
+import { rclassnames } from '../../../../utils/react-like';
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/navbar/#supported-content
@@ -24,9 +23,7 @@ export default function Navbar ({
     return (
         <JSXEl
             {...props}
-            className={classnames([
-                props.className,
-                props.class,
+            className={rclassnames(props, [
                 "navbar"
             ])}
         >

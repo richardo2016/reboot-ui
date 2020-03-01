@@ -1,8 +1,7 @@
 import React from 'react'
 
-import classnames from 'classnames'
-
 import { getClsNameListFromBreakPointConfig, resolveJSXElement } from '../../utils/ui'
+import { rclassnames } from '../../../../utils/react-like'
 
 export const Container = ({
     children,
@@ -22,13 +21,9 @@ export const Container = ({
     return (
         <div
             {...props}
-            className={
-                classnames([
-                    props.className,
-                    props.class,
-                    classnameBase
-                ])
-            }
+            className={rclassnames(props, [
+                classnameBase
+            ])}
         >
             {children}
         </div>
@@ -49,9 +44,7 @@ export const Row = ({
         <div
             {...props}
             className={
-                classnames([
-                    props.className,
-                    props.class,
+                rclassnames(props, [
                     'row'
                 ])
             }
@@ -94,13 +87,9 @@ export const Col = ({
     return (
         <JSXEl
             {...props}
-            className={
-                classnames(
-                    breakPointAboutClsList.concat([
-                        props.className,
-                    ])
-                )
-            }
+            className={rclassnames(props, [
+                breakPointAboutClsList]
+            )}
         >
             {children}
         </JSXEl>

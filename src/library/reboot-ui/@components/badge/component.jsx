@@ -1,8 +1,7 @@
 import React from 'react'
 
-import classnames from 'classnames'
-
 import { resolveJSXElement, getHTMLAttributesFromProps } from '../../utils/ui'
+import { rclassnames } from '../../../../utils/react-like';
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/badge
@@ -40,9 +39,7 @@ function Badge ({
             {...props}
             {...__htmlAttributes}
             ref={ref}
-            className={classnames([
-                props.className,
-                props.class,
+            className={rclassnames(props, [
                 'badge',
                 type && `badge-${type}`,
                 pill && `badge-pill`,

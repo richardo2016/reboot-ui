@@ -81,7 +81,8 @@ function getConfigItem (name, opts) {
 			postcss({
 				extract: true,
 				plugins: [],
-				minimize: isProduction
+				minimize: isProduction,
+				sourceMap: !isProduction
 			}),
 			pug(),
 			image(),

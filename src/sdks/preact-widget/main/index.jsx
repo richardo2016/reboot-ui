@@ -1,13 +1,12 @@
 import React from 'react'
 
-import classnames from 'classnames'
-
 const ASSETS = {
     Bg: `https://pbs.twimg.com/profile_banners/743958196138606593/1499726692/1500x500`,
     Avatar: `https://pbs.twimg.com/profile_images/1169233148003213313/9OWvs7hT_400x400.jpg`,
 }
 
 import './index.styl'
+import { rclassnames } from '../../../utils/react-like'
 
 export default ({
     ...props
@@ -15,7 +14,7 @@ export default ({
     return (
         <div
             {...props}
-            className={classnames(props.className, 'preact-twitter')}
+            className={rclassnames(props, 'preact-twitter')}
         >
             <div className="img-container bg-wrapper">
                 <img src={ASSETS.Bg} />

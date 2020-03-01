@@ -1,9 +1,7 @@
 import React from 'react'
 
-import classnames from 'classnames'
-
 import { resolveJSXElement } from '../../utils/ui'
-import { isReactTypeOf } from '../../../../utils/react-like'
+import { isReactTypeOf, rclassnames } from '../../../../utils/react-like'
 import { arraify } from '../../../../utils/array';
 
 /**
@@ -25,9 +23,7 @@ const Breadcrumb = React.forwardRef((
                 {...props}
                 {...__htmlAttributes}
                 ref={ref}
-                className={classnames([
-                    props.className,
-                    props.class,
+                className={rclassnames(props, [
                 ])}
                 aria-label="breadcrumb"
             >
@@ -54,9 +50,7 @@ const Item = React.forwardRef((
                 {...props}
                 {...__htmlAttributes}
                 ref={ref}
-                className={classnames([
-                    props.className,
-                    props.class,
+                className={rclassnames(props, [
                     'breadcrumb-item',
                     active && 'active'
                 ])}

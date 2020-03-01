@@ -1,10 +1,8 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { Transition } from 'react-transition-group';
 
-import classnames from 'classnames'
-
 import { resolveJSXElement, getHTMLAttributesFromProps } from '../../utils/ui'
-import { isReactTypeOf, getHTMLElementFromJSXElement, parseChildrenProp } from '../../../../utils/react-like'
+import { isReactTypeOf, getHTMLElementFromJSXElement, parseChildrenProp, rclassnames } from '../../../../utils/react-like'
 import useSelectorsListener from '../../../../utils/react-hooks/use-selectors-listener'
 import { arraify } from '../../../../utils/array';
 import useDefaultValue from '../../../../utils/react-hooks/use-default-value';
@@ -119,9 +117,7 @@ function CollapseProto ({
                             {...props}
                             {...ref && { ref }}
                             // data-transition-state={state}
-                            className={classnames([
-                                props.className,
-                                props.class,
+                            className={rclassnames(props, [
                                 getTransitionClass(state),
                             ])}
                             style={{
@@ -200,6 +196,8 @@ Collapse.Group = function CollapseGroup ({
     const getAllPanels = () => {
         const children = childNodeList
             .map((panel, idx) => {
+                if (!panel) return null;
+
                 if (typeof panel === 'function')
                     return panel({ activeKey, context }) || null
 
@@ -230,9 +228,7 @@ Collapse.Group = function CollapseGroup ({
     return (
         <JSXEl
             {...props}
-            className={classnames([
-                props.className,
-                props.class,
+            className={rclassnames(props, [
             ])}
         >
             {getAllPanels()}
