@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { getClsNameListFromBreakPointConfig, resolveJSXElement } from '../../utils/ui'
+import { getOffsetAboutClsNameListFromBreakPointConfig, resolveJSXElement } from '../../utils/ui'
 import { rclassnames } from '../../../../utils/react-like'
 
 export const Container = ({
@@ -78,7 +78,7 @@ export const Col = ({
     breakpoint = '',
     ...props
 }) => {
-    const breakPointAboutClsList = getClsNameListFromBreakPointConfig({ span, offset, sm, md, lg, xl })
+    const breakPointAboutClsList = getOffsetAboutClsNameListFromBreakPointConfig({ span, offset, sm, md, lg, xl })
     if (!breakPointAboutClsList)
         breakPointAboutClsList.push('col')
 

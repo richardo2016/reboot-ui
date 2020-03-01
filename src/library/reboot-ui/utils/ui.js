@@ -14,7 +14,7 @@ export function checkResponsiveBreakPoint (bk) {
         throw new Error(`[checkResponsiveBreakPoint] invalid breakpoint ${bk}!`)
 }
 
-function resolveBreakPointConfig (input) {
+function resolveOffsetAboutBreakPointConfig (input) {
     let { span: spanValue, offset: offsetValue } = input || {};
 
     return {
@@ -23,7 +23,7 @@ function resolveBreakPointConfig (input) {
     }
 }
 
-function makeClassnameFromBreadkPointConfig (prefix = 'col', { value: intValue, breakpoint = '' } = {}) {
+function makeOffsetAboutClsFromBreakPointConfig (prefix = 'col', { value: intValue, breakpoint = '' } = {}) {
     if (breakpoint)
         checkResponsiveBreakPoint(breakpoint)
 
@@ -57,13 +57,13 @@ function makeClassnameFromBreadkPointConfig (prefix = 'col', { value: intValue, 
         case 'py':
             break
         default:
-            throw new Error(`[makeBreadkPointConfigClassname] invalid make target ${prefix}!`)
+            throw new Error(`[makeOffsetAboutClsFromBreakPointConfig] invalid make target ${prefix}!`)
     }
     
     return `${prefix}-${breakpoint ? `${breakpoint}-` : ''}${intValue}`
 }
 
-export function getClsNameListFromBreakPointConfig ({
+export function getOffsetAboutClsNameListFromBreakPointConfig ({
     span = undefined,
     offset = undefined,
 
@@ -75,44 +75,92 @@ export function getClsNameListFromBreakPointConfig ({
     const breakPointAboutClsList = []
 
     if (span = coerceInteger(span))
-        breakPointAboutClsList.push( makeClassnameFromBreadkPointConfig('col', { value: span } ) )
+        breakPointAboutClsList.push( makeOffsetAboutClsFromBreakPointConfig('col', { value: span } ) )
 
     if (offset = coerceInteger(offset))
-        breakPointAboutClsList.push( makeClassnameFromBreadkPointConfig('offset', { value: offset } ) )
+        breakPointAboutClsList.push( makeOffsetAboutClsFromBreakPointConfig('offset', { value: offset } ) )
 
     let tmpResolved
     if (sm) {
-        tmpResolved = resolveBreakPointConfig(sm)
+        tmpResolved = resolveOffsetAboutBreakPointConfig(sm)
         if (tmpResolved.span)
-            breakPointAboutClsList.push( makeClassnameFromBreadkPointConfig('col', { value: tmpResolved.span, breakpoint: 'sm' } ) )
+            breakPointAboutClsList.push( makeOffsetAboutClsFromBreakPointConfig('col', { value: tmpResolved.span, breakpoint: 'sm' } ) )
         if (tmpResolved.offset)
-            breakPointAboutClsList.push( makeClassnameFromBreadkPointConfig('offset', { value: tmpResolved.offset, breakpoint: 'sm' } ) )
+            breakPointAboutClsList.push( makeOffsetAboutClsFromBreakPointConfig('offset', { value: tmpResolved.offset, breakpoint: 'sm' } ) )
     }
     
     if (md) {
-        tmpResolved = resolveBreakPointConfig(md)
+        tmpResolved = resolveOffsetAboutBreakPointConfig(md)
         if (tmpResolved.span)
-            breakPointAboutClsList.push( makeClassnameFromBreadkPointConfig('col', { value: tmpResolved.span, breakpoint: 'md' } ) )
+            breakPointAboutClsList.push( makeOffsetAboutClsFromBreakPointConfig('col', { value: tmpResolved.span, breakpoint: 'md' } ) )
         if (tmpResolved.offset)
-            breakPointAboutClsList.push( makeClassnameFromBreadkPointConfig('offset', { value: tmpResolved.offset, breakpoint: 'md' } ) )
+            breakPointAboutClsList.push( makeOffsetAboutClsFromBreakPointConfig('offset', { value: tmpResolved.offset, breakpoint: 'md' } ) )
     }
     
     if (lg) {
-        tmpResolved = resolveBreakPointConfig(lg)
+        tmpResolved = resolveOffsetAboutBreakPointConfig(lg)
         if (tmpResolved.span)
-            breakPointAboutClsList.push( makeClassnameFromBreadkPointConfig('col', { value: tmpResolved.span, breakpoint: 'lg' } ) )
+            breakPointAboutClsList.push( makeOffsetAboutClsFromBreakPointConfig('col', { value: tmpResolved.span, breakpoint: 'lg' } ) )
         if (tmpResolved.offset)
-            breakPointAboutClsList.push( makeClassnameFromBreadkPointConfig('offset', { value: tmpResolved.offset, breakpoint: 'lg' } ) )
+            breakPointAboutClsList.push( makeOffsetAboutClsFromBreakPointConfig('offset', { value: tmpResolved.offset, breakpoint: 'lg' } ) )
     }
     
     if (xl) {
-        tmpResolved = resolveBreakPointConfig(xl)
+        tmpResolved = resolveOffsetAboutBreakPointConfig(xl)
         if (tmpResolved.span)
-            breakPointAboutClsList.push( makeClassnameFromBreadkPointConfig('col', { value: tmpResolved.span, breakpoint: 'xl' } ) )
+            breakPointAboutClsList.push( makeOffsetAboutClsFromBreakPointConfig('col', { value: tmpResolved.span, breakpoint: 'xl' } ) )
         if (tmpResolved.offset)
-            breakPointAboutClsList.push( makeClassnameFromBreadkPointConfig('offset', { value: tmpResolved.offset, breakpoint: 'xl' } ) )
+            breakPointAboutClsList.push( makeOffsetAboutClsFromBreakPointConfig('offset', { value: tmpResolved.offset, breakpoint: 'xl' } ) )
     }
     
+
+    return breakPointAboutClsList
+}
+
+function resolveDirectionAboutBreakPointConfig (direction) {
+    switch (direction) {
+        case 'left':
+        case 'right':
+        case 'top':
+        case 'bottom':
+            break
+        default:
+            direction = 'top'
+    }
+
+    return direction
+}
+
+function makeDirectionAboutClsFromBreadkPointConfig (prefix = '', { direction, breakpoint }) {
+    if (breakpoint)
+        checkResponsiveBreakPoint(breakpoint)
+
+    switch (prefix) {
+        case 'dropdown-menu':
+            break
+        default:
+            throw new Error(`[makeBreadkPointConfigClassname] invalid make target ${prefix}!`)
+    }
+
+    return `${prefix}-${breakpoint ? `${breakpoint}-` : ''}${direction}`
+}
+
+export function getDirectionAboutClsNameListFromBreakPointConfig (prefix, input = {}) {
+    const breakPointAboutClsList = []
+
+    let tmpDir
+    if (input.direction) {
+        tmpDir = resolveDirectionAboutBreakPointConfig(input.direction)
+        if (tmpDir) breakPointAboutClsList.push( makeDirectionAboutClsFromBreadkPointConfig(prefix, { direction: tmpDir } ) )
+    }
+
+    VALID_RESPONSIVE_BRKPOINT.forEach(breakpoint => {
+        if (input[breakpoint]) {
+            tmpDir = resolveDirectionAboutBreakPointConfig(input[breakpoint])
+            if (tmpDir)
+                breakPointAboutClsList.push( makeDirectionAboutClsFromBreadkPointConfig(prefix, { direction: tmpDir, breakpoint } ) )
+        }
+    })
 
     return breakPointAboutClsList
 }

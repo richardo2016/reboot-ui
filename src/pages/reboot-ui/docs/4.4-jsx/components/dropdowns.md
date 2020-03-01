@@ -291,7 +291,6 @@ const Sample = () => {
         return (
           <div class="btn-toolbar" role="toolbar">
             {samples.map(({ split, placement, className, label }, idx) => {
-              const isLeft = placement.indexOf('left') > -1
               return (
                 <Dropdown
                   placement={placement}
@@ -308,9 +307,7 @@ const Sample = () => {
                   )}
                 >
                   <Dropdown.Toggle
-                    class={
-                      [idx > 0 && 'ml-2'].filter(x => x).join(' ')
-                    }
+                    class={classnames([idx > 0 && 'ml-2'])}
                     type="secondary"
                     label={label}
                     split={split}
@@ -331,29 +328,41 @@ const Sample = () => {
 
 ### Active
 
-Add `.active` to items in the dropdown to **style them as active**.
+use `active` in `Dropdown.Item` in the dropdown to **style them as active**.
 
-{% capture example %}
-<div class="dropdown-menu">
-  <a class="dropdown-item" href="#">Regular link</a>
-  <a class="dropdown-item active" href="#">Active link</a>
-  <a class="dropdown-item" href="#">Another link</a>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Dropdown.Menu>
+        <Dropdown.Item as={'a'} href="javascript:;">Regular link</Dropdown.Item>
+        <Dropdown.Item as={'a'} active href="javascript:;">Active link</Dropdown.Item>
+        <Dropdown.Item as={'a'} href="javascript:;">Another link</Dropdown.Item>
+      </Dropdown.Menu>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Disabled
 
-Add `.disabled` to items in the dropdown to **style them as disabled**.
+use `disabled` in `Dropdown.Item` in the dropdown to **style them as disabled**.
 
-{% capture example %}
-<div class="dropdown-menu">
-  <a class="dropdown-item" href="#">Regular link</a>
-  <a class="dropdown-item disabled" href="#" tabindex="-1" aria-disabled="true">Disabled link</a>
-  <a class="dropdown-item" href="#">Another link</a>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Dropdown.Menu>
+        <Dropdown.Item as={'a'} href="javascript:;">Regular link</Dropdown.Item>
+        <Dropdown.Item as={'a'} disabled href="javascript:;">Active link</Dropdown.Item>
+        <Dropdown.Item as={'a'} href="javascript:;">Another link</Dropdown.Item>
+      </Dropdown.Menu>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Menu alignment
 
@@ -364,19 +373,28 @@ By default, a dropdown menu is automatically positioned 100% from the top and al
 {% endcapture %}
 {% include callout.html content=callout type="info" %}
 
-{% capture example %}
-<div class="btn-group">
-  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Right-aligned menu
-  </button>
-  <div class="dropdown-menu dropdown-menu-right">
-    <button class="dropdown-item" type="button">Action</button>
-    <button class="dropdown-item" type="button">Another action</button>
-    <button class="dropdown-item" type="button">Something else here</button>
-  </div>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Dropdown
+        overlay={(
+          <Dropdown.Menu placement={'right'}>
+            <Dropdown.Item as={Button} type="button">Action</Dropdown.Item>
+            <Dropdown.Item as={Button} type="button">Another action</Dropdown.Item>
+            <Dropdown.Item as={Button} type="button">Something else here</Dropdown.Item>
+          </Dropdown.Menu>
+        )}
+      >
+        <Button type="secondary" class="dropdown-toggle">
+          Right-aligned menu
+        </Button>
+      </Dropdown>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Responsive alignment
 
@@ -384,35 +402,53 @@ If you want to use responsive alignment, disable dynamic positioning by adding t
 
 To align **right** the dropdown menu with the given breakpoint or larger, add `.dropdown-menu{-sm|-md|-lg|-xl}-right`.
 
-{% capture example %}
-<div class="btn-group">
-  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">
-    Left-aligned but right aligned when large screen
-  </button>
-  <div class="dropdown-menu dropdown-menu-lg-right">
-    <button class="dropdown-item" type="button">Action</button>
-    <button class="dropdown-item" type="button">Another action</button>
-    <button class="dropdown-item" type="button">Something else here</button>
-  </div>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Dropdown
+        overlay={(
+          <Dropdown.Menu placement={{lg: 'right'}}>
+            <Dropdown.Item as={Button} type="button">Action</Dropdown.Item>
+            <Dropdown.Item as={Button} type="button">Another action</Dropdown.Item>
+            <Dropdown.Item as={Button} type="button">Something else here</Dropdown.Item>
+          </Dropdown.Menu>
+        )}
+      >
+        <Button type="secondary" class="dropdown-toggle">
+          Left-aligned but right aligned when large screen
+        </Button>
+      </Dropdown>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 To align **left** the dropdown menu with the given breakpoint or larger, add `.dropdown-menu-right` and `.dropdown-menu{-sm|-md|-lg|-xl}-left`.
 
-{% capture example %}
-<div class="btn-group">
-  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">
-    Right-aligned but left aligned when large screen
-  </button>
-  <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left">
-    <button class="dropdown-item" type="button">Action</button>
-    <button class="dropdown-item" type="button">Another action</button>
-    <button class="dropdown-item" type="button">Something else here</button>
-  </div>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Dropdown
+        overlay={(
+          <Dropdown.Menu placement={{direction: 'right', lg: 'left'}}>
+            <Dropdown.Item as={Button} type="button">Action</Dropdown.Item>
+            <Dropdown.Item as={Button} type="button">Another action</Dropdown.Item>
+            <Dropdown.Item as={Button} type="button">Something else here</Dropdown.Item>
+          </Dropdown.Menu>
+        )}
+      >
+        <Button type="secondary" class="dropdown-toggle">
+          Right-aligned but left aligned when large screen
+        </Button>
+      </Dropdown>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 Note that you don't need to add a `data-display="static"` attribute to dropdown buttons in navbars, since Popper.js isn't used in navbars.
 
@@ -422,100 +458,130 @@ Note that you don't need to add a `data-display="static"` attribute to dropdown 
 
 Add a header to label sections of actions in any dropdown menu.
 
-{% capture example %}
-<div class="dropdown-menu">
-  <h6 class="dropdown-header">Dropdown header</h6>
-  <a class="dropdown-item" href="#">Action</a>
-  <a class="dropdown-item" href="#">Another action</a>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Dropdown.Menu>
+        <Dropdown.Item header>Dropdown header</Dropdown.Item>
+        <Dropdown.Item as={'a'} href="javascript:;">Action</Dropdown.Item>
+        <Dropdown.Item as={'a'} href="javascript:;">Another action</Dropdown.Item>
+      </Dropdown.Menu>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Dividers
 
 Separate groups of related menu items with a divider.
 
-{% capture example %}
-<div class="dropdown-menu">
-  <a class="dropdown-item" href="#">Action</a>
-  <a class="dropdown-item" href="#">Another action</a>
-  <a class="dropdown-item" href="#">Something else here</a>
-  <div class="dropdown-divider"></div>
-  <a class="dropdown-item" href="#">Separated link</a>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Dropdown.Menu>
+        <Dropdown.Item as={'a'} href="javascript:;">Action</Dropdown.Item>
+        <Dropdown.Item as={'a'} href="javascript:;">Another action</Dropdown.Item>
+        <Dropdown.Item as={'a'} href="javascript:;">Something else here</Dropdown.Item>
+        <Dropdown.Item divider />
+        <Dropdown.Item as={'a'} href="javascript:;">Separated link</Dropdown.Item>
+      </Dropdown.Menu>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Text
 
 Place any freeform text within a dropdown menu with text and use [spacing utilities]({{ site.baseurl }}/docs/{{ site.docs_version }}/utilities/spacing/). Note that you'll likely need additional sizing styles to constrain the menu width.
 
-{% capture example %}
-<div class="dropdown-menu p-4 text-muted" style="max-width: 200px;">
-  <p>
-    Some example text that's free-flowing within the dropdown menu.
-  </p>
-  <p class="mb-0">
-    And this is more example text.
-  </p>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Dropdown.Menu class="p-4 text-muted" style={{ maxWidth: 200 }}>
+        <p>
+          Some example text that's free-flowing within the dropdown menu.
+        </p>
+        <p class="mb-0">
+          And this is more example text.
+        </p>
+      </Dropdown.Menu>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Forms
 
 Put a form within a dropdown menu, or make it into a dropdown menu, and use [margin or padding utilities]({{ site.baseurl }}/docs/{{ site.docs_version }}/utilities/spacing/) to give it the negative space you require.
 
-{% capture example %}
-<div class="dropdown-menu">
-  <form class="px-4 py-3">
-    <div class="form-group">
-      <label for="exampleDropdownFormEmail1">Email address</label>
-      <input type="email" class="form-control" id="exampleDropdownFormEmail1" placeholder="email@example.com">
-    </div>
-    <div class="form-group">
-      <label for="exampleDropdownFormPassword1">Password</label>
-      <input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Password">
-    </div>
-    <div class="form-group">
-      <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="dropdownCheck">
-        <label class="form-check-label" for="dropdownCheck">
-          Remember me
-        </label>
-      </div>
-    </div>
-    <button type="submit" class="btn btn-primary">Sign in</button>
-  </form>
-  <div class="dropdown-divider"></div>
-  <a class="dropdown-item" href="#">New around here? Sign up</a>
-  <a class="dropdown-item" href="#">Forgot password?</a>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Dropdown.Menu>
+        <form class="px-4 py-3">
+          <div class="form-group">
+            <label for={`exampleDropdownFormEmail1${uuid}`}>Email address</label>
+            <input type="email" class="form-control" id={`exampleDropdownFormEmail1${uuid}`} placeholder="email@example.com" />
+          </div>
+          <div class="form-group">
+            <label for={`exampleDropdownFormPassword1${uuid}`}>Password</label>
+            <input type="password" class="form-control" id={`exampleDropdownFormPassword1${uuid}`} placeholder="Password" />
+          </div>
+          <div class="form-group">
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id={`dropdownCheck${uuid}`} />
+              <label class="form-check-label" for={`dropdownCheck${uuid}`}>
+                Remember me
+              </label>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Sign in</button>
+        </form>
+        <Dropdown.Item divider />
+        <Dropdown.Item as={'a'} href="javascript:;">New around here? Sign up</Dropdown.Item>
+        <Dropdown.Item as={'a'} href="javascript:;">Forgot password?</Dropdown.Item>
+      </Dropdown.Menu>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
-{% capture example %}
-<form class="dropdown-menu p-4">
-  <div class="form-group">
-    <label for="exampleDropdownFormEmail2">Email address</label>
-    <input type="email" class="form-control" id="exampleDropdownFormEmail2" placeholder="email@example.com">
-  </div>
-  <div class="form-group">
-    <label for="exampleDropdownFormPassword2">Password</label>
-    <input type="password" class="form-control" id="exampleDropdownFormPassword2" placeholder="Password">
-  </div>
-  <div class="form-group">
-    <div class="form-check">
-      <input type="checkbox" class="form-check-input" id="dropdownCheck2">
-      <label class="form-check-label" for="dropdownCheck2">
-        Remember me
-      </label>
-    </div>
-  </div>
-  <button type="submit" class="btn btn-primary">Sign in</button>
-</form>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Dropdown.Menu class="p-4">
+        <div class="form-group">
+          <label for={`exampleDropdownFormEmail2${uuid}`}>Email address</label>
+          <input type="email" class="form-control" id={`exampleDropdownFormEmail2${uuid}`} placeholder="email@example.com" />
+        </div>
+        <div class="form-group">
+          <label for={`exampleDropdownFormPassword2${uuid}`}>Password</label>
+          <input type="password" class="form-control" id={`exampleDropdownFormPassword2${uuid}`} placeholder="Password" />
+        </div>
+        <div class="form-group">
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id={`dropdownCheck2${uuid}`} />
+            <label class="form-check-label" for={`dropdownCheck2${uuid}`}>
+              Remember me
+            </label>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Sign in</button>
+      </Dropdown.Menu>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Dropdown options
 

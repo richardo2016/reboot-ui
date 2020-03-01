@@ -41,7 +41,7 @@ module.exports = function (Liquid) {
             let source = this.tokens.map((token) => token.raw).join('')
             const originalCode = source;
 
-            const uuid = md5(source);
+            const uuid = md5(source + `${Date.now()}`);
             const sampleElId = `mvvm_type${uuid}`
 
             source += `;ReactDOM.render(<Sample uuid={'${uuid}'} />, document.getElementById('${sampleElId}'));`

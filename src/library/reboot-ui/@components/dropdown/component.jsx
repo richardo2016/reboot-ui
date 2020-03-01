@@ -13,8 +13,7 @@ import { dedupe } from '../../../../utils/array';
 import useClickaway from '../../../../utils/react-hooks/use-clickaway';
 import { isReactTypeOf, getHTMLElementFromJSXElement, parseChildrenProp, rclassnames } from '../../../../utils/react-like'
 
-import DropdownMenu from '../../@components/dropdown-menu/component';
-import DropdownItem from '../../@components/dropdown-item/component';
+import {DropdownMenu, DropdownItem} from './others';
 import Button from '../../@components/button/component';
 
 const DropdownCtx = React.createContext()
@@ -31,7 +30,7 @@ export default function Dropdown ({
     poperOptions = {},
     children: childEles,
     as: _as = 'div',
-    overlay: overlayJsxEl = null,
+    overlay: dropdownJsxEl = null,
     noWrap = false,
     ...props
 }) {
@@ -40,7 +39,7 @@ export default function Dropdown ({
     
     const wrapperRef = React.useRef(null)
     const triggerElRef = React.useRef(null)
-    const overlayRef = React.createRef()
+    const dropdownPopRef = React.createRef()
 
     const [showDropdown, setShowDropdown] = React.useState(false);
 
@@ -48,7 +47,14 @@ export default function Dropdown ({
 
     const children = childNodeList.filter(x => x)
 
-    let triggerJsxElIdx = children.findIndex(child => child.props.dropdownTrigger || isReactTypeOf(child, Dropdown.Toggle))
+    let useToggleAsTrigger = false
+    let triggerJsxElIdx = children.findIndex(child => {
+        if (child.props.dropdownTrigger) return true
+        if (isReactTypeOf(child, Dropdown.Toggle)) {
+            useToggleAsTrigger = true
+        }
+        return false
+    })
     triggerJsxElIdx = triggerJsxElIdx > -1 ? triggerJsxElIdx : 0
     let triggerJsxEl = children[triggerJsxElIdx] || null
     if (triggerJsxEl) {
@@ -56,21 +62,21 @@ export default function Dropdown ({
         if (triggerJsxElIdx > -1) children[triggerJsxElIdx] = triggerJsxEl
     }
 
-    let overlayJsxElIdx = -1
+    let dropdownJsxElIdx = -1
     if (
-        !overlayJsxEl
+        !dropdownJsxEl
         && (
-            overlayJsxElIdx = children.findIndex(child => isReactTypeOf(child, DropdownMenu))
+            dropdownJsxElIdx = children.findIndex(child => isReactTypeOf(child, DropdownMenu))
         ) > -1
     ) {
-        overlayJsxEl = children[overlayJsxElIdx]
+        dropdownJsxEl = children[dropdownJsxElIdx]
     }
-    if (overlayJsxEl) {
-        overlayJsxEl = React.cloneElement(overlayJsxEl, {ref: overlayRef})
-        if (overlayJsxElIdx > -1) children[overlayJsxElIdx] = overlayJsxEl
+    if (dropdownJsxEl) {
+        dropdownJsxEl = React.cloneElement(dropdownJsxEl, {ref: dropdownPopRef})
+        if (dropdownJsxElIdx > -1) children[dropdownJsxElIdx] = dropdownJsxEl
     }
 
-    let restChildren = children.filter(x => x !== overlayJsxEl)
+    let restChildren = children.filter(x =>(x !== dropdownJsxEl))
     // if (childIsFragment)
     //     restChildren = React.cloneElement(childEles, { children: restChildren })
 
@@ -87,9 +93,9 @@ export default function Dropdown ({
 
                 if (
                     clkAwayEl
-                    && overlayRef.current
-                    && getHTMLElementFromJSXElement(overlayRef.current)
-                    && getHTMLElementFromJSXElement(overlayRef.current).contains(clkAwayEl)
+                    && dropdownPopRef.current
+                    && getHTMLElementFromJSXElement(dropdownPopRef.current)
+                    && getHTMLElementFromJSXElement(dropdownPopRef.current).contains(clkAwayEl)
                 ) return ;
                 setShowDropdown(false)
             }
@@ -97,9 +103,9 @@ export default function Dropdown ({
     )
 
     React.useLayoutEffect(() => {
-        if (overlayRef.current)
+        if (dropdownPopRef.current)
             try {
-                const _overlayEl = getHTMLElementFromJSXElement(overlayRef.current)
+                const _overlayEl = getHTMLElementFromJSXElement(dropdownPopRef.current)
 
                 if (_overlayEl.classList.contains('dropdown-menu'))
                     if (showDropdown) _overlayEl.classList.add('show')
@@ -108,15 +114,26 @@ export default function Dropdown ({
 
         if (!showDropdown) return ;
         if (!triggerElRef.current) return ;
-        if (!overlayRef.current) return ;
+        if (!dropdownPopRef.current) return ;
+
+        let overlayPlacement = placement
+        /**
+         * @TODO use breakPoint of bootstrap, resolve objective-type placement and use it.
+         */
+        if (dropdownJsxEl.props && typeof dropdownJsxEl.props.placement === 'string')
+            overlayPlacement = filterPlacement(dropdownJsxEl.props && dropdownJsxEl.props.placement)
 
         const instance = createPopper(
             getHTMLElementFromJSXElement(triggerElRef.current),
-            getHTMLElementFromJSXElement(overlayRef.current),
+            getHTMLElementFromJSXElement(dropdownPopRef.current),
             {
-                placement,
+                placement: overlayPlacement,
                 ...poperOptions,
-                modifiers: dedupe([flip, preventOverflow, ...(poperOptions.modifiers || [])])
+                modifiers: dedupe([
+                    flip,
+                    preventOverflow,
+                    ...(poperOptions.modifiers || []),
+                ])
             }
         )
 
@@ -126,9 +143,9 @@ export default function Dropdown ({
     }, [showDropdown])
 
     const INNER_NODE = (
-        <DropdownCtx.Provider value={{ placement }}>
+        <DropdownCtx.Provider value={{ placement, showDropdown, dropdownJsxEl }}>
             {restChildren}
-            {showDropdown && overlayJsxEl}
+            {showDropdown && (!useToggleAsTrigger && dropdownJsxEl)}
         </DropdownCtx.Provider>
     )
 
@@ -155,103 +172,106 @@ export default function Dropdown ({
 
 Dropdown.Menu = DropdownMenu;
 Dropdown.Item = DropdownItem;
+// Dropdown.Header = DropdownHeader;
 
-function Toggle ({
-    children,
-    as: _as = 'div',
-    split = false,
-    type,
-    label,
-    size,
-    ...props
-}, ref) {
-    const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
-
-    const FinalJSX = ({ children }) => {
-        return (
-            <JSXEl
-                className={rclassnames(props, [
-                    'btn-group',
-                    !isCaretPlaceLeft && directionCls
+Dropdown.Toggle = React.forwardRef(
+    function ({
+        children,
+        as: _as = 'div',
+        split = false,
+        type,
+        label,
+        size,
+        ...props
+    }, ref) {
+        const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
+    
+        const ddCtx = React.useContext(DropdownCtx)
+    
+        const FinalJSX = ({ children }) => {
+            return (
+                <JSXEl
+                    className={rclassnames(props, [
+                        'btn-group',
+                        !isCaretPlaceLeft && directionCls
+                    ])}
+                >
+                    {children}
+                    {ddCtx.showDropdown && ddCtx.dropdownJsxEl}
+                </JSXEl>
+            )
+        }
+        
+        const buttonType = type;
+        const buttonLabel = label || (!split ? children : null);
+        const buttonSize = size;
+    
+        if (!split)
+            return (
+                <FinalJSX>
+                    <Button
+                        ref={ref}
+                        type={buttonType}
+                        size={buttonSize}
+                        data-toggle='dropdown'
+                        className={classnames([
+                            'dropdown-toggle'
+                        ])}
+                    >
+                        {buttonLabel}
+                    </Button>
+                </FinalJSX>
+            )
+    
+        let splitedButtonGroupTuple = [
+            <Button
+                type={buttonType}
+                size={buttonSize}
+            >
+                {buttonLabel}
+            </Button>,
+            <Button
+                type={buttonType}
+                size={buttonSize}
+                {...split && { ref }}
+                data-toggle='dropdown'
+                className={classnames([
+                    'dropdown-toggle',
+                    'dropdown-toggle-split'
                 ])}
             >
                 {children}
-            </JSXEl>
-        )
-    }
+            </Button>
+        ]
     
-    const buttonType = type;
-    const buttonLabel = label || (!split ? children : null);
-    const buttonSize = size;
-
-    if (!split)
+        let isCaretPlaceLeft = false, directionCls = null
+        switch (ddCtx.placement) {
+            case 'top-start':
+            case 'top-end':
+            case 'top': directionCls = 'dropup'; break;
+            case 'bottom-start':
+            case 'bottom-end':
+            case 'bottom': directionCls = 'dropbottom'; break;
+            case 'left-start':
+            case 'left-end':
+            case 'left': directionCls = 'dropleft'; isCaretPlaceLeft = true; break;
+            case 'right-start':
+            case 'right-end':
+            case 'right': directionCls = 'dropright'; break;
+            default: break
+        }
+    
+        if (isCaretPlaceLeft) {
+            splitedButtonGroupTuple = splitedButtonGroupTuple.reverse()
+            splitedButtonGroupTuple[0] = (
+                <div className={`btn-group ${directionCls}`}>
+                    {React.cloneElement(splitedButtonGroupTuple[0], { ref })}
+                </div>
+            )
+        }
+    
         return (
-            <FinalJSX>
-                <Button
-                    ref={ref}
-                    type={buttonType}
-                    size={buttonSize}
-                    data-toggle='dropdown'
-                    className={classnames([
-                        'dropdown-toggle'
-                    ])}
-                >
-                    {buttonLabel}
-                </Button>
-            </FinalJSX>
-        )
-
-    let splitedButtonGroupTuple = [
-        <Button
-            type={buttonType}
-            size={buttonSize}
-        >
-            {buttonLabel}
-        </Button>,
-        <Button
-            type={buttonType}
-            size={buttonSize}
-            {...split && { ref }}
-            data-toggle='dropdown'
-            className={classnames([
-                'dropdown-toggle',
-                'dropdown-toggle-split'
-            ])}
-        >
-            {children}
-        </Button>
-    ]
-
-    const ddCtx = React.useContext(DropdownCtx)
-    let isCaretPlaceLeft = false, directionCls = null
-    switch (ddCtx.placement) {
-        case 'top-start':
-        case 'top-end':
-        case 'top': directionCls = 'dropup'; break;
-        case 'bottom-start':
-        case 'bottom-end':
-        case 'bottom': directionCls = 'dropbottom'; break;
-        case 'left-start':
-        case 'left-end':
-        case 'left': directionCls = 'dropleft'; isCaretPlaceLeft = true; break;
-        case 'right-start':
-        case 'right-end':
-        case 'right': directionCls = 'dropright'; break;
-        default: break
-    }
-
-    if (isCaretPlaceLeft) {
-        splitedButtonGroupTuple = splitedButtonGroupTuple.reverse()
-        splitedButtonGroupTuple[0] = (
-            <div className={`btn-group ${directionCls}`}>
-                {React.cloneElement(splitedButtonGroupTuple[0], { ref })}
-            </div>
+            <FinalJSX>{splitedButtonGroupTuple}</FinalJSX>
         )
     }
-
-    return (
-        <FinalJSX>{splitedButtonGroupTuple}</FinalJSX>
-    )
-}
-
-Dropdown.Toggle = React.forwardRef(Toggle)
+)

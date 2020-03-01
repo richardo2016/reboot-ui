@@ -1,22 +1,32 @@
 export function filterPlacement (placement = 'bottom-start') {
+    return parsePlacement(placement).placement || 'bottom-start'
+}
+
+export function parsePlacement (placement = 'bottom-start') {
+    let direction
     switch (placement) {
+        case 'top':
         case 'top-start':
         case 'top-end':
-        case 'top':
+            direction = 'top'; break;
+        case 'bottom':
         case 'bottom-start':
         case 'bottom-end':
-        case 'bottom':
+            direction = 'bottom'; break;
+        case 'left':
         case 'left-start':
         case 'left-end':
-        case 'left':
+            direction = 'left'; break;
+        case 'right':
         case 'right-start':
         case 'right-end':
-        case 'right':
-            break;
+            direction = 'right'; break;
         default:
-            placement = 'bottom-start'
             break
     }
 
-    return placement
+    return {
+        placement,
+        direction
+    }
 }
