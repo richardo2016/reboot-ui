@@ -1,5 +1,5 @@
 import React from 'react'
-import useInterval from '../../utils/react-hooks/use-interval'
+import { useInterval  } from '../../utils/react-hooks/use-timer'
 
 import './style.styl'
 

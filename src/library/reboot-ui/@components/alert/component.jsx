@@ -3,6 +3,17 @@ import React from 'react'
 import { resolveJSXElement } from '../../utils/ui'
 import { rclassnames } from '../../../../utils/react-like';
 
+import { Transition } from 'react-transition-group'
+
+const transtionClasses = {
+    [`entering`]: 'fade',
+    [`entered`]: 'fade show',
+    [`exiting`]: 'fade',
+    [`exited`]: 'fade hide',
+}
+
+function noop () {}
+const DFLT_FADE_DURATION = 150
 /**
  * @see https://getbootstrap.com/docs/4.4/components/alerts
  */
@@ -20,15 +31,12 @@ const Alert = React.forwardRef((
          * @type {boolean} whether could be dismiss
          */
         closable = false,
-        /**
-         * @type {string} (default: fade) animation name
-         */
-        animation = 'fade',
         ...props
     }, ref) => {
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
         const [dismiss, setDismiss] = React.useState(!propShow);
+        const [shouldRender, setShouldRender] = React.useState(propShow);
     
         switch (type) {
             case 'primary':
@@ -46,18 +54,38 @@ const Alert = React.forwardRef((
                 type = ''
                 break
         }
+
+        ref = ref || React.useRef(null)
+
+        React.useEffect((
+            () => {
+                const timeout = (
+                    ref && ref.current
+                    && (parseFloat(window.getComputedStyle(ref.current).transitionDuration) * 1000) || DFLT_FADE_DURATION
+                )
+
+                let tmid
+                if (dismiss)
+                    tmid = setTimeout(() => { setShouldRender(false) }, timeout)
+
+                return () => { clearTimeout(tmid) }
+            }
+        ), [dismiss])
     
+        if (!shouldRender) return ;
+
         return (
             <JSXEl
                 {...props}
                 {...__htmlAttributes}
+                // data-transition-state={state}
                 ref={ref}
                 className={rclassnames(props, [
                     'alert',
                     type && `alert-${type}`,
                     closable && `alert-dismissible`,
-                    animation,
-                    dismiss ? `hide` : `show`
+                    'fade',
+                    !dismiss && 'show'
                 ])}
                 role="alert"
             >

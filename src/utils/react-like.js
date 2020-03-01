@@ -29,13 +29,11 @@ export function parseChildrenProp (childEle) {
 }
 
 export function rclassnames (props, ...args) {
-    return classnames(
-        dedupe(
-            [
-                props.className || props.class,
-            ].concat(
-                flatten(args)
-            )
-        )
-    )
+    return dedupe(
+        [ props.className || props.class ].concat(flatten(args))
+        .join(' ')
+        .split(' ')
+        .map(x => x && x.trim())
+        .filter(x => x)
+    ).join(' ')
 }
