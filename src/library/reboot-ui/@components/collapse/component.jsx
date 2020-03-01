@@ -1,63 +1,13 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Transition } from 'react-transition-group';
 
 import classnames from 'classnames'
 
 import { resolveJSXElement, getHTMLAttributesFromProps } from '../../utils/ui'
 import { isReactTypeOf, getHTMLElementFromJSXElement } from '../../../../utils/react-like'
+import useSelectorsListener from '../../../../utils/react-hooks/use-selectors-listener'
 import { arraify } from '../../../../utils/array';
-
-/**
- * @see https://getbootstrap.com/docs/4.4/components/collapse/#supported-content
- */
-function CollapseGroup ({
-    disabled = false,
-    /**
-     * @see placment option.placement in poper.js
-     */
-    children: childEles,
-    as: _as = null,
-    activeKey = null,
-    ...props
-}) {
-    const JSXEl = resolveJSXElement(_as, { default: null, /* allowedHTMLTags: ['div'] */ });
-
-    const children = arraify(childEles)
-    const getAllPanels = () => {
-        return children
-            .filter(item => isReactTypeOf(item, Collapse.Panel))
-            .map((panel, idx) => {
-                let nextCloneProps
-                if (!panel.hasOwnProperty('key')) {
-                    panel.key = `panel-${idx}`
-                }
-
-                if (activeKey === panel.key) {
-                    nextCloneProps = nextCloneProps || {}
-                    nextCloneProps.collapse = false
-                }
-
-                if (nextCloneProps)
-                    panel = React.cloneElement(panel, nextCloneProps)
-
-                return panel
-            })
-    }
-
-    if (!JSXEl) return getAllPanels()
-
-    return (
-        <JSXEl
-            {...props}
-            className={classnames([
-                props.className,
-                props.class,
-            ])}
-        >
-            {getAllPanels()}
-        </JSXEl>
-    )
-}
+import useDefaultValue from '../../../../utils/react-hooks/use-default-value';
 
 function getTransitionClass(status) {
     return transtionClasses[status] || 'collapse';
@@ -83,10 +33,10 @@ const TransitionTimeouts = {
     Carousel: 600, // $carousel-transition
 };
 
-function Collapse ({
+function CollapseProto ({
     children,
     as: _as = 'div',
-    collapse = true,
+    collapse: propCollapsed = true,
     onEntering = noop,
     onEntered = noop,
     onExit = noop,
@@ -96,7 +46,15 @@ function Collapse ({
 }, ref) {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
 
-    const isOpened = !collapse
+    const [ collapse, setCollapse ] = React.useState(true)
+    useDefaultValue(propCollapsed, (defaultValue) => {
+        if (defaultValue !== collapse)
+            setCollapse(defaultValue)
+    })
+
+    React.useEffect(() => {
+        setCollapse(propCollapsed)
+    }, [propCollapsed])
 
     let [ height, setHeight ] = React.useState(null);
     const hRef = React.useRef(height)
@@ -154,7 +112,7 @@ function Collapse ({
                     enter: TransitionTimeouts.Collapse,
                     exit: TransitionTimeouts.Collapse,
                 }}
-                in={isOpened}
+                in={!collapse}
                 onEntering={_onEntering}
                 onEntered={_onEntered}
                 onExit={_onExit}
@@ -166,7 +124,7 @@ function Collapse ({
                         <JSXEl
                             {...props}
                             {...ref && { ref }}
-                            data-transition-state={state}
+                            // data-transition-state={state}
                             className={classnames([
                                 props.className,
                                 props.class,
@@ -187,4 +145,92 @@ function Collapse ({
     )
 }
 
-export default React.forwardRef(Collapse)
+const Collapse = React.forwardRef(CollapseProto)
+
+Collapse.Uncontrolled = /* React.forwardRef */(
+    ({
+        toggler: togglerSelector = '',
+        defaultCollapsed = true,
+        ...props
+    }) => {
+        const [ collapse, setCollapse ] = React.useState(true)
+        const initCollapsedRef = React.useRef(!!defaultCollapsed)
+        useDefaultValue(!!defaultCollapsed, (defaultCollapsed) => {
+            if (defaultCollapsed !== collapse)
+                setCollapse(initCollapsedRef.current)
+        })
+
+        useSelectorsListener(
+            togglerSelector,
+            'click',
+            () => setCollapse(!collapse),
+            [ collapse ]
+        )
+    
+        return (
+            <Collapse
+                {...props}
+                collapse={collapse}
+            />
+        )
+    }
+)
+
+/**
+ * @see https://getbootstrap.com/docs/4.4/components/collapse/#supported-content
+ */
+Collapse.Group = function CollapseGroup ({
+    disabled = false,
+    /**
+     * @see placment option.placement in poper.js
+     */
+    children: childEles,
+    as: _as = null,
+    activeKey = null,
+    ...props
+}) {
+    const JSXEl = resolveJSXElement(_as, { default: null, /* allowedHTMLTags: ['div'] */ });
+
+    const children = arraify(childEles)
+    const getAllPanels = () => {
+        return children
+            .map((panel, idx) => {
+                if (typeof panel === 'function')
+                    return panel({ activeKey }) || null
+
+                if (isReactTypeOf(panel, Collapse))
+                 return panel
+
+                let nextCloneProps
+                if (!panel.hasOwnProperty('key')) {
+                    panel.key = `panel-${idx}`
+                }
+
+                if (activeKey === panel.key) {
+                    nextCloneProps = nextCloneProps || {}
+                    nextCloneProps.collapse = false
+                }
+
+                if (nextCloneProps)
+                    panel = React.cloneElement(panel, nextCloneProps)
+
+                return panel
+            })
+    }
+
+    if (!JSXEl) return getAllPanels()
+
+    return (
+        <JSXEl
+            {...props}
+            className={classnames([
+                props.className,
+                props.class,
+            ])}
+        >
+            {getAllPanels()}
+        </JSXEl>
+    )
+}
+
+export default Collapse

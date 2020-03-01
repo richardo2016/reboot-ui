@@ -44,7 +44,7 @@ module.exports = function (Liquid) {
             const uuid = md5(source);
             const sampleElId = `mvvm_type${uuid}`
 
-            source += `;ReactDOM.render(<Sample />, document.getElementById('${sampleElId}'));`
+            source += `;ReactDOM.render(<Sample uuid={'${uuid}'} />, document.getElementById('${sampleElId}'));`
             let { code: output } = buble.transform(source, {
               jsx: 'React.createElement'
             })

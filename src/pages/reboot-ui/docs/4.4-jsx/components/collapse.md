@@ -12,7 +12,7 @@ The collapse JavaScript plugin is used to show and hide content. Buttons or anch
 
 {% include callout-info-prefersreducedmotion.md %}
 
-## Example
+## Mechanism
 
 Click the buttons below to show and hide another element via class changes:
 
@@ -20,8 +20,11 @@ Click the buttons below to show and hide another element via class changes:
 - `.collapsing` is applied during transitions
 - `.collapse.show` shows content
 
-You can use a link with the `href` attribute, or a button with the `data-target` attribute. In both cases, the `data-toggle="collapse"` is required.
+<!-- You can use a link with the `href` attribute, or a button with the `data-target` attribute. In both cases, the `data-toggle="collapse"` is required. -->
 
+## Examples
+
+### Controlled Collapse
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = () => {
@@ -62,105 +65,148 @@ const Sample = () => {
 {% endreboot_mvvm %}
 {% include mvvm-example.html mexample=mexample_with_code %}
 
-{% capture example %}
-<p>
-  <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-    Link with href
-  </a>
-  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-    Button with data-target
-  </button>
-</p>
-<div class="collapse" id="collapseExample">
-  <div class="card card-body">
-    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-  </div>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
 
-## Multiple targets
+### Uncontrolled Collapse
 
-A `<button>` or `<a>` can show and hide multiple elements by referencing them with a JQuery selector in its `href` or `data-target` attribute.
-Multiple `<button>` or `<a>` can show and hide an element if they each reference it with their `href` or `data-target` attribute
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <p>
+        <Button
+          href="javascript:void(0)"
+          type="link"
+          id="uncontrolled-collapse-toggler"
+          className="mr-1"
+          aria-controls="collapseExample"
+        >
+          Link with href
+        </Button>
+      </p>
+      <Collapse.Uncontrolled toggler="#uncontrolled-collapse-toggler">
+        <div class="card card-body">
+          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+        </div>
+      </Collapse.Uncontrolled>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
-{% capture example %}
-<p>
-  <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Toggle first element</a>
-  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Toggle second element</button>
-  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">Toggle both elements</button>
-</p>
-<div class="row">
-  <div class="col">
-    <div class="collapse multi-collapse" id="multiCollapseExample1">
-      <div class="card card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+#### Multiple targets
+
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <p>
+        <Button
+          type="primary"
+          __htmlAttributes={{ type: 'button' }}
+          id={`uncontrolled-collapse-toggler${uuid}`}
+          className="mr-1"
+          aria-controls="collapseExample"
+        >
+          Toggle both elements
+        </Button>
+      </p>
+      <div class="row">
+        <div class="col">
+          <Collapse.Uncontrolled toggler={`#uncontrolled-collapse-toggler${uuid}`}>
+            <div class="card card-body">
+              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+            </div>
+          </Collapse.Uncontrolled>
+        </div>
+        <div class="col">
+          <Collapse.Uncontrolled toggler={`#uncontrolled-collapse-toggler${uuid}`}>
+            <div class="card card-body">
+              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+            </div>
+          </Collapse.Uncontrolled>
+        </div>
       </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="collapse multi-collapse" id="multiCollapseExample2">
-      <div class="card card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-      </div>
-    </div>
-  </div>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
+
+#### Default Open
+
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <p>
+        <Button
+          type="primary"
+          __htmlAttributes={{ type: 'button' }}
+          id={`uncontrolled-collapse-toggler${uuid}`}
+          className="mr-1"
+          aria-controls="collapseExample"
+        >
+          Toggle Collapse default open
+        </Button>
+      </p>
+      <Collapse.Uncontrolled defaultCollapsed={false} toggler={`#uncontrolled-collapse-toggler${uuid}`}>
+        <div class="card card-body">
+          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+        </div>
+      </Collapse.Uncontrolled>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Accordion example
 
 Using the [card]({{ site.baseurl }}/docs/{{ site.docs_version }}/components/card/) component, you can extend the default collapse behavior to create an accordion. To properly achieve the accordion style, be sure to use `.accordion` as a wrapper.
 
-{% capture example %}
-<div class="accordion" id="accordionExample">
-  <div class="card">
-    <div class="card-header" id="headingOne">
-      <h2 class="mb-0">
-        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          Collapsible Group Item #1
-        </button>
-      </h2>
-    </div>
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  const [ activeKey, setActiveKey ] = React.useState(1)
 
-    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-      <div class="card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+  return (
+    <>
+      <div class="accordion" id="accordionExample">
+        <Collapse.Group activeKey={activeKey}>
+          {[1, 2, 3].map(
+            (_, idx) => {
+              const counter = idx + 1
+              return (
+                <div
+                  class="card"
+                  key={`card-key${counter}`}
+                >
+                  <div
+                    class="card-header"
+                    onClick={() => {
+                      setActiveKey(counter === activeKey ? null : counter)
+                    }}
+                  >
+                    <h2 class="mb-0">
+                      <button class="btn btn-link" type="button">Collapsible Group Item #{counter}</button>
+                    </h2>
+                  </div>
+                  <Collapse collapse={(activeKey !== counter)}>
+                    <div class="card-body">
+                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                    </div>
+                  </Collapse>
+                </div>
+              )
+            })
+          }
+        </Collapse.Group>
       </div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-header" id="headingTwo">
-      <h2 class="mb-0">
-        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          Collapsible Group Item #2
-        </button>
-      </h2>
-    </div>
-    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-      <div class="card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-      </div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-header" id="headingThree">
-      <h2 class="mb-0">
-        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-          Collapsible Group Item #3
-        </button>
-      </h2>
-    </div>
-    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-      <div class="card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-      </div>
-    </div>
-  </div>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Accessibility
 

@@ -58,7 +58,7 @@ const Alert = React.forwardRef((
                     props.class,
                     'alert',
                     type && `alert-${type}`,
-                    closable && `alert-dismiss`,
+                    closable && `alert-dismissible`,
                     animation,
                     dismiss ? `hide` : `show`
                 ])}
