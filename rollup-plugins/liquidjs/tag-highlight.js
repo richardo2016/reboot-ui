@@ -43,10 +43,10 @@ module.exports = function (Liquid) {
               text = text.replace(/\-\%\}/g, '%}')
               text = text.replace(/\{\{\-/g, '{{')
               text = text.replace(/\-\}\}/g, '}}')
-              
+
               const templates = this.liquid.parse(text)
               const html = yield this.liquid.renderer.renderTemplates(templates, ctx)
-              
+
               return highlightCode(htmlEscaper.unescape(html), this.lang);
             }
 

@@ -1,3 +1,5 @@
+const htmlPretty = require('pretty');
+
 const { Prism } = require('./index')
 
 const filterPrismLang = exports.filterPrismLang = function (lang) {
@@ -52,10 +54,12 @@ exports.highlightCode = function (
 ) {
     filterPrismLang(lang);
 
+    if (lang === 'html')
+        code = htmlPretty(code, { ocd: true } )
+
     code = code.trim();
 
-    const nw = Prism.plugins.NormalizeWhitespace;
-    code = nw.normalize(code, {
+    code = Prism.plugins.NormalizeWhitespace.normalize(code, {
         'remove-trailing': true,
         'remove-indent': true,
         'left-trim': true,

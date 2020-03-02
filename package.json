@@ -4,6 +4,7 @@
   "description": "one lightweight javascript library starter based on rollup",
   "scripts": {
     "build": "cross-env NODE_ENV=production rollup -c",
+    "dev-build": "cross-env NODE_ENV=developement rollup -c",
     "watch": "cross-env ROLLUP_WATCH=true rollup -c -w",
     "prepublishOnly": "npm run build",
     "dev": "npm-run-all --parallel start watch",
@@ -31,6 +32,7 @@
     "preact": "^10.3.2",
     "preact-async-route": "^2.2.1",
     "preact-router": "^3.2.1",
+    "pretty": "^2.0.0",
     "react-transition-group": "^4.3.0"
   },
   "devDependencies": {
