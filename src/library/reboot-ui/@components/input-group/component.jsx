@@ -2,6 +2,7 @@ import React from 'react'
 
 import { resolveJSXElement } from '../../utils/ui'
 import { rclassnames } from '../../../../utils/react-like';
+import Dropdown from '../dropdown/component';
 
 const _PrependWrap = ({ children }) => (
     <div class="input-group-prepend">
@@ -64,5 +65,30 @@ const InputGroup = React.forwardRef((
         )
     }
 ))
+
+InputGroup.ButtonDropdown = ({
+    children,
+    label = '',
+    split = false,
+    outline = false,
+    type,
+    ...props
+}) => {
+    return (
+        <Dropdown as={null}>
+            <Dropdown.Toggle
+                {...props}
+                split={split}
+                outline={outline}
+                type={type}
+                label={label}
+                as={null}
+            >
+                <span class="sr-only">Toggle Dropdown</span>
+            </Dropdown.Toggle>
+            {children}
+        </Dropdown>
+    )
+}
 
 export default InputGroup

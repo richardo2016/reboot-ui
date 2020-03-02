@@ -37,6 +37,8 @@ function Button ({
             break
     }
 
+    if (outline && !type) type = 'primary'
+
     const JSXEl = resolveJSXElement(_as, { allowedHTMLTags: ['button', 'input', 'a'] });
 
     switch (size) {

@@ -331,18 +331,15 @@ const Sample = ({ uuid }) => {
         prependNoWrap
         prepend={(
           <div class="input-group-prepend">
-            <Dropdown as={null}>
-              <Dropdown.Toggle outline type="secondary" as={null}>
-                Dropdown
-              </Dropdown.Toggle>
+            <InputGroup.ButtonDropdown label="Dropdown" outline type="secondary">
               <Dropdown.Menu>
-                <Dropdown.Item href="javascript:;">Action</Dropdown.Item>
-                <Dropdown.Item href="javascript:;">Another action</Dropdown.Item>
-                <Dropdown.Item href="javascript:;">Something else here</Dropdown.Item>
+                <Dropdown.Item as="a" href="javascript:;">Action</Dropdown.Item>
+                <Dropdown.Item as="a" href="javascript:;">Another action</Dropdown.Item>
+                <Dropdown.Item as="a" href="javascript:;">Something else here</Dropdown.Item>
                 <Dropdown.Item role="separator" divider />
-                <Dropdown.Item href="javascript:;">Separated link</Dropdown.Item>
+                <Dropdown.Item as="a" href="javascript:;">Separated link</Dropdown.Item>
               </Dropdown.Menu>
-            </Dropdown>
+            </InputGroup.ButtonDropdown>
           </div>
         )}
       >
@@ -353,18 +350,15 @@ const Sample = ({ uuid }) => {
         appendNoWrap
         append={(
           <div class="input-group-append">
-            <Dropdown as={null}>
-              <Dropdown.Toggle outline type="secondary" as={null}>
-                Dropdown
-              </Dropdown.Toggle>
+            <InputGroup.ButtonDropdown label="Dropdown" outline type="secondary">
               <Dropdown.Menu>
-                <Dropdown.Item href="javascript:;">Action</Dropdown.Item>
-                <Dropdown.Item href="javascript:;">Another action</Dropdown.Item>
-                <Dropdown.Item href="javascript:;">Something else here</Dropdown.Item>
+                <Dropdown.Item as="a" href="javascript:;">Action</Dropdown.Item>
+                <Dropdown.Item as="a" href="javascript:;">Another action</Dropdown.Item>
+                <Dropdown.Item as="a" href="javascript:;">Something else here</Dropdown.Item>
                 <Dropdown.Item role="separator" divider />
-                <Dropdown.Item href="javascript:;">Separated link</Dropdown.Item>
+                <Dropdown.Item as="a" href="javascript:;">Separated link</Dropdown.Item>
               </Dropdown.Menu>
-            </Dropdown>
+            </InputGroup.ButtonDropdown>
           </div>
         )}
       >
@@ -387,18 +381,15 @@ const Sample = ({ uuid }) => {
         prependNoWrap
         prepend={(
           <div class="input-group-prepend">
-            <Dropdown as={null}>
-              <Dropdown.Toggle split outline type="secondary" as={null} label="Action">
-                <span class="sr-only">Toggle Dropdown</span>
-              </Dropdown.Toggle>
+            <InputGroup.ButtonDropdown split="Action" outline type="secondary">
               <Dropdown.Menu>
-                <Dropdown.Item href="javascript:;">Action</Dropdown.Item>
-                <Dropdown.Item href="javascript:;">Another action</Dropdown.Item>
-                <Dropdown.Item href="javascript:;">Something else here</Dropdown.Item>
+                <Dropdown.Item as="a" href="javascript:;">Action</Dropdown.Item>
+                <Dropdown.Item as="a" href="javascript:;">Another action</Dropdown.Item>
+                <Dropdown.Item as="a" href="javascript:;">Something else here</Dropdown.Item>
                 <Dropdown.Item role="separator" divider />
-                <Dropdown.Item href="javascript:;">Separated link</Dropdown.Item>
+                <Dropdown.Item as="a" href="javascript:;">Separated link</Dropdown.Item>
               </Dropdown.Menu>
-            </Dropdown>
+            </InputGroup.ButtonDropdown>
           </div>
         )}
       >
@@ -409,18 +400,15 @@ const Sample = ({ uuid }) => {
         appendNoWrap
         append={(
           <div class="input-group-append">
-            <Dropdown as={null}>
-              <Dropdown.Toggle split="Action" outline type="secondary" as={null}>
-                <span class="sr-only">Toggle Dropdown</span>
-              </Dropdown.Toggle>
+            <InputGroup.ButtonDropdown split="Action" outline type="secondary">
               <Dropdown.Menu>
-                <Dropdown.Item href="javascript:;">Action</Dropdown.Item>
-                <Dropdown.Item href="javascript:;">Another action</Dropdown.Item>
-                <Dropdown.Item href="javascript:;">Something else here</Dropdown.Item>
-                <Dropdown.Item role="separator" divider />
-                <Dropdown.Item href="javascript:;">Separated link</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+                  <Dropdown.Item as="a" href="javascript:;">Action</Dropdown.Item>
+                  <Dropdown.Item as="a" href="javascript:;">Another action</Dropdown.Item>
+                  <Dropdown.Item as="a" href="javascript:;">Something else here</Dropdown.Item>
+                  <Dropdown.Item role="separator" divider />
+                  <Dropdown.Item as="a" href="javascript:;">Separated link</Dropdown.Item>
+                </Dropdown.Menu>
+            </InputGroup.ButtonDropdown>
           </div>
         )}
       >
