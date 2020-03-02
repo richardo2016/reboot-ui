@@ -19,3 +19,6 @@ export { default as Badge } from './badge/component'
 export { default as Breadcrumb } from './breadcrumb/component'
 export { default as Collapse } from './collapse/component'
 export { default as Card } from './card/component'
+
+export { default as InputGroup } from './input-group/component'
+export { default as Input } from './input/component'

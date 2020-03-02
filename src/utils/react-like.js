@@ -29,12 +29,12 @@ export function parseChildrenProp (childEle) {
 }
 
 export function rclassnames (props, ...args) {
-    return dedupe(
-        flatten(args)
-        .concat([ props.className || props.class ])
-        .join(' ')
-        .split(' ')
-        .map(x => x && x.trim())
-        .filter(x => x)
-    ).join(' ')
+    return (
+        dedupe(
+            flatten(args)
+                .concat([ props.className, props.class ])
+                .map(x => x && x.trim())
+                .filter(x => x && typeof x === 'string')
+        ).join(' ')
+    )
 }

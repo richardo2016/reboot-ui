@@ -110,7 +110,7 @@ export function getOffsetAboutClsNameListFromBreakPointConfig ({
     let tmpResolved
     VALID_RESPONSIVE_BRKPOINT.forEach(breakpoint => {
         if (input[breakpoint]) {
-            tmpResolved = resolveOffsetAboutBreakPointConfig(input[breakpoint])
+            tmpResolved = resolveOffsetAboutBreakPointConfig(input[breakpoint], { numberAsKey: 'span' })
             if (tmpResolved.span)
                 breakPointAboutClsList.push( makeIntegerAboutClsFromBreakPointConfig('col', { value: tmpResolved.span, breakpoint } ) )
             if (tmpResolved.offset)

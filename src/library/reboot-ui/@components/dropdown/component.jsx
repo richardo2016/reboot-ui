@@ -183,6 +183,7 @@ Dropdown.Toggle = React.forwardRef(
         type,
         label,
         size,
+        outline,
         ...props
     }, ref) {
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
@@ -204,8 +205,9 @@ Dropdown.Toggle = React.forwardRef(
         }
         
         const buttonType = type;
-        const buttonLabel = label || (!split ? children : null);
+        let buttonLabel = label || (!split ? children : null);
         const buttonSize = size;
+        const buttonOutline = outline;
     
         if (!split)
             return (
@@ -214,32 +216,36 @@ Dropdown.Toggle = React.forwardRef(
                         ref={ref}
                         type={buttonType}
                         size={buttonSize}
-                        data-toggle='dropdown'
+                        outline={buttonOutline}
                         className={classnames([
                             'dropdown-toggle'
                         ])}
+                        data-toggle='dropdown'
                     >
                         {buttonLabel}
                     </Button>
                 </FinalJSX>
             )
-    
+        
+        if (typeof split === 'string') buttonLabel = split
         let splitedButtonGroupTuple = [
             <Button
                 type={buttonType}
                 size={buttonSize}
+                outline={buttonOutline}
             >
                 {buttonLabel}
             </Button>,
             <Button
                 type={buttonType}
                 size={buttonSize}
+                outline={buttonOutline}
                 {...split && { ref }}
-                data-toggle='dropdown'
                 className={classnames([
                     'dropdown-toggle',
                     'dropdown-toggle-split'
                 ])}
+                data-toggle='dropdown'
             >
                 {children}
             </Button>

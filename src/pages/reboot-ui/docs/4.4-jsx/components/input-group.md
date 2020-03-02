@@ -10,61 +10,79 @@ toc: true
 
 Place one add-on or button on either side of an input. You may also place one on both sides of an input. Remember to place `<label>`s outside the input group.
 
-{% capture example %}
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text" id="basic-addon1">@</span>
-  </div>
-  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-</div>
-
-<div class="input-group mb-3">
-  <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
-  <div class="input-group-append">
-    <span class="input-group-text" id="basic-addon2">@example.com</span>
-  </div>
-</div>
-
-<label for="basic-url">Your vanity URL</label>
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text" id="basic-addon3">https://example.com/users/</span>
-  </div>
-  <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-</div>
-
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text">$</span>
-  </div>
-  <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-  <div class="input-group-append">
-    <span class="input-group-text">.00</span>
-  </div>
-</div>
-
-<div class="input-group">
-  <div class="input-group-prepend">
-    <span class="input-group-text">With textarea</span>
-  </div>
-  <textarea class="form-control" aria-label="With textarea"></textarea>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <InputGroup class="mb-3" prepend="@">
+        <Input
+          type="text"
+          class="form-control"
+          placeholder="Username"
+          aria-label="Username"
+          aria-describedby={`basic-addon1${uuid}`}
+        />
+      </InputGroup>
+      <InputGroup class="mb-3" append="@example.com">
+        <Input
+          type="text"
+          class="form-control"
+          placeholder="Recipient's username"
+          aria-label="Recipient's username"
+          aria-describedby={`basic-addon2${uuid}`}
+        />
+      </InputGroup>
+      <label for={`basic-url${uuid}`}>Your vanity URL</label>
+      <InputGroup class="mb-3" prepend="https://example.com/users/">
+        <Input
+          type="text"
+          class="form-control"
+          id={`basic-url${uuid}`}
+          aria-describedby={`basic-addon3${uuid}`}
+        />
+      </InputGroup>
+      <InputGroup class="mb-3" prepend="$" append=".00">
+        <Input
+          type="text"
+          class="form-control"
+          aria-label="Amount (to the nearest dollar)"
+        />
+      </InputGroup>
+      <InputGroup prepend="With textarea">
+        <Input
+          textarea
+          class="form-control"
+          aria-label="Amount (to the nearest dollar)"
+        />
+      </InputGroup>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Wrapping
 
 Input groups wrap by default via `flex-wrap: wrap` in order to accommodate custom form field validation within an input group. You may disable this with `.flex-nowrap`.
 
-{% capture example %}
-<div class="input-group flex-nowrap">
-  <div class="input-group-prepend">
-    <span class="input-group-text" id="addon-wrapping">@</span>
-  </div>
-  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="addon-wrapping">
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <InputGroup class="flex-nowrap" prepend="@">
+        <Input
+          type="text"
+          class="form-control"
+          placeholder="Username"
+          aria-label="Username"
+          aria-describedby="addon-wrapping"
+        />
+      </InputGroup>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Sizing
 
@@ -72,199 +90,347 @@ Add the relative form sizing classes to the `.input-group` itself and contents w
 
 **Sizing on the individual input group elements isn't supported.**
 
-{% capture example %}
-<div class="input-group input-group-sm mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text" id="inputGroup-sizing-sm">Small</span>
-  </div>
-  <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-</div>
-
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text" id="inputGroup-sizing-default">Default</span>
-  </div>
-  <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-</div>
-
-<div class="input-group input-group-lg">
-  <div class="input-group-prepend">
-    <span class="input-group-text" id="inputGroup-sizing-lg">Large</span>
-  </div>
-  <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <InputGroup
+        size="sm"
+        class="mb-3"
+        prependNoWrap
+        prepend={(
+          <div class="input-group-prepend">
+            <span class="input-group-text" id={`inputGroup-sizing-sm${uuid}`}>Small</span>
+          </div>
+        )}
+      >
+        <Input
+          type="text"
+          class="form-control"
+          aria-label="Sizing example input"
+          aria-describedby={`inputGroup-sizing-sm${uuid}`}
+        />
+      </InputGroup>
+      <InputGroup
+        class="mb-3"
+        prependNoWrap
+        prepend={(
+          <div class="input-group-prepend">
+            <span class="input-group-text" id={`inputGroup-sizing-default${uuid}`}>Default</span>
+          </div>
+        )}
+      >
+        <Input
+          type="text"
+          class="form-control"
+          aria-label="Sizing example input"
+          aria-describedby={`inputGroup-sizing-default${uuid}`}
+        />
+      </InputGroup>
+      <InputGroup
+        size="lg"
+        class="mb-3"
+        prependNoWrap
+        prepend={(
+          <div class="input-group-prepend">
+            <span class="input-group-text" id={`inputGroup-sizing-lg${uuid}`}>Large</span>
+          </div>
+        )}
+      >
+        <Input
+          type="text"
+          class="form-control"
+          aria-label="Sizing example input"
+          aria-describedby={`inputGroup-sizing-lg${uuid}`}
+        />
+      </InputGroup>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Checkboxes and radios
 
 Place any checkbox or radio option within an input group's addon instead of text.
 
-{% capture example %}
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <div class="input-group-text">
-      <input type="checkbox" aria-label="Checkbox for following text input">
-    </div>
-  </div>
-  <input type="text" class="form-control" aria-label="Text input with checkbox">
-</div>
-
-<div class="input-group">
-  <div class="input-group-prepend">
-    <div class="input-group-text">
-      <input type="radio" aria-label="Radio button for following text input">
-    </div>
-  </div>
-  <input type="text" class="form-control" aria-label="Text input with radio button">
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <InputGroup
+        class="mb-3"
+        prepend={(
+          <Input type="checkbox" aria-label="Checkbox for following text input" />
+        )}
+      >
+        <Input type="text" class="form-control" aria-label="Text input with checkbox" />
+      </InputGroup>
+      <InputGroup
+        class="mb-3"
+        prepend={(
+          <Input type="radio" aria-label="Radio button for following text input" />
+        )}
+      >
+        <Input type="text" class="form-control" aria-label="Text input with radio" />
+      </InputGroup>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Multiple inputs
 
 While multiple `<input>`s are supported visually, validation styles are only available for input groups with a single `<input>`.
 
-{% capture example %}
-<div class="input-group">
-  <div class="input-group-prepend">
-    <span class="input-group-text">First and last name</span>
-  </div>
-  <input type="text" aria-label="First name" class="form-control">
-  <input type="text" aria-label="Last name" class="form-control">
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <InputGroup
+        class="mb-3"
+        prepend="First and last name"
+      >
+        <Input type="text" aria-label="First name" class="form-control" />
+        <Input type="text" aria-label="Last name" class="form-control" />
+      </InputGroup>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Multiple addons
 
 Multiple add-ons are supported and can be mixed with checkbox and radio input versions.
 
-{% capture example %}
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text">$</span>
-    <span class="input-group-text">0.00</span>
-  </div>
-  <input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)">
-</div>
-
-<div class="input-group">
-  <input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)">
-  <div class="input-group-append">
-    <span class="input-group-text">$</span>
-    <span class="input-group-text">0.00</span>
-  </div>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <InputGroup
+        class="mb-3"
+        prependNoWrap
+        prepend={(
+          <div class="input-group-prepend">
+            <span class="input-group-text">$</span>
+            <span class="input-group-text">0.00</span>
+          </div>
+        )}
+      >
+        <Input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)" />
+      </InputGroup>
+      <InputGroup
+        appendNoWrap
+        append={(
+          <div class="input-group-append">
+            <span class="input-group-text">$</span>
+            <span class="input-group-text">0.00</span>
+          </div>
+        )}
+      >
+        <Input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)" />
+      </InputGroup>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Button addons
 
-{% capture example %}
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <button class="btn btn-outline-secondary" type="button" id="button-addon1">Button</button>
-  </div>
-  <input type="text" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
-</div>
-
-<div class="input-group mb-3">
-  <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
-  <div class="input-group-append">
-    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
-  </div>
-</div>
-
-<div class="input-group mb-3">
-  <div class="input-group-prepend" id="button-addon3">
-    <button class="btn btn-outline-secondary" type="button">Button</button>
-    <button class="btn btn-outline-secondary" type="button">Button</button>
-  </div>
-  <input type="text" class="form-control" placeholder="" aria-label="Example text with two button addons" aria-describedby="button-addon3">
-</div>
-
-<div class="input-group">
-  <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username with two button addons" aria-describedby="button-addon4">
-  <div class="input-group-append" id="button-addon4">
-    <button class="btn btn-outline-secondary" type="button">Button</button>
-    <button class="btn btn-outline-secondary" type="button">Button</button>
-  </div>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <InputGroup
+        class="mb-3"
+        prependNoWrap
+        prepend={(
+          <div class="input-group-prepend">
+            <Button outline type="secondary" id={`button-addon1${uuid}`}>Button</Button>
+          </div>
+        )}
+      >
+        <Input
+          type="text"
+          class="form-control"
+          placeholder=""
+          aria-label="Example text with button addon"
+          aria-describedby={`button-addon1${uuid}`}
+        />
+      </InputGroup>
+      <InputGroup
+        class="mb-3"
+        appendNoWrap
+        append={(
+          <div class="input-group-append">
+            <Button outline type="secondary" id={`button-addon2${uuid}`}>Button</Button>
+          </div>
+        )}
+      >
+        <Input
+          type="text"
+          class="form-control"
+          placeholder="Recipient's username"
+          aria-label="Recipient's username"
+          aria-describedby={`button-addon2${uuid}`}
+        />
+      </InputGroup>
+      <InputGroup
+        class="mb-3"
+        prependNoWrap
+        prepend={(
+          <div class="input-group-prepend" id={`button-addon3${uuid}`}>
+            <Button outline type="secondary">Button</Button>
+            <Button outline type="secondary">Button</Button>
+          </div>
+        )}
+      >
+        <Input
+          type="text"
+          class="form-control"
+          placeholder=""
+          aria-label="Example text with two button addons"
+          aria-describedby={`button-addon3${uuid}`}
+        />
+      </InputGroup>
+      <InputGroup
+        class="mb-3"
+        appendNoWrap
+        append={(
+          <div class="input-group-append" id={`button-addon4${uuid}`}>
+            <Button outline type="secondary">Button</Button>
+            <Button outline type="secondary">Button</Button>
+          </div>
+        )}
+      >
+        <Input
+          type="text"
+          class="form-control"
+          placeholder="Recipient's username"
+          aria-label="Recipient's username"
+          aria-describedby={`button-addon4${uuid}`}
+        />
+      </InputGroup>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Buttons with dropdowns
 
-{% capture example %}
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
-    <div class="dropdown-menu">
-      <a class="dropdown-item" href="#">Action</a>
-      <a class="dropdown-item" href="#">Another action</a>
-      <a class="dropdown-item" href="#">Something else here</a>
-      <div role="separator" class="dropdown-divider"></div>
-      <a class="dropdown-item" href="#">Separated link</a>
-    </div>
-  </div>
-  <input type="text" class="form-control" aria-label="Text input with dropdown button">
-</div>
-
-<div class="input-group">
-  <input type="text" class="form-control" aria-label="Text input with dropdown button">
-  <div class="input-group-append">
-    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
-    <div class="dropdown-menu">
-      <a class="dropdown-item" href="#">Action</a>
-      <a class="dropdown-item" href="#">Another action</a>
-      <a class="dropdown-item" href="#">Something else here</a>
-      <div role="separator" class="dropdown-divider"></div>
-      <a class="dropdown-item" href="#">Separated link</a>
-    </div>
-  </div>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <InputGroup
+        class="mb-3"
+        prependNoWrap
+        prepend={(
+          <div class="input-group-prepend">
+            <Dropdown as={null}>
+              <Dropdown.Toggle outline type="secondary" as={null}>
+                Dropdown
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item href="javascript:;">Action</Dropdown.Item>
+                <Dropdown.Item href="javascript:;">Another action</Dropdown.Item>
+                <Dropdown.Item href="javascript:;">Something else here</Dropdown.Item>
+                <Dropdown.Item role="separator" divider />
+                <Dropdown.Item href="javascript:;">Separated link</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+        )}
+      >
+        <Input type="text" class="form-control" aria-label="Text input with dropdown button" />
+      </InputGroup>
+      <InputGroup
+        class="mb-3"
+        appendNoWrap
+        append={(
+          <div class="input-group-append">
+            <Dropdown as={null}>
+              <Dropdown.Toggle outline type="secondary" as={null}>
+                Dropdown
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item href="javascript:;">Action</Dropdown.Item>
+                <Dropdown.Item href="javascript:;">Another action</Dropdown.Item>
+                <Dropdown.Item href="javascript:;">Something else here</Dropdown.Item>
+                <Dropdown.Item role="separator" divider />
+                <Dropdown.Item href="javascript:;">Separated link</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+        )}
+      >
+        <Input type="text" class="form-control" aria-label="Text input with dropdown button" />
+      </InputGroup>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Segmented buttons
 
-{% capture example %}
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <button type="button" class="btn btn-outline-secondary">Action</button>
-    <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span class="sr-only">Toggle Dropdown</span>
-    </button>
-    <div class="dropdown-menu">
-      <a class="dropdown-item" href="#">Action</a>
-      <a class="dropdown-item" href="#">Another action</a>
-      <a class="dropdown-item" href="#">Something else here</a>
-      <div role="separator" class="dropdown-divider"></div>
-      <a class="dropdown-item" href="#">Separated link</a>
-    </div>
-  </div>
-  <input type="text" class="form-control" aria-label="Text input with segmented dropdown button">
-</div>
-
-<div class="input-group">
-  <input type="text" class="form-control" aria-label="Text input with segmented dropdown button">
-  <div class="input-group-append">
-    <button type="button" class="btn btn-outline-secondary">Action</button>
-    <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span class="sr-only">Toggle Dropdown</span>
-    </button>
-    <div class="dropdown-menu">
-      <a class="dropdown-item" href="#">Action</a>
-      <a class="dropdown-item" href="#">Another action</a>
-      <a class="dropdown-item" href="#">Something else here</a>
-      <div role="separator" class="dropdown-divider"></div>
-      <a class="dropdown-item" href="#">Separated link</a>
-    </div>
-  </div>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <InputGroup
+        class="mb-3"
+        prependNoWrap
+        prepend={(
+          <div class="input-group-prepend">
+            <Dropdown as={null}>
+              <Dropdown.Toggle split outline type="secondary" as={null} label="Action">
+                <span class="sr-only">Toggle Dropdown</span>
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item href="javascript:;">Action</Dropdown.Item>
+                <Dropdown.Item href="javascript:;">Another action</Dropdown.Item>
+                <Dropdown.Item href="javascript:;">Something else here</Dropdown.Item>
+                <Dropdown.Item role="separator" divider />
+                <Dropdown.Item href="javascript:;">Separated link</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+        )}
+      >
+        <Input type="text" class="form-control" aria-label="Text input with segmented dropdown button" />
+      </InputGroup>
+      <InputGroup
+        class="mb-3"
+        appendNoWrap
+        append={(
+          <div class="input-group-append">
+            <Dropdown as={null}>
+              <Dropdown.Toggle split="Action" outline type="secondary" as={null}>
+                <span class="sr-only">Toggle Dropdown</span>
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item href="javascript:;">Action</Dropdown.Item>
+                <Dropdown.Item href="javascript:;">Another action</Dropdown.Item>
+                <Dropdown.Item href="javascript:;">Something else here</Dropdown.Item>
+                <Dropdown.Item role="separator" divider />
+                <Dropdown.Item href="javascript:;">Separated link</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+        )}
+      >
+        <Input type="text" class="form-control" aria-label="Text input with segmented dropdown button" />
+      </InputGroup>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Custom forms
 
