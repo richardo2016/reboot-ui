@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { getOffsetAboutClsNameListFromBreakPointConfig, resolveJSXElement } from '../../utils/ui'
+import { getOffsetAboutClsNameListFromBreakPointConfig, resolveJSXElement, getDivisionAboutClsNameListFromBreakPointConfig } from '../../utils/ui'
 import { rclassnames } from '../../../../utils/react-like'
 
 export const Container = ({
@@ -38,15 +38,23 @@ export const Container = ({
  */
 export const Row = ({
     children,
+    rowCols = undefined,
+
+    sm = undefined,
+    md = undefined,
+    lg = undefined,
+    xl = undefined,
     ...props
 }) => {
+    const clsNameList = getDivisionAboutClsNameListFromBreakPointConfig({ rowCols, sm, md, lg, xl })
+
     return (
         <div
             {...props}
             className={
                 rclassnames(props, [
                     'row'
-                ])
+                ], clsNameList)
             }
         >
             {children}
@@ -79,8 +87,6 @@ export const Col = ({
     ...props
 }) => {
     const breakPointAboutClsList = getOffsetAboutClsNameListFromBreakPointConfig({ span, offset, sm, md, lg, xl })
-    if (!breakPointAboutClsList)
-        breakPointAboutClsList.push('col')
 
     const JSXEl = resolveJSXElement(_as)
 
@@ -88,8 +94,9 @@ export const Col = ({
         <JSXEl
             {...props}
             className={rclassnames(props, [
-                breakPointAboutClsList]
-            )}
+                'col',
+                breakPointAboutClsList
+            ])}
         >
             {children}
         </JSXEl>

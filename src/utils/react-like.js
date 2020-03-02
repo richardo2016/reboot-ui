@@ -30,7 +30,8 @@ export function parseChildrenProp (childEle) {
 
 export function rclassnames (props, ...args) {
     return dedupe(
-        [ props.className || props.class ].concat(flatten(args))
+        flatten(args)
+        .concat([ props.className || props.class ])
         .join(' ')
         .split(' ')
         .map(x => x && x.trim())
