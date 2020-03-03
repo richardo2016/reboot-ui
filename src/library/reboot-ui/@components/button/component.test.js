@@ -3,7 +3,9 @@ import React from 'react';
 import Button from './component';
 import renderer from 'react-test-renderer';
 
-import { themes, sizes } from '../../@components/common'
+import { themes } from '../../@components/common'
+
+const btnSizes = ['sm', 'lg']
 
 test('Button - html attributes', () => {
     const component = renderer.create(
@@ -41,7 +43,7 @@ test('Button - (prop: type)', () => {
 });
 
 test('Button - (prop: size)', () => {
-    sizes.forEach(size => {
+    btnSizes.forEach(size => {
         const component = renderer.create(
             <Button size={size}>Reboot UI</Button>,
         );

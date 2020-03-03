@@ -7,10 +7,11 @@ import { coerceFloat } from '../../../../utils/coerce';
 import { filterThemeName } from '../common-utils';
 
 /**
- * @see https://getbootstrap.com/docs/4.4/components/nav/#supported-content
+ * @see https://getbootstrap.com/docs/4.4/components/progress/
  * 
- * @inner-content `.tab-content`
- * @inner-content `.tab-pane`
+ * @inner-content `.progress-bar`
+ * @inner-content `.progress-bar-striped`
+ * @inner-content `.progress-bar-animated`
  */
 const Progress = function ({
     children,

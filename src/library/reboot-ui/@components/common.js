@@ -3,8 +3,10 @@ import json from '../@data/data.json'
 export const themes = json['theme-colors'].map(theme => theme.name)
 
 export const sizes = [
+    'xs',
+    'sm',
     'lg',
-    'sm'
+    'xl'
 ]
 
 export const TransitionTimeouts = {

@@ -16,24 +16,39 @@ For accessibility purposes, each loader here includes `role="status"` and a nest
 
 Use the border spinners for a lightweight loading indicator.
 
-{% capture example %}
-<div class="spinner-border" role="status">
-  <span class="sr-only">Loading...</span>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Spinner type="border">
+        <span class="sr-only">Loading...</span>
+      </Spinner>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Colors
 
 The border spinner uses `currentColor` for its `border-color`, meaning you can customize the color with [text color utilities][color]. You can use any of our text color utilities on the standard spinner.
 
-{% capture example %}
-{% for color in site.data.theme-colors %}
-<div class="spinner-border text-{{ color.name }}" role="status">
-  <span class="sr-only">Loading...</span>
-</div>{% endfor %}
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      {site.data['theme-colors'].map(theme => {
+        return (
+          <Spinner class="mr-1" type="border" color={theme.name}>
+            <span class="sr-only">Loading...</span>
+          </Spinner>
+        )
+      })}
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 {% capture callout %}
 **Why not use `border-color` utilities?** Each border spinner specifies a `transparent` border for at least one side, so `.border-{color}` utilities would override that.
@@ -44,22 +59,37 @@ The border spinner uses `currentColor` for its `border-color`, meaning you can c
 
 If you don't fancy a border spinner, switch to the grow spinner. While it doesn't technically spin, it does repeatedly grow!
 
-{% capture example %}
-<div class="spinner-grow" role="status">
-  <span class="sr-only">Loading...</span>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Spinner type="grow">
+        <span class="sr-only">Loading...</span>
+      </Spinner>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 Once again, this spinner is built with `currentColor`, so you can easily change its appearance with [text color utilities][color]. Here it is in blue, along with the supported variants.
 
-{% capture example %}
-{% for color in site.data.theme-colors %}
-<div class="spinner-grow text-{{ color.name }}" role="status">
-  <span class="sr-only">Loading...</span>
-</div>{% endfor %}
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      {site.data['theme-colors'].map(theme => {
+        return (
+          <Spinner class="mr-1" type="grow" color={theme.name}>
+            <span class="sr-only">Loading...</span>
+          </Spinner>
+        )
+      })}
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Alignment
 
@@ -69,12 +99,18 @@ Spinners in Bootstrap are built with `rem`s, `currentColor`, and `display: inlin
 
 Use [margin utilities][margin] like `.m-5` for easy spacing.
 
-{% capture example %}
-<div class="spinner-border m-5" role="status">
-  <span class="sr-only">Loading...</span>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Spinner type="border" class="m-5">
+        <span class="sr-only">Loading...</span>
+      </Spinner>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Placement
 
@@ -82,99 +118,146 @@ Use [flexbox utilities][flex], [float utilities][float], or [text alignment][tex
 
 #### Flex
 
-{% capture example %}
-<div class="d-flex justify-content-center">
-  <div class="spinner-border" role="status">
-    <span class="sr-only">Loading...</span>
-  </div>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <div class="d-flex justify-content-center">
+        <Spinner type="border">
+          <span class="sr-only">Loading...</span>
+        </Spinner>
+      </div>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
-{% capture example %}
-<div class="d-flex align-items-center">
-  <strong>Loading...</strong>
-  <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <div class="d-flex align-items-center">
+        <strong>Loading...</strong>
+        <Spinner type="border" class="ml-auto" aria-hidden="true" />
+      </div>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 #### Floats
 
-{% capture example %}
-<div class="clearfix">
-  <div class="spinner-border float-right" role="status">
-    <span class="sr-only">Loading...</span>
-  </div>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <div class="clearfix">
+        <Spinner type="border" class="float-right">
+          <span class="sr-only">Loading...</span>
+        </Spinner>
+      </div>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 #### Text align
 
-{% capture example %}
-<div class="text-center">
-  <div class="spinner-border" role="status">
-    <span class="sr-only">Loading...</span>
-  </div>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <div class="text-center">
+        <Spinner type="border">
+          <span class="sr-only">Loading...</span>
+        </Spinner>
+      </div>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Size
 
 Add `.spinner-border-sm` and `.spinner-grow-sm` to make a smaller spinner that can quickly be used within other components.
 
-{% capture example %}
-<div class="spinner-border spinner-border-sm" role="status">
-  <span class="sr-only">Loading...</span>
-</div>
-<div class="spinner-grow spinner-grow-sm" role="status">
-  <span class="sr-only">Loading...</span>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Spinner type="border" size="sm">
+        <span class="sr-only">Loading...</span>
+      </Spinner>
+      <Spinner type="grow" size="sm">
+        <span class="sr-only">Loading...</span>
+      </Spinner>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 Or, use custom CSS or inline styles to change the dimensions as needed.
 
-{% capture example %}
-<div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
-  <span class="sr-only">Loading...</span>
-</div>
-<div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
-  <span class="sr-only">Loading...</span>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Spinner type="border" style={{width: '3rem', 'height': '3rem'}}>
+        <span class="sr-only">Loading...</span>
+      </Spinner>
+      <Spinner type="grow" style={{width: '3rem', 'height': '3rem'}}>
+        <span class="sr-only">Loading...</span>
+      </Spinner>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Buttons
 
 Use spinners within buttons to indicate an action is currently processing or taking place. You may also swap the text out of the spinner element and utilize button text as needed.
 
-{% capture example %}
-<button class="btn btn-primary" type="button" disabled>
-  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-  <span class="sr-only">Loading...</span>
-</button>
-<button class="btn btn-primary" type="button" disabled>
-  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-  Loading...
-</button>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Button type="primary" disabled class="mr-1">
+        <Spinner size="sm" type="border" aria-hidden="true" />
+        <span class="sr-only">Loading...</span>
+      </Button>
+      <Button type="primary" disabled class="mr-1">
+        <Spinner size="sm" type="border" aria-hidden="true" class="mr-1" />
+        Loading...
+      </Button>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
-{% capture example %}
-<button class="btn btn-primary" type="button" disabled>
-  <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
-  <span class="sr-only">Loading...</span>
-</button>
-<button class="btn btn-primary" type="button" disabled>
-  <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
-  Loading...
-</button>
-{% endcapture %}
-{% include example.html content=example %}
-
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Button type="primary" disabled class="mr-1">
+        <Spinner size="sm" type="grow" aria-hidden="true" />
+        <span class="sr-only">Loading...</span>
+      </Button>
+      <Button type="primary" disabled class="mr-1">
+        <Spinner size="sm" type="grow" aria-hidden="true" class="mr-1" />
+        Loading...
+      </Button>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 [color]:   {{ site.baseurl }}/docs/{{ site.docs_version }}/utilities/colors/
 [display]: {{ site.baseurl }}/docs/{{ site.docs_version }}/utilities/display/

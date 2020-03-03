@@ -26,4 +26,5 @@ export { default as Input } from './input/component'
 
 export { default as Popover } from './popover/component'
 export { default as Progress } from './progress/component'
+export { default as Spinner } from './spinners/component'
 
