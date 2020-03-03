@@ -180,7 +180,7 @@ Collapse.useGroup = () => {
 Collapse.Group = function CollapseGroup ({
     disabled = false,
     /**
-     * @see placment option.placement in poper.js
+     * @see placment option.placement in popper.js
      */
     children: childEles,
     as: _as = null,

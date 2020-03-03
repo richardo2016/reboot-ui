@@ -2,10 +2,11 @@ import React from 'react'
 
 import { resolveJSXElement } from '../../utils/ui'
 import RbTransitionFade from '../_helpers/transition';
-import Poper from '../_helpers/poper';
+import Poper from '../_helpers/popper';
 import { rclassnames, tryUseRef } from '../../../../utils/react-like';
-import { parsePlacement } from '../../utils/poper';
+import { parsePlacement } from '../../utils/popper';
 import { coerceInteger } from '../../../../utils/coerce';
+import { fixupPopoverModifier } from '../_utils/popper';
 
 const PopverContext = React.createContext({
     arrowRef: null,
@@ -30,24 +31,28 @@ const Popover = React.forwardRef(
         dismissOnClickAway = true,
         ...props
     }, ref) => {
+        const [fixedPlacement, setFixedPlacement] = React.useState(null)
         const pmInfo = parsePlacement(placement)
-        placement = pmInfo.placement
         
         fixupPoperOptions: {
             poperOptions = poperOptions || {};
-            poperOptions.modifiers = poperOptions.modifiers || [];
+            poperOptions.modifiers = [];
 
-            poperOptions.modifiers = poperOptions.modifiers.filter(x => x.name === 'arrow')
             poperOptions.modifiers.push({
-                name: 'arrow',
-                options: {},
+                name: 'fixup-popover-arrow',
+                options: {
+                    fixup: ({ realPlacement }) => {
+                        if (realPlacement === pmInfo.placement) return ;
+
+                        setFixedPlacement(realPlacement)
+                    }
+                }
             })
 
-            poperOptions.modifiers = poperOptions.modifiers.filter(x => x.name === 'offset')
             poperOptions.modifiers.push({
                 name: 'offset',
                 options: {
-                    offset: () => {
+                    offset: ({ placement }) => {
                         // default arrow size of bootstrap's popover
                         let offset = DFLT_ARROW_OFFSET
                         if (popoverCtx.arrowRef.current) {
@@ -65,16 +70,22 @@ const Popover = React.forwardRef(
         }
 
         const popoverCtx = {
-            direction: pmInfo.direction,
-            placement: pmInfo.placement,
-            arrowRef: React.useRef(null)
+            fromOptions: {
+                direction: pmInfo.direction,
+                placement: pmInfo.placement,
+            },
+            fromFixed: {
+                ...pmInfo,
+                ...fixedPlacement && parsePlacement(fixedPlacement)
+            },
+            arrowRef: React.useRef(null),
         }
 
         return (
             <PopverContext.Provider value={popoverCtx}>
                 <RbTransitionFade
                     {...props}
-                    placement={placement}
+                    placement={popoverCtx.fromOptions.placement}
                     poperOptions={poperOptions}
                     as={Poper}
                     ref={ref}
@@ -104,8 +115,11 @@ Popover.Overlay = React.forwardRef(
                 ref={ref}
                 className={rclassnames(props, [
                     'popover',
-                    `bs-popover-${popoverCtx.direction}`
+                    popoverCtx.fromFixed.direction && `bs-popover-${popoverCtx.fromFixed.direction}`
                 ])}
+                {...popoverCtx.fromFixed.direction && {
+                    'x-placement': popoverCtx.fromFixed.direction
+                }}
             >
                 <div
                     ref={popoverCtx.arrowRef}

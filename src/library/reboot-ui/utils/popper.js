@@ -32,6 +32,12 @@ export function parsePlacement (placement = 'bottom-start') {
             axis = 'horizontal';
             break;
         default:
+        // case 'auto':
+        //     placement = 'auto'
+        //     direction = 'auto'
+        // case 'auto-start':
+        // case 'auto-end':
+        //     axis = 'auto'
             break
     }
 

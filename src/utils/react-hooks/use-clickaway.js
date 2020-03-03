@@ -1,18 +1,19 @@
 import React from 'react'
 import { componentOrElementContains } from '../react-like';
 
-export default function (
+function noop () {}
+export default function useClickaway (
     clkEleRef,
     getTerminalElement = document,
     {
         /**
          * @notice wrap it with `useCallback` recommended
          */
-        clickAway,
+        clickAway = noop,
         /**
          * @notice wrap it with `useCallback` recommended
          */
-        clickIn,
+        clickIn = noop,
     } = {}
 ) {
     clickAway = React.useCallback(clickAway);

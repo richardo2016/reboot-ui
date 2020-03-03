@@ -3,14 +3,15 @@ import React from 'react'
 import { resolveJSXElement } from '../../utils/ui'
 import { rclassnames, parseChildrenProp, isReactTypeOf, getHTMLElementFromJSXElement } from '../../../../utils/react-like';
 import useClickaway from '../../../../utils/react-hooks/use-clickaway';
+import useHoveraway from '../../../../utils/react-hooks/use-hoveraway';
 
-import { createPopup } from '../common-utils';
+import { createPopup, filterPoperTrigger } from '../_utils/popper';
 
 const Poper = React.forwardRef(
     function ({
         disabled = false,
         /**
-         * @see placment option.placement in poper.js
+         * @see placment option.placement in popper.js
          */
         placement = 'bottom-start',
         poperOptions = {},
@@ -19,9 +20,15 @@ const Poper = React.forwardRef(
         overlayType = React.Fragment,
         overlay: popupJsxEl = null,
         dismissOnClickAway = true,
+        /**
+         * @description specifiy the way popper show
+         * @enum click
+         */
+        trigger = 'click',
         ...props
     }, wref) {
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
+        trigger = filterPoperTrigger(trigger)
 
         const triggerElRef = React.useRef(null)
         const popupRef = React.createRef()
@@ -55,28 +62,33 @@ const Poper = React.forwardRef(
 
         let restChildren = children.filter(x =>(x !== popupJsxEl))
 
-        useClickaway(
-            triggerElRef,
-            undefined,
-            {
-                clickIn: (() => {
-                    setShowPopup(!showPopup)
-                }),
-                clickAway (nativeEvent) {
-                    if (!dismissOnClickAway) return ;
-                    if (!showPopup) return ;
-                    const clkAwayEl = nativeEvent.target
+        switch (trigger) {
+            case 'click':
+            default:
+                useClickaway(triggerElRef, undefined, {
+                    clickIn: (() => { setShowPopup(!showPopup) }),
+                    clickAway: (nativeEvent) => {
+                        if (trigger === 'click' && !dismissOnClickAway) return ;
+                        if (!showPopup) return ;
+                        const clkAwayEl = nativeEvent.target
 
-                    if (
-                        clkAwayEl
-                        && popupRef.current
-                        && getHTMLElementFromJSXElement(popupRef.current)
-                        && getHTMLElementFromJSXElement(popupRef.current).contains(clkAwayEl)
-                    ) return ;
-                    setShowPopup(false)
-                }
-            }
-        )
+                        if (
+                            clkAwayEl
+                            && popupRef.current
+                            && getHTMLElementFromJSXElement(popupRef.current)
+                            && getHTMLElementFromJSXElement(popupRef.current).contains(clkAwayEl)
+                        ) return ;
+                        setShowPopup(false)
+                    }
+                })
+                break
+            case 'hover':
+                useHoveraway(triggerElRef, {
+                    onIn: () => setShowPopup(true),
+                    onAway: () => setShowPopup(false),
+                })
+                break
+        }
 
         React.useLayoutEffect(() => {
             if (popupJsxEl && popupJsxEl.props)

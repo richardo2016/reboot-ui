@@ -9,7 +9,7 @@ import cpm_preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow';
 import cpm_offset from '@popperjs/core/lib/modifiers/offset';
 
 import { resolveJSXElement } from '../../utils/ui'
-import { filterPlacement } from '../../utils/poper'
+import { filterPlacement } from '../../utils/popper'
 import { dedupe, arraify } from '../../../../utils/array';
 import useClickaway from '../../../../utils/react-hooks/use-clickaway';
 import { isReactTypeOf, getHTMLElementFromJSXElement, parseChildrenProp, rclassnames } from '../../../../utils/react-like'

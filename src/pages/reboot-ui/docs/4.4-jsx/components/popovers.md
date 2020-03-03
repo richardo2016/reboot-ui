@@ -144,3 +144,40 @@ const Sample = () => {
 }
 {% endreboot_mvvm %}
 {% include mvvm-example.html mexample=mexample_with_code class="popover-demo" %}
+
+### Show on hover trigger
+
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  const configs = [
+    { trigger: 'click', disabled: true, },
+    { trigger: 'hover', disabled: true, },
+    { trigger: 'click', disabled: false, },
+    { trigger: 'hover', disabled: false, },
+  ]
+  return (
+    <>
+      <div class="bd-example-popovers">
+        {configs.map(
+          ({ trigger, disabled }) => {
+            return (
+              <Popover placement='right' trigger={trigger} disabled={disabled}>
+                <Button class="mr-2" type="primary" disabled={disabled}>
+                  Popup on {stringUtils.ucfirst(trigger)}
+                </Button>
+                <Popover.Overlay>
+                  <Popover.Body>
+                    Vivamus sagittis lacus vel augue laoreet rutrum faucibus.
+                  </Popover.Body>
+                </Popover.Overlay>
+              </Popover>
+            )
+          }
+        )}
+      </div>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code class="popover-demo" %}
+
