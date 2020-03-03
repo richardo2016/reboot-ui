@@ -6,8 +6,11 @@ import useClickaway from '../../../../utils/react-hooks/use-clickaway';
 import useHoveraway from '../../../../utils/react-hooks/use-hoveraway';
 
 import { createPopup, filterPoperTrigger } from '../_utils/popper';
+import { flatten } from '../../../../utils/array';
+import RbTransition from './transition';
+import { omit } from '../../../../utils/object';
 
-const Poper = React.forwardRef(
+const Popper = React.forwardRef(
     function ({
         disabled = false,
         /**
@@ -18,7 +21,12 @@ const Poper = React.forwardRef(
         children: childEles,
         as: _as = React.Fragment,
         overlayType = React.Fragment,
+        overlayProps = {},
+        overlayElementProps = {},
+        overlayTransitionProps,
+        overlayPropNameForShow = 'isOpen',
         overlay: popupJsxEl = null,
+        getOverlay,
         dismissOnClickAway = true,
         /**
          * @description specifiy the way popper show
@@ -30,6 +38,8 @@ const Poper = React.forwardRef(
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
         trigger = filterPoperTrigger(trigger)
 
+        const shouldCloneOverlayPropsToTransiton = overlayProps && overlayProps.as && overlayProps.as === overlayType
+
         const triggerElRef = React.useRef(null)
         const popupRef = React.createRef()
 
@@ -37,27 +47,40 @@ const Poper = React.forwardRef(
 
         const { childNodeList } = parseChildrenProp(childEles)
 
-        const children = childNodeList.filter(x => x)
-        let triggerJsxElIdx = children.findIndex(child => child.props.poperTrigger)
-        triggerJsxElIdx = triggerJsxElIdx > -1 ? triggerJsxElIdx : 0
-        let triggerJsxEl = children[triggerJsxElIdx] || null
-        if (triggerJsxEl) {
-            triggerJsxEl = React.cloneElement(triggerJsxEl, {ref: triggerElRef})
-            if (triggerJsxElIdx > -1) children[triggerJsxElIdx] = triggerJsxEl
+        const children = flatten(childNodeList).filter(x => x)
+
+        get_trigger: {
+            let triggerJsxElIdx = children.findIndex(child => child.props.poperTrigger)
+            triggerJsxElIdx = triggerJsxElIdx > -1 ? triggerJsxElIdx : 0
+            let triggerJsxEl = children[triggerJsxElIdx] || null
+            if (triggerJsxEl) {
+                triggerJsxEl = React.cloneElement(triggerJsxEl, {ref: triggerElRef})
+                if (triggerJsxElIdx > -1) children[triggerJsxElIdx] = triggerJsxEl
+            }
         }
 
-        let popupJsxElIdx = -1
-        if (
-            !popupJsxEl
-            && (
-                popupJsxElIdx = children.findIndex(child => isReactTypeOf(child, overlayType))
-            ) > -1
-        ) {
-            popupJsxEl = children[popupJsxElIdx]
-        }
-        if (popupJsxEl) {
-            popupJsxEl = React.cloneElement(popupJsxEl, {ref: popupRef})
-            if (popupJsxElIdx > -1) children[popupJsxElIdx] = popupJsxEl
+        get_overlay: {
+            if (typeof getOverlay === 'function') {
+                popupJsxEl = getOverlay({
+                    overlayType,
+                    popperChildren: children,
+                    triggerRef: triggerJsxEl
+                })
+            } else {
+                let popupJsxElIdx = -1
+                if (
+                    !popupJsxEl
+                    && (
+                        popupJsxElIdx = children.findIndex(child => isReactTypeOf(child, overlayType))
+                    ) > -1
+                ) {
+                    popupJsxEl = children[popupJsxElIdx]
+                }
+                if (popupJsxEl) {
+                    popupJsxEl = React.cloneElement(popupJsxEl, {[overlayPropNameForShow]: showPopup, ...overlayElementProps, ref: popupRef})
+                    if (popupJsxElIdx > -1) children[popupJsxElIdx] = popupJsxEl
+                }
+            }
         }
 
         let restChildren = children.filter(x =>(x !== popupJsxEl))
@@ -122,7 +145,16 @@ const Poper = React.forwardRef(
         const INNER_NODE = (
             <>
                 {restChildren}
-                {showPopup && popupJsxEl}
+                <RbTransition
+                    transitionProps={overlayTransitionProps}
+                    {...overlayProps}
+                    {...shouldCloneOverlayPropsToTransiton && omit(popupJsxEl.props, 'children')}
+                >
+                    {showPopup && (
+                        !shouldCloneOverlayPropsToTransiton ? popupJsxEl
+                        : popupJsxEl.props.children
+                    )}
+                </RbTransition>
             </>
         )
 
@@ -142,4 +174,4 @@ const Poper = React.forwardRef(
     }
 )
 
-export default Poper
+export default Popper

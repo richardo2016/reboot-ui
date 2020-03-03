@@ -37,8 +37,8 @@ export function rclassnames (props, ...args) {
         dedupe(
             flatten(args)
                 .concat([ props.className, props.class ])
-                .map(x => x && x.trim())
                 .filter(x => x && typeof x === 'string')
+                .map(x => x && x.trim())
         ).join(' ')
     )
 }

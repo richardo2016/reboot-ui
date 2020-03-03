@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { resolveJSXElement } from '../../utils/ui'
-import RbTransitionFade from '../_helpers/transition';
 import Poper from '../_helpers/popper';
 import { rclassnames, tryUseRef } from '../../../../utils/react-like';
 import { parsePlacement } from '../../utils/popper';
@@ -82,17 +81,28 @@ const Popover = React.forwardRef(
 
         return (
             <PopverContext.Provider value={popoverCtx}>
-                <RbTransitionFade
+                <Poper
                     {...props}
                     placement={popoverCtx.fromOptions.placement}
                     poperOptions={poperOptions}
-                    as={Poper}
-                    ref={ref}
                     overlayType={Popover.Overlay}
+                    overlayPropNameForShow="isOpen"
+                    overlayProps={{
+                        as: Popover.Overlay
+                    }}
+                    overlayTransitionProps={{
+                        transitionStateClass: {
+                            entering: 'show',
+                            entered: 'show',
+                            exiting: 'show',
+                            exited: ''
+                        }
+                    }}
                     dismissOnClickAway={dismissOnClickAway}
+                    ref={ref}
                 >
                     {children}
-                </RbTransitionFade>
+                </Poper>
             </PopverContext.Provider>
         )
     }
@@ -102,6 +112,7 @@ Popover.Overlay = React.forwardRef(
     ({
         children,
         as: _as = 'div',
+        isOpen = false,
         ...props
     }, ref) => {
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
@@ -113,6 +124,8 @@ Popover.Overlay = React.forwardRef(
                 {...props}
                 ref={ref}
                 className={rclassnames(props, [
+                    isOpen && 'show',
+                    'fade',
                     'popover',
                     popoverCtx.fromFixed.direction && `bs-popover-${popoverCtx.fromFixed.direction}`
                 ])}

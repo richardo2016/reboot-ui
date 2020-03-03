@@ -30,3 +30,5 @@ export { default as Spinner } from './spinners/component'
 export { default as Jumbotron } from './jumbotron/component'
 export { default as ListGroup } from './list-group/component'
 
+export { default as Modal } from './modal/component'
+
