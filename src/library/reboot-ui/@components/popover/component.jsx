@@ -6,7 +6,6 @@ import Poper from '../_helpers/popper';
 import { rclassnames, tryUseRef } from '../../../../utils/react-like';
 import { parsePlacement } from '../../utils/popper';
 import { coerceInteger } from '../../../../utils/coerce';
-import { fixupPopoverModifier } from '../_utils/popper';
 
 const PopverContext = React.createContext({
     arrowRef: null,

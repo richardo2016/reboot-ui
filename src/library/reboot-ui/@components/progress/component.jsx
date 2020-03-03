@@ -1,0 +1,86 @@
+import React from 'react'
+
+import { resolveJSXElement } from '../../utils/ui'
+import { rclassnames } from '../../../../utils/react-like';
+import { coerceFloat } from '../../../../utils/coerce';
+
+import { filterThemeName } from '../common-utils';
+
+/**
+ * @see https://getbootstrap.com/docs/4.4/components/nav/#supported-content
+ * 
+ * @inner-content `.tab-content`
+ * @inner-content `.tab-pane`
+ */
+const Progress = function ({
+    children,
+    as: _as = 'div',
+    ...props
+}) {
+    const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
+
+    return (
+        <JSXEl
+            {...props}
+            className={rclassnames(props, [
+                "progress"
+            ])}
+        >
+            {children}
+        </JSXEl>
+    )
+}
+
+function formatValue (value, minnmal = 0) {
+    return Math.max(coerceFloat(value), minnmal)
+}
+
+Progress.Bar = function ({
+    children,
+    as: _as = 'div',
+    value = 50,
+    min = 0,
+    max = 100,
+    label = children,
+    bgTheme = '',
+    striped = false,
+    animated = false,
+    ...props
+}) {
+    const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
+
+    min = formatValue(min)
+    max = formatValue(max)
+    value = formatValue(value)
+
+    if (value < min && value > max)
+        value = min
+
+    const percentage = formatValue(value / (max - min) * 100)
+
+    bgTheme = filterThemeName(bgTheme)
+
+    return (
+        <JSXEl
+            {...props}
+            className={rclassnames(props, [
+                "progress-bar",
+                bgTheme && `bg-${bgTheme}`,
+                striped && `progress-bar-striped`,
+                animated && `progress-bar-animated`,
+            ])}
+            role="progressbar"
+            aria-valuenow={value} 
+            aria-valuemin={min}
+            aria-valuemax={max}
+            style={{
+                width: `${percentage}%`,
+                ...props.style,
+            }}
+        >
+            {label}
+        </JSXEl>
+    )
+}
+
+export default Progress
