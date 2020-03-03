@@ -28,4 +28,5 @@ export { default as Popover } from './popover/component'
 export { default as Progress } from './progress/component'
 export { default as Spinner } from './spinners/component'
 export { default as Jumbotron } from './jumbotron/component'
+export { default as ListGroup } from './list-group/component'
 

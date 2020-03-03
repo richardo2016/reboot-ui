@@ -436,7 +436,7 @@ const Sample = ({ uuid }) => {
   return (
     <>
       <Row>
-        <Col col={3}>
+        <Col span={3}>
           <Nav theme="pills" class="flex-column" id={`v-pills-tab${uuid}`} role="tablist">
             <Nav.Item link active={activeKey === 'home'} onClick={() => setActiveKey('home')}>
               Home
@@ -452,7 +452,7 @@ const Sample = ({ uuid }) => {
             </Nav.Item>
           </Nav>
         </Col>
-        <Col col={9}>
+        <Col span={9}>
           <NavTab id={`v-pills-tabContent${uuid}`}>
             <NavTab.Pane active={activeKey === 'home'} aria-labelledby="v-pills-home-tab">
               <p>Cillum ad ut irure tempor velit nostrud occaecat ullamco aliqua anim Lorem sint. Veniam sint duis incididunt do esse magna mollit excepteur laborum qui. Id id reprehenderit sit est eu aliqua occaecat quis et velit excepteur laborum mollit dolore eiusmod. Ipsum dolor in occaecat commodo et voluptate minim reprehenderit mollit pariatur. Deserunt non laborum enim et cillum eu deserunt excepteur ea incididunt minim occaecat.</p>

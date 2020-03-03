@@ -11,3 +11,21 @@ export function filterSize (size = '') {
 export function filterInputType (type = '') {
     if (inputTypes.includes(type)) return type
 }
+
+export function filterAxis (axis = '') {
+    switch (axis) {
+        default:
+        case 'x':
+        case 'h':
+        case 'horizontal':
+            axis = 'horizontal'
+            break
+        case 'y':
+        case 'v':
+        case 'vertical':
+            axis = 'vertical'
+            break
+    }
+
+    return axis
+}

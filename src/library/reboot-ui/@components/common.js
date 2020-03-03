@@ -2,12 +2,7 @@ import json from '../@data/data.json'
 
 export const themes = json['theme-colors'].map(theme => theme.name)
 
-export const sizes = [
-    'xs',
-    'sm',
-    'lg',
-    'xl'
-]
+export const sizes = json['breakpoints'].map(x => x.breakpoint).filter(x => x)
 
 export const TransitionTimeouts = {
     Fade:     150, // $transition-fade
