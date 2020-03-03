@@ -23,3 +23,6 @@ export { default as Card } from './card/component'
 
 export { default as InputGroup } from './input-group/component'
 export { default as Input } from './input/component'
+
+export { default as Popover } from './popover/component'
+

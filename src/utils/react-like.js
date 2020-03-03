@@ -42,3 +42,10 @@ export function rclassnames (props, ...args) {
         ).join(' ')
     )
 }
+
+export function tryUseRef (ContextDef, { fallbackValue = {} } = {}) {
+  let ctx = fallbackValue
+  try { ctx = React.useContext(ContextDef) } catch (error) {}
+
+  return ctx
+}
