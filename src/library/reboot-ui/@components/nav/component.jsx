@@ -14,7 +14,8 @@ import Dropdown from '../../@components/dropdown/component';
  */
 const Nav = function ({
     children,
-    as: _as = 'nav',
+    navAsParent = false,
+    as: _as = navAsParent ? 'div' : 'nav',
     /**
      * @enum tabs
      * @enum pills
@@ -32,7 +33,7 @@ const Nav = function ({
     let use_fill = !use_tabs && themes.includes('fill')
     let use_justified = !use_fill && themes.includes('justified')
 
-    return (
+    const node = (
         <JSXEl
             {...props}
             className={rclassnames(props, [
@@ -46,6 +47,8 @@ const Nav = function ({
             {children}
         </JSXEl>
     )
+
+    return navAsParent ? <nav>{node}</nav> : node
 }
 
 Nav.List = function ({
