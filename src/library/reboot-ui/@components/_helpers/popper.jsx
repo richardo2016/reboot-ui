@@ -23,9 +23,9 @@ const Popper = React.forwardRef(
         overlayType = React.Fragment,
         overlayProps = {},
         overlayElementProps = {},
-        overlayTransitionProps,
         overlayPropNameForShow = 'isOpen',
         overlay: popupJsxEl = null,
+        migrateOverlayChildrenToTransition = false,
         getOverlay,
         dismissOnClickAway = true,
         /**
@@ -37,8 +37,6 @@ const Popper = React.forwardRef(
     }, wref) {
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
         trigger = filterPoperTrigger(trigger)
-
-        const shouldCloneOverlayPropsToTransiton = overlayProps && overlayProps.as && overlayProps.as === overlayType
 
         const triggerElRef = React.useRef(null)
         const popupRef = React.createRef()
@@ -146,12 +144,11 @@ const Popper = React.forwardRef(
             <>
                 {restChildren}
                 <RbTransition
-                    transitionProps={overlayTransitionProps}
                     {...overlayProps}
-                    {...shouldCloneOverlayPropsToTransiton && omit(popupJsxEl.props, 'children')}
+                    {...migrateOverlayChildrenToTransition && omit(popupJsxEl.props, 'children')}
                 >
                     {showPopup && (
-                        !shouldCloneOverlayPropsToTransiton ? popupJsxEl
+                        !migrateOverlayChildrenToTransition ? popupJsxEl
                         : popupJsxEl.props.children
                     )}
                 </RbTransition>

@@ -86,16 +86,17 @@ const Popover = React.forwardRef(
                     placement={popoverCtx.fromOptions.placement}
                     poperOptions={poperOptions}
                     overlayType={Popover.Overlay}
+                    migrateOverlayChildrenToTransition
                     overlayPropNameForShow="isOpen"
                     overlayProps={{
-                        as: Popover.Overlay
-                    }}
-                    overlayTransitionProps={{
-                        transitionStateClass: {
-                            entering: 'show',
-                            entered: 'show',
-                            exiting: 'show',
-                            exited: ''
+                        as: Popover.Overlay,
+                        transitionProps: {
+                            transitionStateClass: {
+                                entering: 'show',
+                                entered: 'show',
+                                exiting: 'show',
+                                exited: ''
+                            }
                         }
                     }}
                     dismissOnClickAway={dismissOnClickAway}
