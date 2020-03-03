@@ -17,35 +17,39 @@ The base `.nav` component does not include any `.active` state. The following ex
 {% endcapture %}
 {% include callout.html content=callout type="info" %}
 
-{% capture example %}
-<ul class="nav">
-  <li class="nav-item">
-    <a class="nav-link active" href="#">Active</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-  </li>
-</ul>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Nav.List>
+        <Nav.Item><Nav.Link active href="#">Active</Nav.Link></Nav.Item>
+        <Nav.Item><Nav.Link href="#">Link</Nav.Link></Nav.Item>
+        <Nav.Item><Nav.Link href="#">Link</Nav.Link></Nav.Item>
+        <Nav.Item><Nav.Link disabled href="#">Disabled</Nav.Link></Nav.Item>
+      </Nav.List>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 Classes are used throughout, so your markup can be super flexible. Use `<ul>`s like above, `<ol>` if the order of your items is important, or roll your own with a `<nav>` element. Because the `.nav` uses `display: flex`, the nav links behave the same as nav items would, but without the extra markup.
 
-{% capture example %}
-<nav class="nav">
-  <a class="nav-link active" href="#">Active</a>
-  <a class="nav-link" href="#">Link</a>
-  <a class="nav-link" href="#">Link</a>
-  <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-</nav>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Nav>
+        <Nav.Link active href="#">Active</Nav.Link>
+        <Nav.Link href="#">Link</Nav.Link>
+        <Nav.Link href="#">Link</Nav.Link>
+        <Nav.Link disabled href="#">Disabled</Nav.Link>
+      </Nav>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Available styles
 
@@ -57,201 +61,195 @@ Change the horizontal alignment of your nav with [flexbox utilities]({{ site.bas
 
 Centered with `.justify-content-center`:
 
-{% capture example %}
-<ul class="nav justify-content-center">
-  <li class="nav-item">
-    <a class="nav-link active" href="#">Active</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-  </li>
-</ul>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Nav class="justify-content-center">
+        <Nav.Item><Nav.Link active href="#">Active</Nav.Link></Nav.Item>
+        <Nav.Item><Nav.Link href="#">Link</Nav.Link></Nav.Item>
+        <Nav.Item><Nav.Link href="#">Link</Nav.Link></Nav.Item>
+        <Nav.Item><Nav.Link disabled href="#">Disabled</Nav.Link></Nav.Item>
+      </Nav>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 Right-aligned with `.justify-content-end`:
 
-{% capture example %}
-<ul class="nav justify-content-end">
-  <li class="nav-item">
-    <a class="nav-link active" href="#">Active</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-  </li>
-</ul>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Nav class="justify-content-end">
+        <Nav.Item><Nav.Link active href="#">Active</Nav.Link></Nav.Item>
+        <Nav.Item><Nav.Link href="#">Link</Nav.Link></Nav.Item>
+        <Nav.Item><Nav.Link href="#">Link</Nav.Link></Nav.Item>
+        <Nav.Item><Nav.Link disabled href="#">Disabled</Nav.Link></Nav.Item>
+      </Nav>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Vertical
 
 Stack your navigation by changing the flex item direction with the `.flex-column` utility. Need to stack them on some viewports but not others? Use the responsive versions (e.g., `.flex-sm-column`).
 
-{% capture example %}
-<ul class="nav flex-column">
-  <li class="nav-item">
-    <a class="nav-link active" href="#">Active</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-  </li>
-</ul>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Nav.List class="flex-column">
+        <Nav.Item><Nav.Link active href="#">Active</Nav.Link></Nav.Item>
+        <Nav.Item><Nav.Link href="#">Link</Nav.Link></Nav.Item>
+        <Nav.Item><Nav.Link href="#">Link</Nav.Link></Nav.Item>
+        <Nav.Item><Nav.Link disabled href="#">Disabled</Nav.Link></Nav.Item>
+      </Nav.List>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 As always, vertical navigation is possible without `<ul>`s, too.
 
-{% capture example %}
-<nav class="nav flex-column">
-  <a class="nav-link active" href="#">Active</a>
-  <a class="nav-link" href="#">Link</a>
-  <a class="nav-link" href="#">Link</a>
-  <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-</nav>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Nav class="flex-column">
+        <Nav.Link active href="#">Active</Nav.Link>
+        <Nav.Link href="#">Link</Nav.Link>
+        <Nav.Link href="#">Link</Nav.Link>
+        <Nav.Link disabled href="#">Disabled</Nav.Link>
+      </Nav>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Tabs
 
 Takes the basic nav from above and adds the `.nav-tabs` class to generate a tabbed interface. Use them to create tabbable regions with our [tab JavaScript plugin](#javascript-behavior).
 
-{% capture example %}
-<ul class="nav nav-tabs">
-  <li class="nav-item">
-    <a class="nav-link active" href="#">Active</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-  </li>
-</ul>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Nav.List theme="tabs">
+        <Nav.Item><Nav.Link active href="#">Active</Nav.Link></Nav.Item>
+        <Nav.Item><Nav.Link href="#">Link</Nav.Link></Nav.Item>
+        <Nav.Item><Nav.Link href="#">Link</Nav.Link></Nav.Item>
+        <Nav.Item><Nav.Link disabled href="#">Disabled</Nav.Link></Nav.Item>
+      </Nav.List>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Pills
 
 Take that same HTML, but use `.nav-pills` instead:
 
-{% capture example %}
-<ul class="nav nav-pills">
-  <li class="nav-item">
-    <a class="nav-link active" href="#">Active</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-  </li>
-</ul>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Nav.List theme="pills">
+        <Nav.Item><Nav.Link active href="#">Active</Nav.Link></Nav.Item>
+        <Nav.Item><Nav.Link href="#">Link</Nav.Link></Nav.Item>
+        <Nav.Item><Nav.Link href="#">Link</Nav.Link></Nav.Item>
+        <Nav.Item><Nav.Link disabled href="#">Disabled</Nav.Link></Nav.Item>
+      </Nav.List>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Fill and justify
 
 Force your `.nav`'s contents to extend the full available width one of two modifier classes. To proportionately fill all available space with your `.nav-item`s, use `.nav-fill`. Notice that all horizontal space is occupied, but not every nav item has the same width.
 
-{% capture example %}
-<ul class="nav nav-pills nav-fill">
-  <li class="nav-item">
-    <a class="nav-link active" href="#">Active</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Much longer nav link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-  </li>
-</ul>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Nav.List theme="pills fill">
+        <Nav.Item><Nav.Link active href="#">Active</Nav.Link></Nav.Item>
+        <Nav.Item><Nav.Link href="#">Much longer nav link</Nav.Link></Nav.Item>
+        <Nav.Item><Nav.Link href="#">Link</Nav.Link></Nav.Item>
+        <Nav.Item><Nav.Link disabled href="#">Disabled</Nav.Link></Nav.Item>
+      </Nav.List>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 When using a `<nav>`-based navigation, be sure to include `.nav-item` on the anchors.
 
-{% capture example %}
-<nav class="nav nav-pills nav-fill">
-  <a class="nav-item nav-link active" href="#">Active</a>
-  <a class="nav-item nav-link" href="#">Much longer nav link</a>
-  <a class="nav-item nav-link" href="#">Link</a>
-  <a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-</nav>
-{% endcapture %}
-{% include example.html content=example %}
-
 For equal-width elements, use `.nav-justified`. All horizontal space will be occupied by nav links, but unlike the `.nav-fill` above, every nav item will be the same width.
 
-{% capture example %}
-<ul class="nav nav-pills nav-justified">
-  <li class="nav-item">
-    <a class="nav-link active" href="#">Active</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Much longer nav link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-  </li>
-</ul>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Nav.List theme="pills justified">
+        <Nav.Item><Nav.Link active href="#">Active</Nav.Link></Nav.Item>
+        <Nav.Item><Nav.Link href="#">Much longer nav link</Nav.Link></Nav.Item>
+        <Nav.Item><Nav.Link href="#">Link</Nav.Link></Nav.Item>
+        <Nav.Item><Nav.Link disabled href="#">Disabled</Nav.Link></Nav.Item>
+      </Nav.List>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 Similar to the `.nav-fill` example using a `<nav>`-based navigation, be sure to include `.nav-item` on the anchors.
 
-{% capture example %}
-<nav class="nav nav-pills nav-justified">
-  <a class="nav-item nav-link active" href="#">Active</a>
-  <a class="nav-item nav-link" href="#">Much longer nav link</a>
-  <a class="nav-item nav-link" href="#">Link</a>
-  <a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-</nav>
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Nav theme="pills justified">
+        <Nav.Item link active href="#">Active</Nav.Item>
+        <Nav.Item link href="#">Much longer nav link</Nav.Item>
+        <Nav.Item link href="#">Link</Nav.Item>
+        <Nav.Item link disabled href="#">Disabled</Nav.Item>
+      </Nav>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
-{% endcapture %}
-{% include example.html content=example %}
 ## Working with flex utilities
 
 If you need responsive nav variations, consider using a series of [flexbox utilities]({{ site.baseurl }}/docs/{{ site.docs_version }}/utilities/flex/). While more verbose, these utilities offer greater customization across responsive breakpoints. In the example below, our nav will be stacked on the lowest breakpoint, then adapt to a horizontal layout that fills the available width starting from the small breakpoint.
 
-{% capture example %}
-<nav class="nav nav-pills flex-column flex-sm-row">
-  <a class="flex-sm-fill text-sm-center nav-link active" href="#">Active</a>
-  <a class="flex-sm-fill text-sm-center nav-link" href="#">Longer nav link</a>
-  <a class="flex-sm-fill text-sm-center nav-link" href="#">Link</a>
-  <a class="flex-sm-fill text-sm-center nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-</nav>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Nav theme="pills" class="flex-column flex-sm-row">
+        <Nav.Link class="flex-sm-fill text-sm-center" active href="#">Active</Nav.Link>
+        <Nav.Link class="flex-sm-fill text-sm-center" href="#">Longer nav link</Nav.Link>
+        <Nav.Link class="flex-sm-fill text-sm-center" href="#">Link</Nav.Link>
+        <Nav.Link class="flex-sm-fill text-sm-center" disabled href="#">Disabled</Nav.Link>
+      </Nav>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Regarding accessibility
 
@@ -265,57 +263,57 @@ Add dropdown menus with a little extra HTML and the [dropdowns JavaScript plugin
 
 ### Tabs with dropdowns
 
-{% capture example %}
-<ul class="nav nav-tabs">
-  <li class="nav-item">
-    <a class="nav-link active" href="#">Active</a>
-  </li>
-  <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-    <div class="dropdown-menu">
-      <a class="dropdown-item" href="#">Action</a>
-      <a class="dropdown-item" href="#">Another action</a>
-      <a class="dropdown-item" href="#">Something else here</a>
-      <div class="dropdown-divider"></div>
-      <a class="dropdown-item" href="#">Separated link</a>
-    </div>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-  </li>
-</ul>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Nav theme="tabs">
+        <Nav.Item><Nav.Link active href="#">Active</Nav.Link></Nav.Item>
+        <Nav.DropdownItem>
+          Dropdown
+          <Dropdown.Menu>
+              <Dropdown.Item as="a" href="#">Action</Dropdown.Item>
+              <Dropdown.Item as="a" href="#">Another action</Dropdown.Item>
+              <Dropdown.Item as="a" href="#">Something else here</Dropdown.Item>
+              <Dropdown.Item divider />
+              <Dropdown.Item as="a" href="#">Separated link</Dropdown.Item>
+            </Dropdown.Menu>
+        </Nav.DropdownItem>
+        <Nav.Item><Nav.Link href="#">Link</Nav.Link></Nav.Item>
+        <Nav.Item><Nav.Link disabled href="#">Disabled</Nav.Link></Nav.Item>
+      </Nav>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Pills with dropdowns
 
-{% capture example %}
-<ul class="nav nav-pills">
-  <li class="nav-item">
-    <a class="nav-link active" href="#">Active</a>
-  </li>
-  <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-    <div class="dropdown-menu">
-      <a class="dropdown-item" href="#">Action</a>
-      <a class="dropdown-item" href="#">Another action</a>
-      <a class="dropdown-item" href="#">Something else here</a>
-      <div class="dropdown-divider"></div>
-      <a class="dropdown-item" href="#">Separated link</a>
-    </div>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-  </li>
-</ul>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Nav theme="pills">
+        <Nav.Item><Nav.Link active href="#">Active</Nav.Link></Nav.Item>
+        <Nav.DropdownItem>
+          Dropdown
+          <Dropdown.Menu>
+              <Dropdown.Item as="a" href="#">Action</Dropdown.Item>
+              <Dropdown.Item as="a" href="#">Another action</Dropdown.Item>
+              <Dropdown.Item as="a" href="#">Something else here</Dropdown.Item>
+              <Dropdown.Item divider />
+              <Dropdown.Item as="a" href="#">Separated link</Dropdown.Item>
+            </Dropdown.Menu>
+        </Nav.DropdownItem>
+        <Nav.Item><Nav.Link href="#">Link</Nav.Link></Nav.Item>
+        <Nav.Item><Nav.Link disabled href="#">Disabled</Nav.Link></Nav.Item>
+      </Nav>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## JavaScript behavior
 

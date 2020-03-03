@@ -10,7 +10,7 @@ import cpm_offset from '@popperjs/core/lib/modifiers/offset';
 
 import { resolveJSXElement } from '../../utils/ui'
 import { filterPlacement } from '../../utils/poper'
-import { dedupe } from '../../../../utils/array';
+import { dedupe, arraify } from '../../../../utils/array';
 import useClickaway from '../../../../utils/react-hooks/use-clickaway';
 import { isReactTypeOf, getHTMLElementFromJSXElement, parseChildrenProp, rclassnames } from '../../../../utils/react-like'
 
@@ -173,12 +173,12 @@ export default function Dropdown ({
 
 Dropdown.Menu = DropdownMenu;
 Dropdown.Item = DropdownItem;
-// Dropdown.Header = DropdownHeader;
 
 Dropdown.Toggle = React.forwardRef(
     function ({
         children,
         as: _as = 'div',
+        toggleAs: TogglerEl = Button,
         split = false,
         type,
         label,
@@ -188,9 +188,10 @@ Dropdown.Toggle = React.forwardRef(
     }, ref) {
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
     
-        const ddCtx = React.useContext(DropdownCtx)
+        let ddCtx = {}
+        try { ddCtx = React.useContext(DropdownCtx) } catch (error) {}
     
-        const FinalJSX = ({ children }) => {
+        const WrapperJSX = ({ children }) => {
             return (
                 <JSXEl
                     className={rclassnames(props, [
@@ -211,8 +212,8 @@ Dropdown.Toggle = React.forwardRef(
     
         if (!split)
             return (
-                <FinalJSX>
-                    <Button
+                <WrapperJSX>
+                    <TogglerEl
                         ref={ref}
                         type={buttonType}
                         size={buttonSize}
@@ -223,8 +224,8 @@ Dropdown.Toggle = React.forwardRef(
                         data-toggle='dropdown'
                     >
                         {buttonLabel}
-                    </Button>
-                </FinalJSX>
+                    </TogglerEl>
+                </WrapperJSX>
             )
         
         if (typeof split === 'string') buttonLabel = split
@@ -278,7 +279,7 @@ Dropdown.Toggle = React.forwardRef(
         }
     
         return (
-            <FinalJSX>{splitedButtonGroupTuple}</FinalJSX>
+            <WrapperJSX>{splitedButtonGroupTuple}</WrapperJSX>
         )
     }
 )

@@ -1,3 +1,5 @@
+import { flatten, arraify } from "./array"
+
 export function ucfirst (str = '') {
     if (typeof str !== 'string') return ''
     
@@ -22,4 +24,12 @@ export function prefix (prefix = '/', str = '') {
         str = prefix + str
 
     return str
+}
+
+export function flatten2trimedStrList (stringOrStrList) {
+    return flatten(arraify(stringOrStrList))
+        .join(' ')
+        .split(' ')
+        .filter(x => x && typeof x === 'string')
+        .map(x => x.trim())
 }

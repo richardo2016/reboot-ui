@@ -1,5 +1,5 @@
 import React from 'react'
-import { getHTMLElementFromJSXElement } from '../react-like';
+import { componentOrElementContains } from '../react-like';
 
 export default function (
     clkEleRef,
@@ -26,8 +26,8 @@ export default function (
                 const el = evt.target
 
                 let { current: clkEle } = clkEleRef;
-                
-                if (clkEle /* && (clkEle = getHTMLElementFromJSXElement(clkEle)) */ && clkEle.contains(el)) {
+
+                if (clkEle && componentOrElementContains(clkEle, el)) {
                     evt.stopPropagation();
 
                     if (typeof clickIn === 'function')

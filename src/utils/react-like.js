@@ -3,14 +3,18 @@ import { arraify, dedupe, flatten } from './array'
 import classnames from 'classnames'
 
 export function getHTMLElementFromJSXElement (jsxElement) {
-    if (typeof jsxElement === 'object') {
-        if (jsxElement instanceof HTMLElement) return jsxElement
-    
-        // preact
-        if (jsxElement.base instanceof HTMLElement) return jsxElement.base
-    }
+    if (jsxElement instanceof HTMLElement) return jsxElement
+
+    // preact
+    if (jsxElement && jsxElement.base instanceof HTMLElement) return jsxElement.base
 
     throw new Error(`[getHTMLElementFromJSXElement] invalid react-like jsxElement`)
+}
+
+export function componentOrElementContains (jsxElement, targetEl) {
+    const element = getHTMLElementFromJSXElement(jsxElement)
+
+    return element.contains(targetEl)
 }
 
 export function isReactTypeOf (input, compare) {
