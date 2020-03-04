@@ -5,10 +5,13 @@ import { rclassnames } from '../../../../utils/react-like'
 
 export const Container = ({
     children,
+    as: _as = 'div',
     fluid = false,
     breakpoint = '',
     ...props
 }) => {
+    const JSXEl = resolveJSXElement(_as)
+
     let classnameBase = 'container'
     if (!fluid) {
         if (breakpoint) {
@@ -19,14 +22,14 @@ export const Container = ({
         classnameBase = 'container-fluid'
 
     return (
-        <div
+        <JSXEl
             {...props}
             className={rclassnames(props, [
                 classnameBase
             ])}
         >
             {children}
-        </div>
+        </JSXEl>
     )
 }
 
@@ -34,10 +37,10 @@ export const Container = ({
  * @description
  * @see `.no-gutters`: https://getbootstrap.com/docs/4.4/layout/grid/#no-gutters
  * 
- * @param {*} param0 
  */
 export const Row = ({
     children,
+    as: _as = 'div',
     rowCols = undefined,
 
     sm = undefined,
@@ -48,8 +51,10 @@ export const Row = ({
 }) => {
     const clsNameList = getDivisionAboutClsNameListFromBreakPointConfig({ rowCols, sm, md, lg, xl })
 
+    const JSXEl = resolveJSXElement(_as)
+
     return (
-        <div
+        <JSXEl
             {...props}
             className={
                 rclassnames(props, [
@@ -58,7 +63,7 @@ export const Row = ({
             }
         >
             {children}
-        </div>
+        </JSXEl>
     )
 }
 
@@ -101,4 +106,8 @@ export const Col = ({
             {children}
         </JSXEl>
     )
+}
+
+Col.useColClass = ({ span, offset, sm, md, lg, xl } = {}) => {
+    return getOffsetAboutClsNameListFromBreakPointConfig({ span, offset, sm, md, lg, xl })
 }

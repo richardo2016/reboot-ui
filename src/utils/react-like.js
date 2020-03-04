@@ -17,8 +17,54 @@ export function componentOrElementContains (jsxElement, targetEl) {
     return element.contains(targetEl)
 }
 
+export function isHTMLElementOf (input, compare) {
+    switch (compare) {
+        case 'html': return input instanceof HTMLHtmlElement;
+        case 'head': return input instanceof HTMLHeadElement;
+        case 'meta': return input instanceof HTMLMetaElement;
+        case 'title': return input instanceof HTMLTitleElement;
+        case 'link': return input instanceof HTMLLinkElement;
+        case 'script': return input instanceof HTMLScriptElement;
+        case 'body': return input instanceof HTMLBodyElement;
+        case 'div': return input instanceof HTMLDivElement;
+        case 'header': return input instanceof HTMLHeaderElement;
+        case 'a': return input instanceof HTMLAElement;
+        case 'svg': return input instanceof HTMLSvgElement;
+        case 'path': return input instanceof HTMLPathElement;
+        case 'ul': return input instanceof HTMLUlElement;
+        case 'li': return input instanceof HTMLLiElement;
+        case 'form': return input instanceof HTMLFormElement;
+        case 'span': return input instanceof HTMLSpanElement;
+        case 'input': return input instanceof HTMLInputElement;
+        case 'pre': return input instanceof HTMLPreElement;
+        case 'button': return input instanceof HTMLButtonElement;
+        case 'nav': return input instanceof HTMLNavElement;
+        case 'main': return input instanceof HTMLMainElement;
+        case 'h1': return input instanceof HTMLH1Element;
+        case 'h2': return input instanceof HTMLH2Element;
+        case 'h3': return input instanceof HTMLH3Element;
+        case 'h4': return input instanceof HTMLH4Element;
+        case 'h5': return input instanceof HTMLH5Element;
+        case 'p': return input instanceof HTMLPElement;
+        case 'code': return input instanceof HTMLCodeElement;
+        case 'label': return input instanceof HTMLLabelElement;
+        case 'small': return input instanceof HTMLSmallElement;
+        case 'figure': return input instanceof HTMLFigureElement;
+        case 'select': return input instanceof HTMLSelectElement;
+        case 'option': return input instanceof HTMLOptionElement;
+        case 'textarea': return input instanceof HTMLTextareaElement;
+        case 'strong': return input instanceof HTMLStrongElement;
+        case 'fieldset': return input instanceof HTMLFieldsetElement;
+        case 'legend': return input instanceof HTMLLegendElement;
+        case 'em': return input instanceof HTMLEmElement;
+    }
+
+    return input === compare
+}
+
 export function isReactTypeOf (input, compare) {
-    return input.type === compare
+    if (Array.isArray(compare)) return compare.some(citem => isReactTypeOf(input, citem))
+    if (input.type === compare) return true
 }
 
 export function parseChildrenProp (childEle) {
@@ -43,9 +89,16 @@ export function rclassnames (props, ...args) {
     )
 }
 
-export function tryUseRef (ContextDef, { fallbackValue = {} } = {}) {
+export function tryUseContext (ContextRef, { fallbackValue = {} } = {}) {
   let ctx = fallbackValue
-  try { ctx = React.useContext(ContextDef) } catch (error) {}
+  try { ctx = React.useContext(ContextRef) } catch (error) {}
 
   return ctx
+}
+
+export function renderChildren (children, renderContext) {
+    if (typeof children === 'function')
+        return children.call(null, renderContext)
+
+    return children
 }

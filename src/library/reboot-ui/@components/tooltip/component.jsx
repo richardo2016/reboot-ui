@@ -2,7 +2,7 @@ import React from 'react'
 
 import { resolveJSXElement } from '../../utils/ui'
 import Poper from '../_helpers/popper';
-import { rclassnames, tryUseRef, isReactTypeOf } from '../../../../utils/react-like';
+import { rclassnames, tryUseContext, isReactTypeOf } from '../../../../utils/react-like';
 import { parsePlacement } from '../../utils/popper';
 import { arraify } from '../../../../utils/array';
 import { TransitionTimeouts } from '../common';
@@ -118,7 +118,7 @@ Tooltip.Overlay = React.forwardRef(
     }, ref) => {
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
 
-        const tooltipCtx = tryUseRef(TooltipContext)
+        const tooltipCtx = tryUseContext(TooltipContext)
 
         return (
             <JSXEl

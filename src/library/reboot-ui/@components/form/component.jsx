@@ -1,11 +1,10 @@
-
 import React from 'react'
 
 import { resolveJSXElement } from '../../utils/ui'
-import { rclassnames, tryUseRef, isReactTypeOf } from '../../../../utils/react-like';
+import { rclassnames, tryUseContext } from '../../../../utils/react-like';
 
-import Input from '../input/component'
-import { arraify } from '../../../../utils/array';
+import { FormControlContext, FormGroupContext } from './context'
+import { filterFormControlSize } from '../common-utils';
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/form/#supported-content
@@ -16,6 +15,7 @@ import { arraify } from '../../../../utils/array';
 const Form = function ({
     children,
     as: _as = 'form',
+    inline = false,
     ...props
 }) {
     const JSXEl = resolveJSXElement(_as, { allowedHTMLTags: ['form', 'div'] });
@@ -24,7 +24,8 @@ const Form = function ({
         <JSXEl
             {...props}
             className={rclassnames(props, [
-                `form`,
+                'form',
+                inline && `form-inline`,
             ])}
         >
             {children}
@@ -32,20 +33,18 @@ const Form = function ({
     )
 }
 
-Form.Group = function ({
+Form.Row = function ({
     children,
-    as: _as = 'form',
-    check = false,
+    as: _as = 'div',
     ...props
-}) {
-    const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
+}, ref) {
+    const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
 
     return (
         <JSXEl
             {...props}
             className={rclassnames(props, [
-                `form-group`,
-                check && `form-check`,
+                'form-row',
             ])}
         >
             {children}
@@ -53,72 +52,83 @@ Form.Group = function ({
     )
 }
 
-export const FormControlContext = React.createContext(null)
-
-Form.Control = React.forwardRef(
+Form.Group = React.forwardRef(
     function ({
         children,
-        id = '',
-        label = '',
-        labelAfter = false,
-        as: _as = React.Fragment,
+        as: _as = 'div',
+        check = false,
+        group = !check,
+        inline = false,
         ...props
     }, ref) {
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
-        const formCtrlCtx = {
-            controlId: id,
-            label: label
+        const ctx = {
+            inFormGroup: true,
+            check: !!check
         }
 
-        const labelNode = label && typeof label === 'string' ? (
-            <label for={id}>{label}</label>
-        ) : label
-        const labelAfterNode = labelAfter && typeof labelAfter === 'string' ? (
-            <label for={id}>{labelAfter}</label>
-        ) : labelAfter
-        
-        children = arraify(children)
-        let foundIdInput
-        children.forEach((item, idx) => {
-            if (!(
-                isReactTypeOf(item, Input) || item instanceof HTMLInputElement
-                || item instanceof HTMLTextAreaElement
-            )) return 
-
-            const nextProps = {className: rclassnames(item.props, [
-                (() => {
-                    if (item.props.type === 'checkbox')
-                        return 'form-check-input'
-                        
-                    return 'form-control'
-                })()
-            ])}
-            
-            if (id && !foundIdInput) {
-                nextProps.id = id
-                foundIdInput = true
-            }
-
-            children[idx] = React.cloneElement(item, nextProps)
-        })
-
         return (
-            <FormControlContext.Provider value={formCtrlCtx}>
+            <FormGroupContext.Provider value={ctx}>
                 <JSXEl
                     {...props}
                     ref={ref}
                     className={rclassnames(props, [
+                        group && `form-group`,
+                        check && `form-check`,
+                        check && inline && `form-check-inline`,
                     ])}
                 >
-                    {labelNode}
                     {children}
-                    {labelAfterNode}
                 </JSXEl>
-            </FormControlContext.Provider>
+            </FormGroupContext.Provider>
         )
     }
 )
+
+Form.CheckGroup = function ({
+    children,
+    as: _as = 'div',
+    group = false,
+    ...props
+}, ref) {
+    return (
+        <Form.Group
+            {...props}
+            group={group}
+            check
+        >
+            {children}
+        </Form.Group>
+    )
+}
+
+Form.Label = function ({
+    children,
+    as: _as = 'label',
+    for: labelFor = '',
+    ...props
+}) {
+    const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
+
+    const formCtrlCtx = tryUseContext(FormControlContext)
+    const formGrpCtx = tryUseContext(FormGroupContext)
+
+    children = children || formCtrlCtx.label
+    labelFor = labelFor || formCtrlCtx.controlId
+
+    return (
+        <JSXEl
+            {...props}
+            {...labelFor && { for: labelFor }}
+            className={rclassnames(props, [
+                formGrpCtx.inFormGroup && formGrpCtx.check && 'form-check-label',
+            ])}
+        >
+            {children}
+        </JSXEl>
+    )
+}
 
 Form.Text = function ({
     children,

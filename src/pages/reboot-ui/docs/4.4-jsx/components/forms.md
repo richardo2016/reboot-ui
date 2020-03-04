@@ -21,7 +21,7 @@ const Sample = ({ uuid }) => {
       <Form>
         <Form.Group>
           <Form.Control
-            id={`exampleInputEmail1`}
+            ctrlId={`exampleInputEmail1`}
             label="Email address"
           >
             <Input type="email" aria-describedby="emailHelp" />
@@ -30,15 +30,15 @@ const Sample = ({ uuid }) => {
         </Form.Group>
         <Form.Group>
           <Form.Control
-            id={`exampleInputPassword1`}
+            ctrlId={`exampleInputPassword1`}
             label="Password"
           >
             <Input type="email" />
           </Form.Control>
         </Form.Group>
-        <Form.Group check>
+        <Form.Group check group>
           <Form.Control
-            id={`exampleCheck1`}
+            ctrlId={`exampleCheck1`}
             labelAfter="Check me out"
           >
             <Input type="checkbox" />
@@ -52,161 +52,220 @@ const Sample = ({ uuid }) => {
 {% endreboot_mvvm %}
 {% include mvvm-example.html mexample=mexample_with_code %}
 
-{% capture example %}
-<form>
-  <div class="form-group">
-    <label for="exampleInputEmail1">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-  </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1">
-  </div>
-  <div class="form-group form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-{% endcapture %}
-{% include example.html content=example %}
-
 ## Form controls
 
 Textual form controls—like `<input>`s, `<select>`s, and `<textarea>`s—are styled with the `.form-control` class. Included are styles for general appearance, focus state, sizing, and more.
 
 Be sure to explore our [custom forms](#custom-forms) to further style `<select>`s.
 
-{% capture example %}
-<form>
-  <div class="form-group">
-    <label for="exampleFormControlInput1">Email address</label>
-    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-  </div>
-  <div class="form-group">
-    <label for="exampleFormControlSelect1">Example select</label>
-    <select class="form-control" id="exampleFormControlSelect1">
-      <option>1</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
-    </select>
-  </div>
-  <div class="form-group">
-    <label for="exampleFormControlSelect2">Example multiple select</label>
-    <select multiple class="form-control" id="exampleFormControlSelect2">
-      <option>1</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
-    </select>
-  </div>
-  <div class="form-group">
-    <label for="exampleFormControlTextarea1">Example textarea</label>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-  </div>
-</form>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form>
+        <Form.Group>
+          <Form.Control controlId={`exampleFormControlInput1`} label="Email address">
+            <Input type="email" placeholder="name@example.com" />
+          </Form.Control>
+        </Form.Group>
+        <Form.Group>
+          <Form.Control controlId={`exampleFormControlSelect2`} label="Email select">
+            <Select>
+              <Select.Option>1</Select.Option>
+              <Select.Option>2</Select.Option>
+              <Select.Option>3</Select.Option>
+              <Select.Option>4</Select.Option>
+              <Select.Option>5</Select.Option>
+            </Select>
+          </Form.Control>
+        </Form.Group>
+        <Form.Group>
+          <Form.Control controlId={`exampleFormControlSelect2`} label="Email multiple select">
+            <Select multiple>
+              <Select.Option>1</Select.Option>
+              <Select.Option>2</Select.Option>
+              <Select.Option>3</Select.Option>
+              <Select.Option>4</Select.Option>
+              <Select.Option>5</Select.Option>
+            </Select>
+          </Form.Control>
+        </Form.Group>
+        <Form.Group>
+          <Form.Control controlId={`exampleFormControlTextarea1`} label="Email multiple select">
+            <TextArea />
+          </Form.Control>
+        </Form.Group>
+      </Form>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 For file inputs, swap the `.form-control` for `.form-control-file`.
 
-{% capture example %}
-<form>
-  <div class="form-group">
-    <label for="exampleFormControlFile1">Example file input</label>
-    <input type="file" class="form-control-file" id="exampleFormControlFile1">
-  </div>
-</form>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form>
+        <Form.Group>
+          <Form.Control controlId={`exampleFormControlFile1`} label="Example file input">
+            <Input type="file" />
+          </Form.Control>
+        </Form.Group>
+      </Form>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Sizing
 
 Set heights using classes like `.form-control-lg` and `.form-control-sm`.
 
-{% capture example %}
-<input class="form-control form-control-lg" type="text" placeholder=".form-control-lg">
-<input class="form-control" type="text" placeholder="Default input">
-<input class="form-control form-control-sm" type="text" placeholder=".form-control-sm">
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form.Control>
+        <Input size="lg" type="text" placeholder=".form-control-lg" />
+        <Input type="text" placeholder="Default input" />
+        <Input size="sm" type="text" placeholder=".form-control-sm" />
+      </Form.Control>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
-{% capture example %}
-<select class="form-control form-control-lg">
-  <option>Large select</option>
-</select>
-<select class="form-control">
-  <option>Default select</option>
-</select>
-<select class="form-control form-control-sm">
-  <option>Small select</option>
-</select>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form.Control>
+        <Select size="lg" placeholder=".form-control-lg">
+          <Select.Option>Large select</Select.Option>
+        </Select>
+        <Select placeholder="Default input">
+          <Select.Option>Default select</Select.Option>
+        </Select>
+        <Select size="sm" placeholder=".form-control-sm">
+          <Select.Option>Small select</Select.Option>
+        </Select>
+      </Form.Control>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Readonly
 
 Add the `readonly` boolean attribute on an input to prevent modification of the input's value. Read-only inputs appear lighter (just like disabled inputs), but retain the standard cursor.
 
-{% capture example %}
-<input class="form-control" type="text" placeholder="Readonly input here..." readonly>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form.Control>
+        <Input type="text" placeholder="Readonly input here..." readonly />
+      </Form.Control>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Readonly plain text
 
 If you want to have `<input readonly>` elements in your form styled as plain text, use the `.form-control-plaintext` class to remove the default form field styling and preserve the correct margin and padding.
 
-{% capture example %}
-<form>
-  <div class="form-group row">
-    <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
-    <div class="col-sm-10">
-      <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com">
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
-    <div class="col-sm-10">
-      <input type="password" class="form-control" id="inputPassword">
-    </div>
-  </div>
-</form>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form>
+        <Form.Group as={Row}>
+          <Form.Control
+            controlId="staticEmail"
+            label={<Form.Label class="col-sm-2 col-form-label">Email</Form.Label>}
+          >
+            <Col span={10}>
+              <Input type="text" value="email@example.com" readonly plaintext />
+            </Col>
+          </Form.Control>
+        </Form.Group>
+        <Form.Group as={Row}>
+          <Form.Control
+            controlId="inputPassword"
+            label={<Form.Label class="col-sm-2 col-form-label">Password</Form.Label>}
+          >
+            <Col span={10}>
+              <Input type="password" placeholder="Password" />
+            </Col>
+          </Form.Control>
+        </Form.Group>
+      </Form>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
-{% capture example %}
-<form class="form-inline">
-  <div class="form-group mb-2">
-    <label for="staticEmail2" class="sr-only">Email</label>
-    <input type="text" readonly class="form-control-plaintext" id="staticEmail2" value="email@example.com">
-  </div>
-  <div class="form-group mx-sm-3 mb-2">
-    <label for="inputPassword2" class="sr-only">Password</label>
-    <input type="password" class="form-control" id="inputPassword2" placeholder="Password">
-  </div>
-  <button type="submit" class="btn btn-primary mb-2">Confirm identity</button>
-</form>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form inline>
+        <Form.Group class="mb-2">
+          <Form.Control
+            controlId="staticEmail2"
+            label={<Form.Label class="sr-only">Email</Form.Label>}
+          >
+            <Input type="text" value="email@example.com" readonly plaintext />
+          </Form.Control>
+        </Form.Group>
+        <Form.Group class="mx-sm-3 mb-2">
+          <Form.Control
+            controlId="inputPassword2"
+            label={<Form.Label class="sr-only">Password</Form.Label>}
+          >
+            <Input type="password" placeholder="Password" />
+          </Form.Control>
+        </Form.Group>
+        <Button type="submit" theme="primary" class="mb-2">Confirm identity</Button>
+      </Form>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Range Inputs
 
 Set horizontally scrollable range inputs using `.form-control-range`.
 
-{% capture example %}
-<form>
-  <div class="form-group">
-    <label for="formControlRange">Example Range input</label>
-    <input type="range" class="form-control-range" id="formControlRange">
-  </div>
-</form>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form>
+        <Form.Group class="mb-2">
+          <Form.Control
+            controlId="formControlRange"
+            label="Example Range input"
+          >
+            <Input type="range" />
+          </Form.Control>
+        </Form.Group>
+      </Form>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Checkboxes and radios
 
@@ -220,93 +279,165 @@ Checkboxes and radio buttons support HTML-based form validation and provide conc
 
 By default, any number of checkboxes and radios that are immediate sibling will be vertically stacked and appropriately spaced with `.form-check`.
 
-{% capture example %}
-<div class="form-check">
-  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-  <label class="form-check-label" for="defaultCheck1">
-    Default checkbox
-  </label>
-</div>
-<div class="form-check">
-  <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" disabled>
-  <label class="form-check-label" for="defaultCheck2">
-    Disabled checkbox
-  </label>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+        <Form.Group check>
+          <Form.Control
+            controlId="defaultCheck1"
+            labelAfter="Default checkbox"
+          >
+            <Input type="checkbox" value="" />
+          </Form.Control>
+        </Form.Group>
+        <Form.Group check>
+          <Form.Control
+            controlId="defaultCheck2"
+            labelAfter="Disabled checkbox"
+          >
+            <Input type="checkbox" value="" disabled />
+          </Form.Control>
+        </Form.Group>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
-{% capture example %}
-<div class="form-check">
-  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-  <label class="form-check-label" for="exampleRadios1">
-    Default radio
-  </label>
-</div>
-<div class="form-check">
-  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-  <label class="form-check-label" for="exampleRadios2">
-    Second default radio
-  </label>
-</div>
-<div class="form-check">
-  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3" disabled>
-  <label class="form-check-label" for="exampleRadios3">
-    Disabled radio
-  </label>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+        <Form.Group check>
+          <Form.Control
+            controlId="exampleRadios1"
+            labelAfter="Default radio"
+          >
+            <Input type="radio" name="exampleRadios" value="option1" checked />
+          </Form.Control>
+        </Form.Group>
+        <Form.Group check>
+          <Form.Control
+            controlId="exampleRadios2"
+            labelAfter="Second default radio"
+          >
+            <Input type="radio" name="exampleRadios" value="option2" />
+          </Form.Control>
+        </Form.Group>
+        <Form.Group check>
+          <Form.Control
+            controlId="exampleRadios3"
+            labelAfter="Disabled radio"
+          >
+            <Input type="radio" name="exampleRadios" value="option3" disabled />
+          </Form.Control>
+        </Form.Group>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Inline
 
 Group checkboxes or radios on the same horizontal row by adding `.form-check-inline` to any `.form-check`.
 
-{% capture example %}
-<div class="form-check form-check-inline">
-  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-  <label class="form-check-label" for="inlineCheckbox1">1</label>
-</div>
-<div class="form-check form-check-inline">
-  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-  <label class="form-check-label" for="inlineCheckbox2">2</label>
-</div>
-<div class="form-check form-check-inline">
-  <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" disabled>
-  <label class="form-check-label" for="inlineCheckbox3">3 (disabled)</label>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+        <Form.Group check inline>
+          <Form.Control
+            controlId="inlineCheckbox1"
+            labelAfter="1"
+          >
+            <Input type="checkbox" value="option1" />
+          </Form.Control>
+        </Form.Group>
+        <Form.Group check inline>
+          <Form.Control
+            controlId="inlineCheckbox2"
+            labelAfter="2"
+          >
+            <Input type="checkbox" value="option2" />
+          </Form.Control>
+        </Form.Group>
+        <Form.Group check inline>
+          <Form.Control
+            controlId="inlineCheckbox3"
+            labelAfter="3 (disabled)"
+          >
+            <Input type="checkbox" value="option3" disabled />
+          </Form.Control>
+        </Form.Group>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
-{% capture example %}
-<div class="form-check form-check-inline">
-  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-  <label class="form-check-label" for="inlineRadio1">1</label>
-</div>
-<div class="form-check form-check-inline">
-  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-  <label class="form-check-label" for="inlineRadio2">2</label>
-</div>
-<div class="form-check form-check-inline">
-  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" disabled>
-  <label class="form-check-label" for="inlineRadio3">3 (disabled)</label>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+        <Form.Group check inline>
+          <Form.Control
+            controlId="inlineRadio1"
+            labelAfter="1"
+          >
+            <Input type="radio" name="inlineRadioOptions" value="option1" />
+          </Form.Control>
+        </Form.Group>
+        <Form.Group check inline>
+          <Form.Control
+            controlId="inlineRadio2"
+            labelAfter="2"
+          >
+            <Input type="radio" name="inlineRadioOptions" value="option2" />
+          </Form.Control>
+        </Form.Group>
+        <Form.Group check inline>
+          <Form.Control
+            controlId="inlineRadio3"
+            labelAfter="3 (disabled)"
+          >
+            <Input type="radio" name="inlineRadioOptions" value="option3" disabled />
+          </Form.Control>
+        </Form.Group>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Without labels
 
 Add `.position-static` to inputs within `.form-check` that don't have any label text. Remember to still provide some form of label for assistive technologies (for instance, using `aria-label`).
 
-{% capture example %}
-<div class="form-check">
-  <input class="form-check-input position-static" type="checkbox" id="blankCheckbox" value="option1" aria-label="...">
-</div>
-<div class="form-check">
-  <input class="form-check-input position-static" type="radio" name="blankRadio" id="blankRadio1" value="option1" aria-label="...">
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+        <Form.Group check>
+          <Form.Control
+            controlId="blankCheckbox"
+          >
+            <Input class="position-static" type="checkbox" value="option1" aria-label="..." />
+          </Form.Control>
+        </Form.Group>
+        <Form.Group check>
+          <Form.Control
+            controlId="blankRadio1"
+          >
+            <Input class="position-static" type="checkbox" name="blankRadio" value="option1" aria-label="..." />
+          </Form.Control>
+        </Form.Group>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Layout
 
@@ -316,107 +447,127 @@ Since Bootstrap applies `display: block` and `width: 100%` to almost all our for
 
 The `.form-group` class is the easiest way to add some structure to forms. It provides a flexible class that encourages proper grouping of labels, controls, optional help text, and form validation messaging. By default it only applies `margin-bottom`, but it picks up additional styles in `.form-inline` as needed. Use it with `<fieldset>`s, `<div>`s, or nearly any other element.
 
-{% capture example %}
-<form>
-  <div class="form-group">
-    <label for="formGroupExampleInput">Example label</label>
-    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input placeholder">
-  </div>
-  <div class="form-group">
-    <label for="formGroupExampleInput2">Another label</label>
-    <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input placeholder">
-  </div>
-</form>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form>
+          <Form.Group>
+            <Form.Control
+              label="Example label"
+              controlId="formGroupExampleInput"
+            >
+              <Input type="text" placeholder="Example input placeholder" />
+            </Form.Control>
+          </Form.Group>
+          <Form.Group>
+            <Form.Control
+              label="Another label"
+              controlId="formGroupExampleInput2"
+            >
+              <Input type="text" placeholder="Another input placeholder" />
+            </Form.Control>
+          </Form.Group>
+      </Form>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Form grid
 
 More complex forms can be built using our grid classes. Use these for form layouts that require multiple columns, varied widths, and additional alignment options.
 
-{% capture example %}
-<form>
-  <div class="row">
-    <div class="col">
-      <input type="text" class="form-control" placeholder="First name">
-    </div>
-    <div class="col">
-      <input type="text" class="form-control" placeholder="Last name">
-    </div>
-  </div>
-</form>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Row>
+        <Col>
+          <Input type="text" class="form-control" placeholder="First name" />
+        </Col>
+        <Col>
+          <Input type="text" class="form-control" placeholder="Last name" />
+        </Col>
+      </Row>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 #### Form row
 
 You may also swap `.row` for `.form-row`, a variation of our standard grid row that overrides the default column gutters for tighter and more compact layouts.
 
-{% capture example %}
-<form>
-  <div class="form-row">
-    <div class="col">
-      <input type="text" class="form-control" placeholder="First name">
-    </div>
-    <div class="col">
-      <input type="text" class="form-control" placeholder="Last name">
-    </div>
-  </div>
-</form>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form>
+        <Form.Row>
+          <Col>
+            <Input type="text" class="form-control" placeholder="First name" />
+          </Col>
+          <Col>
+            <Input type="text" class="form-control" placeholder="Last name" />
+          </Col>
+        </Form.Row>
+      </Form>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 More complex layouts can also be created with the grid system.
 
-{% capture example %}
-<form>
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <label for="inputEmail4">Email</label>
-      <input type="email" class="form-control" id="inputEmail4">
-    </div>
-    <div class="form-group col-md-6">
-      <label for="inputPassword4">Password</label>
-      <input type="password" class="form-control" id="inputPassword4">
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="inputAddress">Address</label>
-    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-  </div>
-  <div class="form-group">
-    <label for="inputAddress2">Address 2</label>
-    <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-  </div>
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <label for="inputCity">City</label>
-      <input type="text" class="form-control" id="inputCity">
-    </div>
-    <div class="form-group col-md-4">
-      <label for="inputState">State</label>
-      <select id="inputState" class="form-control">
-        <option selected>Choose...</option>
-        <option>...</option>
-      </select>
-    </div>
-    <div class="form-group col-md-2">
-      <label for="inputZip">Zip</label>
-      <input type="text" class="form-control" id="inputZip">
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="gridCheck">
-      <label class="form-check-label" for="gridCheck">
-        Check me out
-      </label>
-    </div>
-  </div>
-  <button type="submit" class="btn btn-primary">Sign in</button>
-</form>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form>
+        <Form.Row>
+          <Col as={Form.Group} md={6}>
+            <Form.Input type="email" id="inputEmail4" label="Email" />
+          </Col>
+          <Col as={Form.Group} md={6}>
+            <Form.Input type="password" id="inputPassword4" label="Password" />
+          </Col>
+        </Form.Row>
+        <Form.Group>
+          <Form.Input type="text" id="inputAddress" label="Address" placeholder="1234 Main St" />
+        </Form.Group>
+        <Form.Group>
+          <Form.Input type="text" id="inputAddress2" label="Address 2" placeholder="Apartment, studio, or floor" />
+        </Form.Group>
+        <Form.Row>
+          <Col as={Form.Group} md={6}>
+            <Form.Input type="text" id="inputCity" label="City" />
+          </Col>
+          <Col as={Form.Group} md={4}>
+            <Form.Select id="inputState" label="State">
+              <Form.Option selected>Choose...</Form.Option>
+              <Form.Option>...</Form.Option>
+            </Form.Select>
+          </Col>
+          <Col as={Form.Group} md={2}>
+            <Form.Input type="text" id="inputZip" label="Zip" />
+          </Col>
+        </Form.Row>
+        <Form.Group>
+          <Form.Group check>
+            <Form.Checkbox id="gridCheck" labelAfter="Check me out" />
+          </Form.Group>
+        </Form.Group>
+        <Button type="submit" theme="primary">Sign in</Button>
+      </Form>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 #### Horizontal form
 
@@ -424,149 +575,187 @@ Create horizontal forms with the grid by adding the `.row` class to form groups 
 
 At times, you maybe need to use margin or padding utilities to create that perfect alignment you need. For example, we've removed the `padding-top` on our stacked radio inputs label to better align the text baseline.
 
-{% capture example %}
-<form>
-  <div class="form-group row">
-    <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
-    <div class="col-sm-10">
-      <input type="email" class="form-control" id="inputEmail3">
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
-    <div class="col-sm-10">
-      <input type="password" class="form-control" id="inputPassword3">
-    </div>
-  </div>
-  <fieldset class="form-group">
-    <div class="row">
-      <legend class="col-form-label col-sm-2 pt-0">Radios</legend>
-      <div class="col-sm-10">
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-          <label class="form-check-label" for="gridRadios1">
-            First radio
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-          <label class="form-check-label" for="gridRadios2">
-            Second radio
-          </label>
-        </div>
-        <div class="form-check disabled">
-          <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3" disabled>
-          <label class="form-check-label" for="gridRadios3">
-            Third disabled radio
-          </label>
-        </div>
-      </div>
-    </div>
-  </fieldset>
-  <div class="form-group row">
-    <div class="col-sm-2">Checkbox</div>
-    <div class="col-sm-10">
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="gridCheck1">
-        <label class="form-check-label" for="gridCheck1">
-          Example checkbox
-        </label>
-      </div>
-    </div>
-  </div>
-  <div class="form-group row">
-    <div class="col-sm-10">
-      <button type="submit" class="btn btn-primary">Sign in</button>
-    </div>
-  </div>
-</form>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form>
+        <Form.Group as={Row}>
+          <Form.Input
+            labelCol={{ sm: 2 }}
+            controlParentCol={{ sm: 10 }}
+            type="email"
+            id="inputEmail3"
+            label="Email"
+          />
+        </Form.Group>
+        <Form.Group as={Row}>
+          <Form.Input
+            labelCol={{ sm: 2 }}
+            controlParentCol={{ sm: 10 }}
+            type="password"
+            id="inputPassword3"
+            label="Password"
+          />
+        </Form.Group>
+        <Form.Group as="fieldset">
+          <Row>
+            <Col as="legend" sm={2} class="col-form-label pt-0">Radios</Col>
+            <Col sm={10}>
+              <Form.Group check>
+                <Form.Radio labelAfter="First radio" name="gridRadios" id="gridRadios1" value="option1" checked />
+              </Form.Group>
+              <Form.Group check>
+                <Form.Radio labelAfter="Second radio" name="gridRadios" id="gridRadios2" value="option2" />
+              </Form.Group>
+              <Form.Group check disabled>
+                <Form.Radio labelAfter="Third disabled radio" name="gridRadios" id="gridRadios3" value="option3" disabled />
+              </Form.Group>
+            </Col>
+          </Row>
+        </Form.Group>
+        <Row as={Form.Group}>
+          <Col sm={2}>Checkbox</Col>
+          <Col sm={10}>
+            <Form.Group check>
+              <Form.Checkbox labelAfter="Example checkbox" id="gridCheck1" />
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row as={Form.Group}>
+          <Col sm={10}>
+            <Button type="submit" theme="primary">Sign in</Button>
+          </Col>
+        </Row>
+      </Form>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ##### Horizontal form label sizing
 
 Be sure to use `.col-form-label-sm` or `.col-form-label-lg` to your `<label>`s or `<legend>`s to correctly follow the size of `.form-control-lg` and `.form-control-sm`.
 
-{% capture example %}
-<form>
-  <div class="form-group row">
-    <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Email</label>
-    <div class="col-sm-10">
-      <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm">
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="colFormLabel" class="col-sm-2 col-form-label">Email</label>
-    <div class="col-sm-10">
-      <input type="email" class="form-control" id="colFormLabel" placeholder="col-form-label">
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="colFormLabelLg" class="col-sm-2 col-form-label col-form-label-lg">Email</label>
-    <div class="col-sm-10">
-      <input type="email" class="form-control form-control-lg" id="colFormLabelLg" placeholder="col-form-label-lg">
-    </div>
-  </div>
-</form>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form>
+        <Form.Group as={Row}>
+          <Form.Input
+            size="sm"
+            labelCol={{ sm: 2 }}
+            controlParentCol={{ sm: 10 }}
+            type="email"
+            id="colFormLabelSm"
+            label="Email"
+            placeholder="col-form-label-sm"
+          />
+        </Form.Group>
+        <Form.Group as={Row}>
+          <Form.Input
+            labelCol={{ sm: 2 }}
+            controlParentCol={{ sm: 10 }}
+            type="email"
+            id="colFormLabel"
+            label="Email"
+            placeholder="col-form-label"
+          />
+        </Form.Group>
+        <Form.Group as={Row}>
+          <Form.Input
+            size="lg"
+            labelCol={{ sm: 2 }}
+            controlParentCol={{ sm: 10 }}
+            type="email"
+            id="colFormLabelLg"
+            label="Email"
+            placeholder="col-form-label-lg"
+          />
+        </Form.Group>
+      </Form>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 #### Column sizing
 
 As shown in the previous examples, our grid system allows you to place any number of `.col`s within a `.row` or `.form-row`. They'll split the available width equally between them. You may also pick a subset of your columns to take up more or less space, while the remaining `.col`s equally split the rest, with specific column classes like `.col-7`.
 
-{% capture example %}
-<form>
-  <div class="form-row">
-    <div class="col-7">
-      <input type="text" class="form-control" placeholder="City">
-    </div>
-    <div class="col">
-      <input type="text" class="form-control" placeholder="State">
-    </div>
-    <div class="col">
-      <input type="text" class="form-control" placeholder="Zip">
-    </div>
-  </div>
-</form>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form>
+        <Form.Row>
+          <Col span={7}>
+            <Form.Input placeholder="City" />
+          </Col>
+          <Col class="col">
+            <Form.Input placeholder="State" />
+          </Col>
+          <Col class="col">
+            <Form.Input placeholder="Zip" />
+          </Col>
+        </Form.Row>
+      </Form>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 #### Auto-sizing
 
 The example below uses a flexbox utility to vertically center the contents and changes `.col` to `.col-auto` so that your columns only take up as much space as needed. Put another way, the column sizes itself based on the contents.
 
-{% capture example %}
-<form>
-  <div class="form-row align-items-center">
-    <div class="col-auto">
-      <label class="sr-only" for="inlineFormInput">Name</label>
-      <input type="text" class="form-control mb-2" id="inlineFormInput" placeholder="Jane Doe">
-    </div>
-    <div class="col-auto">
-      <label class="sr-only" for="inlineFormInputGroup">Username</label>
-      <div class="input-group mb-2">
-        <div class="input-group-prepend">
-          <div class="input-group-text">@</div>
-        </div>
-        <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Username">
-      </div>
-    </div>
-    <div class="col-auto">
-      <div class="form-check mb-2">
-        <input class="form-check-input" type="checkbox" id="autoSizingCheck">
-        <label class="form-check-label" for="autoSizingCheck">
-          Remember me
-        </label>
-      </div>
-    </div>
-    <div class="col-auto">
-      <button type="submit" class="btn btn-primary mb-2">Submit</button>
-    </div>
-  </div>
-</form>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form>
+        <Form.Row class="align-items-center">
+          <Col span="auto">
+            <Form.Input
+              class="mb-2"
+              id="inlineFormInput"
+              placeholder="Jane Doe"
+              label={<Form.Label class="sr-only">Name</Form.Label>}
+            />
+          </Col>
+          <Col span="auto">
+            <Form.Input
+              id="inlineFormInputGroup"
+              placeholder="Username"
+              controlParentAs={({ children }) => 
+                <InputGroup class="mb-2" prepend="@">{children}</InputGroup>
+              }
+              label={<Form.Label class="sr-only">Username</Form.Label>}
+            />
+          </Col>
+          <Col span="auto">
+            <Form.Group check>
+              <Form.Checkbox
+                id="autoSizingCheck"
+                placeholder="Username"
+                labelAfter="Remember me"
+              />
+            </Form.Group>
+          </Col>
+          <Col span="auto">
+            <Button type="submit" theme="primary" class="mb-2">Submit</Button>
+          </Col>
+        </Form.Row>
+      </Form>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 You can then remix that once again with size-specific column classes.
 

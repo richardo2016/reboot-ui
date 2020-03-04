@@ -2,7 +2,7 @@ import React from 'react'
 
 import { resolveJSXElement, toggleCls } from '../../utils/ui'
 import RbTransition from '../_helpers/transition';
-import { rclassnames, tryUseRef } from '../../../../utils/react-like';
+import { rclassnames, tryUseContext } from '../../../../utils/react-like';
 import { TransitionTimeouts } from '../common';
 import { coerceInteger } from '../../../../utils/coerce';
 import useClickaway from '../../../../utils/react-hooks/use-clickaway';
@@ -169,7 +169,7 @@ Modal.Dialog = React.forwardRef(
     }, ref) => {
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
-        const modalCtx = tryUseRef(ModalContext)
+        const modalCtx = tryUseContext(ModalContext)
 
         if (scrollable === undefined) scrollable = modalCtx.dialogScrollable
         if (centered === undefined) centered = modalCtx.dialogCentered
@@ -211,7 +211,7 @@ Modal.Content = (
     }) => {
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
-        const modalCtx = tryUseRef(ModalContext)
+        const modalCtx = tryUseContext(ModalContext)
 
         const ref = React.useRef(null)
 
@@ -251,7 +251,7 @@ Modal.Header = ({
 }) => {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
-    const modalCtx = tryUseRef(ModalContext)
+    const modalCtx = tryUseContext(ModalContext)
     onToggle = onToggle || modalCtx.onToggle || noop
 
     return (

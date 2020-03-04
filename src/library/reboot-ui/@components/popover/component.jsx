@@ -2,7 +2,7 @@ import React from 'react'
 
 import { resolveJSXElement } from '../../utils/ui'
 import Poper from '../_helpers/popper';
-import { rclassnames, tryUseRef } from '../../../../utils/react-like';
+import { rclassnames, tryUseContext } from '../../../../utils/react-like';
 import { parsePlacement } from '../../utils/popper';
 import { coerceInteger } from '../../../../utils/coerce';
 import { TransitionTimeouts } from '../common';
@@ -127,7 +127,7 @@ Popover.Overlay = React.forwardRef(
     }, ref) => {
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
 
-        const popoverCtx = tryUseRef(PopverContext)
+        const popoverCtx = tryUseContext(PopverContext)
 
         return (
             <JSXEl

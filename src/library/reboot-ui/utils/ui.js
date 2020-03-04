@@ -23,17 +23,23 @@ function resolveOffsetAboutBreakPointConfig (
     const { span: spanValue, offset: offsetValue, rowCols } = input || {};
 
     return {
-        span: coerceInteger(spanValue, 0),
-        offset: coerceInteger(offsetValue, 0),
-        rowCols: coerceInteger(rowCols, 0),
+        span: coerceResponsiveOfferValue(spanValue, 0),
+        offset: coerceResponsiveOfferValue(offsetValue, 0),
+        rowCols: coerceResponsiveOfferValue(rowCols, 0),
     }
 }
 
-function makeIntegerAboutClsFromBreakPointConfig (prefix = 'col', { value: intValue, breakpoint = '' } = {}) {
+function coerceResponsiveOfferValue (value, fallbackValue) {
+    if (value === 'auto') return value
+
+    return coerceInteger(value, fallbackValue)
+}
+
+function makeIntegerAboutClsFromBreakPointConfig (prefix = 'col', { value: intOrEnumValue, breakpoint = '' } = {}) {
     if (breakpoint)
         checkResponsiveBreakPoint(breakpoint)
 
-    intValue = coerceInteger(intValue)
+    intOrEnumValue = coerceResponsiveOfferValue(intOrEnumValue)
     
     switch (prefix) {
         case 'row-cols':
@@ -68,7 +74,7 @@ function makeIntegerAboutClsFromBreakPointConfig (prefix = 'col', { value: intVa
             throw new Error(`[makeIntegerAboutClsFromBreakPointConfig] invalid make target ${prefix}!`)
     }
     
-    return `${prefix}-${breakpoint ? `${breakpoint}-` : ''}${intValue}`
+    return `${prefix}-${breakpoint ? `${breakpoint}-` : ''}${intOrEnumValue}`
 }
 
 export function getDivisionAboutClsNameListFromBreakPointConfig ({
@@ -101,10 +107,10 @@ export function getOffsetAboutClsNameListFromBreakPointConfig ({
 }) {
     const breakPointAboutClsList = []
 
-    if (span = coerceInteger(span))
+    if (span = coerceResponsiveOfferValue(span))
         breakPointAboutClsList.push( makeIntegerAboutClsFromBreakPointConfig('col', { value: span } ) )
 
-    if (offset = coerceInteger(offset))
+    if (offset = coerceResponsiveOfferValue(offset))
         breakPointAboutClsList.push( makeIntegerAboutClsFromBreakPointConfig('offset', { value: offset } ) )
 
     let tmpResolved

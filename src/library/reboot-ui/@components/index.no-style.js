@@ -23,6 +23,8 @@ export { default as Card } from './card/component'
 
 export { default as InputGroup } from './input-group/component'
 export { default as Input } from './input/component'
+export { default as Select } from './select/component'
+export { default as TextArea } from './textarea/component'
 
 export { default as Popover } from './popover/component'
 export { default as Progress } from './progress/component'
@@ -32,5 +34,11 @@ export { default as ListGroup } from './list-group/component'
 
 export { default as Modal } from './modal/component'
 export { default as Tooltip } from './tooltip/component'
+
 export { default as Form } from './form/component'
+export { default as FormControl } from './form/control'
+export { default as FormInput } from './form/control-input'
+export { default as FormSelect } from './form/control-select'
+export { default as FormCheckbox } from './form/control-checkbox'
+export { default as FormRadio } from './form/control-radio'
 
