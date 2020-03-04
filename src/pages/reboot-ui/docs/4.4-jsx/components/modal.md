@@ -300,7 +300,7 @@ const Sample = ({ uuid }) => {
   return (
     <>
       <Button type="primary" onClick={onToggle}>Launch demo modal</Button>
-      <Modal scrollable id={`exampleModalPopovers${uuid}`} isOpen={isOpen} onToggle={onToggle}>
+      <Modal id={`exampleModalPopovers${uuid}`} isOpen={isOpen} onToggle={onToggle}>
         <Modal.Header>
           <Modal.Title>Modal title</Modal.Title>
         </Modal.Header>
@@ -325,11 +325,15 @@ const Sample = ({ uuid }) => {
           <h5>Tooltips in a modal</h5>
           <p>
             {' '}
-            <a href="javascript:;" class="tooltip-test">This link</a>
+            <Tooltip placement="top" content="Tooltip">
+              <a href="javascript:;" class="tooltip-test">This link</a>
+            </Tooltip>
             {' '}
             and
             {' '}
-            <a href="javascript:;" class="tooltip-test">that link</a>
+            <Tooltip placement="top" content="Tooltip">
+              <a href="javascript:;" class="tooltip-test">that link</a>
+            </Tooltip>
             {' '}
             have tooltips on hover.
           </p>
@@ -345,183 +349,63 @@ const Sample = ({ uuid }) => {
 {% endreboot_mvvm %}
 {% include mvvm-example.html mexample=mexample_with_code %}
 
-<div id="exampleModalPopovers" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalPopoversLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalPopoversLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <h5>Popover in a modal</h5>
-        <p>This <a href="#" role="button" class="btn btn-secondary popover-test" title="Popover title" data-content="Popover body content is set in this attribute." data-container="#exampleModalPopovers">button</a> triggers a popover on click.</p>
-        <hr>
-        <h5>Tooltips in a modal</h5>
-        <p><a href="#" class="tooltip-test" title="Tooltip" data-container="#exampleModalPopovers">This link</a> and <a href="#" class="tooltip-test" title="Tooltip" data-container="#exampleModalPopovers">that link</a> have tooltips on hover.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="bd-example">
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalPopovers">
-    Launch demo modal
-  </button>
-</div>
-
-{% highlight html %}
-<div class="modal-body">
-  <h5>Popover in a modal</h5>
-  <p>This <a href="#" role="button" class="btn btn-secondary popover-test" title="Popover title" data-content="Popover body content is set in this attribute.">button</a> triggers a popover on click.</p>
-  <hr>
-  <h5>Tooltips in a modal</h5>
-  <p><a href="#" class="tooltip-test" title="Tooltip">This link</a> and <a href="#" class="tooltip-test" title="Tooltip">that link</a> have tooltips on hover.</p>
-</div>
-{% endhighlight %}
-
 ### Using the grid
 
 Utilize the Bootstrap grid system within a modal by nesting `.container-fluid` within the `.modal-body`. Then, use the normal grid system classes as you would anywhere else.
 
-<div id="gridSystemModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="gridModalLabel">Grids in modals</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="modal-body">
-        <div class="container-fluid bd-example-row">
-          <div class="row">
-            <div class="col-md-4">.col-md-4</div>
-            <div class="col-md-4 ml-auto">.col-md-4 .ml-auto</div>
-          </div>
-          <div class="row">
-            <div class="col-md-3 ml-auto">.col-md-3 .ml-auto</div>
-            <div class="col-md-2 ml-auto">.col-md-2 .ml-auto</div>
-          </div>
-          <div class="row">
-            <div class="col-md-6 ml-auto">.col-md-6 .ml-auto</div>
-          </div>
-          <div class="row">
-            <div class="col-sm-9">
-              Level 1: .col-sm-9
-              <div class="row">
-                <div class="col-8 col-sm-6">
-                  Level 2: .col-8 .col-sm-6
-                </div>
-                <div class="col-4 col-sm-6">
-                  Level 2: .col-4 .col-sm-6
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  const [isOpen, setIsOpen] = React.useState(false);
 
-<div class="bd-example">
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#gridSystemModal">
-  Launch demo modal
-</button>
-</div>
+  const onToggle = () => {
+    setIsOpen(!isOpen);
+  };
 
-{% highlight html %}
-<div class="modal-body">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-4">.col-md-4</div>
-      <div class="col-md-4 ml-auto">.col-md-4 .ml-auto</div>
-    </div>
-    <div class="row">
-      <div class="col-md-3 ml-auto">.col-md-3 .ml-auto</div>
-      <div class="col-md-2 ml-auto">.col-md-2 .ml-auto</div>
-    </div>
-    <div class="row">
-      <div class="col-md-6 ml-auto">.col-md-6 .ml-auto</div>
-    </div>
-    <div class="row">
-      <div class="col-sm-9">
-        Level 1: .col-sm-9
-        <div class="row">
-          <div class="col-8 col-sm-6">
-            Level 2: .col-8 .col-sm-6
-          </div>
-          <div class="col-4 col-sm-6">
-            Level 2: .col-4 .col-sm-6
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-{% endhighlight %}
-
-### Varying modal content
-
-Have a bunch of buttons that all trigger the same modal with slightly different contents? Use `event.relatedTarget` and [HTML `data-*` attributes](https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes) (possibly [via jQuery](https://api.jquery.com/data/)) to vary the contents of the modal depending on which button was clicked.
-
-Below is a live demo followed by example HTML and JavaScript. For more information, [read the modal events docs](#events) for details on `relatedTarget`.
-
-{% capture example %}
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button>
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@fat">Open modal for @fat</button>
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Open modal for @getbootstrap</button>
-
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Recipient:</label>
-            <input type="text" class="form-control" id="recipient-name">
-          </div>
-          <div class="form-group">
-            <label for="message-text" class="col-form-label">Message:</label>
-            <textarea class="form-control" id="message-text"></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Send message</button>
-      </div>
-    </div>
-  </div>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
-
-{% highlight js %}
-$('#exampleModal').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget) // Button that triggered the modal
-  var recipient = button.data('whatever') // Extract info from data-* attributes
-  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-  var modal = $(this)
-  modal.find('.modal-title').text('New message to ' + recipient)
-  modal.find('.modal-body input').val(recipient)
-})
-{% endhighlight %}
+  return (
+    <>
+      <Button type="primary" onClick={onToggle}>Launch demo modal</Button>
+      <Modal id={`gridSystemModal${uuid}`} isOpen={isOpen} onToggle={onToggle}>
+        <Modal.Header>
+          <Modal.Title>Grids in modals</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Container fluid class="bd-example-row">
+            <Row>
+              <Col md={4}>.col-md-4</Col>
+              <Col md={4} class="ml-auto">.col-md-4 .ml-auto</Col>
+            </Row>
+            <Row>
+              <Col md={3} class="ml-auto">.col-md-3 .ml-auto</Col>
+              <Col md={2} class="ml-auto">.col-md-2 .ml-auto</Col>
+            </Row>
+            <Row>
+              <Col md={6} class="ml-auto">.col-md-6 .ml-auto</Col>
+            </Row>
+            <Row>
+              <Col sm={9}>
+                Level 1: .col-sm-9
+                <Row>
+                  <Col span={8} sm={6}>
+                    Level 2: .col-8 .col-sm-6
+                  </Col>
+                  <Col span={4} sm={6}>
+                    Level 2: .col-4 .col-sm-6
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </Container>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button type="secondary" onClick={onToggle}>Close</Button>
+          <Button type="primary" onClick={onToggle}>Save changes</Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Change animation
 
@@ -679,145 +563,3 @@ Our default modal without modifier class constitutes the "medium" size modal.
     </div>
   </div>
 </div>
-
-## Usage
-
-The modal plugin toggles your hidden content on demand, via data attributes or JavaScript. It also adds `.modal-open` to the `<body>` to override default scrolling behavior and generates a `.modal-backdrop` to provide a click area for dismissing shown modals when clicking outside the modal.
-
-### Via data attributes
-
-Activate a modal without writing JavaScript. Set `data-toggle="modal"` on a controller element, like a button, along with a `data-target="#foo"` or `href="#foo"` to target a specific modal to toggle.
-
-{% highlight html %}
-<button type="button" data-toggle="modal" data-target="#myModal">Launch modal</button>
-{% endhighlight %}
-
-### Via JavaScript
-
-Call a modal with id `myModal` with a single line of JavaScript:
-
-{% highlight js %}$('#myModal').modal(options){% endhighlight %}
-
-### Options
-
-Options can be passed via data attributes or JavaScript. For data attributes, append the option name to `data-`, as in `data-backdrop=""`.
-
-<table class="table table-bordered table-striped">
-  <thead>
-    <tr>
-      <th style="width: 100px;">Name</th>
-      <th style="width: 50px;">Type</th>
-      <th style="width: 50px;">Default</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>backdrop</td>
-      <td>boolean or the string <code>'static'</code></td>
-      <td>true</td>
-      <td>Includes a modal-backdrop element. Alternatively, specify <code>static</code> for a backdrop which doesn't close the modal on click or on escape key press.</td>
-    </tr>
-    <tr>
-      <td>keyboard</td>
-      <td>boolean</td>
-      <td>true</td>
-      <td>Closes the modal when escape key is pressed</td>
-    </tr>
-    <tr>
-      <td>focus</td>
-      <td>boolean</td>
-      <td>true</td>
-      <td>Puts the focus on the modal when initialized.</td>
-    </tr>
-    <tr>
-      <td>show</td>
-      <td>boolean</td>
-      <td>true</td>
-      <td>Shows the modal when initialized.</td>
-    </tr>
-  </tbody>
-</table>
-
-### Methods
-
-{% include callout-danger-async-methods.md %}
-
-#### `.modal(options)`
-
-Activates your content as a modal. Accepts an optional options `object`.
-
-{% highlight js %}
-$('#myModal').modal({
-  keyboard: false
-})
-{% endhighlight %}
-
-#### `.modal('toggle')`
-
-Manually toggles a modal. **Returns to the caller before the modal has actually been shown or hidden** (i.e. before the `shown.bs.modal` or `hidden.bs.modal` event occurs).
-
-{% highlight js %}$('#myModal').modal('toggle'){% endhighlight %}
-
-#### `.modal('show')`
-
-Manually opens a modal. **Returns to the caller before the modal has actually been shown** (i.e. before the `shown.bs.modal` event occurs).
-
-{% highlight js %}$('#myModal').modal('show'){% endhighlight %}
-
-#### `.modal('hide')`
-
-Manually hides a modal. **Returns to the caller before the modal has actually been hidden** (i.e. before the `hidden.bs.modal` event occurs).
-
-{% highlight js %}$('#myModal').modal('hide'){% endhighlight %}
-
-#### `.modal('handleUpdate')`
-
-Manually readjust the modal's position if the height of a modal changes while it is open (i.e. in case a scrollbar appears).
-
-{% highlight js %}$('#myModal').modal('handleUpdate'){% endhighlight %}
-
-#### `.modal('dispose')`
-
-Destroys an element's modal.
-
-### Events
-
-Bootstrap's modal class exposes a few events for hooking into modal functionality. All modal events are fired at the modal itself (i.e. at the `<div class="modal">`).
-
-<table class="table table-bordered table-striped">
-  <thead>
-    <tr>
-      <th style="width: 150px;">Event Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>show.bs.modal</td>
-      <td>This event fires immediately when the <code>show</code> instance method is called. If caused by a click, the clicked element is available as the <code>relatedTarget</code> property of the event.</td>
-    </tr>
-    <tr>
-      <td>shown.bs.modal</td>
-      <td>This event is fired when the modal has been made visible to the user (will wait for CSS transitions to complete). If caused by a click, the clicked element is available as the <code>relatedTarget</code> property of the event.</td>
-    </tr>
-    <tr>
-      <td>hide.bs.modal</td>
-      <td>This event is fired immediately when the <code>hide</code> instance method has been called.</td>
-    </tr>
-    <tr>
-      <td>hidden.bs.modal</td>
-      <td>This event is fired when the modal has finished being hidden from the user (will wait for CSS transitions to complete).</td>
-    </tr>
-    <tr>
-      <td>hidePrevented.bs.modal</td>
-      <td>This event is fired when the modal is shown, its backdrop is <code>static</code> and a click outside the modal or an escape key press is performed.</td>
-    </tr>
-  </tbody>
-</table>
-
-{% highlight js %}
-$('#myModal').on('hidden.bs.modal', function (e) {
-  // do something...
-})
-{% endhighlight %}

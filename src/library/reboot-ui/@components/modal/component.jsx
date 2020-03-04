@@ -60,6 +60,8 @@ const Modal = (
         duration = TransitionTimeouts.Modal,
         dialogLess = false,
         contentLess = false,
+        size: dialogSize = false,
+        dialogRole,
         /**
          * @description when use staticBackdrop, modal wouldn't dismiss when click away `.modal-content`
          */
@@ -72,10 +74,9 @@ const Modal = (
          * @description when use centered, modal will add `.modal-dialog-centered` to Modal.Dialog
          */
         centered = false,
-        dialogContentLess = dialogLess && contentLess,
         ...props
     }) => {
-        const dialogRole = useDocumentMode ? 'document' : 'dialog'
+        dialogRole = dialogRole || (useDocumentMode ? 'document' : 'dialog')
 
         const [clickingStaticBackdrop, setClickingStaticBackdrop] = useClickingStaticBackdrop()
 
@@ -90,6 +91,7 @@ const Modal = (
                 setClickingStaticBackdrop(true);
             },
             dialogRole,
+            dialogSize,
             dialogScrollable: scrollable,
             dialogCentered: centered,
         }
@@ -124,7 +126,10 @@ const Modal = (
                     ref={modalCtx.refModal}
                     transitionProps={{
                         active: isOpen,
-                        duration: TransitionTimeouts.Fade,
+                        duration: {
+                            enter: TransitionTimeouts.Fade,
+                            exit: TransitionTimeouts.Fade + 100,
+                        },
                         transitionStateStyle: { ...TRANSITION_STATE_STYLE },
                     }}
                 >
@@ -141,7 +146,10 @@ const Modal = (
                     ref={modalCtx.refBackdrop}
                     transitionProps={{
                         active: isOpen,
-                        duration: TransitionTimeouts.Fade,
+                        duration: {
+                            enter: TransitionTimeouts.Fade,
+                            exit: TransitionTimeouts.Modal,
+                        },
                         transitionStateStyle: { ...TRANSITION_STATE_STYLE },
                     }}
                 />}
@@ -156,6 +164,7 @@ Modal.Dialog = React.forwardRef(
         as: _as = 'div',
         scrollable,
         centered,
+        size: dialogSize = '',
         ...props
     }, ref) => {
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
@@ -165,6 +174,17 @@ Modal.Dialog = React.forwardRef(
         if (scrollable === undefined) scrollable = modalCtx.dialogScrollable
         if (centered === undefined) centered = modalCtx.dialogCentered
 
+        dialogSize = dialogSize || modalCtx.dialogSize
+        switch (dialogSize) {
+            case 'sm':
+            case 'lg':
+            case 'xl':
+                break
+            default:
+                dialogSize = ''
+                break
+        }
+
         return (
             <JSXEl
                 {...props}
@@ -173,6 +193,7 @@ Modal.Dialog = React.forwardRef(
                     'modal-dialog',
                     scrollable && 'modal-dialog-scrollable',
                     centered && 'modal-dialog-centered',
+                    dialogSize && `modal-dialog-${dialogSize}`,
                 ])}
                 {...modalCtx.dialogRole && { role: modalCtx.dialogRole }}
             >
