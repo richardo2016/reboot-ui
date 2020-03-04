@@ -585,7 +585,7 @@ const Sample = ({ uuid }) => {
 
 ## Dropdown options
 
-Use `poperOptions` to customize the location of the dropdown.
+Use `popperOptions` to customize the location of the dropdown.
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = ({ uuid }) => {
@@ -600,7 +600,7 @@ const Sample = ({ uuid }) => {
               <a class="dropdown-item" href="#">Something else here</a>
             </Dropdown.Menu>
           )}
-          poperOptions={{
+          popperOptions={{
             modifiers: [
               {
                 name: 'offset',

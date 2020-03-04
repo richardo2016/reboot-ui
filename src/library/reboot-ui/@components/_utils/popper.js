@@ -7,12 +7,14 @@ import cpm_flip from '@popperjs/core/lib/modifiers/flip';
 import cpm_preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow';
 import cpm_offset from '@popperjs/core/lib/modifiers/offset';
 import cpm_arrow from '@popperjs/core/lib/modifiers/arrow';
+import cpm_computeStyles from '@popperjs/core/lib/modifiers/computeStyles';
+import cpm_applyStyles from '@popperjs/core/lib/modifiers/applyStyles';
 
 /**
  * @see https://popper.js.org/docs/v2/modifiers/
  */
 export const fixupPopoverModifier = {
-    name: 'fixup-popover-arrow',
+    name: 'fixup-popper-placement',
     enabled: true,
     phase: 'main',
     effect: ({ state, options, name }) => {
@@ -20,7 +22,7 @@ export const fixupPopoverModifier = {
 
         const timer = setTimeout(() => {
             if (typeof fixup !== 'function') return ;
-            
+
             fixup({
                 strategy: state.options.strategy,
                 elements: state.elements,
@@ -43,11 +45,13 @@ export const createPopup = popperGenerator({
         cpm_preventOverflow,
         cpm_offset,
         cpm_arrow,
+        cpm_computeStyles,
+        cpm_applyStyles,
         fixupPopoverModifier,
     ],
 });
 
-export function filterPoperTrigger (trigger) {
+export function filterPopperTrigger (trigger) {
   switch (trigger) {
     case 'click':
     case 'hover':

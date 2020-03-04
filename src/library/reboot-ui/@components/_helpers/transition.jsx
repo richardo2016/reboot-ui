@@ -24,6 +24,48 @@ const DFLT_STATE_CLS = {
     exited: ''
 }
 
+function useOnStateChangeHandlers (props) {
+    const stateMacroRef = props.stateMacroRef || React.useRef(null);
+
+    stateMacroRef.current = {
+        onState: null,
+        disabled: !!props.disabled,
+        ...stateMacroRef.current,
+    };
+
+    const onEnter = ((node, isAppearing) => {
+        stateMacroRef.current = { ...stateMacroRef.current, onState: `onEnter` }
+        typeof props.onEnter === 'function' && props.onEnter(node, isAppearing);
+    })
+
+    const onEntering = ((node, isAppearing) => {
+        stateMacroRef.current = { ...stateMacroRef.current, onState: `onEntering` }
+        typeof props.onEntering === 'function' && props.onEntering(node, isAppearing);
+    })
+
+    const onEntered = ((node, isAppearing) => {
+        stateMacroRef.current = { ...stateMacroRef.current, onState: `onEntered` }
+        typeof props.onEntered === 'function' && props.onEntered(node, isAppearing);
+    })
+
+    const onExit = ((node) => {
+        stateMacroRef.current = { ...stateMacroRef.current, onState: `onExit` }
+        typeof props.onExit === 'function' && props.onExit(node);
+    })
+
+    const onExiting = ((node) => {
+        stateMacroRef.current = { ...stateMacroRef.current, onState: `onExiting` }
+        typeof props.onExiting === 'function' && props.onExiting(node);
+    })
+
+    const onExited = ((node) => {
+        stateMacroRef.current = { ...stateMacroRef.current, onState: `onExited` }
+        typeof props.onExited === 'function' && props.onExited(node);
+    })
+
+    return { stateMacroRef, onEnter, onEntering, onEntered, onExit, onExiting, onExited }
+}
+
 function noop () {}
 const RbTransition = React.forwardRef(
     function ({
@@ -40,10 +82,11 @@ const RbTransition = React.forwardRef(
             duration = TransitionTimeouts.Fade,
             transitionStateStyle = DFLT_STATE_STYLE,
             transitionStateClass = DFLT_STATE_CLS,
-            onEntered = noop,
-            onExited = noop,
             ...restTransitionProps
         } = transitionProps
+
+        const { stateMacroRef, ...restConfig } = useOnStateChangeHandlers(transitionProps)
+        stateMacroRef.current.duration = parseDuration(duration)
 
         if (disabled) transitionIn = false
 
@@ -54,8 +97,14 @@ const RbTransition = React.forwardRef(
                 enter={true}
                 exit={true}
                 {...restTransitionProps}
-                timeout={duration}
+                timeout={stateMacroRef.current.duration}
                 in={transitionIn}
+                onEnter={restConfig.onEnter}
+                onEntering={restConfig.onEntering}
+                onEntered={restConfig.onEntered}
+                onExit={restConfig.onExit}
+                onExiting={restConfig.onExiting}
+                onExited={restConfig.onExited}
             >
                 {(state) => {
                     return (
@@ -66,68 +115,14 @@ const RbTransition = React.forwardRef(
                                 transitionStateClass[state],
                             ])}
                             style={{
+                                ...transitionStateStyle[state],
                                 ...props.style,
-                                ...transitionStateStyle[state]
                             }}
                         >
                             {children}
                         </JSXEl>
                     )
                 }}
-            </Transition>
-        )
-    }
-)
-
-const RbTransition2 = React.forwardRef(
-    function ({
-        children,
-        as: _as = 'div',
-        transitionProps = {},
-        ...props
-    }, ref) {
-        const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
-
-        const {
-            active: transitionIn = false,
-            disabled = false,
-            duration = TransitionTimeouts.Fade,
-            ...restTransitionProps
-        } = transitionProps
-
-        const [isShow, setIsShow] = React.useState(transitionIn)
-        
-        const _onEntered = () => {
-            if (disabled) return ;
-            setIsShow(true)
-        }
-        const _onExited = () => {
-            if (disabled) return ;
-            setIsShow(false)
-        }
-
-        return (
-            <Transition
-                {...Transition.defaultProps}
-                appear={false}
-                enter={true}
-                exit={true}
-                {...restTransitionProps}
-                timeout={duration}
-                in={transitionIn}
-                onEntered={_onEntered}
-                onExited={_onExited}
-            >
-                <JSXEl
-                    {...props}
-                    ref={ref}
-                    className={rclassnames(props, [
-                        'fade',
-                        transitionIn && isShow && 'show',
-                    ])}
-                >
-                    {children}
-                </JSXEl>
             </Transition>
         )
     }

@@ -22,7 +22,7 @@ export function isReactTypeOf (input, compare) {
 }
 
 export function parseChildrenProp (childEle) {
-    const isFragment = isReactTypeOf(childEle, React.Fragment)
+    const isFragment = childEle ? isReactTypeOf(childEle, React.Fragment) : false
     const childNodes = isFragment ? childEle.props.children : childEle
     
     return {

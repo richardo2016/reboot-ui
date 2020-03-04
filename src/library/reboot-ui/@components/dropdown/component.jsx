@@ -29,7 +29,7 @@ const Dropdown = React.forwardRef(
          * @see placment option.placement in poper.js
          */
         placement = 'bottom-start',
-        poperOptions = {},
+        popperOptions = {},
         children: childEles,
         as: _as = 'div',
         overlay: dropdownJsxEl = null,
@@ -128,12 +128,12 @@ const Dropdown = React.forwardRef(
                 getHTMLElementFromJSXElement(dropdownPopRef.current),
                 {
                     placement: overlayPlacement,
-                    ...poperOptions,
+                    ...popperOptions,
                     modifiers: dedupe([
                         cpm_flip,
                         cpm_preventOverflow,
                         cpm_offset,
-                        ...(poperOptions.modifiers || []),
+                        ...(popperOptions.modifiers || []),
                     ])
                 }
             )

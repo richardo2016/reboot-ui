@@ -2,12 +2,12 @@ import React from 'react'
 
 import { resolveJSXElement } from '../../utils/ui'
 import Poper from '../_helpers/popper';
-import { rclassnames, tryUseRef } from '../../../../utils/react-like';
+import { rclassnames, tryUseRef, isReactTypeOf } from '../../../../utils/react-like';
 import { parsePlacement } from '../../utils/popper';
-import { coerceInteger } from '../../../../utils/coerce';
+import { arraify } from '../../../../utils/array';
 import { TransitionTimeouts } from '../common';
 
-const PopverContext = React.createContext({
+const TooltipContext = React.createContext({
     arrowRef: null,
 })
 
@@ -16,18 +16,18 @@ const DFLT_ARROW_OFFSET = 8
 /**
  * @see https://getbootstrap.com/docs/4.4/components/navbar/#supported-content
  * 
- * @inner-content `.popover-header`
- * @inner-content `.popover-body`
+ * @inner-content `.tooltip`
+ * @inner-content `.tooltip-inner`
  */
-const Popover = React.forwardRef(
+const Tooltip = React.forwardRef(
     ({
         children,
+        content,
         /**
-         * @description (default: right)
+         * @description (default: top)
          */
-        placement = 'right',
+        placement = 'top',
         popperOptions,
-        dismissOnClickAway = true,
         arrow = true,
         ...props
     }, ref) => {
@@ -48,28 +48,9 @@ const Popover = React.forwardRef(
                     }
                 }
             })
-
-            popperOptions.modifiers.push({
-                name: 'offset',
-                options: {
-                    offset: ({ placement }) => {
-                        // default arrow size of bootstrap's popover
-                        let offset = DFLT_ARROW_OFFSET
-                        if (popoverCtx.arrowRef.current) {
-                            const {height, width} = window.getComputedStyle(popoverCtx.arrowRef.current)
-                            offset = Math.min(
-                                coerceInteger(height),
-                                coerceInteger(width)
-                            )
-                        }
-
-                        return [0, offset];
-                    },
-                },
-            })
         }
 
-        const popoverCtx = {
+        const tooltipCtx = {
             fromOptions: {
                 direction: pmInfo.direction,
                 placement: pmInfo.placement,
@@ -78,20 +59,30 @@ const Popover = React.forwardRef(
                 ...pmInfo,
                 ...fixedPlacement && parsePlacement(fixedPlacement)
             },
-            useArrow: !!arrow,
+            useArrow: arrow,
             arrowRef: React.useRef(null),
         }
 
+        children = arraify(children)
+        content = content || content.find(item => isReactTypeOf(item, Tooltip.Overlay))
+        content = !isReactTypeOf(content, Tooltip.Overlay) ? (
+            <Tooltip.Overlay>{content}</Tooltip.Overlay>
+        ) : content
+        children.push(content)
+
         return (
-            <PopverContext.Provider value={popoverCtx}>
+            <TooltipContext.Provider value={tooltipCtx}>
                 <Poper
+                    trigger={'hover'}
                     {...props}
-                    placement={popoverCtx.fromOptions.placement}
+                    placement={tooltipCtx.fromOptions.placement}
                     popperOptions={popperOptions}
-                    overlayType={Popover.Overlay}
+                    overlayType={Tooltip.Overlay}
                     migrateOverlayChildrenToTransition
+                    destroyOnUnmount={false}
+                    alwayRenderTransitionChildren={true}
                     overlayProps={{
-                        as: Popover.Overlay,
+                        as: Tooltip.Overlay,
                         transitionProps: {
                             duration: {
                                 enter: TransitionTimeouts.Fade,
@@ -105,21 +96,21 @@ const Popover = React.forwardRef(
                             },
                             transitionStateStyle: {
                                 exiting: {},
-                                exited: { opacity: 0 },
+                                exited: { opacity: 0, visibility: 'hidden' },
                             },
                         }
                     }}
-                    dismissOnClickAway={dismissOnClickAway}
+                    dismissOnClickAway={false}
                     ref={ref}
                 >
                     {children}
                 </Poper>
-            </PopverContext.Provider>
+            </TooltipContext.Provider>
         )
     }
 )
 
-Popover.Overlay = React.forwardRef(
+Tooltip.Overlay = React.forwardRef(
     ({
         children,
         as: _as = 'div',
@@ -127,70 +118,35 @@ Popover.Overlay = React.forwardRef(
     }, ref) => {
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
 
-        const popoverCtx = tryUseRef(PopverContext)
+        const tooltipCtx = tryUseRef(TooltipContext)
 
         return (
             <JSXEl
+                role="tooltip"
                 {...props}
                 ref={ref}
                 className={rclassnames(props, [
                     'fade',
-                    'popover',
-                    popoverCtx.fromFixed.direction && `bs-popover-${popoverCtx.fromFixed.direction}`
+                    'tooltip',
+                    tooltipCtx.fromFixed.direction && `bs-tooltip-${tooltipCtx.fromFixed.direction}`
                 ])}
-                {...popoverCtx.fromFixed.direction && {
-                    'x-placement': popoverCtx.fromFixed.direction
+                {...tooltipCtx.fromFixed.direction && {
+                    'x-placement': tooltipCtx.fromFixed.direction
                 }}
             >
-                {popoverCtx.useArrow && (
+                {tooltipCtx.useArrow && (
                     <div
-                        ref={popoverCtx.arrowRef}
+                        ref={tooltipCtx.arrowRef}
                         className="arrow"
                         data-popper-arrow
                     />
                 )}
-                {children}
+                <div className="tooltip-inner">
+                    {children}
+                </div>
             </JSXEl>
         )
     }
 )
 
-Popover.Header = ({
-    children,
-    as: _as = 'div',
-    ...props
-}) => {
-    const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
-
-    return (
-        <JSXEl
-            {...props}
-            className={rclassnames(props, [
-                'popover-header'
-            ])}
-        >
-            {children}
-        </JSXEl>
-    )
-}
-
-Popover.Body = ({
-    children,
-    as: _as = 'div',
-    ...props
-}) => {
-    const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
-
-    return (
-        <JSXEl
-            {...props}
-            className={rclassnames(props, [
-                'popover-body'
-            ])}
-        >
-            {children}
-        </JSXEl>
-    )
-}
-
-export default Popover
+export default Tooltip

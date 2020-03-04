@@ -1,5 +1,5 @@
 import React from 'react'
-import { componentOrElementContains } from '../react-like';
+import { componentOrElementContains, getHTMLElementFromJSXElement } from '../react-like';
 
 function noop () {}
 export default function useClickaway (
@@ -14,13 +14,17 @@ export default function useClickaway (
          * @notice wrap it with `useCallback` recommended
          */
         clickIn = noop,
+        /**
+         * @description stop propagation when click in
+         */
+        stopPropagation = false,
     } = {}
 ) {
     clickAway = React.useCallback(clickAway);
     clickIn = React.useCallback(clickIn);
 
     React.useLayoutEffect(() => {
-        const bubleEl = typeof getTerminalElement === 'function' ? getTerminalElement() : getTerminalElement
+        let bubleEl = typeof getTerminalElement === 'function' ? getTerminalElement() : getTerminalElement
 
         const handler = (
             (evt) => {
@@ -29,7 +33,7 @@ export default function useClickaway (
                 let { current: clkEle } = clkEleRef;
 
                 if (clkEle && componentOrElementContains(clkEle, el)) {
-                    evt.stopPropagation();
+                    if (stopPropagation) evt.stopPropagation();
 
                     if (typeof clickIn === 'function')
                         clickIn(evt);
@@ -46,5 +50,5 @@ export default function useClickaway (
         return () => {
             bubleEl.removeEventListener('click', handler)
         }
-    }, [clkEleRef.current, clickAway, clickIn])
+    }, [clkEleRef && clkEleRef.current, clickAway, clickIn])
 }

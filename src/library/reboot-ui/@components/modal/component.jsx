@@ -5,6 +5,7 @@ import RbTransition from '../_helpers/transition';
 import { rclassnames, tryUseRef } from '../../../../utils/react-like';
 import { TransitionTimeouts } from '../common';
 import { coerceInteger } from '../../../../utils/coerce';
+import useClickaway from '../../../../utils/react-hooks/use-clickaway';
 
 function noop() {}
 
@@ -17,6 +18,32 @@ const TRANSITION_STATE_STYLE = {
     entered: {display: 'block'},
     exiting: {display: 'block'},
 }
+
+function useClickingStaticBackdrop () {
+    const [clicking, setClicking] = React.useState(false)
+    const timerRef = React.useRef(null)
+    const clean = () => {
+        let timer = timerRef.current
+        if (timer) clearTimeout(timer)
+        timerRef.current = null
+    }
+    React.useEffect(() => {
+        clean()
+        if (clicking)
+            timerRef.current = setTimeout(() => {
+                setClicking(false);
+            }, 50)
+
+        return () => {
+            clean()
+        }
+    }, [clicking]);
+
+    return [clicking, setClicking];
+}
+
+// const STYLE_DIALOG_LESS = 0x0002
+// const STYLE_CONTENT_LESS = 0x0003
 /**
  * @see https://getbootstrap.com/docs/4.4/components/navbar/#supported-content
  * 
@@ -24,24 +51,47 @@ const TRANSITION_STATE_STYLE = {
  * @inner-content `.modal-header`
  * @inner-content `.modal-body`
  */
-const Modal = React.forwardRef(
+const Modal = (
     ({
         children,
         document: useDocumentMode = false,
         isOpen = useDocumentMode ? true : false,
         onToggle = noop,
-        dismissOnClickAway = true,
         duration = TransitionTimeouts.Modal,
+        dialogLess = false,
+        contentLess = false,
+        /**
+         * @description when use staticBackdrop, modal wouldn't dismiss when click away `.modal-content`
+         */
+        staticBackdrop = false,
+        /**
+         * @description when use scrollable, modal will add `.modal-dialog-scrollable` to Modal.Dialog
+         */
+        scrollable = false,
+        /**
+         * @description when use centered, modal will add `.modal-dialog-centered` to Modal.Dialog
+         */
+        centered = false,
+        dialogContentLess = dialogLess && contentLess,
         ...props
-    }, ref) => {
+    }) => {
         const dialogRole = useDocumentMode ? 'document' : 'dialog'
 
+        const [clickingStaticBackdrop, setClickingStaticBackdrop] = useClickingStaticBackdrop()
+
         const modalCtx = {
-            dismissOnClickAway,
-            backdropRef: React.useRef(null),
             isOpen,
+            onToggle: () => onToggle(modalCtx.isOpen),
+
+            refModal: React.useRef(null),
+            refBackdrop: React.useRef(null),
+            useStaticBackdrop: staticBackdrop,
+            onClickStaticDropback: () => {
+                setClickingStaticBackdrop(true);
+            },
             dialogRole,
-            onToggle,
+            dialogScrollable: scrollable,
+            dialogCentered: centered,
         }
 
         duration = coerceInteger(duration, TransitionTimeouts.Modal)
@@ -50,26 +100,35 @@ const Modal = React.forwardRef(
             toggleCls(document.body, 'modal-open', isOpen)
         }, [isOpen])
 
+
+        const DialogJSX = dialogLess ? React.Fragment : Modal.Dialog
+        const ContentJSX = contentLess ? React.Fragment : Modal.Content
+
         return (
             <ModalContext.Provider value={modalCtx}>
                 <RbTransition
+                    role="dialog"
+                    {...!isOpen && {
+                        'aria-hidden': true
+                    }}
+                    tabindex="-1"
                     {...props}
                     className={rclassnames(props, [
                         'modal',
                         'fade',
+                        clickingStaticBackdrop && 'modal-static'
                     ])}
                     style={{
                         ...props.style,
                     }}
-                    tabindex="-1"
-                    ref={ref}
+                    ref={modalCtx.refModal}
                     transitionProps={{
                         active: isOpen,
                         duration: TransitionTimeouts.Fade,
                         transitionStateStyle: { ...TRANSITION_STATE_STYLE },
                     }}
                 >
-                    {children}
+                    <DialogJSX><ContentJSX>{children}</ContentJSX></DialogJSX>
                 </RbTransition>
                 {!useDocumentMode && <RbTransition
                     className={rclassnames(props, [
@@ -79,7 +138,7 @@ const Modal = React.forwardRef(
                     style={{
                         ...!isOpen && { display: 'none' }
                     }}
-                    ref={modalCtx.backdropRef}
+                    ref={modalCtx.refBackdrop}
                     transitionProps={{
                         active: isOpen,
                         duration: TransitionTimeouts.Fade,
@@ -95,11 +154,16 @@ Modal.Dialog = React.forwardRef(
     ({
         children,
         as: _as = 'div',
+        scrollable,
+        centered,
         ...props
     }, ref) => {
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
         const modalCtx = tryUseRef(ModalContext)
+
+        if (scrollable === undefined) scrollable = modalCtx.dialogScrollable
+        if (centered === undefined) centered = modalCtx.dialogCentered
 
         return (
             <JSXEl
@@ -107,6 +171,8 @@ Modal.Dialog = React.forwardRef(
                 ref={ref}
                 className={rclassnames(props, [
                     'modal-dialog',
+                    scrollable && 'modal-dialog-scrollable',
+                    centered && 'modal-dialog-centered',
                 ])}
                 {...modalCtx.dialogRole && { role: modalCtx.dialogRole }}
             >
@@ -116,13 +182,29 @@ Modal.Dialog = React.forwardRef(
     }
 )
 
-Modal.Content = React.forwardRef(
+Modal.Content = (
     ({
         children,
         as: _as = 'div',
         ...props
-    }, ref) => {
+    }) => {
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
+
+        const modalCtx = tryUseRef(ModalContext)
+
+        const ref = React.useRef(null)
+
+        useClickaway(ref, () => modalCtx.refModal.current, {
+            clickAway: () => {
+                if (modalCtx.useStaticBackdrop) {
+                    modalCtx.onClickStaticDropback();
+                    return ;
+                }
+                if (!modalCtx.isOpen) return ;
+                
+                modalCtx.onToggle();
+            }
+        })
 
         return (
             <JSXEl
