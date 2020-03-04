@@ -14,6 +14,44 @@ Be sure to use an appropriate `type` attribute on all inputs (e.g., `email` for 
 
 Here's a quick example to demonstrate Bootstrap's form styles. Keep reading for documentation on required classes, form layout, and more.
 
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form>
+        <Form.Group>
+          <Form.Control
+            id={`exampleInputEmail1`}
+            label="Email address"
+          >
+            <Input type="email" aria-describedby="emailHelp" />
+            <Form.Text as="small" id="emailHelp" muted>We'll never share your email with anyone else.</Form.Text>
+          </Form.Control>
+        </Form.Group>
+        <Form.Group>
+          <Form.Control
+            id={`exampleInputPassword1`}
+            label="Password"
+          >
+            <Input type="email" />
+          </Form.Control>
+        </Form.Group>
+        <Form.Group check>
+          <Form.Control
+            id={`exampleCheck1`}
+            labelAfter="Check me out"
+          >
+            <Input type="checkbox" />
+          </Form.Control>
+        </Form.Group>
+        <Button theme="primary" type="submit">Submit</Button>
+      </Form>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
+
 {% capture example %}
 <form>
   <div class="form-group">

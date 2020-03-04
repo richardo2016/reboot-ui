@@ -15,9 +15,9 @@ const Sample = () => {
   return (
     <>
       <ButtonGroup aria-label="Basic example">
-        <Button type="secondary">Left</Button>
-        <Button type="secondary">Middle</Button>
-        <Button type="secondary">Right</Button>
+        <Button theme="secondary">Left</Button>
+        <Button theme="secondary">Middle</Button>
+        <Button theme="secondary">Right</Button>
       </ButtonGroup>
     </>
   )
@@ -44,18 +44,18 @@ const Sample = () => {
     <>
       <ButtonToolbar aria-label="Toolbar with button groups">
         <ButtonGroup class="mr-2" aria-label="First group">
-          <Button type="secondary">1</Button>
-          <Button type="secondary">2</Button>
-          <Button type="secondary">3</Button>
-          <Button type="secondary">4</Button>
+          <Button theme="secondary">1</Button>
+          <Button theme="secondary">2</Button>
+          <Button theme="secondary">3</Button>
+          <Button theme="secondary">4</Button>
         </ButtonGroup>
         <ButtonGroup class="mr-2" aria-label="Second group">
-          <Button type="secondary">5</Button>
-          <Button type="secondary">6</Button>
-          <Button type="secondary">7</Button>
+          <Button theme="secondary">5</Button>
+          <Button theme="secondary">6</Button>
+          <Button theme="secondary">7</Button>
         </ButtonGroup>
         <ButtonGroup aria-label="Third group">
-          <Button type="secondary">8</Button>
+          <Button theme="secondary">8</Button>
         </ButtonGroup>
       </ButtonToolbar>
     </>
@@ -72,10 +72,10 @@ const Sample = () => {
     <>
       <ButtonToolbar class="mb-3" aria-label="Toolbar with button groups">
         <ButtonGroup class="mr-2" aria-label="First group">
-          <Button type="secondary">1</Button>
-          <Button type="secondary">2</Button>
-          <Button type="secondary">3</Button>
-          <Button type="secondary">4</Button>
+          <Button theme="secondary">1</Button>
+          <Button theme="secondary">2</Button>
+          <Button theme="secondary">3</Button>
+          <Button theme="secondary">4</Button>
         </ButtonGroup>
         <div class="input-group">
           <div class="input-group-prepend">
@@ -86,10 +86,10 @@ const Sample = () => {
       </ButtonToolbar>
       <ButtonToolbar class="justify-content-between" aria-label="Toolbar with button groups">
         <ButtonGroup class="mr-2" aria-label="First group">
-          <Button type="secondary">1</Button>
-          <Button type="secondary">2</Button>
-          <Button type="secondary">3</Button>
-          <Button type="secondary">4</Button>
+          <Button theme="secondary">1</Button>
+          <Button theme="secondary">2</Button>
+          <Button theme="secondary">3</Button>
+          <Button theme="secondary">4</Button>
         </ButtonGroup>
         <div class="input-group">
           <div class="input-group-prepend">
@@ -113,21 +113,21 @@ const Sample = () => {
   return (
     <>
       <ButtonGroup size="lg" aria-label="Large button group">
-        <Button type="secondary">Left</Button>
-        <Button type="secondary">Middle</Button>
-        <Button type="secondary">Right</Button>
+        <Button theme="secondary">Left</Button>
+        <Button theme="secondary">Middle</Button>
+        <Button theme="secondary">Right</Button>
       </ButtonGroup>
       <br />
       <ButtonGroup aria-label="Default button group">
-        <Button type="secondary">Left</Button>
-        <Button type="secondary">Middle</Button>
-        <Button type="secondary">Right</Button>
+        <Button theme="secondary">Left</Button>
+        <Button theme="secondary">Middle</Button>
+        <Button theme="secondary">Right</Button>
       </ButtonGroup>
       <br />
       <ButtonGroup size="sm" aria-label="Small button group">
-        <Button type="secondary">Left</Button>
-        <Button type="secondary">Middle</Button>
-        <Button type="secondary">Right</Button>
+        <Button theme="secondary">Left</Button>
+        <Button theme="secondary">Middle</Button>
+        <Button theme="secondary">Right</Button>
       </ButtonGroup>
       <br />
     </>
@@ -145,8 +145,8 @@ const Sample = () => {
   return (
     <>
       <ButtonGroup aria-label="Button group with nested dropdown">
-        <Button type="secondary">1</Button>
-        <Button type="secondary">2</Button>
+        <Button theme="secondary">1</Button>
+        <Button theme="secondary">2</Button>
         <ButtonGroup>
           <Dropdown noWrap>
             <Dropdown.Toggle
@@ -178,13 +178,13 @@ const Sample = () => {
   return (
     <>
       <ButtonGroup vertical aria-label="Vertical button group">
-        <Button type="secondary">Button</Button>
-        <Button type="secondary">Button</Button>
-        <Button type="secondary">Button</Button>
-        <Button type="secondary">Button</Button>
-        <Button type="secondary">Button</Button>
-        <Button type="secondary">Button</Button>
-        <Button type="secondary">Button</Button>
+        <Button theme="secondary">Button</Button>
+        <Button theme="secondary">Button</Button>
+        <Button theme="secondary">Button</Button>
+        <Button theme="secondary">Button</Button>
+        <Button theme="secondary">Button</Button>
+        <Button theme="secondary">Button</Button>
+        <Button theme="secondary">Button</Button>
       </ButtonGroup>
     </>
   )
@@ -214,11 +214,11 @@ const Sample = () => {
   return (
     <>
       <ButtonGroup vertical aria-label="Vertical button group">
-        <Button type="secondary">Button</Button>
-        <Button type="secondary">Button</Button>
+        <Button theme="secondary">Button</Button>
+        <Button theme="secondary">Button</Button>
         <ButtonGroup>{getDropdown(1)}</ButtonGroup>
-        <Button type="secondary">Button</Button>
-        <Button type="secondary">Button</Button>
+        <Button theme="secondary">Button</Button>
+        <Button theme="secondary">Button</Button>
         <ButtonGroup>{getDropdown(2)}</ButtonGroup>
         <ButtonGroup>{getDropdown(3)}</ButtonGroup>
         <ButtonGroup>{getDropdown(4)}</ButtonGroup>

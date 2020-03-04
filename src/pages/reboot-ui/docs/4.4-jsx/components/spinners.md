@@ -227,11 +227,11 @@ Use spinners within buttons to indicate an action is currently processing or tak
 const Sample = () => {
   return (
     <>
-      <Button type="primary" disabled class="mr-1">
+      <Button theme="primary" disabled class="mr-1">
         <Spinner size="sm" type="border" aria-hidden="true" />
         <span class="sr-only">Loading...</span>
       </Button>
-      <Button type="primary" disabled class="mr-1">
+      <Button theme="primary" disabled class="mr-1">
         <Spinner size="sm" type="border" aria-hidden="true" class="mr-1" />
         Loading...
       </Button>
@@ -245,11 +245,11 @@ const Sample = () => {
 const Sample = () => {
   return (
     <>
-      <Button type="primary" disabled class="mr-1">
+      <Button theme="primary" disabled class="mr-1">
         <Spinner size="sm" type="grow" aria-hidden="true" />
         <span class="sr-only">Loading...</span>
       </Button>
-      <Button type="primary" disabled class="mr-1">
+      <Button theme="primary" disabled class="mr-1">
         <Spinner size="sm" type="grow" aria-hidden="true" class="mr-1" />
         Loading...
       </Button>

@@ -25,7 +25,7 @@ const Sample = () => {
         title={`Card title`}
         text={`Some quick example text to build on the card title and make up the bulk of the card's content.`}
       >
-        <Button type="primary">Go somewhere</Button>
+        <Button theme="primary">Go somewhere</Button>
       </Card.Typical>
     </>
   )
@@ -189,7 +189,7 @@ const Sample = () => {
         <Card.Body>
           <Card.Title>Special title treatment</Card.Title>
           <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
-          <Button type="primary">Go somewhere</Button>
+          <Button theme="primary">Go somewhere</Button>
         </Card.Body>
       </Card>
     </>
@@ -209,7 +209,7 @@ const Sample = () => {
         <Card.Body>
           <Card.Title>Special title treatment</Card.Title>
           <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
-          <Button type="primary">Go somewhere</Button>
+          <Button theme="primary">Go somewhere</Button>
         </Card.Body>
       </Card>
     </>
@@ -246,7 +246,7 @@ const Sample = () => {
         <Card.Body>
           <Card.Title>Special title treatment</Card.Title>
           <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
-          <Button type="primary">Go somewhere</Button>
+          <Button theme="primary">Go somewhere</Button>
         </Card.Body>
         <Card.Footer class="text-muted">2 days ago</Card.Footer>
       </Card>
@@ -274,7 +274,7 @@ const Sample = () => {
             <Card.Body>
               <Card.Title>Special title treatment</Card.Title>
               <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
-              <Button type="primary">Go somewhere</Button>
+              <Button theme="primary">Go somewhere</Button>
             </Card.Body>
           </Card>
         </Col>
@@ -283,7 +283,7 @@ const Sample = () => {
             <Card.Body>
               <Card.Title>Special title treatment</Card.Title>
               <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
-              <Button type="primary">Go somewhere</Button>
+              <Button theme="primary">Go somewhere</Button>
             </Card.Body>
           </Card>
         </Col>
@@ -306,14 +306,14 @@ const Sample = () => {
         <Card.Body>
           <Card.Title>Card title</Card.Title>
           <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
-          <Button type="primary">Go somewhere</Button>
+          <Button theme="primary">Go somewhere</Button>
         </Card.Body>
       </Card>
       <Card class="w-50">
         <Card.Body>
           <Card.Title>Card title</Card.Title>
           <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
-          <Button type="primary">Go somewhere</Button>
+          <Button theme="primary">Go somewhere</Button>
         </Card.Body>
       </Card>
     </>
@@ -334,7 +334,7 @@ const Sample = () => {
         <Card.Body>
           <Card.Title>Card title</Card.Title>
           <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
-          <Button type="primary">Go somewhere</Button>
+          <Button theme="primary">Go somewhere</Button>
         </Card.Body>
       </Card>
     </>
@@ -355,21 +355,21 @@ const Sample = () => {
         <Card.Body>
           <Card.Title>Card title</Card.Title>
           <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
-          <Button type="primary">Go somewhere</Button>
+          <Button theme="primary">Go somewhere</Button>
         </Card.Body>
       </Card>
       <Card class="text-center" style="width: 18rem;">
         <Card.Body>
           <Card.Title>Card title</Card.Title>
           <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
-          <Button type="primary">Go somewhere</Button>
+          <Button theme="primary">Go somewhere</Button>
         </Card.Body>
       </Card>
       <Card class="text-right" style="width: 18rem;">
         <Card.Body>
           <Card.Title>Card title</Card.Title>
           <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
-          <Button type="primary">Go somewhere</Button>
+          <Button theme="primary">Go somewhere</Button>
         </Card.Body>
       </Card>
     </>
@@ -403,7 +403,7 @@ const Sample = () => {
         <Card.Body>
           <Card.Title>Special title treatment</Card.Title>
           <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
-          <Button type="primary">Go somewhere</Button>
+          <Button theme="primary">Go somewhere</Button>
         </Card.Body>
       </Card>
     </>
@@ -433,7 +433,7 @@ const Sample = () => {
         <Card.Body>
           <Card.Title>Special title treatment</Card.Title>
           <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
-          <Button type="primary">Go somewhere</Button>
+          <Button theme="primary">Go somewhere</Button>
         </Card.Body>
       </Card>
     </>

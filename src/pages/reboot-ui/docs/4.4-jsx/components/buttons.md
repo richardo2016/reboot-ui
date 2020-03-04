@@ -63,11 +63,11 @@ When using button classes on `<a>` elements that are used to trigger in-page fun
 const Sample = () => {
   return (
     <>
-      <Button as="a" href="#" class="mr-1" type="primary" role="button">Link</Button>
-      <Button class="mr-1" type="primary" role="button" __htmlAttributes={{ type: 'submit' }}>Button</Button>
-      <Button as="input" class="mr-1" type="primary" role="button" value="Input" __htmlAttributes={{ type: 'button' }} />
-      <Button as="input" class="mr-1" type="primary" role="button" value="Submit" __htmlAttributes={{ type: 'submit' }} />
-      <Button as="input" class="mr-1" type="primary" role="button" value="Reset" __htmlAttributes={{ type: 'reset' }} />
+      <Button as="a" href="#" class="mr-1" theme="primary" role="button">Link</Button>
+      <Button class="mr-1" theme="primary" role="button" type='submit'>Button</Button>
+      <Button as="input" class="mr-1" theme="primary" role="button" value="Input" type='button' />
+      <Button as="input" class="mr-1" theme="primary" role="button" value="Submit" type='submit' />
+      <Button as="input" class="mr-1" theme="primary" role="button" value="Reset" type='reset' />
     </>
   )
 }

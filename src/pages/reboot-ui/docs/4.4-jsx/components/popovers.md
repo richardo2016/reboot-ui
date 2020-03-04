@@ -62,7 +62,7 @@ const Sample = () => {
         {directions.map(dir => {
           return (
             <Popover placement={dir}>
-              <Button type="secondary">Popover on {dir}</Button>
+              <Button theme="secondary">Popover on {dir}</Button>
               <Popover.Overlay>
                 <Popover.Body>
                   Vivamus sagittis lacus vel augue laoreet rutrum faucibus.

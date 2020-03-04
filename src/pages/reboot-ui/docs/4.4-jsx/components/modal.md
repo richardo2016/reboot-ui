@@ -47,8 +47,8 @@ const Sample = () => {
               <p>Modal body text goes here.</p>
             </Modal.Body>
             <Modal.Footer>
-              <Button type="secondary">Close</Button>
-              <Button type="primary">Save changes</Button>
+              <Button theme="secondary">Close</Button>
+              <Button theme="primary">Save changes</Button>
             </Modal.Footer>
           </Modal.Content>
         </Modal.Dialog>
@@ -73,7 +73,7 @@ const Sample = () => {
 
   return (
     <>
-      <Button type="primary" onClick={onToggle}>Launch demo modal</Button>
+      <Button theme="primary" onClick={onToggle}>Launch demo modal</Button>
       <Modal isOpen={isOpen} onToggle={onToggle}>
         <Modal.Header>
           <Modal.Title>Modal title</Modal.Title>
@@ -82,8 +82,8 @@ const Sample = () => {
           <p>Modal body text goes here.</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button type="secondary" onClick={onToggle}>Close</Button>
-          <Button type="primary" onClick={onToggle}>Save changes</Button>
+          <Button theme="secondary" onClick={onToggle}>Close</Button>
+          <Button theme="primary" onClick={onToggle}>Save changes</Button>
         </Modal.Footer>
       </Modal>
     </>
@@ -106,7 +106,7 @@ const Sample = ({ uuid }) => {
 
   return (
     <>
-      <Button type="primary" onClick={onToggle}>Launch static backdrop modal</Button>
+      <Button theme="primary" onClick={onToggle}>Launch static backdrop modal</Button>
       <Modal
         id={`staticBackdropLive${uuid}`}
         isOpen={isOpen}
@@ -120,8 +120,8 @@ const Sample = ({ uuid }) => {
           <p>I will not close if you click outside me. Don't even try to press escape key.</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button type="secondary" onClick={onToggle}>Close</Button>
-          <Button type="primary" onClick={onToggle}>Understood</Button>
+          <Button theme="secondary" onClick={onToggle}>Close</Button>
+          <Button theme="primary" onClick={onToggle}>Understood</Button>
         </Modal.Footer>
       </Modal>
     </>
@@ -144,7 +144,7 @@ const Sample = ({ uuid }) => {
 
   return (
     <>
-      <Button type="primary" onClick={onToggle}>Launch demo modal</Button>
+      <Button theme="primary" onClick={onToggle}>Launch demo modal</Button>
       <Modal id={`exampleModalLone${uuid}`} isOpen={isOpen} onToggle={onToggle}>
         <Modal.Header>
           <Modal.Title>Modal title</Modal.Title>
@@ -170,8 +170,8 @@ const Sample = ({ uuid }) => {
           <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button type="secondary" onClick={onToggle}>Close</Button>
-          <Button type="primary" onClick={onToggle}>Save changes</Button>
+          <Button theme="secondary" onClick={onToggle}>Close</Button>
+          <Button theme="primary" onClick={onToggle}>Save changes</Button>
         </Modal.Footer>
       </Modal>
     </>
@@ -192,7 +192,7 @@ const Sample = ({ uuid }) => {
 
   return (
     <>
-      <Button type="primary" onClick={onToggle}>Launch demo modal</Button>
+      <Button theme="primary" onClick={onToggle}>Launch demo modal</Button>
       <Modal scrollable id={`exampleModalLone${uuid}`} isOpen={isOpen} onToggle={onToggle}>
         <Modal.Header>
           <Modal.Title>Modal title</Modal.Title>
@@ -218,8 +218,8 @@ const Sample = ({ uuid }) => {
           <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button type="secondary" onClick={onToggle}>Close</Button>
-          <Button type="primary" onClick={onToggle}>Save changes</Button>
+          <Button theme="secondary" onClick={onToggle}>Close</Button>
+          <Button theme="primary" onClick={onToggle}>Save changes</Button>
         </Modal.Footer>
       </Modal>
     </>
@@ -248,9 +248,9 @@ const Sample = ({ uuid }) => {
 
   return (
     <>
-      <Button type="primary" onClick={testData1.onToggle}>Vertically centered modal</Button>
+      <Button theme="primary" onClick={testData1.onToggle}>Vertically centered modal</Button>
       {' '}
-      <Button type="primary" onClick={testData2.onToggle}>Vertically centered scrollable modal</Button>
+      <Button theme="primary" onClick={testData2.onToggle}>Vertically centered scrollable modal</Button>
       <Modal centered id={`exampleModalCenter`} isOpen={testData1.isOpen} onToggle={testData1.onToggle}>
         <Modal.Header>
           <Modal.Title>Modal title</Modal.Title>
@@ -259,8 +259,8 @@ const Sample = ({ uuid }) => {
           <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button type="secondary" onClick={testData1.onToggle}>Close</Button>
-          <Button type="primary" onClick={testData1.onToggle}>Save changes</Button>
+          <Button theme="secondary" onClick={testData1.onToggle}>Close</Button>
+          <Button theme="primary" onClick={testData1.onToggle}>Save changes</Button>
         </Modal.Footer>
       </Modal>
       <Modal centered scrollable id={`exampleModalCenteredScrollable`} isOpen={testData2.isOpen} onToggle={testData2.onToggle}>
@@ -275,8 +275,8 @@ const Sample = ({ uuid }) => {
           <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button type="secondary" onClick={testData2.onToggle}>Close</Button>
-          <Button type="primary" onClick={testData2.onToggle}>Save changes</Button>
+          <Button theme="secondary" onClick={testData2.onToggle}>Close</Button>
+          <Button theme="primary" onClick={testData2.onToggle}>Save changes</Button>
         </Modal.Footer>
       </Modal>
     </>
@@ -299,7 +299,7 @@ const Sample = ({ uuid }) => {
 
   return (
     <>
-      <Button type="primary" onClick={onToggle}>Launch demo modal</Button>
+      <Button theme="primary" onClick={onToggle}>Launch demo modal</Button>
       <Modal id={`exampleModalPopovers${uuid}`} isOpen={isOpen} onToggle={onToggle}>
         <Modal.Header>
           <Modal.Title>Modal title</Modal.Title>
@@ -339,8 +339,8 @@ const Sample = ({ uuid }) => {
           </p>
         </Modal.Body>
         <Modal.Footer>
-          <Button type="secondary" onClick={onToggle}>Close</Button>
-          <Button type="primary" onClick={onToggle}>Save changes</Button>
+          <Button theme="secondary" onClick={onToggle}>Close</Button>
+          <Button theme="primary" onClick={onToggle}>Save changes</Button>
         </Modal.Footer>
       </Modal>
     </>
@@ -363,7 +363,7 @@ const Sample = ({ uuid }) => {
 
   return (
     <>
-      <Button type="primary" onClick={onToggle}>Launch demo modal</Button>
+      <Button theme="primary" onClick={onToggle}>Launch demo modal</Button>
       <Modal id={`gridSystemModal${uuid}`} isOpen={isOpen} onToggle={onToggle}>
         <Modal.Header>
           <Modal.Title>Grids in modals</Modal.Title>
@@ -397,8 +397,8 @@ const Sample = ({ uuid }) => {
           </Container>
         </Modal.Body>
         <Modal.Footer>
-          <Button type="secondary" onClick={onToggle}>Close</Button>
-          <Button type="primary" onClick={onToggle}>Save changes</Button>
+          <Button theme="secondary" onClick={onToggle}>Close</Button>
+          <Button theme="primary" onClick={onToggle}>Save changes</Button>
         </Modal.Footer>
       </Modal>
     </>

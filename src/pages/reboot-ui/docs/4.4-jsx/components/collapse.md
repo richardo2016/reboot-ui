@@ -45,7 +45,7 @@ const Sample = () => {
           Link with href
         </Button>
         <Button
-          type="primary"
+          theme="primary"
           aria-controls="collapseExample"
           onClick={() => {
             setCollapse(!collapse)
@@ -102,8 +102,8 @@ const Sample = ({ uuid }) => {
     <>
       <p>
         <Button
-          type="primary"
-          __htmlAttributes={{ type: 'button' }}
+          theme="primary"
+          type='button'
           id={`uncontrolled-collapse-toggler${uuid}`}
           className="mr-1"
           aria-controls="collapseExample"
@@ -141,8 +141,8 @@ const Sample = ({ uuid }) => {
     <>
       <p>
         <Button
-          type="primary"
-          __htmlAttributes={{ type: 'button' }}
+          theme="primary"
+          type='button'
           id={`uncontrolled-collapse-toggler${uuid}`}
           className="mr-1"
           aria-controls="collapseExample"

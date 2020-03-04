@@ -33,7 +33,7 @@ test('Button - html attributes', () => {
 test('Button - (prop: type)', () => {
     themes.forEach(theme => {
         const component = renderer.create(
-            <Button type={theme}>Reboot UI</Button>,
+            <Button theme={theme}>Reboot UI</Button>,
         );
     
         let button = component.toJSON();

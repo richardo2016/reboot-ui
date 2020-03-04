@@ -32,4 +32,5 @@ export { default as ListGroup } from './list-group/component'
 
 export { default as Modal } from './modal/component'
 export { default as Tooltip } from './tooltip/component'
+export { default as Form } from './form/component'
 

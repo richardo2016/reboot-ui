@@ -12,13 +12,13 @@ function Button ({
     as: _as = 'button',
     disabled = false, 
     outline = false,
-    type = '',
+    theme = '',
     size = '',
     active = false,
     __htmlAttributes,
     ...props
 }, ref) {
-    switch (type) {
+    switch (theme) {
         case 'primary':
         case 'secondary':
         case 'success':
@@ -37,7 +37,7 @@ function Button ({
             break
     }
 
-    if (outline && !type) type = 'primary'
+    if (outline && !theme) theme = 'primary'
 
     const JSXEl = resolveJSXElement(_as, { allowedHTMLTags: ['button', 'input', 'a'] });
 
@@ -61,7 +61,7 @@ function Button ({
             ref={ref}
             className={rclassnames(props, [
                 'btn',
-                type && `btn-${outline ? 'outline-' : ''}${type}`,
+                theme && `btn-${outline ? 'outline-' : ''}${theme}`,
                 size && `btn-${size}`,
                 active && `active`,
                 disabled && !isJSXWithDisabledAttr && `disabled`

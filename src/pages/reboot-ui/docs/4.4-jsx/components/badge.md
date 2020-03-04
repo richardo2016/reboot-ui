@@ -36,7 +36,7 @@ Badges can be used as part of links or buttons to provide a counter.
 const Sample = () => {
   return (
     <>
-      <Button type="primary">
+      <Button theme="primary">
         Notifications <Badge type="light">4</Badge>
       </Button>
     </>
@@ -53,7 +53,7 @@ Unless the context is clear (as with the "Notifications" example, where it is un
 const Sample = () => {
   return (
     <>
-      <Button type="primary">
+      <Button theme="primary">
         Profile <Badge type="light">9</Badge>
         <span class="sr-only">unread messages</span>
       </Button>

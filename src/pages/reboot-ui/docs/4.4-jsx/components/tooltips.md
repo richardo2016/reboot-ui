@@ -56,11 +56,11 @@ const Sample = () => {
   return (
     <>
       <div class="bd-example-tooltips">
-        <Tooltip placement="top" content="Tooltip on top"><Button type="secondary">Tooltip on top</Button></Tooltip>{' '}
-        <Tooltip placement="right" content="Tooltip on right"><Button type="secondary">Tooltip on right</Button></Tooltip>{' '}
-        <Tooltip placement="bottom" content="Tooltip on bottom"><Button type="secondary">Tooltip on bottom</Button></Tooltip>{' '}
-        <Tooltip placement="left" content="Tooltip on left"><Button type="secondary">Tooltip on left</Button></Tooltip>{' '}
-        <Tooltip content={<><em>Tooltip</em> <u>with</u> <b>JSX</b></>}><Button type="secondary">Tooltip with JSX</Button></Tooltip>{' '}
+        <Tooltip placement="top" content="Tooltip on top"><Button theme="secondary">Tooltip on top</Button></Tooltip>{' '}
+        <Tooltip placement="right" content="Tooltip on right"><Button theme="secondary">Tooltip on right</Button></Tooltip>{' '}
+        <Tooltip placement="bottom" content="Tooltip on bottom"><Button theme="secondary">Tooltip on bottom</Button></Tooltip>{' '}
+        <Tooltip placement="left" content="Tooltip on left"><Button theme="secondary">Tooltip on left</Button></Tooltip>{' '}
+        <Tooltip content={<><em>Tooltip</em> <u>with</u> <b>JSX</b></>}><Button theme="secondary">Tooltip with JSX</Button></Tooltip>{' '}
       </div>
     </>
   )

@@ -386,7 +386,7 @@ const Sample = () => {
           </Dropdown.Menu>
         )}
       >
-        <Button type="secondary" class="dropdown-toggle">
+        <Button theme="secondary" class="dropdown-toggle">
           Right-aligned menu
         </Button>
       </Dropdown>
@@ -415,7 +415,7 @@ const Sample = () => {
           </Dropdown.Menu>
         )}
       >
-        <Button type="secondary" class="dropdown-toggle">
+        <Button theme="secondary" class="dropdown-toggle">
           Left-aligned but right aligned when large screen
         </Button>
       </Dropdown>
@@ -440,7 +440,7 @@ const Sample = () => {
           </Dropdown.Menu>
         )}
       >
-        <Button type="secondary" class="dropdown-toggle">
+        <Button theme="secondary" class="dropdown-toggle">
           Right-aligned but left aligned when large screen
         </Button>
       </Dropdown>

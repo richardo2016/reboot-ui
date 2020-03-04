@@ -4,13 +4,16 @@
 @import "../scss/code";
 @import "../scss/grid";
 @import "./tables/component.scss";
-@import "../scss/forms";
+
+// @import "../scss/forms";
+// @import "../scss/custom-forms";
+@import "./form/component.scss";
+
 @import "../scss/buttons";
 @import "../scss/transitions";
 @import "./dropdown/component.scss";
 @import "./button-group/component.scss";
 @import "../scss/input-group";
-@import "../scss/custom-forms";
 @import "./nav/component.scss";
 @import "./navbar/component.scss";
 @import "../scss/card";
