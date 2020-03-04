@@ -1,0 +1,1023 @@
+{
+	"data": {
+		"breakpoints": [
+			{
+				"breakpoint": "xs",
+				"abbr": "",
+				"name": "Extra small",
+				"min-width": "0px",
+				"container": ""
+			},
+			{
+				"breakpoint": "sm",
+				"abbr": "-sm",
+				"name": "Small",
+				"min-width": "576px",
+				"container": "540px"
+			},
+			{
+				"breakpoint": "md",
+				"abbr": "-md",
+				"name": "Medium",
+				"min-width": "768px",
+				"container": "720px"
+			},
+			{
+				"breakpoint": "lg",
+				"abbr": "-lg",
+				"name": "Large",
+				"min-width": "992px",
+				"container": "960px"
+			},
+			{
+				"breakpoint": "xl",
+				"abbr": "-xl",
+				"name": "Extra large",
+				"min-width": "1200px",
+				"container": "1140px"
+			}
+		],
+		"browser-bugs": [
+			{
+				"browser": "Edge\n",
+				"summary": "Visual artifacts in scrollable modal dialogs\n",
+				"upstream_bug": "Edge#9011176\n",
+				"origin": "Bootstrap#20755\n"
+			},
+			{
+				"browser": "Edge\n",
+				"summary": "Native browser tooltip for `title` shows on first keyboard focus (in addition to custom tooltip component)\n",
+				"upstream_bug": "Edge#6793560\n",
+				"origin": "Bootstrap#18692\n"
+			},
+			{
+				"browser": "Edge\n",
+				"summary": "Hovered element still remains in `:hover` state after scrolling away.\n",
+				"upstream_bug": "Edge#5381673\n",
+				"origin": "Bootstrap#14211\n"
+			},
+			{
+				"browser": "Edge\n",
+				"summary": "CSS `border-radius` sometimes causes lines of bleed-through of the `background-color` of the parent element.\n",
+				"upstream_bug": "Edge#3342037\n",
+				"origin": "Bootstrap#16671\n"
+			},
+			{
+				"browser": "Edge\n",
+				"summary": "`background` of `<tr>` is only applied to first child cell instead of all cells in the row\n",
+				"upstream_bug": "Edge#5865620\n",
+				"origin": "Bootstrap#18504\n"
+			},
+			{
+				"browser": "Edge\n",
+				"summary": "Background color from lower layer bleeds through transparent border in some cases\n",
+				"upstream_bug": "Edge#6274505\n",
+				"origin": "Bootstrap#18228\n"
+			},
+			{
+				"browser": "Edge\n",
+				"summary": "Hovering over descendant SVG element fires `mouseleave` event at ancestor\n",
+				"upstream_bug": "Edge#7787318\n",
+				"origin": "Bootstrap#19670\n"
+			},
+			{
+				"browser": "Edge\n",
+				"summary": "Active `position: fixed;` `<button>` flickers when scrolling\n",
+				"upstream_bug": "Edge#8770398\n",
+				"origin": "Bootstrap#20507\n"
+			},
+			{
+				"browser": "Firefox\n",
+				"summary": "`.table-bordered` with an empty `<tbody>` is missing borders.\n",
+				"upstream_bug": "Mozilla#1023761\n",
+				"origin": "Bootstrap#13453\n"
+			},
+			{
+				"browser": "Firefox\n",
+				"summary": "If the disabled state of a form control is changed via JavaScript, the normal state doesn't return after refreshing the page.\n",
+				"upstream_bug": "Mozilla#654072\n",
+				"origin": "Bootstrap#793\n"
+			},
+			{
+				"browser": "Firefox\n",
+				"summary": "`focus` events should not be fired at the `document` object\n",
+				"upstream_bug": "Mozilla#1228802\n",
+				"origin": "Bootstrap#18365\n"
+			},
+			{
+				"browser": "Firefox\n",
+				"summary": "Wide floated table doesn't wrap onto new line\n",
+				"upstream_bug": "Mozilla#1277782\n",
+				"origin": "Bootstrap#19839\n"
+			},
+			{
+				"browser": "Firefox\n",
+				"summary": "Mouse sometimes not within element for purposes of `mouseenter`/`mouseleave` when it's within SVG elements\n",
+				"upstream_bug": "Mozilla#577785\n",
+				"origin": "Bootstrap#19670\n"
+			},
+			{
+				"browser": "Firefox\n",
+				"summary": "Layout with floated columns breaks when printing\n",
+				"upstream_bug": "Mozilla#1315994\n",
+				"origin": "Bootstrap#21092\n"
+			},
+			{
+				"browser": "Firefox (Windows)\n",
+				"summary": "Right border of `<select>` menu is sometimes missing when screen is set to uncommon resolution\n",
+				"upstream_bug": "Mozilla#545685\n",
+				"origin": "Bootstrap#15990\n"
+			},
+			{
+				"browser": "Firefox (macOS & Linux)\n",
+				"summary": "Badge widget causes bottom border of Tabs widget to unexpectedly not overlap\n",
+				"upstream_bug": "Mozilla#1259972\n",
+				"origin": "Bootstrap#19626\n"
+			},
+			{
+				"browser": "Chrome (macOS)\n",
+				"summary": "Clicking above `<input type=\"number\">` increment button flashes the decrement button.\n",
+				"upstream_bug": "Chromium#419108\n",
+				"origin": "Offshoot of Bootstrap#8350 & Chromium#337668\n"
+			},
+			{
+				"browser": "Chrome\n",
+				"summary": "CSS infinite linear animation with alpha transparency leaks memory.\n",
+				"upstream_bug": "Chromium#429375\n",
+				"origin": "Bootstrap#14409\n"
+			},
+			{
+				"browser": "Chrome\n",
+				"summary": "`table-cell` borders not overlapping despite `margin-right: -1px`\n",
+				"upstream_bug": "Chromium#749848\n",
+				"origin": "Bootstrap#17438, Bootstrap#14237\n"
+			},
+			{
+				"browser": "Chrome\n",
+				"summary": "Don't make `:hover` sticky on touch-friendly webpages\n",
+				"upstream_bug": "Chromium#370155\n",
+				"origin": "Bootstrap#12832\n"
+			},
+			{
+				"browser": "Chrome\n",
+				"summary": "`position: absolute` element that's wider than its column is incorrectly clipped to column boundary\n",
+				"upstream_bug": "Chromium#269061\n",
+				"origin": "Bootstrap#20161\n"
+			},
+			{
+				"browser": "Chrome\n",
+				"summary": "Significant performance hit for dynamic SVGs with text depending on the number of fonts in `font-family`.\n",
+				"upstream_bug": "Chromium#781344\n",
+				"origin": "Bootstrap#24673\n"
+			},
+			{
+				"browser": "Safari\n",
+				"summary": "`rem` units in media queries should be calculated using `font-size: initial`, not the root element's `font-size`\n",
+				"upstream_bug": "WebKit#156684\n",
+				"origin": "Bootstrap#17403\n"
+			},
+			{
+				"browser": "Safari\n",
+				"summary": "Link to container with id and tabindex results in container being ignored by VoiceOver (affects skip links)\n",
+				"upstream_bug": "WebKit#163658\n",
+				"origin": "Bootstrap#20732\n"
+			},
+			{
+				"browser": "Safari\n",
+				"summary": "CSS `min-width` and `max-width` media features should not round fractional pixel\n",
+				"upstream_bug": "WebKit#178261\n",
+				"origin": "Bootstrap#25166\n"
+			},
+			{
+				"browser": "Safari (macOS)\n",
+				"summary": "`px`, `em`, and `rem` should all behave the same in media queries when page zoom is applied\n",
+				"upstream_bug": "WebKit#156687\n",
+				"origin": "Bootstrap#17403\n"
+			},
+			{
+				"browser": "Safari (macOS)\n",
+				"summary": "Weird button behavior with some `<input type=\"number\">` elements.\n",
+				"upstream_bug": "WebKit#137269, Safari#18834768\n",
+				"origin": "Bootstrap#8350, Normalize#283, Chromium#337668\n"
+			},
+			{
+				"browser": "Safari (macOS)\n",
+				"summary": "Small font size when printing webpage with fixed-width `.container`.\n",
+				"upstream_bug": "WebKit#138192, Safari#19435018\n",
+				"origin": "Bootstrap#14868\n"
+			},
+			{
+				"browser": "Safari (iOS)\n",
+				"summary": "`transform: translate3d(0,0,0);` rendering bug.\n",
+				"upstream_bug": "WebKit#138162, Safari#18804973\n",
+				"origin": "Bootstrap#14603\n"
+			},
+			{
+				"browser": "Safari (iOS)\n",
+				"summary": "Text input's cursor doesn't move while scrolling the page.\n",
+				"upstream_bug": "WebKit#138201, Safari#18819624\n",
+				"origin": "Bootstrap#14708\n"
+			},
+			{
+				"browser": "Safari (iOS)\n",
+				"summary": "Can't move cursor to start of text after entering long string of text into `<input type=\"text\">`\n",
+				"upstream_bug": "WebKit#148061, Safari#22299624\n",
+				"origin": "Bootstrap#16988\n"
+			},
+			{
+				"browser": "Safari (iOS)\n",
+				"summary": "`display: block` causes text of temporal `<input>`s to become vertically misaligned\n",
+				"upstream_bug": "WebKit#139848, Safari#19434878\n",
+				"origin": "Bootstrap#11266, Bootstrap#13098\n"
+			},
+			{
+				"browser": "Safari (iOS)\n",
+				"summary": "Tapping on `<body>` doesn't fire `click` events\n",
+				"upstream_bug": "WebKit#151933\n",
+				"origin": "Bootstrap#16028\n"
+			},
+			{
+				"browser": "Safari (iOS)\n",
+				"summary": "`position:fixed` is incorrectly positioned when tab bar is visible on iPhone 6S+ Safari\n",
+				"upstream_bug": "WebKit#153056\n",
+				"origin": "Bootstrap#18859\n"
+			},
+			{
+				"browser": "Safari (iOS)\n",
+				"summary": "Tapping into an `<input>` within a `position:fixed` element scrolls to the top of the page\n",
+				"upstream_bug": "WebKit#153224, Safari#24235301\n",
+				"origin": "Bootstrap#17497\n"
+			},
+			{
+				"browser": "Safari (iOS)\n",
+				"summary": "`<body>` with `overflow:hidden` CSS is scrollable on iOS\n",
+				"upstream_bug": "WebKit#153852\n",
+				"origin": "Bootstrap#14839\n"
+			},
+			{
+				"browser": "Safari (iOS)\n",
+				"summary": "Scroll gesture in text field in `position:fixed` element sometimes scrolls `<body>` instead of scrollable ancestor\n",
+				"upstream_bug": "WebKit#153856\n",
+				"origin": "Bootstrap#14839\n"
+			},
+			{
+				"browser": "Safari (iOS)\n",
+				"summary": "Modal with `-webkit-overflow-scrolling: touch` doesn't become scrollable after added text makes it taller\n",
+				"upstream_bug": "WebKit#158342\n",
+				"origin": "Bootstrap#17695\n"
+			},
+			{
+				"browser": "Safari (iOS)\n",
+				"summary": "Don't make `:hover` sticky on touch-friendly webpages\n",
+				"upstream_bug": "WebKit#158517\n",
+				"origin": "Bootstrap#12832\n"
+			},
+			{
+				"browser": "Safari (iOS)\n",
+				"summary": "Element which is `position:fixed` disappears after opening a `<select>` menu\n",
+				"upstream_bug": "WebKit#162362\n",
+				"origin": "Bootstrap#20759\n"
+			},
+			{
+				"browser": "Safari (iPad Pro)\n",
+				"summary": "Rendering of descendants of `position: fixed` element gets clipped on iPad Pro in Landscape orientation\n",
+				"upstream_bug": "WebKit#152637, Safari#24030853\n",
+				"origin": "Bootstrap#18738\n"
+			}
+		],
+		"browser-features": [
+			{
+				"browser": "Edge\n",
+				"summary": "Focusable elements should fire focus event / receive :focus styling when they receive Narrator/accessibility focus\n",
+				"upstream_bug": "A11yUserVoice#16717318\n",
+				"origin": "Bootstrap#20732\n"
+			},
+			{
+				"browser": "Edge\n",
+				"summary": "Implement the [`:dir()` pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/:dir) from Selectors Level 4\n",
+				"upstream_bug": "UserVoice#12299532\n",
+				"origin": "Bootstrap#19984\n"
+			},
+			{
+				"browser": "Edge\n",
+				"summary": "Implement the HTML5 [`<dialog>` element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog)\n",
+				"upstream_bug": "UserVoice#6508895\n",
+				"origin": "Bootstrap#20175\n"
+			},
+			{
+				"browser": "Edge\n",
+				"summary": "Fire a [`transitioncancel` event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/transitioncancel_event) when a CSS transition is canceled\n",
+				"upstream_bug": "UserVoice#15939898\n",
+				"origin": "Bootstrap#20618\n"
+			},
+			{
+				"browser": "Edge\n",
+				"summary": "Implement the [`of <selector-list>` clause](https://caniuse.com/#feat=css-nth-child-of) of the `:nth-child()` pseudo-class\n",
+				"upstream_bug": "UserVoice#15944476\n",
+				"origin": "Bootstrap#20143\n"
+			},
+			{
+				"browser": "Firefox\n",
+				"summary": "Implement the [`of <selector-list>` clause](https://caniuse.com/#feat=css-nth-child-of) of the `:nth-child()` pseudo-class\n",
+				"upstream_bug": "Mozilla#854148\n",
+				"origin": "Bootstrap#20143\n"
+			},
+			{
+				"browser": "Firefox\n",
+				"summary": "Implement the HTML5 [`<dialog>` element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog)\n",
+				"upstream_bug": "Mozilla#840640\n",
+				"origin": "Bootstrap#20175\n"
+			},
+			{
+				"browser": "Firefox\n",
+				"summary": "When virtual focus is on a button or link, fire actual focus on the element, too\n",
+				"upstream_bug": "Mozilla#1000082\n",
+				"origin": "Bootstrap#20732\n"
+			},
+			{
+				"browser": "Chrome\n",
+				"summary": "Fire a [`transitioncancel` event](https://developer.mozilla.org/en-US/docs/Web/Events/transitioncancel) when a CSS transition is canceled\n",
+				"upstream_bug": "Chromium#642487\n",
+				"origin": "Chromium#437860\n"
+			},
+			{
+				"browser": "Chrome\n",
+				"summary": "Implement the [`of <selector-list>` clause](https://caniuse.com/#feat=css-nth-child-of) of the `:nth-child()` pseudo-class\n",
+				"upstream_bug": "Chromium#304163\n",
+				"origin": "Bootstrap#20143\n"
+			},
+			{
+				"browser": "Chrome\n",
+				"summary": "Implement the [`:dir()` pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/:dir) from Selectors Level 4\n",
+				"upstream_bug": "Chromium#576815\n",
+				"origin": "Bootstrap#19984\n"
+			},
+			{
+				"browser": "Safari\n",
+				"summary": "Fire a [`transitioncancel` event](https://developer.mozilla.org/en-US/docs/Web/Events/transitioncancel) when a CSS transition is canceled\n",
+				"upstream_bug": "WebKit#161535\n",
+				"origin": "Bootstrap#20618\n"
+			},
+			{
+				"browser": "Safari\n",
+				"summary": "Implement the [`:dir()` pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/:dir) from Selectors Level 4\n",
+				"upstream_bug": "WebKit#64861\n",
+				"origin": "Bootstrap#19984\n"
+			},
+			{
+				"browser": "Safari\n",
+				"summary": "Implement the HTML5 [`<dialog>` element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog)\n",
+				"upstream_bug": "WebKit#84635\n",
+				"origin": "Bootstrap#20175\n"
+			}
+		],
+		"colors": [
+			{
+				"name": "blue",
+				"hex": "#007bff"
+			},
+			{
+				"name": "indigo",
+				"hex": "#6610f2"
+			},
+			{
+				"name": "purple",
+				"hex": "#6f42c1"
+			},
+			{
+				"name": "pink",
+				"hex": "#e83e8c"
+			},
+			{
+				"name": "red",
+				"hex": "#dc3545"
+			},
+			{
+				"name": "orange",
+				"hex": "#fd7e14"
+			},
+			{
+				"name": "yellow",
+				"hex": "#ffc107"
+			},
+			{
+				"name": "green",
+				"hex": "#28a745"
+			},
+			{
+				"name": "teal",
+				"hex": "#20c997"
+			},
+			{
+				"name": "cyan",
+				"hex": "#17a2b8"
+			},
+			{
+				"name": "white",
+				"hex": "#fff"
+			},
+			{
+				"name": "gray",
+				"hex": "#868e96"
+			},
+			{
+				"name": "gray-dark",
+				"hex": "#343a40"
+			}
+		],
+		"core-team": [
+			{
+				"name": "Mark Otto",
+				"user": "mdo"
+			},
+			{
+				"name": "Jacob Thornton",
+				"user": "fat"
+			},
+			{
+				"name": "Chris Rebert",
+				"user": "cvrebert"
+			},
+			{
+				"name": "XhmikosR",
+				"user": "xhmikosr"
+			},
+			{
+				"name": "Patrick H. Lauke",
+				"user": "patrickhlauke"
+			},
+			{
+				"name": "Gleb Mazovetskiy",
+				"user": "glebm"
+			},
+			{
+				"name": "Johann-S",
+				"user": "johann-s"
+			},
+			{
+				"name": "Andres Galante",
+				"user": "andresgalante"
+			},
+			{
+				"name": "Martijn Cuppens",
+				"user": "martijncuppens"
+			}
+		],
+		"docs-versions": [
+			{
+				"group": "v1.x",
+				"baseurl": "https://getbootstrap.com",
+				"description": "Every minor and patch release from v1 is listed below.",
+				"versions": [
+					{
+						"v": "1.0.0"
+					},
+					{
+						"v": "1.1.0"
+					},
+					{
+						"v": "1.1.1"
+					},
+					{
+						"v": "1.2.0"
+					},
+					{
+						"v": "1.3.0"
+					},
+					{
+						"v": "1.4.0"
+					}
+				]
+			},
+			{
+				"group": "v2.x",
+				"baseurl": "https://getbootstrap.com",
+				"description": "Every minor and patch release from v2 is listed below.",
+				"versions": [
+					{
+						"v": "2.0.0"
+					},
+					{
+						"v": "2.0.1"
+					},
+					{
+						"v": "2.0.2"
+					},
+					{
+						"v": "2.0.3"
+					},
+					{
+						"v": "2.0.4"
+					},
+					{
+						"v": "2.1.0"
+					},
+					{
+						"v": "2.1.1"
+					},
+					{
+						"v": "2.2.0"
+					},
+					{
+						"v": "2.2.1"
+					},
+					{
+						"v": "2.2.2"
+					},
+					{
+						"v": "2.3.0"
+					},
+					{
+						"v": "2.3.1"
+					},
+					{
+						"v": "2.3.2"
+					}
+				]
+			},
+			{
+				"group": "v3.x",
+				"baseurl": "https://getbootstrap.com/docs",
+				"description": "Our previous major release and its minor versions. Last update was v3.4.1.",
+				"versions": [
+					{
+						"v": 3.3
+					},
+					{
+						"v": 3.4
+					}
+				]
+			},
+			{
+				"group": "v4.x",
+				"baseurl": "https://getbootstrap.com/docs",
+				"description": "Current major release with two minor releases. Last update was v4.4.1.",
+				"versions": [
+					{
+						"v": 4
+					},
+					{
+						"v": 4.1
+					},
+					{
+						"v": 4.2
+					},
+					{
+						"v": 4.3
+					},
+					{
+						"v": 4.4
+					}
+				]
+			}
+		],
+		"examples": [
+			{
+				"category": "Custom components",
+				"description": "Brand new components and templates to help folks quickly get started with Bootstrap and demonstrate best practices for adding onto the framework.",
+				"examples": [
+					{
+						"name": "Album",
+						"description": "Simple one-page template for photo galleries, portfolios, and more."
+					},
+					{
+						"name": "Pricing",
+						"description": "Example pricing page built with Cards and featuring a custom header and footer."
+					},
+					{
+						"name": "Checkout",
+						"description": "Custom checkout form showing our form components and their validation features."
+					},
+					{
+						"name": "Product",
+						"description": "Lean product-focused marketing page with extensive grid and image work."
+					},
+					{
+						"name": "Cover",
+						"description": "A one-page template for building simple and beautiful home pages."
+					},
+					{
+						"name": "Carousel",
+						"description": "Customize the navbar and carousel, then add some new components."
+					},
+					{
+						"name": "Blog",
+						"description": "Magazine like blog template with header, navigation, featured content."
+					},
+					{
+						"name": "Dashboard",
+						"description": "Basic admin dashboard shell with fixed sidebar and navbar."
+					},
+					{
+						"name": "Sign-in",
+						"description": "Custom form layout and design for a simple sign in form."
+					},
+					{
+						"name": "Sticky footer",
+						"description": "Attach a footer to the bottom of the viewport when page content is short."
+					},
+					{
+						"name": "Sticky footer navbar",
+						"description": "Attach a footer to the bottom of the viewport with a fixed top navbar."
+					}
+				]
+			},
+			{
+				"category": "Framework",
+				"description": "Examples that focus on implementing uses of built-in components provided by Bootstrap.",
+				"examples": [
+					{
+						"name": "Starter template",
+						"description": "Nothing but the basics: compiled CSS and JavaScript."
+					},
+					{
+						"name": "Grid",
+						"description": "Multiple examples of grid layouts with all four tiers, nesting, and more."
+					},
+					{
+						"name": "Jumbotron",
+						"description": "Build around the jumbotron with a navbar and some basic grid columns."
+					}
+				]
+			},
+			{
+				"category": "Navbars",
+				"description": "Taking the default navbar component and showing how it can be moved, placed, and extended.",
+				"examples": [
+					{
+						"name": "Navbars",
+						"description": "Demonstration of all responsive and container options for the navbar."
+					},
+					{
+						"name": "Navbar static",
+						"description": "Single navbar example of a static top navbar along with some additional content."
+					},
+					{
+						"name": "Navbar fixed",
+						"description": "Single navbar example with a fixed top navbar along with some additional content."
+					},
+					{
+						"name": "Navbar bottom",
+						"description": "Single navbar example with a bottom navbar along with some additional content."
+					}
+				]
+			},
+			{
+				"category": "Experiments",
+				"description": "Examples that focus on future-friendly features or techniques.",
+				"examples": [
+					{
+						"name": "Floating labels",
+						"description": "Beautifully simple forms with floating labels over your inputs."
+					},
+					{
+						"name": "Offcanvas",
+						"description": "Turn your expandable navbar into a sliding offcanvas menu."
+					}
+				]
+			}
+		],
+		"grays": [
+			{
+				"name": 100,
+				"hex": "#f8f9fa"
+			},
+			{
+				"name": 200,
+				"hex": "#e9ecef"
+			},
+			{
+				"name": 300,
+				"hex": "#dee2e6"
+			},
+			{
+				"name": 400,
+				"hex": "#ced4da"
+			},
+			{
+				"name": 500,
+				"hex": "#adb5bd"
+			},
+			{
+				"name": 600,
+				"hex": "#868e96"
+			},
+			{
+				"name": 700,
+				"hex": "#495057"
+			},
+			{
+				"name": 800,
+				"hex": "#343a40"
+			},
+			{
+				"name": 900,
+				"hex": "#212529"
+			}
+		],
+		"nav": [
+			{
+				"title": "Getting started",
+				"pages": [
+					{
+						"title": "Introduction"
+					},
+					{
+						"title": "Download"
+					},
+					{
+						"title": "Contents"
+					},
+					{
+						"title": "Browsers & devices"
+					},
+					{
+						"title": "JavaScript"
+					},
+					{
+						"title": "Theming"
+					},
+					{
+						"title": "Build tools"
+					},
+					{
+						"title": "Webpack"
+					},
+					{
+						"title": "Accessibility"
+					}
+				]
+			},
+			{
+				"title": "Layout",
+				"pages": [
+					{
+						"title": "Overview"
+					},
+					{
+						"title": "Grid"
+					},
+					{
+						"title": "Utilities for layout"
+					}
+				]
+			},
+			{
+				"title": "Content",
+				"pages": [
+					{
+						"title": "Reboot"
+					},
+					{
+						"title": "Typography"
+					},
+					{
+						"title": "Code"
+					},
+					{
+						"title": "Images"
+					},
+					{
+						"title": "Tables"
+					},
+					{
+						"title": "Figures"
+					}
+				]
+			},
+			{
+				"title": "Components",
+				"pages": [
+					{
+						"title": "Alerts"
+					},
+					{
+						"title": "Badge"
+					},
+					{
+						"title": "Breadcrumb"
+					},
+					{
+						"title": "Buttons"
+					},
+					{
+						"title": "Button group"
+					},
+					{
+						"title": "Card"
+					},
+					{
+						"title": "Carousel"
+					},
+					{
+						"title": "Collapse"
+					},
+					{
+						"title": "Dropdowns"
+					},
+					{
+						"title": "Forms"
+					},
+					{
+						"title": "Input group"
+					},
+					{
+						"title": "Jumbotron"
+					},
+					{
+						"title": "List group"
+					},
+					{
+						"title": "Media object"
+					},
+					{
+						"title": "Modal"
+					},
+					{
+						"title": "Navs"
+					},
+					{
+						"title": "Navbar"
+					},
+					{
+						"title": "Pagination"
+					},
+					{
+						"title": "Popovers"
+					},
+					{
+						"title": "Progress"
+					},
+					{
+						"title": "Scrollspy"
+					},
+					{
+						"title": "Spinners"
+					},
+					{
+						"title": "Toasts"
+					},
+					{
+						"title": "Tooltips"
+					}
+				]
+			},
+			{
+				"title": "Utilities",
+				"pages": [
+					{
+						"title": "Borders"
+					},
+					{
+						"title": "Clearfix"
+					},
+					{
+						"title": "Close icon"
+					},
+					{
+						"title": "Colors"
+					},
+					{
+						"title": "Display"
+					},
+					{
+						"title": "Embed"
+					},
+					{
+						"title": "Flex"
+					},
+					{
+						"title": "Float"
+					},
+					{
+						"title": "Image replacement"
+					},
+					{
+						"title": "Overflow"
+					},
+					{
+						"title": "Position"
+					},
+					{
+						"title": "Screen readers"
+					},
+					{
+						"title": "Shadows"
+					},
+					{
+						"title": "Sizing"
+					},
+					{
+						"title": "Spacing"
+					},
+					{
+						"title": "Stretched link"
+					},
+					{
+						"title": "Text"
+					},
+					{
+						"title": "Vertical align"
+					},
+					{
+						"title": "Visibility"
+					}
+				]
+			},
+			{
+				"title": "Extend",
+				"pages": [
+					{
+						"title": "Approach"
+					},
+					{
+						"title": "Icons"
+					}
+				]
+			},
+			{
+				"title": "Migration"
+			},
+			{
+				"title": "About",
+				"pages": [
+					{
+						"title": "Overview"
+					},
+					{
+						"title": "Team"
+					},
+					{
+						"title": "Brand"
+					},
+					{
+						"title": "License"
+					},
+					{
+						"title": "Translations"
+					}
+				]
+			}
+		],
+		"theme-colors": [
+			{
+				"name": "primary",
+				"hex": "#007bff"
+			},
+			{
+				"name": "secondary",
+				"hex": "#868e96"
+			},
+			{
+				"name": "success",
+				"hex": "#28a745"
+			},
+			{
+				"name": "danger",
+				"hex": "#dc3545"
+			},
+			{
+				"name": "warning",
+				"hex": "#ffc107"
+			},
+			{
+				"name": "info",
+				"hex": "#17a2b8"
+			},
+			{
+				"name": "light",
+				"hex": "#f8f9fa"
+			},
+			{
+				"name": "dark",
+				"hex": "#343a40"
+			}
+		],
+		"translations": [
+			{
+				"name": "中文(繁體)",
+				"code": "zh-tw",
+				"description": "Bootstrap 4 繁體中文手冊",
+				"url": "https://bootstrap.hexschool.com/"
+			},
+			{
+				"name": "Chinese",
+				"code": "zh",
+				"description": "Bootstrap 4 · 全球最流行的 HTML、CSS 和 JS 工具库。",
+				"url": "https://code.z01.com/v4/"
+			},
+			{
+				"name": "Brazilian Portuguese",
+				"code": "pt-BR",
+				"description": "Bootstrap 4 Português do Brasil",
+				"url": "https://getbootstrap.com.br/v4/"
+			},
+			{
+				"name": "Japanese",
+				"code": "ja",
+				"description": "Bootstrap 4 日本語リファレンス",
+				"url": "https://getbootstrap.jp/"
+			}
+		]
+	}
+}
