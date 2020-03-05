@@ -10,6 +10,13 @@ const FormSelect = Form.Select = React.forwardRef(
         ...props
     }, ref) => {
         const [controlProps, fieldProps] = useControlProps(props)
+
+        /**
+         * <select>'s 'size' is not like <input />'s; it's numberic indicating the visible option count
+         */
+        if (controlProps.size)
+            fieldProps.size = controlProps.size 
+
         return (
             <Form.Control
                 {...controlProps}

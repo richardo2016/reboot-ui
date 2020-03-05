@@ -18,6 +18,12 @@ const FormInput = Form.Input = React.forwardRef(
                 {...fieldProps.type === 'file' && {
                     [FEEDBACK_POSTIONS.KEY]: FEEDBACK_POSTIONS['after-labelafter']
                 }}
+                {...fieldProps.type === 'radio' && {
+                    [FEEDBACK_POSTIONS.KEY]: FEEDBACK_POSTIONS['after-labelafter']
+                }}
+                {...fieldProps.type === 'checkbox' && {
+                    [FEEDBACK_POSTIONS.KEY]: FEEDBACK_POSTIONS['after-labelafter']
+                }}
             >
               <Input
                 {...fieldProps}

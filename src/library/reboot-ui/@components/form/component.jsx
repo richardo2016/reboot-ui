@@ -144,7 +144,8 @@ Form.Label = function ({
             {...labelFor && { for: labelFor }}
             className={rclassnames(props, [
                 formGrpCtx.inFormGroup && formGrpCtx.check && !custom && 'form-check-label',
-                custom && ($$inputType === 'file' ? 'custom-file-label' : 'custom-control-label'),
+                custom && $$inputType === 'file' && 'custom-file-label',
+                custom && $$inputType && $$inputType !== 'file' && 'custom-control-label',
                 labelColClsList
             ])}
         >

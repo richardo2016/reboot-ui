@@ -18,6 +18,7 @@ const CONTROL_PROPS = [
     'controlAs',
     'label',
     'labelAfter',
+    // @TODO depreacte it 
     'controlRefParentCol',
     'controlRefParentAs',
     'controlHelp',

@@ -13,19 +13,20 @@ const Select = function ({
     as: _as = 'select',
     multiple = false,
     custom,
-    size: formCtrlSize = '',
+    size,
+    controlSize = '',
     ...props
 }) {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
     const formCtrlCtx = tryUseContext(FormControlContext)
+    if (custom === undefined) custom = formCtrlCtx.custom
 
-    if (!formCtrlCtx.inFormContrl) formCtrlSize = ''
-    else formCtrlSize = filterFormControlSize(formCtrlSize)
+    if (!formCtrlCtx.inFormContrl && !custom) controlSize = ''
+    else controlSize = filterFormControlSize(controlSize)
 
     children = arraify(children).filter(item => isReactTypeOf(item, [Select.Option, 'option']))
 
-    if (custom === undefined) custom = formCtrlCtx.custom
     id = id || formCtrlCtx.controlId
     
     return (
@@ -33,10 +34,12 @@ const Select = function ({
             {...props}
             {...id && { id }}
             {...multiple && { multiple }}
+            {...size && { size }}
             className={rclassnames(props, [
                 formCtrlCtx.inFormContrl && !formCtrlCtx.custom && 'form-control',
                 custom && 'custom-select',
-                formCtrlSize && `form-control-${formCtrlSize}`,
+                controlSize && custom && `custom-select-${controlSize}`,
+                controlSize && !custom && `form-control-${controlSize}`,
             ])}
         >
             {children}

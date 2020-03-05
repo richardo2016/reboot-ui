@@ -145,13 +145,13 @@ const Sample = ({ uuid }) => {
   return (
     <>
       <Form.Control>
-        <Select size="lg" placeholder=".form-control-lg">
+        <Select controlSize="lg" placeholder=".form-control-lg">
           <Select.Option>Large select</Select.Option>
         </Select>
         <Select placeholder="Default input">
           <Select.Option>Default select</Select.Option>
         </Select>
-        <Select size="sm" placeholder=".form-control-sm">
+        <Select controlSize="sm" placeholder=".form-control-sm">
           <Select.Option>Small select</Select.Option>
         </Select>
       </Form.Control>
@@ -1586,172 +1586,296 @@ In the checked states, we use **base64 embedded SVG icons** from [Open Iconic](h
 
 #### Checkboxes
 
-{% capture example %}
-<div class="custom-control custom-checkbox">
-  <input type="checkbox" class="custom-control-input" id="customCheck1">
-  <label class="custom-control-label" for="customCheck1">Check this custom checkbox</label>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <div class="custom-control custom-checkbox">
+        <Form.Input
+          type="checkbox"
+          custom
+          id="customCheck1"
+          label="Check this custom checkbox"
+        />
+      </div>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 Custom checkboxes can also utilize the `:indeterminate` pseudo class when manually set via JavaScript (there is no available HTML attribute for specifying it).
 
-<div class="bd-example bd-example-indeterminate">
-  <div class="custom-control custom-checkbox">
-    <input type="checkbox" class="custom-control-input" id="customCheck2">
-    <label class="custom-control-label" for="customCheck2">Check this custom checkbox</label>
-  </div>
-</div>
-
-If you're using jQuery, something like this should suffice:
-
-{% highlight js %}
-$('.your-checkbox').prop('indeterminate', true)
-{% endhighlight %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <div class="custom-control custom-checkbox">
+        <Form.Checkbox
+          custom
+          id="customCheck2"
+          label="Check this custom checkbox"
+          indeterminate
+        />
+      </div>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code class="bd-example-indeterminate" %}
 
 #### Radios
 
-{% capture example %}
-<div class="custom-control custom-radio">
-  <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
-  <label class="custom-control-label" for="customRadio1">Toggle this custom radio</label>
-</div>
-<div class="custom-control custom-radio">
-  <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
-  <label class="custom-control-label" for="customRadio2">Or toggle this other custom radio</label>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <div class="custom-control custom-radio">
+        <Form.Radio
+          custom
+          name="customRadio"
+          id="customRadio1"
+          label="Toggle this custom radio"
+        />
+      </div>
+      <div class="custom-control custom-radio">
+        <Form.Radio
+          custom
+          name="customRadio"
+          id="customRadio2"
+          label="Or toggle this other custom radio"
+        />
+      </div>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 #### Inline
 
-{% capture example %}
-<div class="custom-control custom-radio custom-control-inline">
-  <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
-  <label class="custom-control-label" for="customRadioInline1">Toggle this custom radio</label>
-</div>
-<div class="custom-control custom-radio custom-control-inline">
-  <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
-  <label class="custom-control-label" for="customRadioInline2">Or toggle this other custom radio</label>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <div class="custom-control custom-radio custom-control-inline">
+        <Form.Radio
+          custom
+          name="customRadioInline1"
+          id="customRadioInline1"
+          label="Toggle this custom radio"
+        />
+      </div>
+      <div class="custom-control custom-radio custom-control-inline">
+        <Form.Radio
+          custom
+          name="customRadioInline1"
+          id="customRadioInline2"
+          label="Or toggle this other custom radio"
+        />
+      </div>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 #### Disabled
 
 Custom checkboxes and radios can also be disabled. Add the `disabled` boolean attribute to the `<input>` and the custom indicator and label description will be automatically styled.
 
-{% capture example %}
-<div class="custom-control custom-checkbox">
-  <input type="checkbox" class="custom-control-input" id="customCheckDisabled1" disabled>
-  <label class="custom-control-label" for="customCheckDisabled1">Check this custom checkbox</label>
-</div>
-
-<div class="custom-control custom-radio">
-  <input type="radio" name="radioDisabled" id="customRadioDisabled2" class="custom-control-input" disabled>
-  <label class="custom-control-label" for="customRadioDisabled2">Toggle this custom radio</label>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <div class="custom-control custom-checkbox">
+        <Form.Checkbox
+          custom
+          id="customCheckDisabled1"
+          label="Check this custom checkbox"
+          disabled
+        />
+      </div>
+      <div class="custom-control custom-radio">
+        <Form.Radio
+          custom
+          name="radioDisabled"
+          id="customRadioDisabled2"
+          label="Toggle this custom radio"
+          disabled
+        />
+      </div>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Switches
 
 A switch has the markup of a custom checkbox but uses the `.custom-switch` class to render a toggle switch. Switches also support the `disabled` attribute.
 
-{% capture example %}
-<div class="custom-control custom-switch">
-  <input type="checkbox" class="custom-control-input" id="customSwitch1">
-  <label class="custom-control-label" for="customSwitch1">Toggle this switch element</label>
-</div>
-<div class="custom-control custom-switch">
-  <input type="checkbox" class="custom-control-input" disabled id="customSwitch2">
-  <label class="custom-control-label" for="customSwitch2">Disabled switch element</label>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <div class="custom-control custom-switch">
+        <Form.Checkbox
+          custom
+          id="customSwitch1"
+          label="Toggle this switch element"
+        />
+      </div>
+      <div class="custom-control custom-switch">
+        <Form.Checkbox
+          custom
+          id="customSwitch2"
+          label="Disabled switch element"
+          disabled
+        />
+      </div>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Select menu
 
 Custom `<select>` menus need only a custom class, `.custom-select` to trigger the custom styles. Custom styles are limited to the `<select>`'s initial appearance and cannot modify the `<option>`s due to browser limitations.
 
-{% capture example %}
-<select class="custom-select">
-  <option selected>Open this select menu</option>
-  <option value="1">One</option>
-  <option value="2">Two</option>
-  <option value="3">Three</option>
-</select>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form.Select custom>
+        <Select.Option selected>Open this select menu</Select.Option>
+        <Select.Option value="1">One</Select.Option>
+        <Select.Option value="2">Two</Select.Option>
+        <Select.Option value="3">Three</Select.Option>
+      </Form.Select>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 You may also choose from small and large custom selects to match our similarly sized text inputs.
 
-{% capture example %}
-<select class="custom-select custom-select-lg mb-3">
-  <option selected>Open this select menu</option>
-  <option value="1">One</option>
-  <option value="2">Two</option>
-  <option value="3">Three</option>
-</select>
-
-<select class="custom-select custom-select-sm">
-  <option selected>Open this select menu</option>
-  <option value="1">One</option>
-  <option value="2">Two</option>
-  <option value="3">Three</option>
-</select>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form.Select custom controlSize="lg" class="mb-3">
+        <Select.Option selected>Open this select menu</Select.Option>
+        <Select.Option value="1">One</Select.Option>
+        <Select.Option value="2">Two</Select.Option>
+        <Select.Option value="3">Three</Select.Option>
+      </Form.Select>
+      <Form.Select custom controlSize="sm" class="mb-3">
+        <Select.Option selected>Open this select menu</Select.Option>
+        <Select.Option value="1">One</Select.Option>
+        <Select.Option value="2">Two</Select.Option>
+        <Select.Option value="3">Three</Select.Option>
+      </Form.Select>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 The `multiple` attribute is also supported:
 
-{% capture example %}
-<select class="custom-select" multiple>
-  <option selected>Open this select menu</option>
-  <option value="1">One</option>
-  <option value="2">Two</option>
-  <option value="3">Three</option>
-</select>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form.Select custom multiple>
+        <Select.Option selected>Open this select menu</Select.Option>
+        <Select.Option value="1">One</Select.Option>
+        <Select.Option value="2">Two</Select.Option>
+        <Select.Option value="3">Three</Select.Option>
+      </Form.Select>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 As is the `size` attribute:
 
-{% capture example %}
-<select class="custom-select" size="3">
-  <option selected>Open this select menu</option>
-  <option value="1">One</option>
-  <option value="2">Two</option>
-  <option value="3">Three</option>
-</select>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form.Select custom size="3">
+        <Select.Option selected>Open this select menu</Select.Option>
+        <Select.Option value="1">One</Select.Option>
+        <Select.Option value="2">Two</Select.Option>
+        <Select.Option value="3">Three</Select.Option>
+      </Form.Select>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Range
 
 Create custom `<input type="range">` controls with `.custom-range`. The track (the background) and thumb (the value) are both styled to appear the same across browsers. As only IE and Firefox support "filling" their track from the left or right of the thumb as a means to visually indicate progress, we do not currently support it.
 
-{% capture example %}
-<label for="customRange1">Example range</label>
-<input type="range" class="custom-range" id="customRange1">
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form.Range
+        id="customRange1"
+        label="Example range"
+      />
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 Range inputs have implicit values for `min` and `max`—`0` and `100`, respectively. You may specify new values for those using the `min` and `max` attributes.
 
-{% capture example %}
-<label for="customRange2">Example range</label>
-<input type="range" class="custom-range" min="0" max="5" id="customRange2">
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form.Range
+        custom
+        id="customRange2"
+        min={0}
+        max={5}
+        label="Example range"
+      />
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 By default, range inputs "snap" to integer values. To change this, you can specify a `step` value. In the example below, we double the number of steps by using `step="0.5"`.
 
-{% capture example %}
-<label for="customRange3">Example range</label>
-<input type="range" class="custom-range" min="0" max="5" step="0.5" id="customRange3">
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form.Range
+        custom
+        id="customRange3"
+        min={0}
+        max={5}
+        step={0.5}
+        label="Example range"
+      />
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### File browser
 
@@ -1762,13 +1886,22 @@ The recommended plugin to animate custom file input: [bs-custom-file-input](http
 
 The file input is the most gnarly of the bunch and requires additional JavaScript if you'd like to hook them up with functional *Choose file...* and selected file name text.
 
-{% capture example %}
-<div class="custom-file">
-  <input type="file" class="custom-file-input" id="customFile">
-  <label class="custom-file-label" for="customFile">Choose file</label>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <div class="custom-file">
+        <Form.File
+          custom
+          id="customFile"
+          label="Choose range"
+        />
+      </div>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 We hide the default file `<input>` via `opacity` and instead style the `<label>`. The button is generated and positioned with `::after`. Lastly, we declare a `width` and `height` on the `<input>` for proper spacing for surrounding content.
 
@@ -1785,13 +1918,23 @@ $custom-file-text: (
 
 Here's `lang(es)` in action on the custom file input for a Spanish translation:
 
-{% capture example %}
-<div class="custom-file">
-  <input type="file" class="custom-file-input" id="customFileLang" lang="es">
-  <label class="custom-file-label" for="customFileLang">Seleccionar Archivo</label>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <div class="custom-file">
+        <Form.File
+          custom
+          id="customFileLang"
+          label="Seleccionar Archivo"
+          lang="es"
+        />
+      </div>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 You'll need to set the language of your document (or subtree thereof) correctly in order for the correct text to be shown. This can be done using [the `lang` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang) on the `<html>` element or the [`Content-Language` HTTP header](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.12), among other methods.
 
@@ -1799,10 +1942,19 @@ You'll need to set the language of your document (or subtree thereof) correctly 
 
 Bootstrap also provides a way to translate the "Browse" text in HTML with the `data-browse` attribute which can be added to the custom input label (example in Dutch):
 
-{% capture example %}
-<div class="custom-file">
-  <input type="file" class="custom-file-input" id="customFileLangHTML">
-  <label class="custom-file-label" for="customFileLangHTML" data-browse="Bestand kiezen">Voeg je document toe</label>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <div class="custom-file">
+        <Form.File
+          custom
+          id="customFileLangHTML"
+          label={<Form.Label data-browse="Bestand kiezen">Voeg je document toe</Form.Label>}
+        />
+      </div>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}

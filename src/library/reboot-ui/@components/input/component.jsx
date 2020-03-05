@@ -15,6 +15,10 @@ function Input ({
     readonly = false,
     type = '',
     size = '',
+    /**
+     * @notice checkbox's attribute `indeterminate`
+     */
+    indeterminate,
     id,
     __htmlAttributes,
     ...props
@@ -40,12 +44,15 @@ function Input ({
             baseFormControlCls = formCtrlCtx.custom ? `custom-control-input` : `form-check-input`; break
         case 'radio':
             baseFormControlCls = formCtrlCtx.custom ? `custom-control-input` : `form-check-input`; break
-        case 'range': baseFormControlCls = `${clsPrefix}control-range`; break
+        case 'range':
+            baseFormControlCls = formCtrlCtx.custom ? `custom-range` : `form-control-range`; break
         default:
             if (plaintext) baseFormControlCls = `form-control-plaintext`;
             else baseFormControlCls = `${clsPrefix}control`;
         break
     }
+
+    const inputHTMLElRef = React.useRef(null)
 
     return (
         <JSXEl
@@ -55,7 +62,11 @@ function Input ({
             {...readonly && { readonly }}
             {...disabled && { disabled: true }}
             {...type && { type }}
-            ref={ref}
+            {...type === 'checkbox' && indeterminate !== undefined && { indeterminate }}
+            ref={(el) => {
+                inputHTMLElRef.current = el
+                return typeof ref === 'function' ? ref(el) : el
+            }}
             className={rclassnames(props, [
                 disabled ? `disabled` : '',
                 baseFormControlCls,

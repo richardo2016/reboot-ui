@@ -2,12 +2,12 @@ import React from 'react'
 import Form from '../form/component'
 import FormInput from './control-input'
 
-const FormCheckbox = Form.Checkbox = (props) => (
+const FormRange = Form.Range = (props) => (
     <FormInput
         {...props}
-        type="checkbox"
+        type="range"
         placeholder={undefined}
     />
 )
 
-export default FormCheckbox
+export default FormRange
