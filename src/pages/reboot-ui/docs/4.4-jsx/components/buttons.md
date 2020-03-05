@@ -12,7 +12,7 @@ Bootstrap includes several predefined button styles, each serving its own semant
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = () => {
-  const types = [
+  const themes = [
     'primary',
     'secondary',
     'success',
@@ -27,15 +27,15 @@ const Sample = () => {
   return (
     <>
       <p style={{ display: 'flex', flexWrap: 'wrap' }}>
-        {types.map(type =>
+        {themes.map(theme =>
           <div
             className="example-btn-wrapper mb-3 pr-3"
           >
             <Button
               class="mb-3"
-              type={type}
+              theme={theme}
             >
-              {`${type.slice(0, 1).toUpperCase()}${type.slice(1)}`}
+              {stringUtils.ucfirst(theme)}
             </Button>
           </div>
         )}

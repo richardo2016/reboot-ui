@@ -12,12 +12,12 @@ import { resolveJSXElement } from '../../utils/ui'
 import { filterPlacement } from '../../utils/popper'
 import { dedupe, arraify } from '../../../../utils/array';
 import useClickaway from '../../../../utils/react-hooks/use-clickaway';
-import { isReactTypeOf, getHTMLElementFromJSXElement, parseChildrenProp, rclassnames } from '../../../../utils/react-like'
+import { isReactTypeOf, getHTMLElementFromJSXElement, parseChildrenProp, rclassnames, tryUseContext } from '../../../../utils/react-like'
 
 import {DropdownMenu, DropdownItem} from './others';
 import Button from '../../@components/button/component';
 
-const DropdownCtx = React.createContext()
+const DropdownCtx = React.createContext({})
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/dropdown/#supported-content
@@ -49,6 +49,8 @@ const Dropdown = React.forwardRef(
 
         let useToggleAsTrigger = false
         let triggerJsxElIdx = children.findIndex(child => {
+            // TEXT_NODE has no props
+            if (!child.props) return ;
             if (child.props.dropdownTrigger) return true
             if (isReactTypeOf(child, Dropdown.Toggle)) {
                 useToggleAsTrigger = true
@@ -182,7 +184,7 @@ Dropdown.Toggle = React.forwardRef(
         as: _as = 'div',
         toggleAs: TogglerEl = Button,
         split = false,
-        type,
+        theme,
         label,
         size,
         outline,
@@ -190,69 +192,7 @@ Dropdown.Toggle = React.forwardRef(
     }, ref) {
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
     
-        let ddCtx = {}
-        try { ddCtx = React.useContext(DropdownCtx) } catch (error) {}
-    
-        const WrapperJSX = ({ children }) => {
-            return (
-                <JSXEl
-                    className={rclassnames(props, [
-                        'btn-group',
-                        !isCaretPlaceLeft && directionCls
-                    ])}
-                >
-                    {children}
-                    {ddCtx.showDropdown && ddCtx.dropdownJsxEl}
-                </JSXEl>
-            )
-        }
-        
-        const buttonType = type;
-        let buttonLabel = label || (!split ? children : null);
-        const buttonSize = size;
-        const buttonOutline = outline;
-    
-        if (!split)
-            return (
-                <WrapperJSX>
-                    <TogglerEl
-                        ref={ref}
-                        type={buttonType}
-                        size={buttonSize}
-                        outline={buttonOutline}
-                        className={classnames([
-                            'dropdown-toggle'
-                        ])}
-                        data-toggle='dropdown'
-                    >
-                        {buttonLabel}
-                    </TogglerEl>
-                </WrapperJSX>
-            )
-        
-        if (typeof split === 'string') buttonLabel = split
-        let splitedButtonGroupTuple = [
-            <Button
-                type={buttonType}
-                size={buttonSize}
-                outline={buttonOutline}
-            >
-                {buttonLabel}
-            </Button>,
-            <Button
-                type={buttonType}
-                size={buttonSize}
-                outline={buttonOutline}
-                {...split && { ref }}
-                className={classnames([
-                    'dropdown-toggle',
-                    'dropdown-toggle-split'
-                ])}
-                data-toggle='dropdown'
-            >
-                {children}
-            </Button>
-        ]
+        const ddCtx = tryUseContext(DropdownCtx)
     
         let isCaretPlaceLeft = false, directionCls = null
         switch (ddCtx.placement) {
@@ -270,6 +210,67 @@ Dropdown.Toggle = React.forwardRef(
             case 'right': directionCls = 'dropright'; break;
             default: break
         }
+    
+        const WrapperJSX = ({ children }) => {
+            return (
+                <JSXEl
+                    className={rclassnames(props, [
+                        'btn-group',
+                        directionCls
+                    ])}
+                >
+                    {children}
+                    {ddCtx.showDropdown && ddCtx.dropdownJsxEl}
+                </JSXEl>
+            )
+        }
+        
+        const buttonTheme = theme;
+        let buttonLabel = label || (!split ? children : null);
+        const buttonSize = size;
+        const buttonOutline = outline;
+    
+        if (!split)
+            return (
+                <WrapperJSX>
+                    <TogglerEl
+                        ref={ref}
+                        theme={buttonTheme}
+                        size={buttonSize}
+                        outline={buttonOutline}
+                        className={classnames([
+                            'dropdown-toggle'
+                        ])}
+                        data-toggle='dropdown'
+                    >
+                        {buttonLabel}
+                    </TogglerEl>
+                </WrapperJSX>
+            )
+        
+        if (typeof split === 'string') buttonLabel = split
+        let splitedButtonGroupTuple = [
+            <Button
+                theme={buttonTheme}
+                size={buttonSize}
+                outline={buttonOutline}
+            >
+                {buttonLabel}
+            </Button>,
+            <Button
+                theme={buttonTheme}
+                size={buttonSize}
+                outline={buttonOutline}
+                {...split && { ref }}
+                className={classnames([
+                    'dropdown-toggle',
+                    'dropdown-toggle-split'
+                ])}
+                data-toggle='dropdown'
+            >
+                {children}
+            </Button>
+        ]
     
         if (isCaretPlaceLeft) {
             splitedButtonGroupTuple = splitedButtonGroupTuple.reverse()

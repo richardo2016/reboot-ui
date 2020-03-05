@@ -126,7 +126,7 @@ const Sample = () => {
           ({ disabled }) => {
             return (
               <Popover placement='right'>
-                <Button class="mr-2" type="primary" disabled={disabled}>
+                <Button class="mr-2" theme="primary" disabled={disabled}>
                   {disabled ? 'Disabled' : 'Normal'} Popover
                 </Button>
                 <Popover.Overlay>
@@ -162,7 +162,7 @@ const Sample = () => {
           ({ trigger, disabled }) => {
             return (
               <Popover placement='right' trigger={trigger} disabled={disabled}>
-                <Button class="mr-2" type="primary" disabled={disabled}>
+                <Button class="mr-2" theme="primary" disabled={disabled}>
                   Popup on {stringUtils.ucfirst(trigger)}
                 </Button>
                 <Popover.Overlay>

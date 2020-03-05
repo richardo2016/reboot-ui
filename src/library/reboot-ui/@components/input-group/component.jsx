@@ -69,7 +69,7 @@ InputGroup.ButtonDropdown = ({
     label = '',
     split = false,
     outline = false,
-    type,
+    theme,
     ...props
 }) => {
     return (
@@ -78,7 +78,7 @@ InputGroup.ButtonDropdown = ({
                 {...props}
                 split={split}
                 outline={outline}
-                type={type}
+                theme={theme}
                 label={label}
                 as={null}
             >

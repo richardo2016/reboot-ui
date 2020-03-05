@@ -6,12 +6,11 @@ import { rclassnames, tryUseContext, isReactTypeOf } from '../../../../utils/rea
 import { parsePlacement } from '../../utils/popper';
 import { arraify } from '../../../../utils/array';
 import { TransitionTimeouts } from '../common';
+import { useFixupPopoverToken } from '../_utils/popper';
 
 const TooltipContext = React.createContext({
     arrowRef: null,
 })
-
-const DFLT_ARROW_OFFSET = 8
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/navbar/#supported-content
@@ -39,7 +38,7 @@ const Tooltip = React.forwardRef(
             popperOptions.modifiers = [];
 
             popperOptions.modifiers.push({
-                name: 'fixup-popper-placement',
+                name: useFixupPopoverToken('fixup-popper-placement'),
                 options: {
                     fixup: ({ realPlacement }) => {
                         if (realPlacement === pmInfo.placement) return ;

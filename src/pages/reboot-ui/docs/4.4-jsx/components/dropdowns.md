@@ -84,7 +84,7 @@ The best part is you can do this with any button variant, too:
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = () => {
-  const types = [
+  const themes = [
     'primary',
     'secondary',
     'success',
@@ -95,7 +95,7 @@ const Sample = () => {
 
   return (
     <>
-      {types.map(type =>
+      {themes.map(theme =>
         <div class="btn-group mr-1">
           <Dropdown
             as={null}
@@ -109,8 +109,8 @@ const Sample = () => {
               </Dropdown.Menu>
             )}
           >
-            <Dropdown.Toggle type={type}>
-              {stringUtils.ucfirst(type)}
+            <Dropdown.Toggle theme={theme}>
+              {stringUtils.ucfirst(theme)}
             </Dropdown.Toggle>
           </Dropdown>
         </div>
@@ -130,7 +130,7 @@ We use this extra class to reduce the horizontal `padding` on either side of the
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = () => {
-  const types = [
+  const themes = [
     'primary',
     'secondary',
     'success',
@@ -141,7 +141,7 @@ const Sample = () => {
 
   return (
     <>
-      {types.map(type =>
+      {themes.map(theme =>
         <div class="btn-group mr-1">
           <Dropdown
             as={null}
@@ -157,8 +157,8 @@ const Sample = () => {
           >
             <Dropdown.Toggle
               split
-              label={stringUtils.ucfirst(type)}
-              type={type}
+              label={stringUtils.ucfirst(theme)}
+              theme={theme}
             >
               <span class="sr-only">Toggle Dropdown</span>
             </Dropdown.Toggle>
@@ -309,7 +309,13 @@ const Sample = () => {
                   <Dropdown.Toggle
                     class={classnames([idx > 0 && 'ml-2'])}
                     theme="secondary"
-                    label={label}
+                    label={
+                      <>
+                        {!split && placement.indexOf('left') > -1 ? ' ' : ''}
+                        {label}
+                        {!split && placement.indexOf('right') > -1 ? ' ' : ''}
+                      </>
+                    }
                     split={split}
                   >
                     <span class="sr-only">Toggle Dropdown</span>
@@ -525,28 +531,36 @@ const Sample = ({ uuid }) => {
   return (
     <>
       <Dropdown.Menu>
-        <form class="px-4 py-3">
-          <div class="form-group">
-            <label for={`exampleDropdownFormEmail1${uuid}`}>Email address</label>
-            <input type="email" class="form-control" id={`exampleDropdownFormEmail1${uuid}`} placeholder="email@example.com" />
-          </div>
-          <div class="form-group">
-            <label for={`exampleDropdownFormPassword1${uuid}`}>Password</label>
-            <input type="password" class="form-control" id={`exampleDropdownFormPassword1${uuid}`} placeholder="Password" />
-          </div>
-          <div class="form-group">
+        <Form class="px-4 py-3">
+          <Form.Group>
+            <Form.Input
+              id={`exampleDropdownFormEmail1${uuid}`}
+              label="Email address"
+              type="email"
+              placeholder="email@example.com"
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Input
+              id={`exampleDropdownFormPassword1${uuid}`}
+              label="Password"
+              type="password"
+              placeholder="Password"
+            />
+          </Form.Group>
+          <Form.Group>
             <div class="form-check">
-              <input type="checkbox" class="form-check-input" id={`dropdownCheck${uuid}`} />
-              <label class="form-check-label" for={`dropdownCheck${uuid}`}>
-                Remember me
-              </label>
+              <Form.Checkbox
+                id={`dropdownCheck${uuid}`}
+                label="Remember me"
+              />
             </div>
-          </div>
-          <button type="submit" class="btn btn-primary">Sign in</button>
-        </form>
+          </Form.Group>
+          <Button type="submit" theme="primary">Sign in</Button>
+        </Form>
         <Dropdown.Item divider />
-        <Dropdown.Item as={'a'} href="javascript:;">New around here? Sign up</Dropdown.Item>
-        <Dropdown.Item as={'a'} href="javascript:;">Forgot password?</Dropdown.Item>
+        <Dropdown.Item as="a" href="javascript:;">New around here? Sign up</Dropdown.Item>
+        <Dropdown.Item as="a" href="javascript:;">Forgot password?</Dropdown.Item>
       </Dropdown.Menu>
     </>
   )
@@ -558,24 +572,32 @@ const Sample = ({ uuid }) => {
 const Sample = ({ uuid }) => {
   return (
     <>
-      <Dropdown.Menu class="p-4">
-        <div class="form-group">
-          <label for={`exampleDropdownFormEmail2${uuid}`}>Email address</label>
-          <input type="email" class="form-control" id={`exampleDropdownFormEmail2${uuid}`} placeholder="email@example.com" />
-        </div>
-        <div class="form-group">
-          <label for={`exampleDropdownFormPassword2${uuid}`}>Password</label>
-          <input type="password" class="form-control" id={`exampleDropdownFormPassword2${uuid}`} placeholder="Password" />
-        </div>
-        <div class="form-group">
+      <Dropdown.Menu as={Form} class="p-4">
+        <Form.Group>
+          <Form.Input
+            id={`exampleDropdownFormEmail2${uuid}`}
+            label="Email address"
+            type="email"
+            placeholder="email@example.com"
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Input
+            id={`exampleDropdownFormPassword2${uuid}`}
+            label="Password"
+            type="password"
+            placeholder="Password"
+          />
+        </Form.Group>
+        <Form.Group>
           <div class="form-check">
-            <input type="checkbox" class="form-check-input" id={`dropdownCheck2${uuid}`} />
-            <label class="form-check-label" for={`dropdownCheck2${uuid}`}>
-              Remember me
-            </label>
+            <Form.Checkbox
+              id={`dropdownCheck2${uuid}`}
+              label="Remember me"
+            />
           </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Sign in</button>
+        </Form.Group>
+        <Button type="submit" theme="primary">Sign in</Button>
       </Dropdown.Menu>
     </>
   )

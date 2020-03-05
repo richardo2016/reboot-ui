@@ -6,6 +6,7 @@ import { rclassnames, tryUseContext } from '../../../../utils/react-like';
 import { parsePlacement } from '../../utils/popper';
 import { coerceInteger } from '../../../../utils/coerce';
 import { TransitionTimeouts } from '../common';
+import { useFixupPopoverToken } from '../_utils/popper';
 
 const PopverContext = React.createContext({
     arrowRef: null,
@@ -39,7 +40,7 @@ const Popover = React.forwardRef(
             popperOptions.modifiers = [];
 
             popperOptions.modifiers.push({
-                name: 'fixup-popper-placement',
+                name: useFixupPopoverToken('fixup-popper-placement'),
                 options: {
                     fixup: ({ realPlacement }) => {
                         if (realPlacement === pmInfo.placement) return ;
