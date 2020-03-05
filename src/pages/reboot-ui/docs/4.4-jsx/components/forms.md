@@ -1083,18 +1083,14 @@ Custom feedback styles apply custom colors, borders, focus styles, and backgroun
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = ({ uuid }) => {
-  const formRef = React.useRef(null)
   const [ wasValidated, setWasValidated ] = React.useState(false)
 
   return (
     <>
       <Form
-        class={classnames([
-          'needs-validation',
-        ])}
+        class="needs-validation"
         rbWasValidated={wasValidated}
         novalidate
-        ref={formRef}
         onSubmitCapture={(event) => {
           const form = event.target
           if (form.checkValidity() === false) {
@@ -1111,7 +1107,7 @@ const Sample = ({ uuid }) => {
               label="First name"
               value="Mark"
               required
-              controlHelp={<Form.ValidationFeedback when="valid">Looks good!</Form.ValidationFeedback>}
+              controlValidationFeedback={<Form.ValidationFeedback when="valid">Looks good!</Form.ValidationFeedback>}
             />
           </Col>
           <Col md={4} class="mb-3">
@@ -1120,7 +1116,7 @@ const Sample = ({ uuid }) => {
               label="Last name"
               value="Otto"
               required
-              controlHelp={<Form.ValidationFeedback when="valid">Looks good!</Form.ValidationFeedback>}
+              controlValidationFeedback={<Form.ValidationFeedback when="valid">Looks good!</Form.ValidationFeedback>}
             />
           </Col>
           <Col md={4} class="mb-3">
@@ -1191,132 +1187,183 @@ Not interested in custom validation feedback messages or writing JavaScript to c
 
 While these feedback styles cannot be styled with CSS, you can still customize the feedback text through JavaScript.
 
-{% capture example %}
-<form>
-  <div class="form-row">
-    <div class="col-md-4 mb-3">
-      <label for="validationDefault01">First name</label>
-      <input type="text" class="form-control" id="validationDefault01" value="Mark" required>
-    </div>
-    <div class="col-md-4 mb-3">
-      <label for="validationDefault02">Last name</label>
-      <input type="text" class="form-control" id="validationDefault02" value="Otto" required>
-    </div>
-    <div class="col-md-4 mb-3">
-      <label for="validationDefaultUsername">Username</label>
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroupPrepend2">@</span>
-        </div>
-        <input type="text" class="form-control" id="validationDefaultUsername"  aria-describedby="inputGroupPrepend2" required>
-      </div>
-    </div>
-  </div>
-  <div class="form-row">
-    <div class="col-md-6 mb-3">
-      <label for="validationDefault03">City</label>
-      <input type="text" class="form-control" id="validationDefault03" required>
-    </div>
-    <div class="col-md-3 mb-3">
-      <label for="validationDefault04">State</label>
-      <select class="custom-select" id="validationDefault04" required>
-        <option selected disabled value="">Choose...</option>
-        <option>...</option>
-      </select>
-    </div>
-    <div class="col-md-3 mb-3">
-      <label for="validationDefault05">Zip</label>
-      <input type="text" class="form-control" id="validationDefault05" required>
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
-      <label class="form-check-label" for="invalidCheck2">
-        Agree to terms and conditions
-      </label>
-    </div>
-  </div>
-  <button class="btn btn-primary" type="submit">Submit form</button>
-</form>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form>
+        <Form.Row>
+          <Col md={4} class="mb-3">
+            <Form.Input
+              id="validationDefault01"
+              label="First name"
+              value="Mark"
+              required
+            />
+          </Col>
+          <Col md={4} class="mb-3">
+            <Form.Input
+              id="validationDefault02"
+              label="Last name"
+              value="Otto"
+              required
+            />
+          </Col>
+          <Col md={4} class="mb-3">
+            <Form.Input
+              id="validationDefaultUsername"
+              label="Username"
+              aria-describedby="inputGroupPrepend2"
+              controlRefParentAs={({ children }) => 
+                <InputGroup prepend="@" id="inputGroupPrepend2">{children}</InputGroup>
+              }
+              required
+            />
+          </Col>
+        </Form.Row>
+        <Form.Row>
+          <Col md={6} class="mb-3">
+            <Form.Input
+              id="validationDefault03"
+              label="City"
+              required
+            />
+          </Col>
+          <Col md={3} class="mb-3">
+            <Form.Select
+              id="validationDefault04"
+              label="State"
+              custom
+              required
+            >
+              <Select.Option selected disabled value="">Choose...</Select.Option>
+              <Select.Option>...</Select.Option>
+            </Form.Select>
+          </Col>
+          <Col md={3} class="mb-3">
+            <Form.Input
+              id="validationDefault05"
+              label="Zip"
+              required
+            />
+          </Col>
+        </Form.Row>
+        <Form.Group>
+          <Form.Checkbox
+            id="invalidCheck2"
+            labelAfter="Agree to terms and conditions"
+            value=""
+            required
+            controlAs={({ children }) => (
+              <Form.Group check children={children} />
+            )}
+          />
+        </Form.Group>
+        <Button theme="primary" type="submit">Submit form</Button>
+      </Form>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Server side
 
 We recommend using client-side validation, but in case you require server-side validation, you can indicate invalid and valid form fields with `.is-invalid` and `.is-valid`. Note that `.invalid-feedback` is also supported with these classes.
 
-{% capture example %}
-<form>
-  <div class="form-row">
-    <div class="col-md-4 mb-3">
-      <label for="validationServer01">First name</label>
-      <input type="text" class="form-control is-valid" id="validationServer01" value="Mark" required>
-      <div class="valid-feedback">
-        Looks good!
-      </div>
-    </div>
-    <div class="col-md-4 mb-3">
-      <label for="validationServer02">Last name</label>
-      <input type="text" class="form-control is-valid" id="validationServer02" value="Otto" required>
-      <div class="valid-feedback">
-        Looks good!
-      </div>
-    </div>
-    <div class="col-md-4 mb-3">
-      <label for="validationServerUsername">Username</label>
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroupPrepend3">@</span>
-        </div>
-        <input type="text" class="form-control is-invalid" id="validationServerUsername" aria-describedby="inputGroupPrepend3" required>
-        <div class="invalid-feedback">
-          Please choose a username.
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="form-row">
-    <div class="col-md-6 mb-3">
-      <label for="validationServer03">City</label>
-      <input type="text" class="form-control is-invalid" id="validationServer03" required>
-      <div class="invalid-feedback">
-        Please provide a valid city.
-      </div>
-    </div>
-    <div class="col-md-3 mb-3">
-      <label for="validationServer04">State</label>
-      <select class="custom-select is-invalid" id="validationServer04" required>
-        <option selected disabled value="">Choose...</option>
-        <option>...</option>
-      </select>
-      <div class="invalid-feedback">
-        Please select a valid state.
-      </div>
-    </div>
-    <div class="col-md-3 mb-3">
-      <label for="validationServer05">Zip</label>
-      <input type="text" class="form-control is-invalid" id="validationServer05" required>
-      <div class="invalid-feedback">
-        Please provide a valid zip.
-      </div>
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="form-check">
-      <input class="form-check-input is-invalid" type="checkbox" value="" id="invalidCheck3" required>
-      <label class="form-check-label" for="invalidCheck3">
-        Agree to terms and conditions
-      </label>
-      <div class="invalid-feedback">
-        You must agree before submitting.
-      </div>
-    </div>
-  </div>
-  <button class="btn btn-primary" type="submit">Submit form</button>
-</form>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form>
+        <Form.Row>
+          <Col md={4} class="mb-3">
+            <Form.Input
+              id="validationServer01"
+              label="First name"
+              value="Mark"
+              required
+              rbValid
+              controlValidationFeedback={<Form.ValidationFeedback when="valid">Looks good!</Form.ValidationFeedback>}
+            />
+          </Col>
+          <Col md={4} class="mb-3">
+            <Form.Input
+              id="validationServer02"
+              label="Last name"
+              value="Otto"
+              required
+              rbValid
+              controlValidationFeedback={<Form.ValidationFeedback when="valid">Looks good!</Form.ValidationFeedback>}
+            />
+          </Col>
+          <Col md={4} class="mb-3">
+            <Form.Input
+              id="validationServerUsername"
+              label="Username"
+              required
+              rbValid={false}
+              aria-describedby="inputGroupPrepend3"
+              controlRefParentAs={({ children }) => 
+                <InputGroup prepend="@" id="inputGroupPrepend3">{children}</InputGroup>
+              }
+              controlValidationFeedback={<Form.ValidationFeedback when="invalid">Please choose a username.</Form.ValidationFeedback>}
+            />
+          </Col>
+        </Form.Row>
+        <Form.Row>
+          <Col md={6} class="mb-3">
+            <Form.Input
+              id="validationServer03"
+              label="City"
+              required
+              rbValid={false}
+              controlValidationFeedback={<Form.ValidationFeedback when="invalid">Please provide a valid city.</Form.ValidationFeedback>}
+            />
+          </Col>
+          <Col md={3} class="mb-3">
+            <Form.Select
+              id="validationServer04"
+              label="State"
+              custom
+              required
+              rbValid={false}
+              controlValidationFeedback={<Form.ValidationFeedback when="invalid">Please select a valid state.</Form.ValidationFeedback>}
+            >
+              <Select.Option selected disabled value="">Choose...</Select.Option>
+              <Select.Option>...</Select.Option>
+            </Form.Select>
+          </Col>
+          <Col md={3} class="mb-3">
+            <Form.Input
+              id="validationServer05"
+              label="Zip"
+              required
+              rbValid={false}
+              controlValidationFeedback={<Form.ValidationFeedback when="invalid">Please provide a valid zip.</Form.ValidationFeedback>}
+            />
+          </Col>
+        </Form.Row>
+        <Form.Group>
+          <Form.Checkbox
+            id="invalidCheck3"
+            labelAfter="Agree to terms and conditions"
+            value=""
+            required
+            rbValid={false}
+            controlAs={({ children }) => (
+              <Form.Group check children={children} />
+            )}
+            controlValidationFeedback={<Form.ValidationFeedback when="invalid">You must agree before submitting.</Form.ValidationFeedback>}
+          />
+        </Form.Group>
+        <Button theme="primary" type="submit">Submit form</Button>
+      </Form>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Supported elements
 
@@ -1328,115 +1375,169 @@ Validation styles are available for the following form controls and components:
 - `.custom-checkbox`s and `.custom-radio`s
 - `.custom-file`
 
-{% capture example %}
-<form class="was-validated">
-  <div class="mb-3">
-    <label for="validationTextarea">Textarea</label>
-    <textarea class="form-control is-invalid" id="validationTextarea" placeholder="Required example textarea" required></textarea>
-    <div class="invalid-feedback">
-      Please enter a message in the textarea.
-    </div>
-  </div>
-
-  <div class="custom-control custom-checkbox mb-3">
-    <input type="checkbox" class="custom-control-input" id="customControlValidation1" required>
-    <label class="custom-control-label" for="customControlValidation1">Check this custom checkbox</label>
-    <div class="invalid-feedback">Example invalid feedback text</div>
-  </div>
-
-  <div class="custom-control custom-radio">
-    <input type="radio" class="custom-control-input" id="customControlValidation2" name="radio-stacked" required>
-    <label class="custom-control-label" for="customControlValidation2">Toggle this custom radio</label>
-  </div>
-  <div class="custom-control custom-radio mb-3">
-    <input type="radio" class="custom-control-input" id="customControlValidation3" name="radio-stacked" required>
-    <label class="custom-control-label" for="customControlValidation3">Or toggle this other custom radio</label>
-    <div class="invalid-feedback">More example invalid feedback text</div>
-  </div>
-
-  <div class="form-group">
-    <select class="custom-select" required>
-      <option value="">Open this select menu</option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
-    </select>
-    <div class="invalid-feedback">Example invalid custom select feedback</div>
-  </div>
-
-  <div class="custom-file">
-    <input type="file" class="custom-file-input" id="validatedCustomFile" required>
-    <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
-    <div class="invalid-feedback">Example invalid custom file feedback</div>
-  </div>
-</form>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form rbWasValidated>
+        <div class="mb-3">
+          <Form.Input
+            textarea
+            id="validationTextarea"
+            label="Textarea"
+            required
+            rbValid={false}
+            controlValidationFeedback={<Form.ValidationFeedback when="invalid">Please enter a message in the textarea.</Form.ValidationFeedback>}
+          />
+        </div>
+        <div class="custom-control custom-checkbox mb-3">
+          <Form.Checkbox
+            id="customControlValidation1"
+            labelAfter={<Form.Label custom>Check this custom checkbox</Form.Label>}
+            custom
+            required
+            controlValidationFeedback={<Form.ValidationFeedback when="invalid">Example invalid feedback text</Form.ValidationFeedback>}
+          />
+        </div>
+        <div class="custom-control custom-radio">
+          <Form.Radio
+            id="customControlValidation2"
+            labelAfter={<Form.Label custom>Toggle this custom radio</Form.Label>}
+            name="radio-stacked"
+            custom
+            required
+          />
+        </div>
+        <div class="custom-control custom-radio mb-3">
+          <Form.Radio
+            id="customControlValidation3"
+            labelAfter={<Form.Label custom>Or toggle this other custom radio</Form.Label>}
+            name="radio-stacked"
+            custom
+            required
+            controlValidationFeedback={<Form.ValidationFeedback when="invalid">More example invalid feedback text</Form.ValidationFeedback>}
+          />
+        </div>
+        <Form.Group>
+          <Form.Select
+            custom
+            required
+            controlValidationFeedback={<Form.ValidationFeedback when="invalid">Example invalid custom select feedback</Form.ValidationFeedback>}
+          >
+            <Select.Option value="">Open this select menu</Select.Option>
+            <Select.Option value="1">One</Select.Option>
+            <Select.Option value="2">Two</Select.Option>
+            <Select.Option value="3">Three</Select.Option>
+          </Form.Select>
+        </Form.Group>
+        <div class="custom-file">
+          <Form.Input
+            type="file"
+            id="validatedCustomFile"
+            labelAfter="Choose file..."
+            required
+            custom
+            controlValidationFeedback={<Form.ValidationFeedback when="invalid">Example invalid custom file feedback</Form.ValidationFeedback>}
+          />
+        </div>
+      </Form>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Tooltips
 
 If your form layout allows it, you can swap the `.{valid|invalid}-feedback` classes for `.{valid|invalid}-tooltip` classes to display validation feedback in a styled tooltip. Be sure to have a parent with `position: relative` on it for tooltip positioning. In the example below, our column classes have this already, but your project may require an alternative setup.
 
-{% capture example %}
-<form class="needs-validation" novalidate>
-  <div class="form-row">
-    <div class="col-md-4 mb-3">
-      <label for="validationTooltip01">First name</label>
-      <input type="text" class="form-control" id="validationTooltip01" value="Mark" required>
-      <div class="valid-tooltip">
-        Looks good!
-      </div>
-    </div>
-    <div class="col-md-4 mb-3">
-      <label for="validationTooltip02">Last name</label>
-      <input type="text" class="form-control" id="validationTooltip02" value="Otto" required>
-      <div class="valid-tooltip">
-        Looks good!
-      </div>
-    </div>
-    <div class="col-md-4 mb-3">
-      <label for="validationTooltipUsername">Username</label>
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="validationTooltipUsernamePrepend">@</span>
-        </div>
-        <input type="text" class="form-control" id="validationTooltipUsername" aria-describedby="validationTooltipUsernamePrepend" required>
-        <div class="invalid-tooltip">
-          Please choose a unique and valid username.
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="form-row">
-    <div class="col-md-6 mb-3">
-      <label for="validationTooltip03">City</label>
-      <input type="text" class="form-control" id="validationTooltip03" required>
-      <div class="invalid-tooltip">
-        Please provide a valid city.
-      </div>
-    </div>
-    <div class="col-md-3 mb-3">
-      <label for="validationTooltip04">State</label>
-      <select class="custom-select" id="validationTooltip04" required>
-        <option selected disabled value="">Choose...</option>
-        <option>...</option>
-      </select>
-      <div class="invalid-tooltip">
-        Please select a valid state.
-      </div>
-    </div>
-    <div class="col-md-3 mb-3">
-      <label for="validationTooltip05">Zip</label>
-      <input type="text" class="form-control" id="validationTooltip05" required>
-      <div class="invalid-tooltip">
-        Please provide a valid zip.
-      </div>
-    </div>
-  </div>
-  <button class="btn btn-primary" type="submit">Submit form</button>
-</form>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  const [ wasValidated, setWasValidated ] = React.useState(false)
+
+  return (
+    <>
+      <Form
+        class="needs-validation"
+        rbWasValidated={wasValidated}
+        novalidate
+        onSubmitCapture={(event) => {
+          const form = event.target
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          setWasValidated(true)
+        }}
+      >
+        <Form.Row>
+          <Col md={4} class="mb-3">
+            <Form.Input
+              id="validationTooltip01"
+              label="First name"
+              value="Mark"
+              required
+              controlValidationTooltip={<Form.ValidationTooltip when="valid">Looks good!</Form.ValidationTooltip>}
+            />
+          </Col>
+          <Col md={4} class="mb-3">
+            <Form.Input
+              id="validationTooltip02"
+              label="Last name"
+              value="Otto"
+              required
+              controlValidationTooltip={<Form.ValidationTooltip when="valid">Looks good!</Form.ValidationTooltip>}
+            />
+          </Col>
+          <Col md={4} class="mb-3">
+            <Form.Input
+              id="validationTooltipUsername"
+              label="Username"
+              required
+              aria-describedby="inputGroupPrepend"
+              controlRefParentAs={({ children }) => (
+                <InputGroup prepend="@" id="inputGroupPrepend" children={children} />
+              )}
+              controlValidationTooltip={<Form.ValidationTooltip when="invalid">Please choose a username.</Form.ValidationTooltip>}
+            />
+          </Col>
+        </Form.Row>
+        <Form.Row>
+          <Col md={6} class="mb-3">
+            <Form.Input
+              id="validationTooltip03"
+              label="City"
+              required
+              controlValidationTooltip={<Form.ValidationTooltip when="invalid">Please provide a valid city.</Form.ValidationTooltip>}
+            />
+          </Col>
+          <Col md={3} class="mb-3">
+            <Form.Select
+              id="validationTooltip04"
+              label="State"
+              required
+              controlValidationTooltip={<Form.ValidationTooltip when="invalid">Please select a valid state.</Form.ValidationTooltip>}
+            >
+              <Select.Option selected disabled value="">Choose...</Select.Option>
+              <Select.Option>...</Select.Option>
+            </Form.Select>
+          </Col>
+          <Col md={3} class="mb-3">
+            <Form.Input
+              id="validationTooltip05"
+              label="Zip"
+              required
+              controlValidationTooltip={<Form.ValidationTooltip when="invalid">Please provide a valid zip.</Form.ValidationTooltip>}
+            />
+          </Col>
+        </Form.Row>
+        <Button theme="primary" type="submit">Submit form</Button>
+      </Form>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Customizing
 

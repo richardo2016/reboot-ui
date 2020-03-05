@@ -10,15 +10,17 @@ const FormCheckbox = Form.Checkbox = React.forwardRef(
         id = '',
         ...props
     }, ref) => {
-        const [controlProps, restProps] = useControlProps(props)
+        const [controlProps, fieldProps] = useControlProps(props)
         return (
             <Form.Control
                 {...controlProps}
                 controlId={id}
-                $$controlValidationFeedbackPosition={FEEDBACK_POSTIONS['after-labelafter']}
+                {...{
+                    [FEEDBACK_POSTIONS.KEY]: FEEDBACK_POSTIONS['after-labelafter']
+                }}
             >
               <Input
-                {...restProps}
+                {...fieldProps}
                 type="checkbox"
                 placeholder={undefined}
                 ref={ref}

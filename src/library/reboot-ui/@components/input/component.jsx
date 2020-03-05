@@ -34,10 +34,12 @@ function Input ({
     const clsPrefix = formCtrlCtx.custom ? 'custom-' : 'form-'
     let baseFormControlCls
     switch (type) {
-        case 'file': baseFormControlCls = `${clsPrefix}control-file`; break
+        case 'file':
+            baseFormControlCls = formCtrlCtx.custom ? `custom-file-input` : `form-control-file`; break
         case 'checkbox':
             baseFormControlCls = formCtrlCtx.custom ? `custom-control-input` : `form-check-input`; break
-        case 'radio': baseFormControlCls = `${clsPrefix}check-input`; break
+        case 'radio':
+            baseFormControlCls = formCtrlCtx.custom ? `custom-control-input` : `form-check-input`; break
         case 'range': baseFormControlCls = `${clsPrefix}control-range`; break
         default:
             if (plaintext) baseFormControlCls = `form-control-plaintext`;

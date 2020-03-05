@@ -10,6 +10,7 @@ import { isReactTypeOf, rclassnames } from '../../../../utils/react-like';
 import { arraify } from '../../../../utils/array';
 import { filterFormControlSize } from '../common-utils';
 import { FEEDBACK_POSTIONS } from './symbols';
+import { useToken } from './hooks';
 
 const FormControl = Form.Control = React.forwardRef(
     function ({
@@ -30,7 +31,8 @@ const FormControl = Form.Control = React.forwardRef(
         label: labelBefore = '',
         labelAfter = false,
         controlHelp: helpAfter = '',
-        controlValidationFeedback: feedbackAfter = '',
+        controlValidationFeedback: validFeedback = '',
+        controlValidationTooltip: tooltipAfter = '',
         /**
          * @internal
          * @description determine the validation feedbackt position
@@ -39,7 +41,9 @@ const FormControl = Form.Control = React.forwardRef(
          * @enum FEEDBACK_POSTIONS['after-labelafter']
          * @enum FEEDBACK_POSTIONS['after-control']
          */
-        $$controlValidationFeedbackPosition: $$feedbackPos = FEEDBACK_POSTIONS['after-control'],
+        [FEEDBACK_POSTIONS.KEY]: $$feedbackPos = FEEDBACK_POSTIONS['after-control'],
+
+        [useToken('inputType')]: $$inputType,
 
         controlRefParentCol,
         /**
@@ -58,6 +62,7 @@ const FormControl = Form.Control = React.forwardRef(
             label: labelBefore || labelAfter,
             labelBefore,
             labelAfter,
+            [useToken('inputType')]: $$inputType,
         }
 
         let labelBeforeNode = labelBefore && !isReactTypeOf(labelBefore, Form.Label) ? (
@@ -69,19 +74,23 @@ const FormControl = Form.Control = React.forwardRef(
         const helpAfterNode = helpAfter && !isReactTypeOf(helpAfter, [Form.Text, React.Fragment]) ? (
             <Form.Text as="small" muted>{helpAfter}</Form.Text>
         ) : helpAfter
-        const feedbackAfterNode = feedbackAfter && !isReactTypeOf(feedbackAfter, [Form.ValidationFeedback, React.Fragment]) ? (
-            <Form.ValidationFeedback when="valid">{feedbackAfter}</Form.ValidationFeedback>
-        ) : feedbackAfter
+        const validFeedbackNode = validFeedback && !isReactTypeOf(validFeedback, [Form.ValidationFeedback, React.Fragment]) ? (
+            <Form.ValidationFeedback when="valid">{validFeedback}</Form.ValidationFeedback>
+        ) : validFeedback
+        const tooltipAfterNode = tooltipAfter && !isReactTypeOf(tooltipAfter, [Form.ValidationTooltip, React.Fragment]) ? (
+            <Form.ValidationTooltip when="valid">{tooltipAfter}</Form.ValidationTooltip>
+        ) : tooltipAfter
+        
 
         /* support controlRefParentCol :start */
         const ctrlSize = filterFormControlSize(size)
-        const nextClsName = [
+        const nextLabelClsName = [
             ctrlSize && 'col-form-label',
             ctrlSize && `col-form-label-${ctrlSize}`,
         ]
         
-        if (labelBeforeNode) labelBeforeNode = React.cloneElement(labelBeforeNode, { className: rclassnames(labelBeforeNode.props, nextClsName) })
-        if (labelAfterNode) labelAfterNode = React.cloneElement(labelAfterNode, { className: rclassnames(labelAfterNode.props, nextClsName) })
+        if (labelBeforeNode) labelBeforeNode = React.cloneElement(labelBeforeNode, { className: rclassnames(labelBeforeNode.props, nextLabelClsName) })
+        if (labelAfterNode) labelAfterNode = React.cloneElement(labelAfterNode, { className: rclassnames(labelAfterNode.props, nextLabelClsName) })
         
         const controlRefParentColClsList = Col.useColClass(controlRefParentCol)
         const ControlRefParentJSX = ({ children }) => {
@@ -100,14 +109,15 @@ const FormControl = Form.Control = React.forwardRef(
                     className={rclassnames(props, [
                     ])}
                 >
-                    {$$feedbackPos === FEEDBACK_POSTIONS['before-labelbefore'] && feedbackAfterNode}
+                    {$$feedbackPos === FEEDBACK_POSTIONS['before-labelbefore'] && validFeedbackNode}
                     {labelBeforeNode}
                     <ControlRefParentJSX>
                         {children}
-                        {$$feedbackPos === FEEDBACK_POSTIONS['after-control'] && feedbackAfterNode}
+                        {$$feedbackPos === FEEDBACK_POSTIONS['after-control'] && validFeedbackNode}
+                        {tooltipAfterNode}
                     </ControlRefParentJSX>
                     {labelAfterNode}
-                    {$$feedbackPos === FEEDBACK_POSTIONS['after-labelafter'] && feedbackAfterNode}
+                    {$$feedbackPos === FEEDBACK_POSTIONS['after-labelafter'] && validFeedbackNode}
                     {helpAfterNode}
                 </JSXEl>
             </FormControlContext.Provider>

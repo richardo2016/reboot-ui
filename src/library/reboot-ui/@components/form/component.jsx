@@ -5,6 +5,7 @@ import { rclassnames, tryUseContext } from '../../../../utils/react-like';
 
 import { FormContext, FormControlContext, FormGroupContext } from './context'
 import { Col } from '../layout-grid/component';
+import { useToken } from './hooks';
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/form/#supported-content
@@ -59,6 +60,8 @@ const Form = React.forwardRef(
         )
     }
 )
+
+Form.useForm = () => React.useContext(FormContext)
 
 Form.Row = function ({
     children,
@@ -118,7 +121,7 @@ Form.Label = function ({
     as: _as = 'label',
     for: labelFor = '',
     col: labelCol = {},
-    custom = false,
+    custom,
     ...props
 }) {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
@@ -131,13 +134,17 @@ Form.Label = function ({
 
     const labelColClsList = Col.useColClass(labelCol)
 
+    if (custom === undefined) custom = formCtrlCtx.custom
+
+    const $$inputType = formCtrlCtx[useToken('inputType')]
+
     return (
         <JSXEl
             {...props}
             {...labelFor && { for: labelFor }}
             className={rclassnames(props, [
                 formGrpCtx.inFormGroup && formGrpCtx.check && !custom && 'form-check-label',
-                custom && 'custom-control-label',
+                custom && ($$inputType === 'file' ? 'custom-file-label' : 'custom-control-label'),
                 labelColClsList
             ])}
         >
@@ -146,7 +153,7 @@ Form.Label = function ({
     )
 }
 
-Form.ValidationFeedback = function ({
+const ValidationTip = function ({
     children,
     content = children,
     as: _as = 'div',
@@ -158,11 +165,11 @@ Form.ValidationFeedback = function ({
      * @enum never
      */
     when: _when = false,
+
+    [useToken('clsKey')]: $$clsKey,
     ...props
 }) {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
-
-    // const formCtx = React.useContext(FormContext)
 
     switch (_when) {
         default:
@@ -178,13 +185,21 @@ Form.ValidationFeedback = function ({
         <JSXEl
             {...props}
             className={rclassnames(props, [
-                (_when === 'valid' || _when === 'always') && 'valid-feedback',
-                (_when === 'invalid' || _when === 'always') && 'invalid-feedback',
+                (_when === 'valid' || _when === 'always') && `valid-${$$clsKey}`,
+                (_when === 'invalid' || _when === 'always') && `invalid-${$$clsKey}`,
             ])}
         >
             {content}
         </JSXEl>
     )
+}
+
+Form.ValidationFeedback = function (props) {
+    return <ValidationTip {...props} {...{ [useToken('clsKey')]: 'feedback'}} />
+}
+
+Form.ValidationTooltip = function (props) {
+    return <ValidationTip {...props} {...{ [useToken('clsKey')]: 'tooltip'}} />
 }
 
 Form.Text = function ({
