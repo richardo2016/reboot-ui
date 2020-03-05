@@ -3,6 +3,8 @@ import React from 'react'
 import { resolveJSXElement } from '../../utils/ui'
 import { rclassnames } from '../../../../utils/react-like'
 
+import Anchor from '../_helpers/anchor'
+
 /**
  * @see https://getbootstrap.com/docs/4.4/components/button
  */
@@ -30,7 +32,7 @@ function Button ({
             break
         case 'link':
             outline = false
-            _as = 'a'
+            _as = Anchor
             break
         default:
             theme = ''

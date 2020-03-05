@@ -310,7 +310,7 @@ const Sample = ({ uuid }) => {
             This
             {' '}
             <Popover>
-              <Button as="a" href="javascript:;" type="secondary" class="popover-test">button</Button>
+              <Button as="a" href="javascript:;" theme="secondary" class="popover-test">button</Button>
               <Popover.Overlay>
                 <Popover.Header>Popover title</Popover.Header>
                 <Popover.Body>

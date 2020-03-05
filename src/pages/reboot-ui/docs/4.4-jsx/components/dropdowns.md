@@ -208,7 +208,7 @@ const Sample = () => {
                   >
                     <Dropdown.Toggle
                       class={classnames([idx > 0 && 'ml-2'])}
-                      type="secondary"
+                      theme="secondary"
                       label={split ? `${labelPrefix} split button` : `${labelPrefix} button`}
                       size={size}
                       split={split}
@@ -308,7 +308,7 @@ const Sample = () => {
                 >
                   <Dropdown.Toggle
                     class={classnames([idx > 0 && 'ml-2'])}
-                    type="secondary"
+                    theme="secondary"
                     label={label}
                     split={split}
                   >
@@ -611,7 +611,7 @@ const Sample = ({ uuid }) => {
             ]
           }}
         >
-          <Dropdown.Toggle type="secondary">
+          <Dropdown.Toggle theme="secondary">
             Offset
           </Dropdown.Toggle>
         </Dropdown>

@@ -249,7 +249,7 @@ const Sample = ({ uuid }) => {
         prependNoWrap
         prepend={(
           <div class="input-group-prepend">
-            <Button outline type="secondary" id={`button-addon1${uuid}`}>Button</Button>
+            <Button outline theme="secondary" id={`button-addon1${uuid}`}>Button</Button>
           </div>
         )}
       >
@@ -266,7 +266,7 @@ const Sample = ({ uuid }) => {
         appendNoWrap
         append={(
           <div class="input-group-append">
-            <Button outline type="secondary" id={`button-addon2${uuid}`}>Button</Button>
+            <Button outline theme="secondary" id={`button-addon2${uuid}`}>Button</Button>
           </div>
         )}
       >
@@ -283,8 +283,8 @@ const Sample = ({ uuid }) => {
         prependNoWrap
         prepend={(
           <div class="input-group-prepend" id={`button-addon3${uuid}`}>
-            <Button outline type="secondary">Button</Button>
-            <Button outline type="secondary">Button</Button>
+            <Button outline theme="secondary">Button</Button>
+            <Button outline theme="secondary">Button</Button>
           </div>
         )}
       >
@@ -301,8 +301,8 @@ const Sample = ({ uuid }) => {
         appendNoWrap
         append={(
           <div class="input-group-append" id={`button-addon4${uuid}`}>
-            <Button outline type="secondary">Button</Button>
-            <Button outline type="secondary">Button</Button>
+            <Button outline theme="secondary">Button</Button>
+            <Button outline theme="secondary">Button</Button>
           </div>
         )}
       >
@@ -331,7 +331,7 @@ const Sample = ({ uuid }) => {
         prependNoWrap
         prepend={(
           <div class="input-group-prepend">
-            <InputGroup.ButtonDropdown label="Dropdown" outline type="secondary">
+            <InputGroup.ButtonDropdown label="Dropdown" outline theme="secondary">
               <Dropdown.Menu>
                 <Dropdown.Item as="a" href="javascript:;">Action</Dropdown.Item>
                 <Dropdown.Item as="a" href="javascript:;">Another action</Dropdown.Item>
@@ -350,7 +350,7 @@ const Sample = ({ uuid }) => {
         appendNoWrap
         append={(
           <div class="input-group-append">
-            <InputGroup.ButtonDropdown label="Dropdown" outline type="secondary">
+            <InputGroup.ButtonDropdown label="Dropdown" outline theme="secondary">
               <Dropdown.Menu>
                 <Dropdown.Item as="a" href="javascript:;">Action</Dropdown.Item>
                 <Dropdown.Item as="a" href="javascript:;">Another action</Dropdown.Item>
@@ -381,7 +381,7 @@ const Sample = ({ uuid }) => {
         prependNoWrap
         prepend={(
           <div class="input-group-prepend">
-            <InputGroup.ButtonDropdown split="Action" outline type="secondary">
+            <InputGroup.ButtonDropdown split="Action" outline theme="secondary">
               <Dropdown.Menu>
                 <Dropdown.Item as="a" href="javascript:;">Action</Dropdown.Item>
                 <Dropdown.Item as="a" href="javascript:;">Another action</Dropdown.Item>
@@ -400,7 +400,7 @@ const Sample = ({ uuid }) => {
         appendNoWrap
         append={(
           <div class="input-group-append">
-            <InputGroup.ButtonDropdown split="Action" outline type="secondary">
+            <InputGroup.ButtonDropdown split="Action" outline theme="secondary">
               <Dropdown.Menu>
                   <Dropdown.Item as="a" href="javascript:;">Action</Dropdown.Item>
                   <Dropdown.Item as="a" href="javascript:;">Another action</Dropdown.Item>

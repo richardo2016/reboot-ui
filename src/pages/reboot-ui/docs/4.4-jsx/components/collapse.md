@@ -34,8 +34,7 @@ const Sample = () => {
     <>
       <p>
         <Button
-          href="javascript:void(0)"
-          type="link"
+          theme="link"
           className="mr-1"
           aria-controls="collapseExample"
           onClick={() => {
@@ -74,8 +73,7 @@ const Sample = () => {
     <>
       <p>
         <Button
-          href="javascript:void(0)"
-          type="link"
+          theme="link"
           id="uncontrolled-collapse-toggler"
           className="mr-1"
           aria-controls="collapseExample"

@@ -152,7 +152,7 @@ const Sample = () => {
             <Dropdown.Toggle
               id="btnGroupDrop1"
               as={Button}
-              type="secondary"
+              theme="secondary"
             >
               Dropdown
             </Dropdown.Toggle>
@@ -200,7 +200,7 @@ const Sample = () => {
         <Dropdown.Toggle
           id={`btnGroupVerticalDrop${idx}`}
           as={Button}
-          type="secondary"
+          theme="secondary"
         >
           Dropdown
         </Dropdown.Toggle>

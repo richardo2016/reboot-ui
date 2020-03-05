@@ -24,7 +24,7 @@ const Sample = ({ uuid }) => {
             ctrlId={`exampleInputEmail1`}
             label="Email address"
           >
-            <Input type="email" aria-describedby="emailHelp" />
+            <Form.Input type="email" aria-describedby="emailHelp" />
             <Form.Text as="small" id="emailHelp" muted>We'll never share your email with anyone else.</Form.Text>
           </Form.Control>
         </Form.Group>
@@ -33,7 +33,7 @@ const Sample = ({ uuid }) => {
             ctrlId={`exampleInputPassword1`}
             label="Password"
           >
-            <Input type="email" />
+            <Form.Input type="email" />
           </Form.Control>
         </Form.Group>
         <Form.Group check group>
@@ -41,7 +41,7 @@ const Sample = ({ uuid }) => {
             ctrlId={`exampleCheck1`}
             labelAfter="Check me out"
           >
-            <Input type="checkbox" />
+            <Form.Input type="checkbox" />
           </Form.Control>
         </Form.Group>
         <Button theme="primary" type="submit">Submit</Button>
@@ -65,7 +65,7 @@ const Sample = ({ uuid }) => {
       <Form>
         <Form.Group>
           <Form.Control controlId={`exampleFormControlInput1`} label="Email address">
-            <Input type="email" placeholder="name@example.com" />
+            <Form.Input type="email" placeholder="name@example.com" />
           </Form.Control>
         </Form.Group>
         <Form.Group>
@@ -111,7 +111,7 @@ const Sample = ({ uuid }) => {
       <Form>
         <Form.Group>
           <Form.Control controlId={`exampleFormControlFile1`} label="Example file input">
-            <Input type="file" />
+            <Form.Input type="file" />
           </Form.Control>
         </Form.Group>
       </Form>
@@ -130,9 +130,9 @@ const Sample = ({ uuid }) => {
   return (
     <>
       <Form.Control>
-        <Input size="lg" type="text" placeholder=".form-control-lg" />
-        <Input type="text" placeholder="Default input" />
-        <Input size="sm" type="text" placeholder=".form-control-sm" />
+        <Form.Input size="lg" type="text" placeholder=".form-control-lg" />
+        <Form.Input type="text" placeholder="Default input" />
+        <Form.Input size="sm" type="text" placeholder=".form-control-sm" />
       </Form.Control>
     </>
   )
@@ -170,7 +170,7 @@ const Sample = ({ uuid }) => {
   return (
     <>
       <Form.Control>
-        <Input type="text" placeholder="Readonly input here..." readonly />
+        <Form.Input type="text" placeholder="Readonly input here..." readonly />
       </Form.Control>
     </>
   )
@@ -193,7 +193,7 @@ const Sample = ({ uuid }) => {
             label={<Form.Label class="col-sm-2 col-form-label">Email</Form.Label>}
           >
             <Col span={10}>
-              <Input type="text" value="email@example.com" readonly plaintext />
+              <Form.Input type="text" value="email@example.com" readonly plaintext />
             </Col>
           </Form.Control>
         </Form.Group>
@@ -203,7 +203,7 @@ const Sample = ({ uuid }) => {
             label={<Form.Label class="col-sm-2 col-form-label">Password</Form.Label>}
           >
             <Col span={10}>
-              <Input type="password" placeholder="Password" />
+              <Form.Input type="password" placeholder="Password" />
             </Col>
           </Form.Control>
         </Form.Group>
@@ -224,7 +224,7 @@ const Sample = ({ uuid }) => {
             controlId="staticEmail2"
             label={<Form.Label class="sr-only">Email</Form.Label>}
           >
-            <Input type="text" value="email@example.com" readonly plaintext />
+            <Form.Input type="text" value="email@example.com" readonly plaintext />
           </Form.Control>
         </Form.Group>
         <Form.Group class="mx-sm-3 mb-2">
@@ -232,7 +232,7 @@ const Sample = ({ uuid }) => {
             controlId="inputPassword2"
             label={<Form.Label class="sr-only">Password</Form.Label>}
           >
-            <Input type="password" placeholder="Password" />
+            <Form.Input type="password" placeholder="Password" />
           </Form.Control>
         </Form.Group>
         <Button type="submit" theme="primary" class="mb-2">Confirm identity</Button>
@@ -257,7 +257,7 @@ const Sample = ({ uuid }) => {
             controlId="formControlRange"
             label="Example Range input"
           >
-            <Input type="range" />
+            <Form.Input type="range" />
           </Form.Control>
         </Form.Group>
       </Form>
@@ -288,7 +288,7 @@ const Sample = ({ uuid }) => {
             controlId="defaultCheck1"
             labelAfter="Default checkbox"
           >
-            <Input type="checkbox" value="" />
+            <Form.Input type="checkbox" value="" />
           </Form.Control>
         </Form.Group>
         <Form.Group check>
@@ -296,7 +296,7 @@ const Sample = ({ uuid }) => {
             controlId="defaultCheck2"
             labelAfter="Disabled checkbox"
           >
-            <Input type="checkbox" value="" disabled />
+            <Form.Input type="checkbox" value="" disabled />
           </Form.Control>
         </Form.Group>
     </>
@@ -314,7 +314,7 @@ const Sample = ({ uuid }) => {
             controlId="exampleRadios1"
             labelAfter="Default radio"
           >
-            <Input type="radio" name="exampleRadios" value="option1" checked />
+            <Form.Input type="radio" name="exampleRadios" value="option1" checked />
           </Form.Control>
         </Form.Group>
         <Form.Group check>
@@ -322,7 +322,7 @@ const Sample = ({ uuid }) => {
             controlId="exampleRadios2"
             labelAfter="Second default radio"
           >
-            <Input type="radio" name="exampleRadios" value="option2" />
+            <Form.Input type="radio" name="exampleRadios" value="option2" />
           </Form.Control>
         </Form.Group>
         <Form.Group check>
@@ -330,7 +330,7 @@ const Sample = ({ uuid }) => {
             controlId="exampleRadios3"
             labelAfter="Disabled radio"
           >
-            <Input type="radio" name="exampleRadios" value="option3" disabled />
+            <Form.Input type="radio" name="exampleRadios" value="option3" disabled />
           </Form.Control>
         </Form.Group>
     </>
@@ -352,7 +352,7 @@ const Sample = ({ uuid }) => {
             controlId="inlineCheckbox1"
             labelAfter="1"
           >
-            <Input type="checkbox" value="option1" />
+            <Form.Input type="checkbox" value="option1" />
           </Form.Control>
         </Form.Group>
         <Form.Group check inline>
@@ -360,7 +360,7 @@ const Sample = ({ uuid }) => {
             controlId="inlineCheckbox2"
             labelAfter="2"
           >
-            <Input type="checkbox" value="option2" />
+            <Form.Input type="checkbox" value="option2" />
           </Form.Control>
         </Form.Group>
         <Form.Group check inline>
@@ -368,7 +368,7 @@ const Sample = ({ uuid }) => {
             controlId="inlineCheckbox3"
             labelAfter="3 (disabled)"
           >
-            <Input type="checkbox" value="option3" disabled />
+            <Form.Input type="checkbox" value="option3" disabled />
           </Form.Control>
         </Form.Group>
     </>
@@ -386,7 +386,7 @@ const Sample = ({ uuid }) => {
             controlId="inlineRadio1"
             labelAfter="1"
           >
-            <Input type="radio" name="inlineRadioOptions" value="option1" />
+            <Form.Input type="radio" name="inlineRadioOptions" value="option1" />
           </Form.Control>
         </Form.Group>
         <Form.Group check inline>
@@ -394,7 +394,7 @@ const Sample = ({ uuid }) => {
             controlId="inlineRadio2"
             labelAfter="2"
           >
-            <Input type="radio" name="inlineRadioOptions" value="option2" />
+            <Form.Input type="radio" name="inlineRadioOptions" value="option2" />
           </Form.Control>
         </Form.Group>
         <Form.Group check inline>
@@ -402,7 +402,7 @@ const Sample = ({ uuid }) => {
             controlId="inlineRadio3"
             labelAfter="3 (disabled)"
           >
-            <Input type="radio" name="inlineRadioOptions" value="option3" disabled />
+            <Form.Input type="radio" name="inlineRadioOptions" value="option3" disabled />
           </Form.Control>
         </Form.Group>
     </>
@@ -423,14 +423,14 @@ const Sample = ({ uuid }) => {
           <Form.Control
             controlId="blankCheckbox"
           >
-            <Input class="position-static" type="checkbox" value="option1" aria-label="..." />
+            <Form.Input class="position-static" type="checkbox" value="option1" aria-label="..." />
           </Form.Control>
         </Form.Group>
         <Form.Group check>
           <Form.Control
             controlId="blankRadio1"
           >
-            <Input class="position-static" type="checkbox" name="blankRadio" value="option1" aria-label="..." />
+            <Form.Input class="position-static" type="radio" name="blankRadio" value="option1" aria-label="..." />
           </Form.Control>
         </Form.Group>
     </>
@@ -457,7 +457,7 @@ const Sample = ({ uuid }) => {
               label="Example label"
               controlId="formGroupExampleInput"
             >
-              <Input type="text" placeholder="Example input placeholder" />
+              <Form.Input type="text" placeholder="Example input placeholder" />
             </Form.Control>
           </Form.Group>
           <Form.Group>
@@ -465,7 +465,7 @@ const Sample = ({ uuid }) => {
               label="Another label"
               controlId="formGroupExampleInput2"
             >
-              <Input type="text" placeholder="Another input placeholder" />
+              <Form.Input type="text" placeholder="Another input placeholder" />
             </Form.Control>
           </Form.Group>
       </Form>
@@ -485,10 +485,10 @@ const Sample = ({ uuid }) => {
     <>
       <Row>
         <Col>
-          <Input type="text" class="form-control" placeholder="First name" />
+          <Form.Input type="text" class="form-control" placeholder="First name" />
         </Col>
         <Col>
-          <Input type="text" class="form-control" placeholder="Last name" />
+          <Form.Input type="text" class="form-control" placeholder="Last name" />
         </Col>
       </Row>
     </>
@@ -508,10 +508,10 @@ const Sample = ({ uuid }) => {
       <Form>
         <Form.Row>
           <Col>
-            <Input type="text" class="form-control" placeholder="First name" />
+            <Form.Input type="text" class="form-control" placeholder="First name" />
           </Col>
           <Col>
-            <Input type="text" class="form-control" placeholder="Last name" />
+            <Form.Input type="text" class="form-control" placeholder="Last name" />
           </Col>
         </Form.Row>
       </Form>

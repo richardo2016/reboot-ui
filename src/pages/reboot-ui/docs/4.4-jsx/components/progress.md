@@ -146,7 +146,7 @@ const Sample = () => {
     <>
       <Progress><Progress.Bar striped animated={animated} bgTheme={''} value={75} /></Progress>
       <Button
-        type="secondary"
+        theme="secondary"
         class="bd-toggle-animated-progress"
         onClick={() => {
           setAnimated(!animated)
