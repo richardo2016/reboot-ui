@@ -18,7 +18,8 @@ const CONTROL_PROPS = [
     'labelAfter',
     'controlRefParentCol',
     'controlRefParentAs',
-    'controlHelp'
+    'controlHelp',
+    'controlValidationFeedback',
 ]
 export function useControlProps (inputProps) {
     return [

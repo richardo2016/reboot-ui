@@ -3,8 +3,7 @@ import React from 'react'
 import { resolveJSXElement } from '../../utils/ui'
 import { rclassnames, tryUseContext } from '../../../../utils/react-like';
 
-import { FormControlContext, FormGroupContext } from './context'
-import { filterFormControlSize } from '../common-utils';
+import { FormContext, FormControlContext, FormGroupContext } from './context'
 import { Col } from '../layout-grid/component';
 
 /**
@@ -13,26 +12,53 @@ import { Col } from '../layout-grid/component';
  * @inner-content `.form-group`
  * @inner-content `.form-control`
  */
-const Form = function ({
-    children,
-    as: _as = 'form',
-    inline = false,
-    ...props
-}) {
-    const JSXEl = resolveJSXElement(_as, { allowedHTMLTags: ['form', 'div'] });
+const Form = React.forwardRef(
+    function ({
+        children,
+        as: _as = 'form',
+        inline = false,
+        /**
+         * @description html native attribute
+         */
+        novalidate = false,
+        /**
+         * @description status whether form validated, `rb` means the prop is reboot-owned
+         */
+        rbWasValidated = false,
+        ...props
+    }, ref) {
+        // const JSXEl = resolveJSXElement(_as, { allowedHTMLTags: ['form'] });
 
-    return (
-        <JSXEl
-            {...props}
-            className={rclassnames(props, [
-                // 'form',
-                inline && `form-inline`,
-            ])}
-        >
-            {children}
-        </JSXEl>
-    )
-}
+        const formHtmlElRef = React.useRef(null)
+
+        const formCtx = {
+            inline,
+            novalidate,
+            getFormHTMLElement: () => formHtmlElRef.current,
+            getValidity: () => !!formHtmlElRef.current && formHtmlElRef.checkValidity(),
+        }
+
+        return (
+            <FormContext.Provider value={formCtx}>
+                <form
+                    {...props}
+                    {...novalidate && { novalidate }}
+                    ref={(formEl) => {
+                        formHtmlElRef.current = formEl
+                        return typeof ref === 'function' ? ref(formEl) : formEl
+                    }}
+                    className={rclassnames(props, [
+                        // 'form',
+                        rbWasValidated && `was-validated`,
+                        inline && `form-inline`,
+                    ])}
+                >
+                    {children}
+                </form>
+            </FormContext.Provider>
+        )
+    }
+)
 
 Form.Row = function ({
     children,
@@ -116,6 +142,47 @@ Form.Label = function ({
             ])}
         >
             {children}
+        </JSXEl>
+    )
+}
+
+Form.ValidationFeedback = function ({
+    children,
+    content = children,
+    as: _as = 'div',
+    /**
+     * @description used what validation result is
+     * @enum valid
+     * @enum invalid
+     * @enum always
+     * @enum never
+     */
+    when: _when = false,
+    ...props
+}) {
+    const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
+
+    // const formCtx = React.useContext(FormContext)
+
+    switch (_when) {
+        default:
+        case 'valid':
+            break
+        case 'invalid':
+        case 'always':
+        case 'never':
+            break
+    }
+
+    return (
+        <JSXEl
+            {...props}
+            className={rclassnames(props, [
+                (_when === 'valid' || _when === 'always') && 'valid-feedback',
+                (_when === 'invalid' || _when === 'always') && 'invalid-feedback',
+            ])}
+        >
+            {content}
         </JSXEl>
     )
 }

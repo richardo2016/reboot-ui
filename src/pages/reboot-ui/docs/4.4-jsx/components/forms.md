@@ -69,7 +69,7 @@ const Sample = ({ uuid }) => {
           </Form.Control>
         </Form.Group>
         <Form.Group>
-          <Form.Control controlId={`exampleFormControlSelect2`} label="Email select">
+          <Form.Control controlId={`exampleFormControlSelect1`} label="Email select">
             <Select>
               <Select.Option>1</Select.Option>
               <Select.Option>2</Select.Option>
@@ -1081,98 +1081,109 @@ For custom Bootstrap form validation messages, you'll need to add the `novalidat
 
 Custom feedback styles apply custom colors, borders, focus styles, and background icons to better communicate feedback. Background icons for `<select>`s are only available with `.custom-select`, and not `.form-control`.
 
-{% capture example %}
-<form class="needs-validation" novalidate>
-  <div class="form-row">
-    <div class="col-md-4 mb-3">
-      <label for="validationCustom01">First name</label>
-      <input type="text" class="form-control" id="validationCustom01" value="Mark" required>
-      <div class="valid-feedback">
-        Looks good!
-      </div>
-    </div>
-    <div class="col-md-4 mb-3">
-      <label for="validationCustom02">Last name</label>
-      <input type="text" class="form-control" id="validationCustom02" value="Otto" required>
-      <div class="valid-feedback">
-        Looks good!
-      </div>
-    </div>
-    <div class="col-md-4 mb-3">
-      <label for="validationCustomUsername">Username</label>
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroupPrepend">@</span>
-        </div>
-        <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
-        <div class="invalid-feedback">
-          Please choose a username.
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="form-row">
-    <div class="col-md-6 mb-3">
-      <label for="validationCustom03">City</label>
-      <input type="text" class="form-control" id="validationCustom03" required>
-      <div class="invalid-feedback">
-        Please provide a valid city.
-      </div>
-    </div>
-    <div class="col-md-3 mb-3">
-      <label for="validationCustom04">State</label>
-      <select class="custom-select" id="validationCustom04" required>
-        <option selected disabled value="">Choose...</option>
-        <option>...</option>
-      </select>
-      <div class="invalid-feedback">
-        Please select a valid state.
-      </div>
-    </div>
-    <div class="col-md-3 mb-3">
-      <label for="validationCustom05">Zip</label>
-      <input type="text" class="form-control" id="validationCustom05" required>
-      <div class="invalid-feedback">
-        Please provide a valid zip.
-      </div>
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-      <label class="form-check-label" for="invalidCheck">
-        Agree to terms and conditions
-      </label>
-      <div class="invalid-feedback">
-        You must agree before submitting.
-      </div>
-    </div>
-  </div>
-  <button class="btn btn-primary" type="submit">Submit form</button>
-</form>
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  const formRef = React.useRef(null)
+  const [ wasValidated, setWasValidated ] = React.useState(false)
 
-<script>
-// Example starter JavaScript for disabling form submissions if there are invalid fields
-(function() {
-  'use strict';
-  window.addEventListener('load', function() {
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.getElementsByClassName('needs-validation');
-    // Loop over them and prevent submission
-    var validation = Array.prototype.filter.call(forms, function(form) {
-      form.addEventListener('submit', function(event) {
-        if (form.checkValidity() === false) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        form.classList.add('was-validated');
-      }, false);
-    });
-  }, false);
-})();
-</script>
-{% endcapture %}
-{% include example.html content=example %}
+  return (
+    <>
+      <Form
+        class={classnames([
+          'needs-validation',
+        ])}
+        rbWasValidated={wasValidated}
+        novalidate
+        ref={formRef}
+        onSubmitCapture={(event) => {
+          const form = event.target
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          setWasValidated(true)
+        }}
+      >
+        <Form.Row>
+          <Col md={4} class="mb-3">
+            <Form.Input
+              id="validationCustom01"
+              label="First name"
+              value="Mark"
+              required
+              controlHelp={<Form.ValidationFeedback when="valid">Looks good!</Form.ValidationFeedback>}
+            />
+          </Col>
+          <Col md={4} class="mb-3">
+            <Form.Input
+              id="validationCustom02"
+              label="Last name"
+              value="Otto"
+              required
+              controlHelp={<Form.ValidationFeedback when="valid">Looks good!</Form.ValidationFeedback>}
+            />
+          </Col>
+          <Col md={4} class="mb-3">
+            <Form.Input
+              id="validationCustomUsername"
+              label="Username"
+              required
+              aria-describedby="inputGroupPrepend"
+              controlRefParentAs={({ children }) => (
+                <InputGroup prepend="@" id="inputGroupPrepend" children={children} />
+              )}
+              controlValidationFeedback={<Form.ValidationFeedback when="invalid">Please choose a username.</Form.ValidationFeedback>}
+            />
+          </Col>
+        </Form.Row>
+        <Form.Row>
+          <Col md={6} class="mb-3">
+            <Form.Input
+              id="validationCustom03"
+              label="City"
+              required
+              controlValidationFeedback={<Form.ValidationFeedback when="invalid">Please provide a valid city.</Form.ValidationFeedback>}
+            />
+          </Col>
+          <Col md={3} class="mb-3">
+            <Form.Select
+              id="validationCustom04"
+              label="State"
+              required
+              controlValidationFeedback={<Form.ValidationFeedback when="invalid">Please select a valid state.</Form.ValidationFeedback>}
+            >
+              <Select.Option selected disabled value="">Choose...</Select.Option>
+              <Select.Option>...</Select.Option>
+            </Form.Select>
+          </Col>
+          <Col md={3} class="mb-3">
+            <Form.Input
+              id="validationCustom05"
+              label="Zip"
+              required
+              controlValidationFeedback={<Form.ValidationFeedback when="invalid">Please provide a valid zip.</Form.ValidationFeedback>}
+            />
+          </Col>
+        </Form.Row>
+        <Form.Group>
+          <Form.Checkbox
+            id="invalidCheck"
+            labelAfter="Agree to terms and conditions"
+            value=""
+            required
+            controlAs={({ children }) => (
+              <Form.Group check children={children} />
+            )}
+            controlValidationFeedback={<Form.ValidationFeedback when="invalid">You must agree before submitting.</Form.ValidationFeedback>}
+          />
+        </Form.Group>
+        <Button theme="primary" type="submit">Submit form</Button>
+      </Form>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Browser defaults
 

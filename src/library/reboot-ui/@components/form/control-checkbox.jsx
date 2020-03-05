@@ -3,6 +3,7 @@ import Form from './component'
 
 import Input from '../input/component'
 import { useControlProps } from './hooks'
+import { FEEDBACK_POSTIONS } from './symbols'
 
 const FormCheckbox = Form.Checkbox = React.forwardRef(
     ({
@@ -14,6 +15,7 @@ const FormCheckbox = Form.Checkbox = React.forwardRef(
             <Form.Control
                 {...controlProps}
                 controlId={id}
+                $$controlValidationFeedbackPosition={FEEDBACK_POSTIONS['after-labelafter']}
             >
               <Input
                 {...restProps}
