@@ -13,16 +13,27 @@ import { filterFormControlSize } from '../common-utils';
 const FormControl = Form.Control = React.forwardRef(
     function ({
         children,
-        as: _as = React.Fragment,
+        
+        /**
+         * @description like `as`, but with higher priority
+         */
+        controlAs,
+        as: _as = controlAs !== undefined ? controlAs : React.Fragment,
 
         controlId = '',
         size = '',
+        /**
+         * @description whether controlled input use custom style
+         */
+        custom = false,
+        labelCustom = false,
         label: labelBefore = '',
-        labelProps = {},
         labelAfter = false,
-        labelCol,
-        controlParentCol,
-        controlParentAs = 'div',
+        controlRefParentCol,
+        /**
+         * @description if wrap control with another element, if not set, its default value depends on value of `controlRefParentCol`
+         */
+        controlRefParentAs = !controlRefParentCol ? React.Fragment : 'div',
         ...props
     }, ref) {
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
@@ -30,39 +41,39 @@ const FormControl = Form.Control = React.forwardRef(
         const formCtrlCtx = {
             inFormContrl: true,
             controlId,
-            size: size,
+            size,
+            custom,
+            labelCustom,
             label: labelBefore || labelAfter,
             labelBefore,
             labelAfter,
         }
 
         let labelBeforeNode = labelBefore && !isReactTypeOf(labelBefore, Form.Label) ? (
-            <Form.Label for={controlId} {...labelProps}>{labelBefore}</Form.Label>
+            <Form.Label for={controlId}>{labelBefore}</Form.Label>
         ) : labelBefore
         let labelAfterNode = labelAfter && !isReactTypeOf(labelAfter, Form.Label) ? (
-            <Form.Label for={controlId} {...labelProps}>{labelAfter}</Form.Label>
+            <Form.Label for={controlId}>{labelAfter}</Form.Label>
         ) : labelAfter
 
-        /* support labelCol/controlParentCol :start */
-        const labelColClsList = Col.useColClass(labelCol)
-        if (labelColClsList.length) {
-            const colAboutSize = filterFormControlSize(size)
-            if (labelBeforeNode)
-                labelBeforeNode = React.cloneElement(labelBeforeNode, {
-                    className: rclassnames(labelBeforeNode.props, labelColClsList, 'col-form-label', colAboutSize && `col-form-label-${colAboutSize}`)
-                })
-            if (labelAfterNode)
-                labelAfterNode = React.cloneElement(labelAfterNode, {
-                    className: rclassnames(labelAfterNode.props, labelColClsList, 'col-form-label', colAboutSize && `col-form-label-${colAboutSize}`)
-                })
-        }
+        /* support controlRefParentCol :start */
+        const colAboutSize = filterFormControlSize(size)
+        const nextClsName = [
+            colAboutSize && 'col-form-label',
+            colAboutSize && `col-form-label-${colAboutSize}`,
+        ]
         
-        const controlParentColClsList = Col.useColClass(controlParentCol)
-        const ControlParentJSX = ({ children }) => {
-            const JSX = resolveJSXElement(controlParentAs)
-            return <JSX className={controlParentColClsList}>{children}</JSX>
+        if (labelBeforeNode)
+            labelBeforeNode = React.cloneElement(labelBeforeNode, { className: rclassnames(labelBeforeNode.props, nextClsName) })
+        if (labelAfterNode)
+            labelAfterNode = React.cloneElement(labelAfterNode, { className: rclassnames(labelAfterNode.props, nextClsName) })
+        
+        const controlRefParentColClsList = Col.useColClass(controlRefParentCol)
+        const ControlRefParentJSX = ({ children }) => {
+            const JSX = resolveJSXElement(controlRefParentAs)
+            return <JSX className={controlRefParentColClsList}>{children}</JSX>
         }
-        /* support labelCol/controlParentCol :end */
+        /* support controlRefParentCol :end */
         
         children = arraify(children)
 
@@ -75,9 +86,9 @@ const FormControl = Form.Control = React.forwardRef(
                     ])}
                 >
                     {labelBeforeNode}
-                    <ControlParentJSX>
+                    <ControlRefParentJSX>
                         {children}
-                    </ControlParentJSX>
+                    </ControlRefParentJSX>
                     {labelAfterNode}
                 </JSXEl>
             </FormControlContext.Provider>

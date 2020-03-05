@@ -5,6 +5,7 @@ import { rclassnames, tryUseContext } from '../../../../utils/react-like';
 
 import { FormControlContext, FormGroupContext } from './context'
 import { filterFormControlSize } from '../common-utils';
+import { Col } from '../layout-grid/component';
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/form/#supported-content
@@ -107,6 +108,8 @@ Form.Label = function ({
     children,
     as: _as = 'label',
     for: labelFor = '',
+    col: labelCol = {},
+    custom = false,
     ...props
 }) {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
@@ -117,12 +120,16 @@ Form.Label = function ({
     children = children || formCtrlCtx.label
     labelFor = labelFor || formCtrlCtx.controlId
 
+    const labelColClsList = Col.useColClass(labelCol)
+
     return (
         <JSXEl
             {...props}
             {...labelFor && { for: labelFor }}
             className={rclassnames(props, [
-                formGrpCtx.inFormGroup && formGrpCtx.check && 'form-check-label',
+                formGrpCtx.inFormGroup && formGrpCtx.check && !custom && 'form-check-label',
+                custom && 'custom-control-label',
+                labelColClsList
             ])}
         >
             {children}

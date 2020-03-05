@@ -9,8 +9,10 @@ import { filterFormControlSize } from '../common-utils';
 
 const Select = function ({
     children,
+    id = '',
     as: _as = 'select',
     multiple = false,
+    custom,
     size: formCtrlSize = '',
     ...props
 }) {
@@ -22,12 +24,18 @@ const Select = function ({
     else formCtrlSize = filterFormControlSize(formCtrlSize)
 
     children = arraify(children).filter(item => isReactTypeOf(item, [Select.Option, 'option']))
+
+    if (custom === undefined) custom = formCtrlCtx.custom
+    id = id || formCtrlCtx.controlId
+    
     return (
         <JSXEl
             {...props}
+            {...id && { id }}
             {...multiple && { multiple }}
             className={rclassnames(props, [
-                formCtrlCtx.inFormContrl && 'form-control',
+                formCtrlCtx.inFormContrl && !formCtrlCtx.custom && 'form-control',
+                custom && 'custom-select',
                 formCtrlSize && `form-control-${formCtrlSize}`,
             ])}
         >

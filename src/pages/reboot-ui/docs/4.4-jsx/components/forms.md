@@ -582,20 +582,18 @@ const Sample = ({ uuid }) => {
       <Form>
         <Form.Group as={Row}>
           <Form.Input
-            labelCol={{ sm: 2 }}
-            controlParentCol={{ sm: 10 }}
+            controlRefParentCol={{ sm: 10 }}
             type="email"
             id="inputEmail3"
-            label="Email"
+            label={<Form.Label col={{ sm: 2 }}>Email</Form.Label>}
           />
         </Form.Group>
         <Form.Group as={Row}>
           <Form.Input
-            labelCol={{ sm: 2 }}
-            controlParentCol={{ sm: 10 }}
+            controlRefParentCol={{ sm: 10 }}
             type="password"
             id="inputPassword3"
-            label="Password"
+            label={<Form.Label col={{ sm: 2 }}>Password</Form.Label>}
           />
         </Form.Group>
         <Form.Group as="fieldset">
@@ -646,32 +644,29 @@ const Sample = ({ uuid }) => {
         <Form.Group as={Row}>
           <Form.Input
             size="sm"
-            labelCol={{ sm: 2 }}
-            controlParentCol={{ sm: 10 }}
+            controlRefParentCol={{ sm: 10 }}
             type="email"
             id="colFormLabelSm"
-            label="Email"
+            label={<Form.Label col={{ sm: 2 }}>Email</Form.Label>}
             placeholder="col-form-label-sm"
           />
         </Form.Group>
         <Form.Group as={Row}>
           <Form.Input
-            labelCol={{ sm: 2 }}
-            controlParentCol={{ sm: 10 }}
+            controlRefParentCol={{ sm: 10 }}
             type="email"
             id="colFormLabel"
-            label="Email"
+            label={<Form.Label col={{ sm: 2 }}>Email</Form.Label>}
             placeholder="col-form-label"
           />
         </Form.Group>
         <Form.Group as={Row}>
           <Form.Input
             size="lg"
-            labelCol={{ sm: 2 }}
-            controlParentCol={{ sm: 10 }}
+            controlRefParentCol={{ sm: 10 }}
             type="email"
             id="colFormLabelLg"
-            label="Email"
+            label={<Form.Label col={{ sm: 2 }}>Email</Form.Label>}
             placeholder="col-form-label-lg"
           />
         </Form.Group>
@@ -731,7 +726,7 @@ const Sample = ({ uuid }) => {
             <Form.Input
               id="inlineFormInputGroup"
               placeholder="Username"
-              controlParentAs={({ children }) => 
+              controlRefParentAs={({ children }) => 
                 <InputGroup class="mb-2" prepend="@">{children}</InputGroup>
               }
               label={<Form.Label class="sr-only">Username</Form.Label>}
@@ -759,39 +754,91 @@ const Sample = ({ uuid }) => {
 
 You can then remix that once again with size-specific column classes.
 
-{% capture example %}
-<form>
-  <div class="form-row align-items-center">
-    <div class="col-sm-3 my-1">
-      <label class="sr-only" for="inlineFormInputName">Name</label>
-      <input type="text" class="form-control" id="inlineFormInputName" placeholder="Jane Doe">
-    </div>
-    <div class="col-sm-3 my-1">
-      <label class="sr-only" for="inlineFormInputGroupUsername">Username</label>
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <div class="input-group-text">@</div>
-        </div>
-        <input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Username">
-      </div>
-    </div>
-    <div class="col-auto my-1">
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="autoSizingCheck2">
-        <label class="form-check-label" for="autoSizingCheck2">
-          Remember me
-        </label>
-      </div>
-    </div>
-    <div class="col-auto my-1">
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
-  </div>
-</form>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form>
+        <Form.Row class="align-items-center">
+          <Col sm={3} class="my-1">
+            <Form.Input
+              id="inlineFormInputName"
+              placeholder="Jane Doe"
+              label={<Form.Label class="sr-only">Name</Form.Label>}
+            />
+          </Col>
+          <Col sm={3} class="my-1">
+            <Form.Input
+              id="inlineFormInputGroupUsername"
+              placeholder="Username"
+              controlRefParentAs={({ children }) => 
+                <InputGroup prepend="@">{children}</InputGroup>
+              }
+              label={<Form.Label class="sr-only">Username</Form.Label>}
+            />
+          </Col>
+          <Col span="auto" class="my-1">
+            <Form.Group check>
+              <Form.Checkbox
+                id="autoSizingCheck2"
+                labelAfter="Remember me"
+              />
+            </Form.Group>
+          </Col>
+          <Col span="auto" class="my-1">
+            <Button type="submit" theme="primary">Submit</Button>
+          </Col>
+        </Form.Row>
+      </Form>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 And of course [custom form controls](#custom-forms) are supported.
+
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form>
+        <Form.Row class="align-items-center">
+          <Col span="auto" class="my-1">
+            <Form.Select
+              id="inlineFormCustomSelect"
+              class="mr-sm-2"
+              label={<Form.Label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</Form.Label>}
+              custom
+            >
+              <Select.Option selected>Choose...</Select.Option>
+              <Select.Option value="1">One</Select.Option>
+              <Select.Option value="2">Two</Select.Option>
+              <Select.Option value="3">Three</Select.Option>
+            </Form.Select>
+          </Col>
+          <Col span="auto" class="my-1">
+            <Form.Checkbox
+              id="customControlAutosizing"
+              custom
+              controlAs={({ children }) => (
+                <div class="custom-control custom-checkbox mr-sm-2">
+                  {children}
+                </div>
+              )}
+              labelAfter={<Form.Label custom>Remember my preference</Form.Label>}
+            />
+          </Col>
+          <Col span="auto" class="my-1">
+            <Button type="submit" theme="primary">Submit</Button>
+          </Col>
+        </Form.Row>
+      </Form>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 {% capture example %}
 <form>

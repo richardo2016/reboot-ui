@@ -1,14 +1,23 @@
 import { pick, omit } from "../../../../utils/object"
 
 const CONTROL_PROPS = [
+    /**
+     * @description should controlled ref use custom style
+     */
+    'custom',
+    /**
+     * @description size of controlled ref
+     */
     'size',
+    /**
+     * @description id of controlled ref
+     */
     'controlId',
+    'controlAs',
     'label',
-    'labelProps',
     'labelAfter',
-    'labelCol',
-    'controlParentCol',
-    'controlParentAs',
+    'controlRefParentCol',
+    'controlRefParentAs',
 ]
 export function useControlProps (inputProps) {
     return [
