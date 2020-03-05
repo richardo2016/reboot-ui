@@ -808,7 +808,7 @@ const Sample = ({ uuid }) => {
             <Form.Select
               id="inlineFormCustomSelect"
               class="mr-sm-2"
-              label={<Form.Label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</Form.Label>}
+              label={<Form.Label class="mr-sm-2 sr-only">Preference</Form.Label>}
               custom
             >
               <Select.Option selected>Choose...</Select.Option>
@@ -840,32 +840,6 @@ const Sample = ({ uuid }) => {
 {% endreboot_mvvm %}
 {% include mvvm-example.html mexample=mexample_with_code %}
 
-{% capture example %}
-<form>
-  <div class="form-row align-items-center">
-    <div class="col-auto my-1">
-      <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
-      <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-        <option selected>Choose...</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-      </select>
-    </div>
-    <div class="col-auto my-1">
-      <div class="custom-control custom-checkbox mr-sm-2">
-        <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
-        <label class="custom-control-label" for="customControlAutosizing">Remember my preference</label>
-      </div>
-    </div>
-    <div class="col-auto my-1">
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
-  </div>
-</form>
-{% endcapture %}
-{% include example.html content=example %}
-
 ### Inline forms
 
 Use the `.form-inline` class to display a series of labels, form controls, and buttons on a single horizontal row. Form controls within inline forms vary slightly from their default states.
@@ -876,52 +850,73 @@ Use the `.form-inline` class to display a series of labels, form controls, and b
 
 You may need to manually address the width and alignment of individual form controls with [spacing utilities]({{ site.baseurl }}/docs/{{ site.docs_version }}/utilities/spacing/) (as shown below). Lastly, be sure to always include a `<label>` with each form control, even if you need to hide it from non-screenreader visitors with `.sr-only`.
 
-{% capture example %}
-<form class="form-inline">
-  <label class="sr-only" for="inlineFormInputName2">Name</label>
-  <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Jane Doe">
-
-  <label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
-  <div class="input-group mb-2 mr-sm-2">
-    <div class="input-group-prepend">
-      <div class="input-group-text">@</div>
-    </div>
-    <input type="text" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Username">
-  </div>
-
-  <div class="form-check mb-2 mr-sm-2">
-    <input class="form-check-input" type="checkbox" id="inlineFormCheck">
-    <label class="form-check-label" for="inlineFormCheck">
-      Remember me
-    </label>
-  </div>
-
-  <button type="submit" class="btn btn-primary mb-2">Submit</button>
-</form>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form inline>
+        <Form.Input
+          id="inlineFormInputName2"
+          placeholder="Jane Doe"
+          class="mb-2 mr-sm-2"
+          label={<Form.Label class="sr-only">Name</Form.Label>}
+        />
+        <Form.Input
+          id="inlineFormInputGroupUsername2"
+          placeholder="Username"
+          label={<Form.Label class="sr-only">Username</Form.Label>}
+          controlRefParentAs={({ children }) => (
+            <InputGroup children={children} class="mb-2 mr-sm-2" prepend="@" />
+          )}
+        />
+        <Form.Checkbox
+          id="inlineFormCheck"
+          labelAfter="Remember me"
+          controlAs={({ children }) => (
+            <Form.Group check children={children} class="mb-2 mr-sm-2" />
+          )}
+        />
+        <Button type="submit" theme="primary" class="mb-2">Submit</Button>
+      </Form>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 Custom form controls and selects are also supported.
 
-{% capture example %}
-<form class="form-inline">
-  <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Preference</label>
-  <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
-    <option selected>Choose...</option>
-    <option value="1">One</option>
-    <option value="2">Two</option>
-    <option value="3">Three</option>
-  </select>
-
-  <div class="custom-control custom-checkbox my-1 mr-sm-2">
-    <input type="checkbox" class="custom-control-input" id="customControlInline">
-    <label class="custom-control-label" for="customControlInline">Remember my preference</label>
-  </div>
-
-  <button type="submit" class="btn btn-primary my-1">Submit</button>
-</form>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form inline>
+        <Form.Select
+          id="inlineFormCustomSelectPref"
+          class="my-1 mr-sm-2"
+          label={<Form.Label class="my-1 mr-2">Preference</Form.Label>}
+          custom
+        >
+          <Select.Option selected>Choose...</Select.Option>
+          <Select.Option value="1">One</Select.Option>
+          <Select.Option value="2">Two</Select.Option>
+          <Select.Option value="3">Three</Select.Option>
+        </Form.Select>
+        <Form.Checkbox
+          id="customControlInline"
+          labelAfter={<Form.Label custom>Remember my preference</Form.Label>}
+          controlAs={({ children }) => (
+            <div children={children} class="custom-control custom-checkbox my-1 mr-sm-2" />
+          )}
+          custom
+        />
+        <Button type="submit" theme="primary" class="my-1">Submit</Button>
+      </Form>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 {% capture callout %}
 ##### Alternatives to hidden labels
@@ -942,66 +937,105 @@ Help text should be explicitly associated with the form control it relates to us
 
 Help text below inputs can be styled with `.form-text`. This class includes `display: block` and adds some top margin for easy spacing from the inputs above.
 
-{% capture example %}
-<label for="inputPassword5">Password</label>
-<input type="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock">
-<small id="passwordHelpBlock" class="form-text text-muted">
-  Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
-</small>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form.Input
+        id="inputPassword5"
+        type="password"
+        aria-describedby="passwordHelpBlock"
+        label="Password"
+        controlHelp={(
+          <Form.Text as="small" muted id="passwordHelpBlock">
+            Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+          </Form.Text>
+        )}
+      />
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 Inline text can use any typical inline HTML element (be it a `<small>`, `<span>`, or something else) with nothing more than a utility class.
 
-{% capture example %}
-<form class="form-inline">
-  <div class="form-group">
-    <label for="inputPassword6">Password</label>
-    <input type="password" id="inputPassword6" class="form-control mx-sm-3" aria-describedby="passwordHelpInline">
-    <small id="passwordHelpInline" class="text-muted">
-      Must be 8-20 characters long.
-    </small>
-  </div>
-</form>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form inline>
+        <Form.Group>
+          <Form.Input
+            id="inputPassword6"
+            type="password"
+            aria-describedby="passwordHelpInline"
+            label="Password"
+            class="mx-sm-3"
+            controlHelp={(
+              <Form.Text as="small" muted id="passwordHelpInline">
+                Must be 8-20 characters long.
+              </Form.Text>
+            )}
+          />
+        </Form.Group>
+      </Form>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Disabled forms
 
 Add the `disabled` boolean attribute on an input to prevent user interactions and make it appear lighter.
 
-{% highlight html %}
-<input class="form-control" id="disabledInput" type="text" placeholder="Disabled input here..." disabled>
+{% highlight jsx %}
+<Form.Input id="disabledInput" type="text" placeholder="Disabled input here..." disabled />
 {% endhighlight %}
 
 Add the `disabled` attribute to a `<fieldset>` to disable all the controls within.
 
-{% capture example %}
-<form>
-  <fieldset disabled>
-    <div class="form-group">
-      <label for="disabledTextInput">Disabled input</label>
-      <input type="text" id="disabledTextInput" class="form-control" placeholder="Disabled input">
-    </div>
-    <div class="form-group">
-      <label for="disabledSelect">Disabled select menu</label>
-      <select id="disabledSelect" class="form-control">
-        <option>Disabled select</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="disabledFieldsetCheck" disabled>
-        <label class="form-check-label" for="disabledFieldsetCheck">
-          Can't check this
-        </label>
-      </div>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </fieldset>
-</form>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form>
+        <fieldset disabled>
+          <Form.Group>
+            <Form.Input
+              id="disabledTextInput"
+              label="Disabled input"
+              placeholder="Disabled input"
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Select
+              id="disabledSelect"
+              label="Disabled select menu"
+            >
+              <Select.Option>Disabled select</Select.Option>
+            </Form.Select>
+          </Form.Group>
+          <Form.Group>
+            <Form.Checkbox
+              id="disabledFieldsetCheck"
+              labelAfter="Can't check this"
+              placeholder="Disabled input"
+              disabled
+              controlAs={({ children }) => (
+                <div class="form-check" children={children} />
+              )}
+            />
+          </Form.Group>
+          <Button type="submit" theme="primary">Submit</Button>
+        </fieldset>
+      </Form>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 {% capture callout %}
 ##### Caveat with anchors

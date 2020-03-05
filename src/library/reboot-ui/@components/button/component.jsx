@@ -33,7 +33,7 @@ function Button ({
             _as = 'a'
             break
         default:
-            type = ''
+            theme = ''
             break
     }
 
@@ -57,7 +57,7 @@ function Button ({
             {...props}
             {...__htmlAttributes}
             {...isJSXWithDisabledAttr && disabled && { disabled }}
-            {...JSXEl === 'button' && { type: 'button' }}
+            {...JSXEl === 'input' && { type: 'button' }}
             ref={ref}
             className={rclassnames(props, [
                 'btn',

@@ -29,6 +29,8 @@ const FormControl = Form.Control = React.forwardRef(
         labelCustom = false,
         label: labelBefore = '',
         labelAfter = false,
+        controlHelp: helpAfter = '',
+
         controlRefParentCol,
         /**
          * @description if wrap control with another element, if not set, its default value depends on value of `controlRefParentCol`
@@ -55,6 +57,9 @@ const FormControl = Form.Control = React.forwardRef(
         let labelAfterNode = labelAfter && !isReactTypeOf(labelAfter, Form.Label) ? (
             <Form.Label for={controlId}>{labelAfter}</Form.Label>
         ) : labelAfter
+        const helpAfterNode = helpAfter && !isReactTypeOf(helpAfter, Form.Text) ? (
+            <Form.Text as="small" muted>{helpAfter}</Form.Text>
+        ) : helpAfter
 
         /* support controlRefParentCol :start */
         const colAboutSize = filterFormControlSize(size)
@@ -63,10 +68,8 @@ const FormControl = Form.Control = React.forwardRef(
             colAboutSize && `col-form-label-${colAboutSize}`,
         ]
         
-        if (labelBeforeNode)
-            labelBeforeNode = React.cloneElement(labelBeforeNode, { className: rclassnames(labelBeforeNode.props, nextClsName) })
-        if (labelAfterNode)
-            labelAfterNode = React.cloneElement(labelAfterNode, { className: rclassnames(labelAfterNode.props, nextClsName) })
+        if (labelBeforeNode) labelBeforeNode = React.cloneElement(labelBeforeNode, { className: rclassnames(labelBeforeNode.props, nextClsName) })
+        if (labelAfterNode) labelAfterNode = React.cloneElement(labelAfterNode, { className: rclassnames(labelAfterNode.props, nextClsName) })
         
         const controlRefParentColClsList = Col.useColClass(controlRefParentCol)
         const ControlRefParentJSX = ({ children }) => {
@@ -90,6 +93,7 @@ const FormControl = Form.Control = React.forwardRef(
                         {children}
                     </ControlRefParentJSX>
                     {labelAfterNode}
+                    {helpAfterNode}
                 </JSXEl>
             </FormControlContext.Provider>
         )

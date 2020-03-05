@@ -25,7 +25,7 @@ const Form = function ({
         <JSXEl
             {...props}
             className={rclassnames(props, [
-                'form',
+                // 'form',
                 inline && `form-inline`,
             ])}
         >
@@ -86,23 +86,6 @@ Form.Group = React.forwardRef(
         )
     }
 )
-
-Form.CheckGroup = function ({
-    children,
-    as: _as = 'div',
-    group = false,
-    ...props
-}, ref) {
-    return (
-        <Form.Group
-            {...props}
-            group={group}
-            check
-        >
-            {children}
-        </Form.Group>
-    )
-}
 
 Form.Label = function ({
     children,

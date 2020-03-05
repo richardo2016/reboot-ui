@@ -18,6 +18,7 @@ const FormRadio = Form.Radio = React.forwardRef(
               <Input
                 {...restProps}
                 type="radio"
+                placeholder={undefined}
                 ref={ref}
             />
             </Form.Control>

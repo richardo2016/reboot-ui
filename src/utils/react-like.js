@@ -79,14 +79,15 @@ export function parseChildrenProp (childEle) {
 }
 
 export function rclassnames (props, ...args) {
-    return (
-        dedupe(
-            flatten(args)
-                .concat([ props.className, props.class ])
-                .filter(x => x && typeof x === 'string')
-                .map(x => x && x.trim())
-        ).join(' ')
+    const clsList = dedupe(
+        flatten(args)
+            .concat([ props.className, props.class ])
+            .filter(x => x && typeof x === 'string')
+            .map(x => x && x.trim())
     )
+
+    if (!clsList.length) return ;
+    return clsList.join(' ')
 }
 
 export function tryUseContext (ContextRef, { fallbackValue = {} } = {}) {

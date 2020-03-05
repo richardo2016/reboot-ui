@@ -18,6 +18,7 @@ const FormCheckbox = Form.Checkbox = React.forwardRef(
               <Input
                 {...restProps}
                 type="checkbox"
+                placeholder={undefined}
                 ref={ref}
             />
             </Form.Control>

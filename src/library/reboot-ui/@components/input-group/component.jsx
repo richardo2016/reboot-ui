@@ -54,8 +54,6 @@ const InputGroup = React.forwardRef((
                 className={rclassnames(props, [
                     'input-group',
                     size && `input-group-${size}`,
-                    props.className,
-                    props.class,
                 ])}
             >
                 {prependNode || null}
