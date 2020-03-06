@@ -70,28 +70,28 @@ const Sample = ({ uuid }) => {
         </Form.Group>
         <Form.Group>
           <Form.Control controlId={`exampleFormControlSelect1`} label="Email select">
-            <Select>
+            <Form.Select>
               <Select.Option>1</Select.Option>
               <Select.Option>2</Select.Option>
               <Select.Option>3</Select.Option>
               <Select.Option>4</Select.Option>
               <Select.Option>5</Select.Option>
-            </Select>
+            </Form.Select>
           </Form.Control>
         </Form.Group>
         <Form.Group>
           <Form.Control controlId={`exampleFormControlSelect2`} label="Email multiple select">
-            <Select multiple>
+            <Form.Select multiple>
               <Select.Option>1</Select.Option>
               <Select.Option>2</Select.Option>
               <Select.Option>3</Select.Option>
               <Select.Option>4</Select.Option>
               <Select.Option>5</Select.Option>
-            </Select>
+            </Form.Select>
           </Form.Control>
         </Form.Group>
         <Form.Group>
-          <Form.Control controlId={`exampleFormControlTextarea1`} label="Email multiple select">
+          <Form.Control controlId={`exampleFormControlTextarea1`} label="Example textarea">
             <TextArea />
           </Form.Control>
         </Form.Group>
@@ -145,15 +145,15 @@ const Sample = ({ uuid }) => {
   return (
     <>
       <Form.Control>
-        <Select controlSize="lg" placeholder=".form-control-lg">
+        <Form.Select controlSize="lg" placeholder=".form-control-lg">
           <Select.Option>Large select</Select.Option>
-        </Select>
-        <Select placeholder="Default input">
+        </Form.Select>
+        <Form.Select placeholder="Default input">
           <Select.Option>Default select</Select.Option>
-        </Select>
-        <Select controlSize="sm" placeholder=".form-control-sm">
+        </Form.Select>
+        <Form.Select controlSize="sm" placeholder=".form-control-sm">
           <Select.Option>Small select</Select.Option>
-        </Select>
+        </Form.Select>
       </Form.Control>
     </>
   )
