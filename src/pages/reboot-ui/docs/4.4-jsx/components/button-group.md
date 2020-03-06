@@ -147,21 +147,19 @@ const Sample = () => {
       <ButtonGroup aria-label="Button group with nested dropdown">
         <Button theme="secondary">1</Button>
         <Button theme="secondary">2</Button>
-        <ButtonGroup>
-          <Dropdown noWrap>
-            <Dropdown.Toggle
-              id="btnGroupDrop1"
-              as={Button}
-              theme="secondary"
-            >
-              Dropdown
-            </Dropdown.Toggle>
-            <Dropdown.Menu aria-labelledby="btnGroupDrop1">
-              <Dropdown.Item as="a" href="#">Dropdown link</Dropdown.Item>
-              <Dropdown.Item as="a" href="#">Dropdown link</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </ButtonGroup>
+        <Dropdown noWrap>
+          <Dropdown.Toggle
+            id="btnGroupDrop1"
+            as={ButtonGroup}
+            theme="secondary"
+          >
+            Dropdown
+          </Dropdown.Toggle>
+          <Dropdown.Menu aria-labelledby="btnGroupDrop1">
+            <Dropdown.Item as="a" href="#">Dropdown link</Dropdown.Item>
+            <Dropdown.Item as="a" href="#">Dropdown link</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       </ButtonGroup>
     </>
   )
@@ -199,7 +197,7 @@ const Sample = () => {
       <Dropdown noWrap>
         <Dropdown.Toggle
           id={`btnGroupVerticalDrop${idx}`}
-          as={Button}
+          as={ButtonGroup}
           theme="secondary"
         >
           Dropdown
@@ -216,12 +214,12 @@ const Sample = () => {
       <ButtonGroup vertical aria-label="Vertical button group">
         <Button theme="secondary">Button</Button>
         <Button theme="secondary">Button</Button>
-        <ButtonGroup>{getDropdown(1)}</ButtonGroup>
+        {getDropdown(1)}
         <Button theme="secondary">Button</Button>
         <Button theme="secondary">Button</Button>
-        <ButtonGroup>{getDropdown(2)}</ButtonGroup>
-        <ButtonGroup>{getDropdown(3)}</ButtonGroup>
-        <ButtonGroup>{getDropdown(4)}</ButtonGroup>
+        {getDropdown(2)}
+        {getDropdown(3)}
+        {getDropdown(4)}
       </ButtonGroup>
     </>
   )

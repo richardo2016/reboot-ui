@@ -84,6 +84,8 @@ export function rclassnames (props, ...args) {
             .concat([ props.className, props.class ])
             .filter(x => x && typeof x === 'string')
             .map(x => x && x.trim())
+            .join(' ')
+            .split(' ')
     )
 
     if (!clsList.length) return ;
