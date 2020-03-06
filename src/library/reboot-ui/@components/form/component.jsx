@@ -86,27 +86,30 @@ Form.Group = React.forwardRef(
     function ({
         children,
         as: _as = 'div',
-        check = false,
-        group = !check,
-        inline = false,
+        /**
+         * @internal used by(not only by) Form.Label
+         */
+        [useToken(`groupForCheck`)]: $$groupForCheck = false,
+        /**
+         * @internal used by(not only by) [[self]]
+         */
+        [useToken(`groupForCheck_noGroup`)]: $$groupForCheck_noGroup = false,
         ...props
     }, ref) {
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
-        const ctx = {
+        const formGrpCtx = {
             inFormGroup: true,
-            check: !!check
+            [useToken(`groupForCheck`)]: $$groupForCheck,
         }
 
         return (
-            <FormGroupContext.Provider value={ctx}>
+            <FormGroupContext.Provider value={formGrpCtx}>
                 <JSXEl
                     {...props}
                     ref={ref}
                     className={rclassnames(props, [
-                        group && `form-group`,
-                        check && `form-check`,
-                        check && inline && `form-check-inline`,
+                        !$$groupForCheck_noGroup && `form-group`,
                     ])}
                 >
                     {children}
@@ -143,7 +146,7 @@ Form.Label = function ({
             {...props}
             {...labelFor && { for: labelFor }}
             className={rclassnames(props, [
-                formGrpCtx.inFormGroup && formGrpCtx.check && !custom && 'form-check-label',
+                formGrpCtx.inFormGroup && formGrpCtx[[useToken(`groupForCheck`)]] && !custom && 'form-check-label',
                 custom && $$inputType === 'file' && 'custom-file-label',
                 custom && $$inputType && $$inputType !== 'file' && 'custom-control-label',
                 labelColClsList

@@ -20,30 +20,27 @@ const Sample = ({ uuid }) => {
     <>
       <Form>
         <Form.Group>
-          <Form.Control
-            ctrlId={`exampleInputEmail1`}
+          <Form.Input
+            id="exampleInputEmail1"
             label="Email address"
-          >
-            <Form.Input type="email" aria-describedby="emailHelp" />
-            <Form.Text as="small" id="emailHelp" muted>We'll never share your email with anyone else.</Form.Text>
-          </Form.Control>
+            type="email"
+            aria-describedby="emailHelp"
+            controlHelp={<Form.Text as="small" id="emailHelp" muted>We'll never share your email with anyone else.</Form.Text>}
+          />
         </Form.Group>
         <Form.Group>
-          <Form.Control
-            ctrlId={`exampleInputPassword1`}
+          <Form.Input
+            id="exampleInputPassword1"
             label="Password"
-          >
-            <Form.Input type="email" />
-          </Form.Control>
+            type="password"
+          />
         </Form.Group>
-        <Form.Group check group>
-          <Form.Control
-            ctrlId={`exampleCheck1`}
-            labelAfter="Check me out"
-          >
-            <Form.Input type="checkbox" />
-          </Form.Control>
-        </Form.Group>
+        <Form.CheckGroup>
+          <Form.Checkbox
+            controlId={`exampleCheck1`}
+            label="Check me out"
+          />
+        </Form.CheckGroup>
         <Button theme="primary" type="submit">Submit</Button>
       </Form>
     </>
@@ -283,22 +280,21 @@ By default, any number of checkboxes and radios that are immediate sibling will 
 const Sample = ({ uuid }) => {
   return (
     <>
-        <Form.Group check>
-          <Form.Control
-            controlId="defaultCheck1"
-            labelAfter="Default checkbox"
-          >
-            <Form.Input type="checkbox" value="" />
-          </Form.Control>
-        </Form.Group>
-        <Form.Group check>
-          <Form.Control
-            controlId="defaultCheck2"
-            labelAfter="Disabled checkbox"
-          >
-            <Form.Input type="checkbox" value="" disabled />
-          </Form.Control>
-        </Form.Group>
+        <Form.CheckGroup>
+          <Form.Checkbox
+            id="defaultCheck1"
+            label="Default checkbox"
+            value="" 
+          />
+        </Form.CheckGroup>
+        <Form.CheckGroup>
+          <Form.Checkbox
+            id="defaultCheck2"
+            label="Disabled checkbox"
+            value=""
+            disabled
+          />
+        </Form.CheckGroup>
     </>
   )
 }
@@ -309,30 +305,32 @@ const Sample = ({ uuid }) => {
 const Sample = ({ uuid }) => {
   return (
     <>
-        <Form.Group check>
-          <Form.Control
+        <Form.CheckGroup>
+          <Form.Radio
             controlId="exampleRadios1"
-            labelAfter="Default radio"
-          >
-            <Form.Input type="radio" name="exampleRadios" value="option1" checked />
-          </Form.Control>
-        </Form.Group>
-        <Form.Group check>
-          <Form.Control
+            label="Default radio"
+            name="exampleRadios"
+            value="option1"
+            checked
+          />
+        </Form.CheckGroup>
+        <Form.CheckGroup>
+          <Form.Radio
             controlId="exampleRadios2"
-            labelAfter="Second default radio"
-          >
-            <Form.Input type="radio" name="exampleRadios" value="option2" />
-          </Form.Control>
-        </Form.Group>
-        <Form.Group check>
-          <Form.Control
+            label="Second default radio"
+            name="exampleRadios"
+            value="option2"
+          />
+        </Form.CheckGroup>
+        <Form.CheckGroup>
+          <Form.Radio
             controlId="exampleRadios3"
-            labelAfter="Disabled radio"
-          >
-            <Form.Input type="radio" name="exampleRadios" value="option3" disabled />
-          </Form.Control>
-        </Form.Group>
+            label="Disabled radio"
+            name="exampleRadios"
+            value="option3"
+            disabled
+          />
+        </Form.CheckGroup>
     </>
   )
 }
@@ -347,30 +345,28 @@ Group checkboxes or radios on the same horizontal row by adding `.form-check-inl
 const Sample = ({ uuid }) => {
   return (
     <>
-        <Form.Group check inline>
-          <Form.Control
+        <Form.CheckGroup inline>
+          <Form.Checkbox
             controlId="inlineCheckbox1"
-            labelAfter="1"
-          >
-            <Form.Input type="checkbox" value="option1" />
-          </Form.Control>
-        </Form.Group>
-        <Form.Group check inline>
-          <Form.Control
+            label="1"
+            value="option1" 
+          />
+        </Form.CheckGroup>
+        <Form.CheckGroup inline>
+          <Form.Checkbox
             controlId="inlineCheckbox2"
-            labelAfter="2"
-          >
-            <Form.Input type="checkbox" value="option2" />
-          </Form.Control>
-        </Form.Group>
-        <Form.Group check inline>
-          <Form.Control
+            label="2"
+            value="option2" 
+          />
+        </Form.CheckGroup>
+        <Form.CheckGroup inline>
+          <Form.Checkbox
             controlId="inlineCheckbox3"
-            labelAfter="3 (disabled)"
-          >
-            <Form.Input type="checkbox" value="option3" disabled />
-          </Form.Control>
-        </Form.Group>
+            label="3 (disabled)"
+            value="option3"
+            disabled 
+          />
+        </Form.CheckGroup>
     </>
   )
 }
@@ -381,30 +377,31 @@ const Sample = ({ uuid }) => {
 const Sample = ({ uuid }) => {
   return (
     <>
-        <Form.Group check inline>
-          <Form.Control
-            controlId="inlineRadio1"
-            labelAfter="1"
-          >
-            <Form.Input type="radio" name="inlineRadioOptions" value="option1" />
-          </Form.Control>
-        </Form.Group>
-        <Form.Group check inline>
-          <Form.Control
-            controlId="inlineRadio2"
-            labelAfter="2"
-          >
-            <Form.Input type="radio" name="inlineRadioOptions" value="option2" />
-          </Form.Control>
-        </Form.Group>
-        <Form.Group check inline>
-          <Form.Control
-            controlId="inlineRadio3"
-            labelAfter="3 (disabled)"
-          >
-            <Form.Input type="radio" name="inlineRadioOptions" value="option3" disabled />
-          </Form.Control>
-        </Form.Group>
+        <Form.CheckGroup inline>
+          <Form.Radio
+            id="inlineRadio1"
+            label="1"
+            name="inlineRadioOptions"
+            value="option1"
+          />
+        </Form.CheckGroup>
+        <Form.CheckGroup inline>
+          <Form.Radio
+            id="inlineRadio2"
+            label="2"
+            name="inlineRadioOptions"
+            value="option2"
+          />
+        </Form.CheckGroup>
+        <Form.CheckGroup inline>
+          <Form.Radio
+            id="inlineRadio3"
+            label="3 (disabled)"
+            name="inlineRadioOptions"
+            value="option3"
+            disabled
+          />
+        </Form.CheckGroup>
     </>
   )
 }
@@ -419,20 +416,23 @@ Add `.position-static` to inputs within `.form-check` that don't have any label 
 const Sample = ({ uuid }) => {
   return (
     <>
-        <Form.Group check>
-          <Form.Control
+        <Form.CheckGroup>
+          <Form.Checkbox
             controlId="blankCheckbox"
-          >
-            <Form.Input class="position-static" type="checkbox" value="option1" aria-label="..." />
-          </Form.Control>
-        </Form.Group>
-        <Form.Group check>
-          <Form.Control
+            class="position-static"
+            value="option1"
+            aria-label="..."
+          />
+        </Form.CheckGroup>
+        <Form.CheckGroup>
+          <Form.Radio
             controlId="blankRadio1"
-          >
-            <Form.Input class="position-static" type="radio" name="blankRadio" value="option1" aria-label="..." />
-          </Form.Control>
-        </Form.Group>
+            class="position-static"
+            name="blankRadio"
+            value="option1"
+            aria-label="..."
+          />
+        </Form.CheckGroup>
     </>
   )
 }
@@ -453,20 +453,20 @@ const Sample = ({ uuid }) => {
     <>
       <Form>
           <Form.Group>
-            <Form.Control
+            <Form.Input
+              id="formGroupExampleInput"
               label="Example label"
-              controlId="formGroupExampleInput"
-            >
-              <Form.Input type="text" placeholder="Example input placeholder" />
-            </Form.Control>
+              type="text"
+              placeholder="Example input placeholder"
+            />
           </Form.Group>
           <Form.Group>
-            <Form.Control
+            <Form.Input
+              id="formGroupExampleInput2"
               label="Another label"
-              controlId="formGroupExampleInput2"
-            >
-              <Form.Input type="text" placeholder="Another input placeholder" />
-            </Form.Control>
+              type="text"
+              placeholder="Another input placeholder"
+            />
           </Form.Group>
       </Form>
     </>
@@ -557,9 +557,9 @@ const Sample = ({ uuid }) => {
           </Col>
         </Form.Row>
         <Form.Group>
-          <Form.Group check>
-            <Form.Checkbox id="gridCheck" labelAfter="Check me out" />
-          </Form.Group>
+          <Form.CheckGroup>
+            <Form.Checkbox id="gridCheck" label="Check me out" />
+          </Form.CheckGroup>
         </Form.Group>
         <Button type="submit" theme="primary">Sign in</Button>
       </Form>
@@ -600,24 +600,24 @@ const Sample = ({ uuid }) => {
           <Row>
             <Col as="legend" sm={2} class="col-form-label pt-0">Radios</Col>
             <Col sm={10}>
-              <Form.Group check>
+              <Form.CheckGroup>
                 <Form.Radio labelAfter="First radio" name="gridRadios" id="gridRadios1" value="option1" checked />
-              </Form.Group>
-              <Form.Group check>
+              </Form.CheckGroup>
+              <Form.CheckGroup>
                 <Form.Radio labelAfter="Second radio" name="gridRadios" id="gridRadios2" value="option2" />
-              </Form.Group>
-              <Form.Group check disabled>
+              </Form.CheckGroup>
+              <Form.CheckGroup disabled>
                 <Form.Radio labelAfter="Third disabled radio" name="gridRadios" id="gridRadios3" value="option3" disabled />
-              </Form.Group>
+              </Form.CheckGroup>
             </Col>
           </Row>
         </Form.Group>
         <Row as={Form.Group}>
           <Col sm={2}>Checkbox</Col>
           <Col sm={10}>
-            <Form.Group check>
-              <Form.Checkbox labelAfter="Example checkbox" id="gridCheck1" />
-            </Form.Group>
+            <Form.CheckGroup>
+              <Form.Checkbox label="Example checkbox" id="gridCheck1" />
+            </Form.CheckGroup>
           </Col>
         </Row>
         <Row as={Form.Group}>
@@ -733,13 +733,13 @@ const Sample = ({ uuid }) => {
             />
           </Col>
           <Col span="auto">
-            <Form.Group check>
+            <Form.CheckGroup noGroup>
               <Form.Checkbox
                 id="autoSizingCheck"
                 placeholder="Username"
-                labelAfter="Remember me"
+                label="Remember me"
               />
-            </Form.Group>
+            </Form.CheckGroup>
           </Col>
           <Col span="auto">
             <Button type="submit" theme="primary" class="mb-2">Submit</Button>
@@ -778,12 +778,12 @@ const Sample = ({ uuid }) => {
             />
           </Col>
           <Col span="auto" class="my-1">
-            <Form.Group check>
+            <Form.CheckGroup noGroup>
               <Form.Checkbox
                 id="autoSizingCheck2"
-                labelAfter="Remember me"
+                label="Remember me"
               />
-            </Form.Group>
+            </Form.CheckGroup>
           </Col>
           <Col span="auto" class="my-1">
             <Button type="submit" theme="primary">Submit</Button>
@@ -873,7 +873,7 @@ const Sample = ({ uuid }) => {
           id="inlineFormCheck"
           labelAfter="Remember me"
           controlAs={({ children }) => (
-            <Form.Group check children={children} class="mb-2 mr-sm-2" />
+            <Form.CheckGroup children={children} class="mb-2 mr-sm-2" />
           )}
         />
         <Button type="submit" theme="primary" class="mb-2">Submit</Button>
@@ -1168,7 +1168,7 @@ const Sample = ({ uuid }) => {
             value=""
             required
             controlAs={({ children }) => (
-              <Form.Group check children={children} />
+              <Form.CheckGroup children={children} />
             )}
             controlValidationFeedback={<Form.ValidationFeedback when="invalid">You must agree before submitting.</Form.ValidationFeedback>}
           />
@@ -1255,7 +1255,7 @@ const Sample = ({ uuid }) => {
             value=""
             required
             controlAs={({ children }) => (
-              <Form.Group check children={children} />
+              <Form.CheckGroup children={children} />
             )}
           />
         </Form.Group>
@@ -1347,12 +1347,12 @@ const Sample = ({ uuid }) => {
         <Form.Group>
           <Form.Checkbox
             id="invalidCheck3"
-            labelAfter="Agree to terms and conditions"
+            label="Agree to terms and conditions"
             value=""
             required
             rbValid={false}
             controlAs={({ children }) => (
-              <Form.Group check children={children} />
+              <Form.CheckGroup children={children} />
             )}
             controlValidationFeedback={<Form.ValidationFeedback when="invalid">You must agree before submitting.</Form.ValidationFeedback>}
           />
