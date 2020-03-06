@@ -23,6 +23,8 @@ export { default as Card } from './card/component'
 
 export { default as InputGroup } from './input-group/component'
 export { default as Input } from './input/component'
+export { default as Checkbox } from './checkbox/component'
+export { default as Radio } from './radio/component'
 export { default as Select } from './select/component'
 export { default as TextArea } from './textarea/component'
 

@@ -1,4 +1,3 @@
-
 import React from 'react'
 
 import { resolveJSXElement } from '../../utils/ui'

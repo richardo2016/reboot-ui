@@ -12,6 +12,7 @@ const ButtonGroup = React.forwardRef((
         as: _as = 'div',
         size = '',
         vertical = false,
+        toggle = false,
         __htmlAttributes,
         ...props
     }, ref) {
@@ -34,8 +35,9 @@ const ButtonGroup = React.forwardRef((
                 className={rclassnames(props, [
                     props.className,
                     props.class,
-                    `btn-${'group'}${vertical ? '-vertical' : ''}`,
-                    size && `btn-group-${size}`
+                    `btn-group${vertical ? '-vertical' : ''}`,
+                    size && `btn-group-${size}`,
+                    toggle && `btn-group-toggle`,
                 ])}
                 role={'group'}
             >

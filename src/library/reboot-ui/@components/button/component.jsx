@@ -14,6 +14,7 @@ function Button ({
     as: _as = 'button',
     disabled = false, 
     outline = false,
+    block = false,
     theme = '',
     size = '',
     active = false,
@@ -41,7 +42,7 @@ function Button ({
 
     if (outline && !theme) theme = 'primary'
 
-    const JSXEl = resolveJSXElement(_as, { allowedHTMLTags: ['button', 'input', 'a'] });
+    let JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['button', 'input', 'a', 'label', 'div'] */ });
 
     switch (size) {
         case 'lg':
@@ -52,19 +53,27 @@ function Button ({
             break
     }
 
+    if (JSXEl === 'a') JSXEl = Anchor
+
     const isJSXWithDisabledAttr = ['button', 'input'].some(x => x === JSXEl)
 
     return (
         <JSXEl
+            {...JSXEl === 'input' && { type: 'button' }}
+            {...JSXEl === 'button' && { type: 'button' }}
+            {...JSXEl === Anchor && { role: 'button' }}
             {...props}
             {...__htmlAttributes}
             {...isJSXWithDisabledAttr && disabled && { disabled }}
-            {...JSXEl === 'input' && { type: 'button' }}
+            {...disabled && {
+                'aria-disabled': true
+            }}
             ref={ref}
             className={rclassnames(props, [
                 'btn',
                 theme && `btn-${outline ? 'outline-' : ''}${theme}`,
                 size && `btn-${size}`,
+                block && `btn-block`,
                 active && `active`,
                 disabled && !isJSXWithDisabledAttr && `disabled`
             ])}

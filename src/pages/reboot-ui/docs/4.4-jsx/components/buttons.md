@@ -12,34 +12,19 @@ Bootstrap includes several predefined button styles, each serving its own semant
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = () => {
-  const themes = [
-    'primary',
-    'secondary',
-    'success',
-    'danger',
-    'warning',
-    'info',
-    'light',
-    'dark',
-    'link',
-  ]
-
   return (
     <>
-      <p style={{ display: 'flex', flexWrap: 'wrap' }}>
-        {themes.map(theme =>
-          <div
-            className="example-btn-wrapper mb-3 pr-3"
-          >
+        {site.data['theme-colors'].map(({ name: theme }) =>
+          <>
             <Button
               class="mb-3"
               theme={theme}
             >
               {stringUtils.ucfirst(theme)}
             </Button>
-          </div>
+            {' '}
+          </>
         )}
-      </p>
     </>
   )
 }
@@ -57,7 +42,6 @@ If you don't want the button text to wrap, you can add the `.text-nowrap` class 
 The `.btn` classes are designed to be used with the `<button>` element. However, you can also use these classes on `<a>` or `<input>` elements (though some browsers may apply a slightly different rendering).
 
 When using button classes on `<a>` elements that are used to trigger in-page functionality (like collapsing content), rather than linking to new pages or sections within the current page, these links should be given a `role="button"` to appropriately convey their purpose to assistive technologies such as screen readers.
-
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = () => {
@@ -78,55 +62,100 @@ const Sample = () => {
 
 In need of a button, but not the hefty background colors they bring? Replace the default modifier classes with the `.btn-outline-*` ones to remove all background images and colors on any button.
 
-{% capture example %}
-{% for color in site.data.theme-colors %}
-<button type="button" class="btn btn-outline-{{ color.name }}">{{ color.name | capitalize }}</button>{% endfor %}
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      {site.data['theme-colors'].map(({ name: theme }) =>
+        <>
+          <Button
+            outline
+            theme={theme}
+          >
+            {stringUtils.ucfirst(theme)}
+          </Button>
+          {' '}
+        </>
+      )}
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Sizes
 
 Fancy larger or smaller buttons? Add `.btn-lg` or `.btn-sm` for additional sizes.
 
-{% capture example %}
-<button type="button" class="btn btn-primary btn-lg">Large button</button>
-<button type="button" class="btn btn-secondary btn-lg">Large button</button>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Button type="button" size="lg" theme="primary">Large button</Button>{' '}
+      <Button type="button" size="lg" theme="secondary">Large button</Button>{' '}
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
-{% capture example %}
-<button type="button" class="btn btn-primary btn-sm">Small button</button>
-<button type="button" class="btn btn-secondary btn-sm">Small button</button>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Button type="button" size="sm" theme="primary">Small button</Button>{' '}
+      <Button type="button" size="sm" theme="secondary">Small button</Button>{' '}
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 Create block level buttons—those that span the full width of a parent—by adding `.btn-block`.
 
-{% capture example %}
-<button type="button" class="btn btn-primary btn-lg btn-block">Block level button</button>
-<button type="button" class="btn btn-secondary btn-lg btn-block">Block level button</button>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Button type="button" size="lg" block theme="primary">Block level button</Button>{' '}
+      <Button type="button" size="lg" block theme="secondary">Block level button</Button>{' '}
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Active state
 
 Buttons will appear pressed (with a darker background, darker border, and inset shadow) when active. **There's no need to add a class to `<button>`s as they use a pseudo-class**. However, you can still force the same active appearance with `.active` (and include the <code>aria-pressed="true"</code> attribute) should you need to replicate the state programmatically.
 
-{% capture example %}
-<a href="#" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Primary link</a>
-<a href="#" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Link</a>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Button as="a" size="lg" active theme="primary" aria-pressed="true">Primary link</Button>{' '}
+      <Button as="a" size="lg" active theme="secondary" aria-pressed="true">Link</Button>{' '}
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Disabled state
 
 Make buttons look inactive by adding the `disabled` boolean attribute to any `<button>` element.
 
-{% capture example %}
-<button type="button" class="btn btn-lg btn-primary" disabled>Primary button</button>
-<button type="button" class="btn btn-secondary btn-lg" disabled>Button</button>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Button size="lg" active theme="primary" disabled>Primary button</Button>{' '}
+      <Button size="lg" active theme="secondary" disabled>Button</Button>{' '}
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 Disabled buttons using the `<a>` element behave a bit different:
 
@@ -134,11 +163,17 @@ Disabled buttons using the `<a>` element behave a bit different:
 - Some future-friendly styles are included to disable all `pointer-events` on anchor buttons. In browsers which support that property, you won't see the disabled cursor at all.
 - Disabled buttons should include the `aria-disabled="true"` attribute to indicate the state of the element to assistive technologies.
 
-{% capture example %}
-<a href="#" class="btn btn-primary btn-lg disabled" tabindex="-1" role="button" aria-disabled="true">Primary link</a>
-<a href="#" class="btn btn-secondary btn-lg disabled" tabindex="-1" role="button" aria-disabled="true">Link</a>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Button as="a" tabindex="-1" size="lg" theme="primary" disabled>Primary link</Button>{' '}
+      <Button as="a" tabindex="-1" size="lg" theme="secondary" disabled>Link</Button>{' '}
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 {% capture callout %}
 ##### Link functionality caveat
@@ -155,12 +190,16 @@ Do more with buttons. Control button states or create groups of buttons for more
 
 Add `data-toggle="button"` to toggle a button's `active` state. If you're pre-toggling a button, you must manually add the `.active` class **and** `aria-pressed="true"` to the `<button>`.
 
-{% capture example %}
-<button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false">
-  Single toggle
-</button>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Button theme="primary" data-toggle="button" aria-pressed="false">Single toggle</Button>{' '}
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Checkbox and radio buttons
 
@@ -170,33 +209,43 @@ The checked state for these buttons is **only updated via `click` event** on the
 
 Note that pre-checked buttons require you to manually add the `.active` class to the input's `<label>`.
 
-{% capture example %}
-<div class="btn-group-toggle" data-toggle="buttons">
-  <label class="btn btn-secondary active">
-    <input type="checkbox" checked> Checked
-  </label>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <ButtonGroup toggle data-toggle="buttons">
+        <Button as="label" active theme="secondary">
+          <Checkbox checked /> Checked
+        </Button>{' '}
+      </ButtonGroup>
+      
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
-{% capture example %}
-<div class="btn-group btn-group-toggle" data-toggle="buttons">
-  <label class="btn btn-secondary active">
-    <input type="radio" name="options" id="option1" checked> Active
-  </label>
-  <label class="btn btn-secondary">
-    <input type="radio" name="options" id="option2"> Radio
-  </label>
-  <label class="btn btn-secondary">
-    <input type="radio" name="options" id="option3"> Radio
-  </label>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
-
-### Methods
-
-| Method | Description |
-| --- | --- |
-| `$().button('toggle')` | Toggles push state. Gives the button the appearance that it has been activated. |
-| `$().button('dispose')` | Destroys an element's button. |
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <ButtonGroup toggle data-toggle="buttons">
+        <Button as="label" active theme="secondary">
+          <Radio name="options" id="option1" checked /> Active
+        </Button>
+        {' '}
+        <Button as="label" theme="secondary">
+          <Radio name="options" id="option2" /> Radio
+        </Button>
+        {' '}
+        <Button as="label" theme="secondary">
+          <Radio name="options" id="option3" /> Radio
+        </Button>
+        {' '}
+      </ButtonGroup>
+      
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
