@@ -24,7 +24,7 @@ const transitionStateClass = {
 
 const transitionStateStyle = {
     exiting: {},
-    exited: { opacity: 0, visibility: 'hidden' },
+    exited: { opacity: 0 },
 }
 /**
  * @see https://getbootstrap.com/docs/4.4/components/navbar/#supported-content
@@ -102,6 +102,9 @@ const Popover = React.forwardRef(
                     placement={popoverCtx.fromFixed.placement}
                     popperOptions={popperOptions}
                     overlayType={Popover.Overlay}
+                    destroyOnUnmount={false}
+                    dismissOnClickAway={dismissOnClickAway}
+                    ref={ref}
                     compose={({
                         restChildren,
                         overlayElement,
@@ -120,10 +123,9 @@ const Popover = React.forwardRef(
                                     >
                                         {(state) => {
                                             if (state === 'exited' && !isShowPopup) return ;
-
+                                            
                                             return (
                                                 React.cloneElement(overlayElement, {
-                                                    // children: isShowPopup && overlayElement.props.children || null,
                                                     className: rclassnames(overlayElement.props, [
                                                         transitionStateClass[state],
                                                     ]),
@@ -139,8 +141,6 @@ const Popover = React.forwardRef(
                             </>
                         )
                     }}
-                    dismissOnClickAway={dismissOnClickAway}
-                    ref={ref}
                 >
                     {children}
                 </Popper>

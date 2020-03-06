@@ -33,8 +33,7 @@ const Popper = React.forwardRef(
         overlayProps = {},
         overlay: overlayJsx = null,
         dismissOnClickAway = true,
-        destroyOnUnmount = true,
-        alwayRenderTransitionChildren = false,
+        destroyOnUnmount = false,
         /**
          * @description specifiy the way popper show
          * @enum click
@@ -46,9 +45,10 @@ const Popper = React.forwardRef(
          */
         compose = ({
             children,
+            childList,
             restChildren,
             triggerRef,
-            overlayElRef,
+            overlayRef,
             overlayElement,
             isShowPopup,
         }) => (
@@ -64,8 +64,6 @@ const Popper = React.forwardRef(
 
         const triggerElRef = React.useRef(null)
         const overlayElRef = React.useRef(null)
-
-        const transitionStateMacroRef = React.useRef(null)
 
         const [laref, cleanLaref] = useLatestInstanceRef();
 
@@ -119,6 +117,7 @@ const Popper = React.forwardRef(
                             && getHTMLElementFromJSXElement(overlayElRef.current)
                             && getHTMLElementFromJSXElement(overlayElRef.current).contains(clkAwayEl)
                         ) return ;
+                        
                         setIsShowPopup(false)
                     }
                 })
@@ -127,9 +126,6 @@ const Popper = React.forwardRef(
                 useHoveraway(triggerElRef, {
                     onIn: () => setIsShowPopup(true),
                     onAway: () => {
-                        let lastTransDuration = TransitionTimeouts.Fade
-                        try { lastTransDuration = transitionStateMacroRef.current.duration.exit } catch (error) {}
-
                         setIsShowPopup(false);
                     },
                 })

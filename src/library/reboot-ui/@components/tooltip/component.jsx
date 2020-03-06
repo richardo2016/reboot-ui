@@ -92,10 +92,8 @@ const Tooltip = React.forwardRef(
                 <Popper
                     trigger={'hover'}
                     {...props}
-                    placement={tooltipCtx.fromOptions.placement}
-                    popperOptions={{
-                        ...popperOptions,
-                    }}
+                    placement={tooltipCtx.fromFixed.placement}
+                    popperOptions={popperOptions}
                     overlayType={Tooltip.Overlay}
                     destroyOnUnmount={false}
                     overlay={content}
