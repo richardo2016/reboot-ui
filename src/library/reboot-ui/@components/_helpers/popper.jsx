@@ -1,13 +1,13 @@
 import React from 'react'
 
 import { resolveJSXElement } from '../../utils/ui'
-import { rclassnames, parseChildrenProp, isReactTypeOf, getHTMLElementFromJSXElement } from '../../../../utils/react-like';
+import { parseChildrenProp, isReactTypeOf, getHTMLElementFromJSXElement } from '../../../../utils/react-like';
 import useClickaway from '../../../../utils/react-hooks/use-clickaway';
 import useHoveraway from '../../../../utils/react-hooks/use-hoveraway';
 
 import { createPopup, filterPopperTrigger } from '../_utils/popper';
 import { flatten } from '../../../../utils/array';
-import { TransitionTimeouts } from '../common';
+import { filterPlacement } from '../../utils/popper';
 
 function useLatestInstanceRef () {
     const popperRef = React.useRef(null);

@@ -92,6 +92,7 @@ const Tooltip = React.forwardRef(
                 <Popper
                     trigger={'hover'}
                     {...props}
+                    children={children}
                     placement={tooltipCtx.fromFixed.placement}
                     popperOptions={popperOptions}
                     overlayType={Tooltip.Overlay}
@@ -136,9 +137,7 @@ const Tooltip = React.forwardRef(
                     }}
                     dismissOnClickAway={false}
                     ref={ref}
-                >
-                    {children}
-                </Popper>
+                />
             </TooltipContext.Provider>
         )
     }

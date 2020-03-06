@@ -99,6 +99,7 @@ const Popover = React.forwardRef(
             <PopverContext.Provider value={popoverCtx}>
                 <Popper
                     {...props}
+                    children={children}
                     placement={popoverCtx.fromFixed.placement}
                     popperOptions={popperOptions}
                     overlayType={Popover.Overlay}
@@ -141,9 +142,7 @@ const Popover = React.forwardRef(
                             </>
                         )
                     }}
-                >
-                    {children}
-                </Popper>
+                />
             </PopverContext.Provider>
         )
     }

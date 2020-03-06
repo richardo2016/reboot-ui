@@ -403,7 +403,7 @@ const Sample = () => {
 {% endreboot_mvvm %}
 {% include mvvm-example.html mexample=mexample_with_code %}
 
-### Responsive alignment
+### Responsive alignment(WIP)
 
 If you want to use responsive alignment, disable dynamic positioning by adding the `data-display="static"` attribute and use the responsive variation classes.
 

@@ -2,23 +2,30 @@ import React from 'react'
 
 import classnames from 'classnames'
 
-// import { createPopper } from '@popperjs/core';
-import { createPopper } from '@popperjs/core/lib/popper-lite';
-import cpm_flip from '@popperjs/core/lib/modifiers/flip';
-import cpm_preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow';
-import cpm_offset from '@popperjs/core/lib/modifiers/offset';
-
 import { resolveJSXElement } from '../../utils/ui'
-import { filterPlacement } from '../../utils/popper'
-import { dedupe, arraify } from '../../../../utils/array';
-import useClickaway from '../../../../utils/react-hooks/use-clickaway';
-import { isReactTypeOf, getHTMLElementFromJSXElement, parseChildrenProp, rclassnames, tryUseContext } from '../../../../utils/react-like'
+import { parsePlacement } from '../../utils/popper'
+import { rclassnames, tryUseContext } from '../../../../utils/react-like'
 
 import {DropdownMenu, DropdownItem} from './others';
 import Button from '../../@components/button/component';
+import { useFixupPopoverToken } from '../_utils/popper';
+import Popper from '../_helpers/popper';
+import { Transition } from 'react-transition-group';
+import { TransitionTimeouts } from '../common';
 
 const DropdownCtx = React.createContext({})
 
+const transitionStateClass = {
+    entering: 'show',
+    entered: 'show',
+    exiting: '',
+    exited: ''
+}
+
+const transitionStateStyle = {
+    exiting: {},
+    exited: { opacity: 0 },
+}
 /**
  * @see https://getbootstrap.com/docs/4.4/components/dropdown/#supported-content
  */
@@ -30,125 +37,94 @@ const Dropdown = React.forwardRef(
          */
         placement = 'bottom-start',
         popperOptions = {},
-        children: childEles,
+        children,
         as: _as = 'div',
-        overlay: dropdownJsxEl = null,
+        overlay = null,
         noWrap = false,
         ...props
     }, ref) {
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
         
-        const triggerElRef = React.useRef(null)
-        const dropdownPopRef = React.createRef()
+        const [fixedPlacement, setFixedPlacement] = React.useState(null)
+        const pmInfo = parsePlacement(placement)
+        
+        fixupPopperOptions: {
+            popperOptions = popperOptions || {};
+            popperOptions.modifiers = [];
 
-        const [showDropdown, setShowDropdown] = React.useState(false);
+            popperOptions.modifiers.push({
+                name: useFixupPopoverToken('fixup-popper-placement'),
+                options: {
+                    fixup: ({ realPlacement }) => {
+                        if (realPlacement === pmInfo.placement) return ;
 
-        const { childNodeList } = parseChildrenProp(childEles)
-
-        const children = childNodeList.filter(x => x)
-
-        let useToggleAsTrigger = false
-        let triggerJsxElIdx = children.findIndex(child => {
-            // TEXT_NODE has no props
-            if (!child.props) return ;
-            if (child.props.dropdownTrigger) return true
-            if (isReactTypeOf(child, Dropdown.Toggle)) {
-                useToggleAsTrigger = true
-            }
-            return false
-        })
-        triggerJsxElIdx = triggerJsxElIdx > -1 ? triggerJsxElIdx : 0
-        let triggerJsxEl = children[triggerJsxElIdx] || null
-        if (triggerJsxEl) {
-            triggerJsxEl = React.cloneElement(triggerJsxEl, {ref: triggerElRef})
-            if (triggerJsxElIdx > -1) children[triggerJsxElIdx] = triggerJsxEl
-        }
-
-        let dropdownJsxElIdx = -1
-        if (
-            !dropdownJsxEl
-            && (
-                dropdownJsxElIdx = children.findIndex(child => isReactTypeOf(child, DropdownMenu))
-            ) > -1
-        ) {
-            dropdownJsxEl = children[dropdownJsxElIdx]
-        }
-        if (dropdownJsxEl) {
-            dropdownJsxEl = React.cloneElement(dropdownJsxEl, {ref: dropdownPopRef})
-            if (dropdownJsxElIdx > -1) children[dropdownJsxElIdx] = dropdownJsxEl
-        }
-
-        let restChildren = children.filter(x =>(x !== dropdownJsxEl))
-        // if (childIsFragment)
-        //     restChildren = React.cloneElement(childEles, { children: restChildren })
-
-        useClickaway(
-            triggerElRef,
-            undefined,
-            {
-                clickIn: (() => {
-                    setShowDropdown(!showDropdown)
-                }),
-                clickAway (nativeEvent) {
-                    if (!showDropdown) return ;
-                    const clkAwayEl = nativeEvent.target
-
-                    if (
-                        clkAwayEl
-                        && dropdownPopRef.current
-                        && getHTMLElementFromJSXElement(dropdownPopRef.current)
-                        && getHTMLElementFromJSXElement(dropdownPopRef.current).contains(clkAwayEl)
-                    ) return ;
-                    setShowDropdown(false)
+                        setFixedPlacement(realPlacement)
+                    }
                 }
-            }
-        )
+            })
+        }
 
-        React.useLayoutEffect(() => {
-            if (dropdownPopRef.current)
-                try {
-                    const _overlayEl = getHTMLElementFromJSXElement(dropdownPopRef.current)
-
-                    if (_overlayEl.classList.contains('dropdown-menu'))
-                        if (showDropdown) _overlayEl.classList.add('show')
-                        else _overlayEl.classList.remove('show')
-                } catch (error) {}
-
-            if (!showDropdown) return ;
-            if (!triggerElRef.current) return ;
-            if (!dropdownPopRef.current) return ;
-
-            let overlayPlacement = placement
-            /**
-             * @TODO use breakPoint of bootstrap, resolve objective-type placement and use it.
-             */
-            if (dropdownJsxEl.props && typeof dropdownJsxEl.props.placement === 'string')
-                overlayPlacement = filterPlacement(dropdownJsxEl.props && dropdownJsxEl.props.placement)
-
-            const instance = createPopper(
-                getHTMLElementFromJSXElement(triggerElRef.current),
-                getHTMLElementFromJSXElement(dropdownPopRef.current),
-                {
-                    placement: overlayPlacement,
-                    ...popperOptions,
-                    modifiers: dedupe([
-                        cpm_flip,
-                        cpm_preventOverflow,
-                        cpm_offset,
-                        ...(popperOptions.modifiers || []),
-                    ])
-                }
-            )
-
-            return () => {
-                instance.destroy();
-            }
-        }, [showDropdown])
+        const dropdownCtx = {
+            fromOptions: {
+                direction: pmInfo.direction,
+                placement: pmInfo.placement,
+            },
+            fromFixed: {
+                ...pmInfo,
+                ...fixedPlacement && parsePlacement(fixedPlacement)
+            },
+            useArrow: false,
+        }
 
         const INNER_NODE = (
-            <DropdownCtx.Provider value={{ placement, showDropdown, dropdownJsxEl }}>
-                {restChildren}
-                {showDropdown && (!useToggleAsTrigger && dropdownJsxEl)}
+            <DropdownCtx.Provider value={dropdownCtx}>
+                <Popper
+                    {...props}
+                    children={children}
+                    placement={dropdownCtx.fromFixed.placement}
+                    popperOptions={popperOptions}
+                    overlayType={Dropdown.Menu}
+                    overlay={overlay}
+                    destroyOnUnmount={false}
+                    dismissOnClickAway={true}
+                    ref={ref}
+                    compose={({
+                        restChildren,
+                        overlayElement,
+                        isShowPopup,
+                    }) => {
+                        return (
+                            <>
+                                {restChildren}
+                                {(
+                                    <Transition
+                                        in={isShowPopup}
+                                        timeout={{
+                                            enter: TransitionTimeouts.Fade,
+                                            exit: TransitionTimeouts.Fade,
+                                        }}
+                                    >
+                                        {(state) => {
+                                            if (state === 'exited' && !isShowPopup) return ;
+                                            
+                                            return (
+                                                React.cloneElement(overlayElement, {
+                                                    className: rclassnames(overlayElement.props, [
+                                                        transitionStateClass[state],
+                                                    ]),
+                                                    style: {
+                                                        ...transitionStateStyle[state],
+                                                        ...overlayElement.props.style,
+                                                    }
+                                                })
+                                            )
+                                        }}
+                                    </Transition>
+                                )}
+                            </>
+                        )
+                    }}
+                />
             </DropdownCtx.Provider>
         )
 
@@ -166,9 +142,6 @@ const Dropdown = React.forwardRef(
                 >
                     {INNER_NODE}
                 </JSXEl>
-                {placement.indexOf('left') > -1 && (
-                    <span style={{display: 'none'}} />
-                )}
             </>
         )
     }
@@ -195,7 +168,7 @@ Dropdown.Toggle = React.forwardRef(
         const ddCtx = tryUseContext(DropdownCtx)
     
         let isCaretPlaceLeft = false, directionCls = null
-        switch (ddCtx.placement) {
+        switch (ddCtx.fromOptions.placement) {
             case 'top-start':
             case 'top-end':
             case 'top': directionCls = 'dropup'; break;
@@ -210,29 +183,22 @@ Dropdown.Toggle = React.forwardRef(
             case 'right': directionCls = 'dropright'; break;
             default: break
         }
-    
-        const WrapperJSX = ({ children }) => {
-            return (
-                <JSXEl
-                    className={rclassnames(props, [
-                        'btn-group',
-                        directionCls
-                    ])}
-                >
-                    {children}
-                    {ddCtx.showDropdown && ddCtx.dropdownJsxEl}
-                </JSXEl>
-            )
-        }
         
         const buttonTheme = theme;
         let buttonLabel = label || (!split ? children : null);
         const buttonSize = size;
         const buttonOutline = outline;
+
+        const btnGroupCls = rclassnames(props, [
+            'btn-group',
+            directionCls
+        ])
     
         if (!split)
             return (
-                <WrapperJSX>
+                <JSXEl
+                    className={btnGroupCls}
+                >
                     <TogglerEl
                         ref={ref}
                         theme={buttonTheme}
@@ -245,7 +211,7 @@ Dropdown.Toggle = React.forwardRef(
                     >
                         {buttonLabel}
                     </TogglerEl>
-                </WrapperJSX>
+                </JSXEl>
             )
         
         if (typeof split === 'string') buttonLabel = split
@@ -282,7 +248,9 @@ Dropdown.Toggle = React.forwardRef(
         }
     
         return (
-            <WrapperJSX>{splitedButtonGroupTuple}</WrapperJSX>
+            <JSXEl className={btnGroupCls}>
+                {splitedButtonGroupTuple}
+            </JSXEl>
         )
     }
 )
