@@ -29,26 +29,6 @@ Got all that? Great, let's see how they work with some examples.
 
 Hover over the links below to see tooltips:
 
-{% reboot_mvvm mexample_with_code %}
-const Sample = () => {
-  return (
-    <>
-      <p class="muted">Tight pants next level keffiyeh
-        {' '} <Tooltip content="Default tooltip"><a href="javascript:;">you probably</a></Tooltip> {' '}
-        haven't heard of them. Photo booth beard raw denim letterpress vegan messenger bag stumptown. Farm-to-table seitan, mcsweeney's fixie sustainable quinoa 8-bit american apparel
-        {' '} <Tooltip content="Another tooltip"><a href="javascript:;">have a</a></Tooltip> {' '}
-        terry richardson vinyl chambray. Beard stumptown, cardigans banh mi lomo thundercats. Tofu biodiesel williamsburg marfa, four loko mcsweeney's cleanse vegan chambray. A really ironic artisan
-        {' '} <Tooltip content="Another one here too"><a href="javascript:;">whatever keytar</a></Tooltip> {' '}
-         scenester farm-to-table banksy Austin
-        {' '} <Tooltip content="The last tip!"><a href="javascript:;">twitter handle</a></Tooltip> {' '}
-        freegan cred raw denim single-origin coffee viral.
-      </p>
-    </>
-  )
-}
-{% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code class="tooltip-demo" %}
-
 Hover over the buttons below to see the four tooltips directions: top, right, bottom, and left.
 
 {% reboot_mvvm mexample_with_code %}

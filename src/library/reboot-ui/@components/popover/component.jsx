@@ -1,12 +1,13 @@
 import React from 'react'
 
 import { resolveJSXElement } from '../../utils/ui'
-import Poper from '../_helpers/popper';
+import Popper from '../_helpers/popper';
 import { rclassnames, tryUseContext } from '../../../../utils/react-like';
 import { parsePlacement } from '../../utils/popper';
 import { coerceInteger } from '../../../../utils/coerce';
 import { TransitionTimeouts } from '../common';
 import { useFixupPopoverToken } from '../_utils/popper';
+import { Transition } from 'react-transition-group';
 
 const PopverContext = React.createContext({
     arrowRef: null,
@@ -14,6 +15,17 @@ const PopverContext = React.createContext({
 
 const DFLT_ARROW_OFFSET = 8
 
+const transitionStateClass = {
+    entering: 'show',
+    entered: 'show',
+    exiting: '',
+    exited: ''
+}
+
+const transitionStateStyle = {
+    exiting: {},
+    exited: { opacity: 0, visibility: 'hidden' },
+}
 /**
  * @see https://getbootstrap.com/docs/4.4/components/navbar/#supported-content
  * 
@@ -85,36 +97,53 @@ const Popover = React.forwardRef(
 
         return (
             <PopverContext.Provider value={popoverCtx}>
-                <Poper
+                <Popper
                     {...props}
-                    placement={popoverCtx.fromOptions.placement}
+                    placement={popoverCtx.fromFixed.placement}
                     popperOptions={popperOptions}
                     overlayType={Popover.Overlay}
-                    migrateOverlayChildrenToTransition
-                    overlayProps={{
-                        as: Popover.Overlay,
-                        transitionProps: {
-                            duration: {
-                                enter: TransitionTimeouts.Fade,
-                                exit: TransitionTimeouts.Fade
-                            },
-                            transitionStateClass: {
-                                entering: 'show',
-                                entered: 'show',
-                                exiting: '',
-                                exited: ''
-                            },
-                            transitionStateStyle: {
-                                exiting: {},
-                                exited: { opacity: 0 },
-                            },
-                        }
+                    compose={({
+                        restChildren,
+                        overlayElement,
+                        isShowPopup,
+                    }) => {
+                        return (
+                            <>
+                                {restChildren}
+                                {(
+                                    <Transition
+                                        in={isShowPopup}
+                                        timeout={{
+                                            enter: TransitionTimeouts.Fade,
+                                            exit: TransitionTimeouts.Fade,
+                                        }}
+                                    >
+                                        {(state) => {
+                                            if (state === 'exited' && !isShowPopup) return ;
+
+                                            return (
+                                                React.cloneElement(overlayElement, {
+                                                    // children: isShowPopup && overlayElement.props.children || null,
+                                                    className: rclassnames(overlayElement.props, [
+                                                        transitionStateClass[state],
+                                                    ]),
+                                                    style: {
+                                                        ...transitionStateStyle[state],
+                                                        ...overlayElement.props.style,
+                                                    }
+                                                })
+                                            )
+                                        }}
+                                    </Transition>
+                                )}
+                            </>
+                        )
                     }}
                     dismissOnClickAway={dismissOnClickAway}
                     ref={ref}
                 >
                     {children}
-                </Poper>
+                </Popper>
             </PopverContext.Provider>
         )
     }

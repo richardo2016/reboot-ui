@@ -63,7 +63,7 @@ const Sample = () => {
       <Dropdown
         as={null}
         overlay={(
-          <Dropdown.Menu aria-labelledby="dropdownMenuButton">
+          <Dropdown.Menu aria-labelledby="dropdownMenuLink">
             <a class="dropdown-item" href="javascript:void(0);">Action</a>
             <a class="dropdown-item" href="javascript:void(0);">Another action</a>
             <a class="dropdown-item" href="javascript:void(0);">Something else here</a>
@@ -96,11 +96,11 @@ const Sample = () => {
   return (
     <>
       {themes.map(theme =>
-        <div class="btn-group mr-1">
+        <>
           <Dropdown
             as={null}
             overlay={(
-              <Dropdown.Menu aria-labelledby="dropdownMenuButton">
+              <Dropdown.Menu>
                 <a class="dropdown-item" href="javascript:void(0)">Action</a>
                 <a class="dropdown-item" href="javascript:void(0)">Another action</a>
                 <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
@@ -113,7 +113,8 @@ const Sample = () => {
               {stringUtils.ucfirst(theme)}
             </Dropdown.Toggle>
           </Dropdown>
-        </div>
+          {' '}
+        </>
       )}
     </>
   )
@@ -146,7 +147,7 @@ const Sample = () => {
           <Dropdown
             as={null}
             overlay={(
-              <Dropdown.Menu aria-labelledby="dropdownMenuButton">
+              <Dropdown.Menu>
                 <a class="dropdown-item" href="javascript:void(0)">Action</a>
                 <a class="dropdown-item" href="javascript:void(0)">Another action</a>
                 <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
@@ -197,7 +198,7 @@ const Sample = () => {
                   <Dropdown
                     as={null}
                     overlay={(
-                      <Dropdown.Menu aria-labelledby="dropdownMenuButton">
+                      <Dropdown.Menu>
                         <a class="dropdown-item" href="javascript:void(0)">Action</a>
                         <a class="dropdown-item" href="javascript:void(0)">Another action</a>
                         <a class="dropdown-item" href="javascript:void(0)">Something else here</a>

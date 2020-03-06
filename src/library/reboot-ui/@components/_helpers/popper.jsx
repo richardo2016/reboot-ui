@@ -7,18 +7,16 @@ import useHoveraway from '../../../../utils/react-hooks/use-hoveraway';
 
 import { createPopup, filterPopperTrigger } from '../_utils/popper';
 import { flatten } from '../../../../utils/array';
-import RbTransition from './transition';
-import { omit } from '../../../../utils/object';
 import { TransitionTimeouts } from '../common';
 
 function useLatestInstanceRef () {
-    const latestPopperInstanceRef = React.useRef(null);
+    const popperRef = React.useRef(null);
 
     const clean = () => {
-        if (latestPopperInstanceRef.current) latestPopperInstanceRef.current.destroy();
+        if (popperRef.current) popperRef.current.destroy();
     }
 
-    return [latestPopperInstanceRef, clean]
+    return [popperRef, clean]
 }
 
 const Popper = React.forwardRef(
@@ -33,10 +31,7 @@ const Popper = React.forwardRef(
         as: _as = React.Fragment,
         overlayType = React.Fragment,
         overlayProps = {},
-        overlayElementProps = {},
-        overlay: popupJsxEl = null,
-        migrateOverlayChildrenToTransition = false,
-        getOverlay,
+        overlay: overlayJsx = null,
         dismissOnClickAway = true,
         destroyOnUnmount = true,
         alwayRenderTransitionChildren = false,
@@ -45,23 +40,41 @@ const Popper = React.forwardRef(
          * @enum click
          */
         trigger = 'click',
+        /**
+         * @developer
+         * @description how to compose all childList
+         */
+        compose = ({
+            children,
+            restChildren,
+            triggerRef,
+            overlayElRef,
+            overlayElement,
+            isShowPopup,
+        }) => (
+            <>
+                {restChildren}
+                {isShowPopup && overlayElement}
+            </>
+        ),
         ...props
     }, wref) {
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
         trigger = filterPopperTrigger(trigger)
 
         const triggerElRef = React.useRef(null)
-        const popupRef = React.createRef()
+        const overlayElRef = React.useRef(null)
 
         const transitionStateMacroRef = React.useRef(null)
 
         const [laref, cleanLaref] = useLatestInstanceRef();
 
-        const [showPopup, setShowPopup] = React.useState(false);
+        const [isShowPopup, setIsShowPopup] = React.useState(false);
 
         const { childNodeList } = parseChildrenProp(childEles)
 
         const children = flatten(childNodeList).filter(x => x)
+        let restChildren = children
 
         get_trigger: {
             let triggerJsxElIdx = children.findIndex(child => child.props.poperTrigger)
@@ -74,79 +87,70 @@ const Popper = React.forwardRef(
         }
 
         get_overlay: {
-            if (typeof getOverlay === 'function') {
-                popupJsxEl = getOverlay({
-                    overlayType,
-                    popperChildren: children,
-                    triggerRef: triggerJsxEl
-                })
-            } else {
-                let popupJsxElIdx = -1
-                if (
-                    !popupJsxEl
-                    && (
-                        popupJsxElIdx = children.findIndex(child => isReactTypeOf(child, overlayType))
-                    ) > -1
-                ) {
-                    popupJsxEl = children[popupJsxElIdx]
-                }
-                if (popupJsxEl) {
-                    popupJsxEl = React.cloneElement(popupJsxEl, {...overlayElementProps, ref: popupRef})
-                    if (popupJsxElIdx > -1) children[popupJsxElIdx] = popupJsxEl
-                }
+            let overlayJsxIdx = -1
+            if (
+                !overlayJsx
+                && (
+                    overlayJsxIdx = children.findIndex(child => isReactTypeOf(child, overlayType))
+                ) > -1
+            ) {
+                overlayJsx = children[overlayJsxIdx]
+            }
+            if (overlayJsx) {
+                overlayJsx = React.cloneElement(overlayJsx, { ref: overlayElRef })
+                if (overlayJsxIdx > -1) children[overlayJsxIdx] = overlayJsx
             }
         }
-
-        let restChildren = children.filter(x =>(x !== popupJsxEl))
+        restChildren = children.filter(x =>(x !== overlayJsx))
 
         switch (trigger) {
             case 'click':
             default:
                 useClickaway(triggerElRef, undefined, {
-                    clickIn: (() => { setShowPopup(!showPopup) }),
+                    clickIn: (() => { setIsShowPopup(!isShowPopup) }),
                     clickAway: (nativeEvent) => {
                         if (trigger === 'click' && !dismissOnClickAway) return ;
-                        if (!showPopup) return ;
+                        if (!isShowPopup) return ;
                         const clkAwayEl = nativeEvent.target
 
                         if (
                             clkAwayEl
-                            && popupRef.current
-                            && getHTMLElementFromJSXElement(popupRef.current)
-                            && getHTMLElementFromJSXElement(popupRef.current).contains(clkAwayEl)
+                            && overlayElRef.current
+                            && getHTMLElementFromJSXElement(overlayElRef.current)
+                            && getHTMLElementFromJSXElement(overlayElRef.current).contains(clkAwayEl)
                         ) return ;
-                        setShowPopup(false)
+                        setIsShowPopup(false)
                     }
                 })
                 break
             case 'hover':
                 useHoveraway(triggerElRef, {
-                    onIn: () => setShowPopup(true),
+                    onIn: () => setIsShowPopup(true),
                     onAway: () => {
                         let lastTransDuration = TransitionTimeouts.Fade
                         try { lastTransDuration = transitionStateMacroRef.current.duration.exit } catch (error) {}
 
-                        setShowPopup(false);
+                        setIsShowPopup(false);
                     },
                 })
                 break
         }
 
         React.useLayoutEffect(() => {
-            if (!showPopup) return ;
+            if (!isShowPopup) return ;
             if (!triggerElRef.current) return ;
-            if (!popupRef.current) return ;
+            if (!overlayElRef.current) return ;
 
             let overlayPlacement = placement
             /**
              * @TODO use breakPoint of bootstrap, resolve objective-type placement and use it.
              */
-            if (popupJsxEl.props && typeof popupJsxEl.props.placement === 'string')
-                overlayPlacement = filterPlacement(popupJsxEl.props && popupJsxEl.props.placement)
+            if (overlayJsx.props && typeof overlayJsx.props.placement === 'string')
+                overlayPlacement = filterPlacement(overlayJsx.props && overlayJsx.props.placement)
             
             laref.current = createPopup(
                 getHTMLElementFromJSXElement(triggerElRef.current),
-                getHTMLElementFromJSXElement(popupRef.current),
+                getHTMLElementFromJSXElement(overlayElRef.current),
                 {
                     ...popperOptions,
                     placement: overlayPlacement,
@@ -156,40 +160,24 @@ const Popper = React.forwardRef(
             return () => {
                 if (destroyOnUnmount) cleanLaref();
             }
-        }, [showPopup])
+        }, [isShowPopup])
 
-        const INNER_NODE = (
-            <>
-                {restChildren}
-                {(
-                    <RbTransition
-                        {...migrateOverlayChildrenToTransition && omit(popupJsxEl.props, 'children')}
-                        {...overlayProps}
-                        transitionProps={{
-                            stateMacroRef: transitionStateMacroRef,
-                            active: showPopup,
-                            ...overlayProps && overlayProps.transitionProps,
-                        }}
-                    >
-                        {(alwayRenderTransitionChildren || showPopup) && (
-                            !migrateOverlayChildrenToTransition ? popupJsxEl : popupJsxEl.props.children
-                        )}
-                    </RbTransition>
-                )}
-            </>
-        )
-
-        if (!_as)
-            return INNER_NODE
+        const composeCallback = React.useCallback(compose, [])
 
         return (
             <JSXEl
                 {...props}
                 ref={wref}
-                className={rclassnames(props, [
-                ])}
             >
-                {INNER_NODE}
+                {composeCallback({
+                    children: childEles,
+                    childList: children,
+                    restChildren,
+                    triggerRef: triggerElRef,
+                    overlayRef: overlayElRef,
+                    overlayElement: overlayJsx,
+                    isShowPopup,
+                })}
             </JSXEl>
         )
     }

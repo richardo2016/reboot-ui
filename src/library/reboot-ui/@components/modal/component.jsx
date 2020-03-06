@@ -1,7 +1,8 @@
 import React from 'react'
 
+import { Transition } from 'react-transition-group';
+
 import { resolveJSXElement, toggleCls } from '../../utils/ui'
-import RbTransition from '../_helpers/transition';
 import { rclassnames, tryUseContext } from '../../../../utils/react-like';
 import { TransitionTimeouts } from '../common';
 import { coerceInteger } from '../../../../utils/coerce';
@@ -12,6 +13,13 @@ function noop() {}
 const ModalContext = React.createContext({
     arrowRef: null,
 })
+
+const TRANSITION_STATE_CLASS = {
+    entering: '',
+    entered: 'show',
+    exiting: '',
+    exited: ''
+}
 
 const TRANSITION_STATE_STYLE = {
     entering: {display: 'block'},
@@ -108,51 +116,74 @@ const Modal = (
 
         return (
             <ModalContext.Provider value={modalCtx}>
-                <RbTransition
-                    role="dialog"
-                    {...!isOpen && {
-                        'aria-hidden': true
-                    }}
-                    tabindex="-1"
-                    {...props}
-                    className={rclassnames(props, [
-                        'modal',
-                        'fade',
-                        clickingStaticBackdrop && 'modal-static'
-                    ])}
-                    style={{
-                        ...props.style,
-                    }}
-                    ref={modalCtx.refModal}
-                    transitionProps={{
-                        active: isOpen,
-                        duration: {
-                            enter: TransitionTimeouts.Fade,
-                            exit: TransitionTimeouts.Fade + 100,
-                        },
-                        transitionStateStyle: { ...TRANSITION_STATE_STYLE },
+                <Transition
+                    in={isOpen}
+                    timeout={{
+                        enter: TransitionTimeouts.Fade,
+                        exit: TransitionTimeouts.Fade + 100,
                     }}
                 >
-                    <DialogJSX><ContentJSX>{children}</ContentJSX></DialogJSX>
-                </RbTransition>
-                {!useDocumentMode && <RbTransition
-                    className={rclassnames(props, [
-                        'modal-backdrop',
-                        'fade',
-                    ])}
-                    style={{
-                        ...!isOpen && { display: 'none' }
+                    {state => {
+                        if (state === 'exited' && !isOpen) return ;
+
+                        return (
+                            <div
+                                role="dialog"
+                                {...!isOpen && {
+                                    'aria-hidden': true
+                                }}
+                                tabindex="-1"
+                                {...props}
+                                className={rclassnames(props, [
+                                    'modal',
+                                    'fade',
+                                    TRANSITION_STATE_CLASS[state],
+                                    clickingStaticBackdrop && 'modal-static'
+                                ])}
+                                style={{
+                                    ...TRANSITION_STATE_STYLE[state],
+                                    ...props.style,
+                                }}
+                                ref={modalCtx.refModal}
+                                
+                            >
+                                <DialogJSX><ContentJSX>{children}</ContentJSX></DialogJSX>
+                            </div>
+                        )
                     }}
-                    ref={modalCtx.refBackdrop}
-                    transitionProps={{
-                        active: isOpen,
-                        duration: {
+                </Transition>
+                {!useDocumentMode && (
+                    <Transition
+                        in={isOpen}
+                        timeout={{
                             enter: TransitionTimeouts.Fade,
                             exit: TransitionTimeouts.Modal,
-                        },
-                        transitionStateStyle: { ...TRANSITION_STATE_STYLE },
-                    }}
-                />}
+                        }}
+                    >
+                        {state => {
+                            if (state === 'exited' && !isOpen) return ;
+                            
+                            return (
+                                <div
+                                    {...!isOpen && {
+                                        'aria-hidden': true
+                                    }}
+                                    tabindex="-1"
+                                    {...props}
+                                    className={rclassnames(props, [
+                                        'modal-backdrop',
+                                        'fade',
+                                        TRANSITION_STATE_CLASS[state],
+                                    ])}
+                                    style={{
+                                        ...!isOpen && { display: 'none' }
+                                    }}
+                                    ref={modalCtx.refBackdrop}
+                                />
+                            )
+                        }}
+                    </Transition>
+                )}
             </ModalContext.Provider>
         )
     }

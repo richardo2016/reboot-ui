@@ -1,16 +1,31 @@
 import React from 'react'
 
 import { resolveJSXElement } from '../../utils/ui'
-import Poper from '../_helpers/popper';
-import { rclassnames, tryUseContext, isReactTypeOf } from '../../../../utils/react-like';
+import Popper from '../_helpers/popper';
+import { rclassnames, tryUseContext, isReactTypeOf, parseChildrenProp } from '../../../../utils/react-like';
 import { parsePlacement } from '../../utils/popper';
-import { arraify } from '../../../../utils/array';
 import { TransitionTimeouts } from '../common';
 import { useFixupPopoverToken } from '../_utils/popper';
+import { Transition } from 'react-transition-group';
 
 const TooltipContext = React.createContext({
+    fromOptions: {},
+    fromFixed: {},
+    useArrow: true,
     arrowRef: null,
 })
+
+const transitionStateClass = {
+    entering: 'show',
+    entered: 'show',
+    exiting: '',
+    exited: ''
+}
+
+const transitionStateStyle = {
+    exiting: {},
+    exited: { opacity: 0, visibility: 'hidden' },
+}
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/navbar/#supported-content
@@ -20,8 +35,8 @@ const TooltipContext = React.createContext({
  */
 const Tooltip = React.forwardRef(
     ({
-        children,
-        content,
+        children: childEles,
+        content = React.Fragment,
         /**
          * @description (default: top)
          */
@@ -62,48 +77,70 @@ const Tooltip = React.forwardRef(
             arrowRef: React.useRef(null),
         }
 
-        children = arraify(children)
-        content = content || content.find(item => isReactTypeOf(item, Tooltip.Overlay))
-        content = !isReactTypeOf(content, Tooltip.Overlay) ? (
-            <Tooltip.Overlay>{content}</Tooltip.Overlay>
-        ) : content
-        children.push(content)
+        let { childNodeList: children } = parseChildrenProp(childEles)
+        children = children.filter(x => x)
+
+        const contentRef = React.useRef(null)
+        if (!isReactTypeOf(content, Tooltip.Overlay)) {
+            content = <Tooltip.Overlay ref={contentRef}>{content}</Tooltip.Overlay>
+        } else {
+            content = React.cloneElement(content, { ref: contentRef })
+        }
 
         return (
             <TooltipContext.Provider value={tooltipCtx}>
-                <Poper
+                <Popper
                     trigger={'hover'}
                     {...props}
                     placement={tooltipCtx.fromOptions.placement}
-                    popperOptions={popperOptions}
+                    popperOptions={{
+                        ...popperOptions,
+                    }}
                     overlayType={Tooltip.Overlay}
-                    migrateOverlayChildrenToTransition
                     destroyOnUnmount={false}
-                    alwayRenderTransitionChildren={true}
-                    overlayProps={{
-                        as: Tooltip.Overlay,
-                        transitionProps: {
-                            duration: {
-                                enter: TransitionTimeouts.Fade,
-                                exit: TransitionTimeouts.Fade
-                            },
-                            transitionStateClass: {
-                                entering: 'show',
-                                entered: 'show',
-                                exiting: '',
-                                exited: ''
-                            },
-                            transitionStateStyle: {
-                                exiting: {},
-                                exited: { opacity: 0, visibility: 'hidden' },
-                            },
-                        }
+                    overlay={content}
+                    compose={({
+                        restChildren,
+                        overlayElement,
+                        isShowPopup,
+                    }) => {
+                        return (
+                            <>
+                                {restChildren}
+                                {(
+                                    <Transition
+                                        in={isShowPopup}
+                                        timeout={{
+                                            enter: TransitionTimeouts.Fade,
+                                            exit: TransitionTimeouts.Fade
+                                        }}
+                                    >
+                                        {(state) => {
+                                            if (state === 'exited' && !isShowPopup) return ;
+
+                                            return React.cloneElement(
+                                                overlayElement,
+                                                {
+                                                    className: rclassnames(overlayElement.props, [
+                                                        transitionStateClass[state],
+                                                    ]),
+                                                    style: {
+                                                        ...overlayElement.props.style,
+                                                        ...transitionStateStyle[state],
+                                                    }
+                                                }
+                                            )
+                                        }}
+                                    </Transition>
+                                )}
+                            </>
+                        )
                     }}
                     dismissOnClickAway={false}
                     ref={ref}
                 >
                     {children}
-                </Poper>
+                </Popper>
             </TooltipContext.Provider>
         )
     }

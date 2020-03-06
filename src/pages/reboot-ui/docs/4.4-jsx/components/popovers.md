@@ -33,7 +33,7 @@ const Sample = () => {
   return (
     <>
       <Popover placement="right">
-        <Button size="lg" type="danger">Click to toggle popover</Button>
+        <Button size="lg" theme="danger">Click to toggle popover</Button>
         <Popover.Overlay>
           <Popover.Header>
             Popover title
@@ -95,7 +95,7 @@ const Sample = () => {
   return (
     <>
       <Popover placement="right" dismissOnClickAway={false}>
-        <Button as="a" tabindex="0" size="lg" type="danger">Dismissible popover</Button>
+        <Button as="a" tabindex="0" size="lg" theme="danger">Dismissible popover</Button>
         <Popover.Overlay>
           <Popover.Header>
             Dismissible popover
