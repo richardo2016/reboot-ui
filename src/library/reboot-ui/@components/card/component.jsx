@@ -5,6 +5,8 @@ import { rclassnames } from '../../../../utils/react-like';
 import { headingTags } from '../common'
 import { filterThemeName } from '../common-utils'
 
+import { PlaceholderImage } from '../_helpers/image'
+
 const CardContext = React.createContext({})
 
 function useCardContext (
@@ -178,40 +180,10 @@ Card.Body = React.forwardRef((
     }
 ))
 
-const DfltImage = ({
-    children = 'Image cap',
-    label = children,
-    ...props
-}) => {
-    return (
-        <svg
-            class={rclassnames(props, [
-            ])}
-            focusable="false"
-            role="img"
-            width="100%"
-            height="100"
-            {...props}
-            style={{
-                textAnchor: 'middle',
-                userSelect: 'none',
-                ...props.style,
-            }}
-            xmlns="http://www.w3.org/2000/svg"
-            preserveAspectRatio="xMidYMid slice"
-            aria-label={`Placeholder: ${label}`}
-        >
-            <title>Placeholder</title>
-            <rect width="100%" height="100%" fill="#868e96"></rect>
-            <text x="50%" y="50%" fill="#dee2e6" dy=".3em">{label}</text>
-        </svg>
-    )
-}
-
 Card.Image = React.forwardRef((
     function ({
         children,
-        as: _as = DfltImage,
+        as: _as = PlaceholderImage,
         __htmlAttributes,
         ...props
     }, ref) {
@@ -373,7 +345,7 @@ Card.Typical = React.forwardRef((
                 {...props}
                 ref={ref}
             >
-                <Card.Image as={DfltImage} />
+                <Card.Image as={PlaceholderImage} />
                 <Card.Body>
                     {titleNode || null}
                     {subTitleNode || null}

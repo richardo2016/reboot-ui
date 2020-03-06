@@ -11,6 +11,13 @@ export const TransitionTimeouts = {
     Carousel: 600, // $carousel-transition
 };
 
+export const TransitionStates = {
+    EXITED: 'exited',
+    ENTERING: 'entering',
+    ENTERED: 'entered',
+    EXITING: 'exiting',
+};
+
 export const headingTags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
 
 export const inputTypes = [

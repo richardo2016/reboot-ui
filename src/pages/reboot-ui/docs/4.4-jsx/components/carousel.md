@@ -28,160 +28,260 @@ Carousels don't automatically normalize slide dimensions. As such, you may need 
 
 Here's a carousel with slides only. Note the presence of the `.d-block` and `.w-100` on carousel images to prevent browser default image alignment.
 
-{% capture example %}
-<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-        {% include icons/placeholder.svg width="800" height="400" class="bd-placeholder-img-lg d-block w-100" color="#555" background="#777" text="First slide" %}
-    </div>
-    <div class="carousel-item">
-      {% include icons/placeholder.svg width="800" height="400" class="bd-placeholder-img-lg d-block w-100" color="#444" background="#666" text="Second slide" %}
-    </div>
-    <div class="carousel-item">
-      {% include icons/placeholder.svg width="800" height="400" class="bd-placeholder-img-lg d-block w-100" color="#333" background="#555" text="Third slide" %}
-    </div>
-  </div>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Carousel id="carouselExampleSlidesOnly">
+        <Carousel.Item>
+          <Carousel.PlaceholderImage
+            size="lg"
+            class="d-block w-100"
+            width={800}
+            height={400}
+            rectProps={{ fill: "#777" }}
+            textProps={{ fill: "#555" }}
+            label="First slide"
+          />
+        </Carousel.Item>
+        <Carousel.Item>
+          <Carousel.PlaceholderImage
+            size="lg"
+            class="d-block w-100"
+            width={800}
+            height={400}
+            rectProps={{ fill: "#666" }}
+            textProps={{ fill: "#444" }}
+            label="Second slide"
+          />
+        </Carousel.Item>
+        <Carousel.Item>
+          <Carousel.PlaceholderImage
+            size="lg"
+            class="d-block w-100"
+            width={800}
+            height={400}
+            rectProps={{ fill: "#555" }}
+            textProps={{ fill: "#333" }}
+            label="Third slide"
+          />
+        </Carousel.Item>
+      </Carousel>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### With controls
 
 Adding in the previous and next controls:
 
-{% capture example %}
-<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      {% include icons/placeholder.svg width="800" height="400" class="bd-placeholder-img-lg d-block w-100" color="#555" background="#777" text="First slide" %}
-    </div>
-    <div class="carousel-item">
-      {% include icons/placeholder.svg width="800" height="400" class="bd-placeholder-img-lg d-block w-100" color="#444" background="#666" text="Second slide" %}
-    </div>
-    <div class="carousel-item">
-      {% include icons/placeholder.svg width="800" height="400" class="bd-placeholder-img-lg d-block w-100" color="#333" background="#555" text="Third slide" %}
-    </div>
-  </div>
-  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  const slides = [
+    {
+      label: 'First slide',
+    },
+    {
+      label: 'Second slide'
+    },
+    {
+      label: 'Third slide'
+    },
+  ]
+
+  return (
+    <>
+      <Carousel id="carouselExampleControls">
+        {slides.map((slide, idx) => {
+          return (
+            <Carousel.Item>
+              <Carousel.PlaceholderImage
+                size="lg"
+                class="d-block w-100"
+                width={800}
+                height={400}
+                rectProps={{ fill: `#${777 - idx * 111}` }}
+                textProps={{ fill: `#${555 - idx * 111}` }}
+                label={slide.label}
+              />
+            </Carousel.Item>
+          )
+        })}
+        <Carousel.Control prev />
+        <Carousel.Control next />
+      </Carousel>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### With indicators
 
 You can also add the indicators to the carousel, alongside the controls, too.
 
-{% capture example %}
-<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-  <ol class="carousel-indicators">
-    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-  </ol>
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      {% include icons/placeholder.svg width="800" height="400" class="bd-placeholder-img-lg d-block w-100" color="#555" background="#777" text="First slide" %}
-    </div>
-    <div class="carousel-item">
-      {% include icons/placeholder.svg width="800" height="400" class="bd-placeholder-img-lg d-block w-100" color="#444" background="#666" text="Second slide" %}
-    </div>
-    <div class="carousel-item">
-      {% include icons/placeholder.svg width="800" height="400" class="bd-placeholder-img-lg d-block w-100" color="#333" background="#555" text="Third slide" %}
-    </div>
-  </div>
-  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  const slides = [
+    {
+      label: 'First slide',
+    },
+    {
+      label: 'Second slide'
+    },
+    {
+      label: 'Third slide'
+    },
+  ]
+
+  return (
+    <>
+      <Carousel id="carouselExampleIndicators">
+        <Carousel.Indicators />
+        {slides.map((slide, idx) => {
+          return (
+            <Carousel.Item>
+              <Carousel.PlaceholderImage
+                size="lg"
+                class="d-block w-100"
+                width={800}
+                height={400}
+                rectProps={{ fill: `#${777 - idx * 111}` }}
+                textProps={{ fill: `#${555 - idx * 111}` }}
+                label={slide.label}
+              />
+            </Carousel.Item>
+          )
+        })}
+        <Carousel.Control prev />
+        <Carousel.Control next />
+      </Carousel>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### With captions
 
 Add captions to your slides easily with the `.carousel-caption` element within any `.carousel-item`. They can be easily hidden on smaller viewports, as shown below, with optional [display utilities]({{ site.baseurl }}/docs/{{ site.docs_version }}/utilities/display/). We hide them initially with `.d-none` and bring them back on medium-sized devices with `.d-md-block`.
 
-{% capture example %}
-<div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
-  <ol class="carousel-indicators">
-    <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
-    <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
-    <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
-  </ol>
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      {% include icons/placeholder.svg width="800" height="400" class="bd-placeholder-img-lg d-block w-100" color="#555" background="#777" text="First slide" %}
-      <div class="carousel-caption d-none d-md-block">
-        <h5>First slide label</h5>
-        <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-      </div>
-    </div>
-    <div class="carousel-item">
-      {% include icons/placeholder.svg width="800" height="400" class="bd-placeholder-img-lg d-block w-100" color="#444" background="#666" text="Second slide" %}
-      <div class="carousel-caption d-none d-md-block">
-        <h5>Second slide label</h5>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      </div>
-    </div>
-    <div class="carousel-item">
-      {% include icons/placeholder.svg width="800" height="400" class="bd-placeholder-img-lg d-block w-100" color="#333" background="#555" text="Third slide" %}
-      <div class="carousel-caption d-none d-md-block">
-        <h5>Third slide label</h5>
-        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-      </div>
-    </div>
-  </div>
-  <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  const slides = [
+    {
+      label: 'First slide',
+      caption: {
+        title: 'First slide label',
+        text: 'Nulla vitae elit libero, a pharetra augue mollis interdum.',
+      }
+    },
+    {
+      label: 'Second slide',
+      caption: {
+        title: 'Second slide label',
+        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      }
+    },
+    {
+      label: 'Third slide',
+      caption: {
+        title: 'Third slide label',
+        text: 'Praesent commodo cursus magna, vel scelerisque nisl consectetur.',
+      }
+    },
+  ]
+
+  return (
+    <>
+      <Carousel id="carouselExampleCaptions">
+        <Carousel.Indicators />
+        {slides.map((slide, idx) => {
+          return (
+            <Carousel.Item>
+              <Carousel.PlaceholderImage
+                size="lg"
+                class="d-block w-100"
+                width={800}
+                height={400}
+                rectProps={{ fill: `#${777 - idx * 111}` }}
+                textProps={{ fill: `#${555 - idx * 111}` }}
+                label={slide.label}
+              />
+              <Carousel.Caption class="d-none d-md-block">
+                <h5>{slide.caption.title}</h5>
+                <p>{slide.caption.text}</p>
+              </Carousel.Caption>
+            </Carousel.Item>
+          )
+        })}
+        <Carousel.Control prev />
+        <Carousel.Control next />
+      </Carousel>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Crossfade
 
 Add `.carousel-fade` to your carousel to animate slides with a fade transition instead of a slide.
 
-{% capture example %}
-<div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      {% include icons/placeholder.svg width="800" height="400" class="bd-placeholder-img-lg d-block w-100" color="#555" background="#777" text="First slide" %}
-    </div>
-    <div class="carousel-item">
-      {% include icons/placeholder.svg width="800" height="400" class="bd-placeholder-img-lg d-block w-100" color="#444" background="#666" text="Second slide" %}
-    </div>
-    <div class="carousel-item">
-      {% include icons/placeholder.svg width="800" height="400" class="bd-placeholder-img-lg d-block w-100" color="#333" background="#555" text="Third slide" %}
-    </div>
-  </div>
-  <a class="carousel-control-prev" href="#carouselExampleFade" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carouselExampleFade" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  const slides = [
+    {
+      label: 'First slide',
+      caption: {
+        title: 'First slide label',
+        text: 'Nulla vitae elit libero, a pharetra augue mollis interdum.',
+      }
+    },
+    {
+      label: 'Second slide',
+      caption: {
+        title: 'Second slide label',
+        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      }
+    },
+    {
+      label: 'Third slide',
+      caption: {
+        title: 'Third slide label',
+        text: 'Praesent commodo cursus magna, vel scelerisque nisl consectetur.',
+      }
+    },
+  ]
+
+  return (
+    <>
+      <Carousel id="carouselExampleFade" crossFade>
+        {slides.map((slide, idx) => {
+          return (
+            <Carousel.Item>
+              <Carousel.PlaceholderImage
+                size="lg"
+                class="d-block w-100"
+                width={800}
+                height={400}
+                rectProps={{ fill: `#${777 - idx * 111}` }}
+                textProps={{ fill: `#${555 - idx * 111}` }}
+                label={slide.label}
+              />
+            </Carousel.Item>
+          )
+        })}
+        <Carousel.Control prev />
+        <Carousel.Control next />
+      </Carousel>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### Individual `.carousel-item` interval
 

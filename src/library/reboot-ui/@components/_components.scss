@@ -1,22 +1,22 @@
 @import "./layout-grid/component.scss";
+// @import "../scss/grid";
 
 @import "../scss/images";
 @import "../scss/code";
-@import "../scss/grid";
 @import "./tables/component.scss";
 
 // @import "../scss/forms";
 // @import "../scss/custom-forms";
 @import "./form/component.scss";
 
-@import "../scss/buttons";
+@import "./button/component.scss";
 @import "../scss/transitions";
 @import "./dropdown/component.scss";
 @import "./button-group/component.scss";
-@import "../scss/input-group";
+@import "./input-group/component.scss";
 @import "./nav/component.scss";
 @import "./navbar/component.scss";
-@import "../scss/card";
+@import "./card/component.scss";
 @import "./breadcrumb/component.scss";
 @import "../scss/pagination";
 @import "./badge/component.scss";
@@ -30,7 +30,8 @@
 @import "./modal/component.scss";
 @import "./tooltip/component.scss";
 @import "./popover/component.scss";
-@import "../scss/carousel";
+@import "./carousel/component.scss";
 @import "./spinners/component.scss";
+
 @import "../scss/utilities";
 @import "../scss/print";

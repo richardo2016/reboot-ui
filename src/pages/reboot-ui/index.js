@@ -1,5 +1,4 @@
-import '../../utils/preact-helpers/preact-hooks-patch'
-import * as React from 'preact'
+import React from 'react'
 
 import './docs/4.4'
 import './docs/4.4-jsx'

@@ -38,6 +38,7 @@ function getConfigItem (name, opts) {
 
 		app_type = 'pages',
 		babel_options = undefined,
+		preact_options = {},
 
 		production: isProduction = production,
 		postConfig,
@@ -143,8 +144,18 @@ function getConfigItem (name, opts) {
 		rollup_cfg.plugins.unshift(
 			resolveAliases({
 				aliases: {
-					'react': path.resolve(__dirname,  './node_modules/preact/dist/preact.js'),
-					'react-dom': path.resolve(__dirname,  './node_modules/preact/dist/preact.js'),
+					...preact_options.compat_mode === 'compat' && {
+						'react': path.resolve(__dirname,  './node_modules/preact/compat/dist/compat.module.js'),
+						'react-dom': path.resolve(__dirname,  './node_modules/preact/compat/dist/compat.module.js'),
+					},
+					...preact_options.compat_mode === 'hooks' && {
+						'react': path.resolve(__dirname,  './node_modules/preact/hooks/dist/hooks.module.js'),
+						'react-dom': path.resolve(__dirname,  './node_modules/preact/hooks/dist/hooks.module.js'),
+					},
+					...(!['compat', 'hooks'].includes(preact_options.compat_mode)) && {
+						'react': path.resolve(__dirname,  './node_modules/preact/dist/preact.module.js'),
+						'react-dom': path.resolve(__dirname,  './node_modules/preact/dist/preact.module.js'),
+					},
 					'preact/hooks': path.resolve(__dirname, './node_modules/preact/hooks/dist/hooks.js'),
 					'preact/compat': path.resolve(__dirname, './node_modules/preact/compat/dist/compat.js'),
 				},
@@ -191,6 +202,7 @@ export default [
 		mvvm_type: 'preact',
 		app_type: 'pages',
 		babel_options: {},
+		preact_options: { compat_mode: 'compat', },
 		postConfig: (rollup_cfg) => {
 			const basedir = path.resolve(__dirname, `./src/pages/reboot-ui/docs/`)
 			const destdir = path.resolve(__dirname, `./build/pages/reboot-ui/static/docs/`)
@@ -232,17 +244,9 @@ export default [
 							shelljs.rm('-rf', dest)
 							shelljs.mkdir('-p', pdest)
 							
-							shelljs.cp(
-								'-fR',
-								path.resolve(`./build/pages/reboot-ui`),
-								pdest
-							)
+							shelljs.cp('-fR', path.resolve(`./build/pages/reboot-ui`), pdest)
 
-							shelljs.cp(
-								'-fR',
-								path.resolve(`./static/`),
-								dest
-							)
+							shelljs.cp('-fR', path.resolve(`./static/`), dest)
 						}
 					}
 				})({})

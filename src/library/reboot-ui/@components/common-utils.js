@@ -12,6 +12,10 @@ export function filterFormControlSize (size = '') {
     if (['sm', 'lg'].includes(size)) return size
 }
 
+export function filterPlaceholderSize (size = '') {
+    if (['sm', 'lg'].includes(size)) return size
+}
+
 export function filterInputType (type = '') {
     if (inputTypes.includes(type)) return type
 }
