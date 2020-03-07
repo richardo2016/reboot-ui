@@ -295,7 +295,7 @@ const Sample = () => {
     <>
       <Carousel id="carouselExampleInterval" ride="carousel">
         {slides.map((slide, idx) => {
-          const interval = slide.interval // 5000 - (idx + 1) * 1000
+          const interval = slide.interval
           return (
             <Carousel.Item interval={interval}>
               <Carousel.PlaceholderImage
@@ -316,6 +316,67 @@ const Sample = () => {
         <Carousel.Control prev />
         <Carousel.Control next />
       </Carousel>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
+
+### Control carousel with ArrowLeft/ArrowRight
+
+Set `keyboard` to make carousel play on ArrowLeft/ArrowRight pressed
+
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  const [useKeyboard, setUseKeyboard] = React.useState(true)
+  const slides = [
+    {
+      label: 'First slide',
+    },
+    {
+      label: 'Second slide',
+    },
+    {
+      label: 'Third slide',
+    },
+  ]
+
+  return (
+    <>
+      <Carousel id="carouselExampleKeyboard" keyboard={useKeyboard}>
+        {slides.map((slide, idx) => {
+          const interval = slide.interval
+          return (
+            <Carousel.Item interval={interval}>
+              <Carousel.PlaceholderImage
+                size="lg"
+                class="d-block w-100"
+                width={800}
+                height={400}
+                rectProps={{ fill: `#${777 - idx * 111}` }}
+                textProps={{ fill: `#${555 - idx * 111}` }}
+                label={slide.label}
+              />
+              <Carousel.Caption class="d-none d-md-block">
+                <h5>{!useKeyboard ? 'Free from' : 'Controlled By'} Keyboard</h5>
+              </Carousel.Caption>
+            </Carousel.Item>
+          )
+        })}
+        <Carousel.Control prev />
+        <Carousel.Control next />
+      </Carousel>
+      <div class="custom-control custom-switch mt-2">
+        <Form.Checkbox
+          custom
+          id="customSwitchForKeyboard"
+          label="Toggle this switch To enable/disable keyboard"
+          checked={useKeyboard}
+          onChange={React.useCallback((nativeEvent) => {
+            setUseKeyboard(nativeEvent.target.checked)
+          }, [])}
+        />
+      </div>
     </>
   )
 }

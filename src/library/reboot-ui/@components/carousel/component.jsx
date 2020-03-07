@@ -12,6 +12,7 @@ import Anchor from '../_helpers/anchor';
 import { coerceInteger } from '../../../../utils/coerce';
 import { arraify, flatten } from '../../../../utils/array';
 import { useInterval } from '../../../../utils/react-hooks/use-timer';
+import useKeyPress from '../../../../utils/react-hooks/use-keypress';
 
 const RUNTIME_TOKEN = Date.now()
 const useToken = (str) => `${RUNTIME_TOKEN}_${str}`
@@ -93,11 +94,19 @@ const useCarouseInterval = (_itv = DFLT_INTERVAL) => {
     return [ref, update]
 }
 
+const useKeyboard = (latestValue) => {
+    const ref = React.useRef(null)
+    ref.current = latestValue
+    return ref
+}
+
 const DFLT_INTERVAL = 5000
 
 const isAutoplayOnLoad = (rideMode) => rideMode === 'carousel'
 /**
  * @see https://getbootstrap.com/docs/4.4/components/carousel
+ * 
+ * @WIP disable switch when animating
  * 
  * @inner-content `.carousel`
  * @inner-content `.carousel-inner`
@@ -136,7 +145,7 @@ const Carousel = React.forwardRef(
          * @WIP
          * @description whether the left-arrow and right-arrow keys could control the carousel
          */
-        keyboard = false,
+        keyboard: controlledByKeyborad = false,
         /**
          * @description whether use fade animation when switch
          */
@@ -166,8 +175,6 @@ const Carousel = React.forwardRef(
         const [pauseRef, onMouseEnter, onMouseLeave] = usePauseOnHover(pauseMode)
         const [startedAutoplayRef, startAutoplay] = useStartAutoplay(rideMode)
 
-        interval = coerceInteger(interval, 0)
-
         const dirOffset = lastIndexRef.current - currentIdxRef.current
         const switchType = (() => {
             const itemsOffset = slidesRef.current.length - 1
@@ -187,25 +194,44 @@ const Carousel = React.forwardRef(
                     return SWICH_TYPES.FROM_LEFT_TO_RIGHT
         })()
 
-        const [intervalRef, updateInterval] = useCarouseInterval(interval)
-        useInterval(() => {
-            if (!intervalRef.current) return ;
-            const playInfo = context.getPlayInfo()
+        interval = coerceInteger(interval, 0)
+        interval_about: {
+            const [intervalRef, updateInterval] = useCarouseInterval(interval)
+            useInterval(() => {
+                if (!intervalRef.current) return ;
+                const playInfo = context.getPlayInfo()
+    
+                if (playInfo.paused) return ;
+                if (!playInfo.startedAutoplay) return ;
+    
+                context._onSwitch(playInfo.currentIndex + 1);
+            }, intervalRef.current)
+            // update interval(from item) on slide changed
+            React.useEffect(() => {
+                const currentSlide = context.getPlayInfo('currentSlide')
+    
+                if (!currentSlide) return 
+                const nextInterval = coerceInteger(currentSlide.interval, intervalRef.current)
+                if (nextInterval !== intervalRef.current)
+                    updateInterval(nextInterval)
+            }, [currentIdxRef.current])
+        }
 
-            if (playInfo.paused) return ;
-            if (!playInfo.startedAutoplay) return ;
-
-            context._onSwitch(playInfo.currentIndex + 1);
-        }, intervalRef.current)
-        // update interval(from item) on slide changed
-        React.useEffect(() => {
-            const currentSlide = context.getPlayInfo('currentSlide')
-
-            if (!currentSlide) return 
-            const nextInterval = coerceInteger(currentSlide.interval, intervalRef.current)
-            if (nextInterval !== intervalRef.current)
-                updateInterval(nextInterval)
-        }, [currentIdxRef.current])
+        keyboard_about: {
+            const _controlledRef = useKeyboard(controlledByKeyborad)
+            useKeyPress('ArrowLeft', {
+                keydown: () => {
+                    if (!_controlledRef.current) return ;
+                    context._onSwitch('prev')
+                }
+            })
+            useKeyPress('ArrowRight', {
+                keydown: () => {
+                    if (!_controlledRef.current) return ;
+                    context._onSwitch('next')
+                }
+            })
+        }
 
         const context = {
             symbol,
