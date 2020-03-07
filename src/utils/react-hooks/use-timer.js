@@ -14,7 +14,14 @@ export function useTimeout (callback, time) {
 };
 
 export function useInterval(callback, interval) {
-  const savedCallback = React.useRef();
+  const savedCallback = React.useRef(null);
+  const timerRef = React.useRef(null)
+  const cleanIdRef = () => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current)
+      timerRef.current = null
+    }
+  }
 
   React.useEffect(() => {
     savedCallback.current = callback;
@@ -22,10 +29,12 @@ export function useInterval(callback, interval) {
 
   React.useEffect(() => {
     const tick = () => {
-      savedCallback.current();
+      if (typeof savedCallback.current === 'function')
+        savedCallback.current();
     }
     if (interval !== null) {
-      const id = setInterval(tick, interval);
+      cleanIdRef()
+      const id = timerRef.current = setInterval(tick, interval);
       return () => clearInterval(id);
     }
   }, [interval]);

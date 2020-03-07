@@ -93,7 +93,7 @@ const Sample = () => {
 
   return (
     <>
-      <Carousel id="carouselExampleControls">
+      <Carousel id="carouselExampleControls" interval={3000}>
         {slides.map((slide, idx) => {
           return (
             <Carousel.Item>
@@ -138,7 +138,7 @@ const Sample = () => {
 
   return (
     <>
-      <Carousel id="carouselExampleIndicators">
+      <Carousel id="carouselExampleIndicators" ride="carousel">
         <Carousel.Indicators />
         {slides.map((slide, idx) => {
           return (
@@ -196,7 +196,7 @@ const Sample = () => {
 
   return (
     <>
-      <Carousel id="carouselExampleCaptions">
+      <Carousel id="carouselExampleCaptions" ride="carousel">
         <Carousel.Indicators />
         {slides.map((slide, idx) => {
           return (
@@ -235,30 +235,18 @@ const Sample = () => {
   const slides = [
     {
       label: 'First slide',
-      caption: {
-        title: 'First slide label',
-        text: 'Nulla vitae elit libero, a pharetra augue mollis interdum.',
-      }
     },
     {
       label: 'Second slide',
-      caption: {
-        title: 'Second slide label',
-        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      }
     },
     {
       label: 'Third slide',
-      caption: {
-        title: 'Third slide label',
-        text: 'Praesent commodo cursus magna, vel scelerisque nisl consectetur.',
-      }
     },
   ]
 
   return (
     <>
-      <Carousel id="carouselExampleFade" crossFade>
+      <Carousel id="carouselExampleFade" crossFade ride="carousel">
         {slides.map((slide, idx) => {
           return (
             <Carousel.Item>
@@ -287,31 +275,52 @@ const Sample = () => {
 
 Add `data-interval=""` to a `.carousel-item` to change the amount of time to delay between automatically cycling to the next item.
 
-{% capture example %}
-<div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active" data-interval="10000">
-      {% include icons/placeholder.svg width="800" height="400" class="bd-placeholder-img-lg d-block w-100" color="#555" background="#777" text="First slide" %}
-    </div>
-    <div class="carousel-item" data-interval="2000">
-      {% include icons/placeholder.svg width="800" height="400" class="bd-placeholder-img-lg d-block w-100" color="#444" background="#666" text="Second slide" %}
-    </div>
-    <div class="carousel-item">
-      {% include icons/placeholder.svg width="800" height="400" class="bd-placeholder-img-lg d-block w-100" color="#333" background="#555" text="Third slide" %}
-    </div>
-  </div>
-  <a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carouselExampleInterval" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  const slides = [
+    {
+      label: 'First slide',
+      interval: 10000,
+    },
+    {
+      label: 'Second slide',
+      interval: 2000,
+    },
+    {
+      label: 'Third slide',
+    },
+  ]
 
+  return (
+    <>
+      <Carousel id="carouselExampleInterval" ride="carousel">
+        {slides.map((slide, idx) => {
+          const interval = slide.interval // 5000 - (idx + 1) * 1000
+          return (
+            <Carousel.Item interval={interval}>
+              <Carousel.PlaceholderImage
+                size="lg"
+                class="d-block w-100"
+                width={800}
+                height={400}
+                rectProps={{ fill: `#${777 - idx * 111}` }}
+                textProps={{ fill: `#${555 - idx * 111}` }}
+                label={slide.label}
+              />
+              <Carousel.Caption class="d-none d-md-block">
+                <h5>Interval: {interval}</h5>
+              </Carousel.Caption>
+            </Carousel.Item>
+          )
+        })}
+        <Carousel.Control prev />
+        <Carousel.Control next />
+      </Carousel>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Usage
 

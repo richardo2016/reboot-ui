@@ -11,6 +11,7 @@ import { filterPlaceholderSize } from '../common-utils';
 import Anchor from '../_helpers/anchor';
 import { coerceInteger } from '../../../../utils/coerce';
 import { arraify, flatten } from '../../../../utils/array';
+import { useInterval } from '../../../../utils/react-hooks/use-timer';
 
 const RUNTIME_TOKEN = Date.now()
 const useToken = (str) => `${RUNTIME_TOKEN}_${str}`
@@ -50,6 +51,51 @@ const useIndexInfo = (initIdx = 0) => {
 
     return [lastIndexRef, indexRef, update]
 }
+
+const usePauseOnHover = (pauseMode) => {
+    const [ , setPause ] = React.useState(false)
+    const pauseRef = React.useRef(null)
+
+    const onMouseEnter = React.useCallback(() => {
+        if (pauseMode === 'hover')
+            setPause(pauseRef.current = true)
+    }, [pauseMode])
+    
+    const onMouseLeave = React.useCallback(() => {
+        if (pauseMode === 'hover')
+            setPause(pauseRef.current = false)
+    }, [pauseMode])
+
+    return [pauseRef, onMouseEnter, onMouseLeave]
+}
+
+const useStartAutoplay = (rideMode) => {
+    const [, setStartAutoplay] = React.useState(false)
+    // if rideMode === 'carousel, autoplay on load 
+    const ref = React.useRef(isAutoplayOnLoad(rideMode))
+
+    const onUserManulSwitched = React.useCallback(() => {
+        setStartAutoplay(ref.current = true)
+    }, [rideMode])
+
+    return [ref, onUserManulSwitched]
+}
+
+const useCarouseInterval = (_itv = DFLT_INTERVAL) => {
+    const [, setInterval] = React.useState(_itv)
+    const ref = React.useRef(_itv)
+
+    const update = React.useCallback((new_itv) => {
+        // ref.current = new_itv
+        setInterval(ref.current = new_itv)
+    }, [])
+
+    return [ref, update]
+}
+
+const DFLT_INTERVAL = 5000
+
+const isAutoplayOnLoad = (rideMode) => rideMode === 'carousel'
 /**
  * @see https://getbootstrap.com/docs/4.4/components/carousel
  * 
@@ -67,26 +113,25 @@ const Carousel = React.forwardRef(
          */
         innerLess = false,
         /**
-         * @WIP
          * @description if set hover, pause on mouse enter carousel and resume on mouse leave carousel
          * 
          * @enum 'hover'
          * 
          * @default 'hover'
          */
-        pause = 'hover',
+        pause: pauseMode = 'hover',
         /**
-         * @WIP
          * 
          * @enum carousel - autoplay on load
          * @enum (default) - autoplay after user's first manul switch
          */
-        ride,
+        ride: rideMode,
         /**
-         * @WIP
          * @description the interval at which the carousel automatically cycles
+         * 
+         * @default null
          */
-        interval = 5000,
+        interval = isAutoplayOnLoad(rideMode) ? DFLT_INTERVAL : null,
         /**
          * @WIP
          * @description whether the left-arrow and right-arrow keys could control the carousel
@@ -107,25 +152,83 @@ const Carousel = React.forwardRef(
 
         const switchActiveIdx = React.useCallback((nextIdx) => {
             nextIdx = coerceInteger(nextIdx, 0)
-            nextIdx = Math.max(nextIdx, 0)
 
-            nextIdx = Math.min(nextIdx, slidesRef.current.length - 1)
+            if (nextIdx > slidesRef.current.length - 1)
+                nextIdx = 0
+            else if (nextIdx < 0)
+                nextIdx = slidesRef.current.length - 1
+            else
+                nextIdx = Math.min(nextIdx, slidesRef.current.length - 1)
 
             setCurrentIdx(nextIdx)
         }, [])
 
+        const [pauseRef, onMouseEnter, onMouseLeave] = usePauseOnHover(pauseMode)
+        const [startedAutoplayRef, startAutoplay] = useStartAutoplay(rideMode)
+
+        interval = coerceInteger(interval, 0)
+
         const dirOffset = lastIndexRef.current - currentIdxRef.current
         const switchType = (() => {
-            if (dirOffset > 0) return SWICH_TYPES.FROM_RIGHT_TO_LEFT
-            if (dirOffset < 0) return SWICH_TYPES.FROM_LEFT_TO_RIGHT
-
+            const itemsOffset = slidesRef.current.length - 1
             if (dirOffset === 0) return SWICH_TYPES.NONE
+
+            if ((dirOffset > 0))
+                // over most right slide
+                if (dirOffset >= itemsOffset)
+                    return SWICH_TYPES.FROM_LEFT_TO_RIGHT
+                else
+                    return SWICH_TYPES.FROM_RIGHT_TO_LEFT
+            if (dirOffset < 0)
+                // over most left slide
+                if (Math.abs(dirOffset) >= itemsOffset)
+                    return SWICH_TYPES.FROM_RIGHT_TO_LEFT
+                else
+                    return SWICH_TYPES.FROM_LEFT_TO_RIGHT
         })()
+
+        const [intervalRef, updateInterval] = useCarouseInterval(interval)
+        useInterval(() => {
+            if (!intervalRef.current) return ;
+            const playInfo = context.getPlayInfo()
+
+            if (playInfo.paused) return ;
+            if (!playInfo.startedAutoplay) return ;
+
+            context._onSwitch(playInfo.currentIndex + 1);
+        }, intervalRef.current)
+        // update interval(from item) on slide changed
+        React.useEffect(() => {
+            const currentSlide = context.getPlayInfo('currentSlide')
+
+            if (!currentSlide) return 
+            const nextInterval = coerceInteger(currentSlide.interval, intervalRef.current)
+            if (nextInterval !== intervalRef.current)
+                updateInterval(nextInterval)
+        }, [currentIdxRef.current])
 
         const context = {
             symbol,
             switchType,
+            itemDefaultInterval: coerceInteger(interval, 0),
             slides: slidesRef.current,
+            getPlayInfo (key) {
+                const info = {
+                    currentSlide: context.slides[currentIdxRef.current],
+                    currentIndex: currentIdxRef.current,
+                    pause: pauseRef.current,
+                    startedAutoplay: startedAutoplayRef.current,
+                }
+                switch (key) {
+                    case 'currentSlide':
+                    case 'currentIndex':
+                    case 'paused':
+                    case 'startedAutoplay':
+                        return info[key];
+                    default:
+                        return info
+                }
+            },
             _isLast: (slideIndexRef) => {
                 return slideIndexRef.current === lastIndexRef.current
             },
@@ -146,8 +249,10 @@ const Carousel = React.forwardRef(
                     (tState === TransitionStates.ENTERED || tState === TransitionStates.EXITING) && 'active',
                 ]
             },
-            _onClickControl: (controlType) => {
-                switch (controlType) {
+            _onSwitch: (nextIdx) => {
+                if (!startedAutoplayRef.current) startAutoplay()
+
+                switch (nextIdx) {
                     case 'prev':
                         switchActiveIdx(currentIdxRef.current - 1)
                         break
@@ -155,13 +260,14 @@ const Carousel = React.forwardRef(
                         switchActiveIdx(currentIdxRef.current + 1)
                         break
                     default:
+                        if (typeof nextIdx === 'number') {
+                            switchActiveIdx(nextIdx)
+                            break
+                        }
                         throw new Error(`unexpected controlType! contact with author of reboot-ui!`)
                 }
             },
-            _onClickIndicator: (indicatorIdx) => {
-                switchActiveIdx(indicatorIdx)
-            },
-            _addSlide: ({ ref, itemIndexRef } = {}, idx) => {
+            _addSlide: ({ ref, interval, itemIndexRef } = {}, idx) => {
                 const slides = slidesRef.current
                 idx = coerceInteger(idx, slides.length)
 
@@ -170,7 +276,7 @@ const Carousel = React.forwardRef(
 
                 itemIndexRef.current = idx
 
-                const newSlide = { ref, itemIndexRef }
+                const newSlide = { ref, interval, itemIndexRef }
                 const _slides = slides.slice(0, idx).concat(newSlide)
                     .concat(slides.slice(idx + 1))
                 setSlides(_slides)
@@ -228,8 +334,16 @@ const Carousel = React.forwardRef(
                         slide && `slide`,
                         crossFade && `carousel-fade`,
                     ])}
-                    {...ride && {
-                        'data-ride': ride
+                    {...rideMode && {
+                        'data-ride': rideMode
+                    }}
+                    onMouseEnter={(nativeEvent) => {
+                        onMouseEnter()
+                        typeof props.onMouseEnter === 'function' && props.onMouseEnter(nativeEvent)
+                    }}
+                    onMouseLeave={(nativeEvent) => {
+                        onMouseLeave()
+                        typeof props.onMouseLeave === 'function' && props.onMouseLeave(nativeEvent)
                     }}
                     ref={ref}
                 >
@@ -287,7 +401,7 @@ const CarouselIndicator = function ({
                 active && `active`
             ])}
             onClick={() => {
-                carouselCtx._onClickIndicator($indicatorIndex)
+                carouselCtx._onSwitch($indicatorIndex)
             }}
         >
             {children}
@@ -350,7 +464,6 @@ Carousel.Item = React.forwardRef(
         children,
         as: _as = 'div',
         /**
-         * @WIP
          * @description individual interval for this carousel item
          */
         interval,
@@ -368,16 +481,20 @@ Carousel.Item = React.forwardRef(
         const carouselCtx = tryUseContext(CarouselContext)
         if (carouselCtx.symbol !== symbol)
             throw new Error(`[Carousel.Control] Carousel.Control must be put under Carousel!`)
-        
-        const active = carouselCtx._isCurrent(itemIndexRef)
 
+        const active = carouselCtx._isCurrent(itemIndexRef)
+        if (interval === undefined) interval = coerceInteger(carouselCtx.itemDefaultInterval, 0)
+        else if (typeof interval !== null) interval = coerceInteger(interval, null)
+
+        // register item to carousel
         React.useEffect(() => {
-            const slide = carouselCtx._addSlide({ ref, itemIndexRef })
+            const slide = carouselCtx._addSlide({ ref, interval, itemIndexRef })
     
             return () => {
                 carouselCtx._removeSlide(slide)
             }
-        }, [])
+        }, [interval])
+        
     
         return (
             <Transition
@@ -462,7 +579,7 @@ Carousel.Control = function ({
             role="button"
             data-slide={controlType}
             onClick={() => {
-                carouselCtx._onClickControl(controlType)
+                carouselCtx._onSwitch(controlType)
             }}
         >
             <span class={`carousel-control-${controlType}-icon`} aria-hidden="true"></span>
