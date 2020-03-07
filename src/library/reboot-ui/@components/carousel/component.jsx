@@ -100,13 +100,19 @@ const useKeyboard = (latestValue) => {
     return ref
 }
 
+const useFreezingAnimation = (value = false) => {
+    const ref = React.useRef(value)
+    const toggle = (nextValue = !ref.current) => {
+        ref.current = nextValue
+    }
+    return [ref, toggle]
+}
+
 const DFLT_INTERVAL = 5000
 
 const isAutoplayOnLoad = (rideMode) => rideMode === 'carousel'
 /**
  * @see https://getbootstrap.com/docs/4.4/components/carousel
- * 
- * @WIP disable switch when animating
  * 
  * @inner-content `.carousel`
  * @inner-content `.carousel-inner`
@@ -142,7 +148,6 @@ const Carousel = React.forwardRef(
          */
         interval = isAutoplayOnLoad(rideMode) ? DFLT_INTERVAL : null,
         /**
-         * @WIP
          * @description whether the left-arrow and right-arrow keys could control the carousel
          */
         keyboard: controlledByKeyborad = false,
@@ -159,7 +164,10 @@ const Carousel = React.forwardRef(
         const [slidesRef, setSlides] = useSlides()
         const [lastIndexRef, currentIdxRef, setCurrentIdx] = useIndexInfo()
 
+        const [freezingSwitchRef, setFreezingSwitch] = useFreezingAnimation(false)
         const switchActiveIdx = React.useCallback((nextIdx) => {
+            if (freezingSwitchRef.current) return ;
+
             nextIdx = coerceInteger(nextIdx, 0)
 
             if (nextIdx > slidesRef.current.length - 1)
@@ -170,7 +178,7 @@ const Carousel = React.forwardRef(
                 nextIdx = Math.min(nextIdx, slidesRef.current.length - 1)
 
             setCurrentIdx(nextIdx)
-        }, [])
+        }, [switchActiveIdx])
 
         const [pauseRef, onMouseEnter, onMouseLeave] = usePauseOnHover(pauseMode)
         const [startedAutoplayRef, startAutoplay] = useStartAutoplay(rideMode)
@@ -232,7 +240,7 @@ const Carousel = React.forwardRef(
                 }
             })
         }
-
+        
         const context = {
             symbol,
             switchType,
@@ -292,6 +300,9 @@ const Carousel = React.forwardRef(
                         }
                         throw new Error(`unexpected controlType! contact with author of reboot-ui!`)
                 }
+            },
+            _toggleFreezingSlide: (nextFreeing = false) => {
+                setFreezingSwitch(nextFreeing)
             },
             _addSlide: ({ ref, interval, itemIndexRef } = {}, idx) => {
                 const slides = slidesRef.current
@@ -498,15 +509,16 @@ Carousel.Item = React.forwardRef(
     }, ref) {
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
-        const [startAnimationRef, setStartAnimation] = useStartAnimation(false)
-
-        ref = ref || React.useRef(null)
-
         const itemIndexRef = React.useRef($itemIndex)
     
         const carouselCtx = tryUseContext(CarouselContext)
         if (carouselCtx.symbol !== symbol)
             throw new Error(`[Carousel.Control] Carousel.Control must be put under Carousel!`)
+
+        const [startAnimationRef, setStartAnimation] = useStartAnimation(false)
+        // React.useEffect(() => {
+        //     carouselCtx._toggleFreezingSlide(startAnimationRef.current)
+        // }, [startAnimationRef.current])
 
         const active = carouselCtx._isCurrent(itemIndexRef)
         if (interval === undefined) interval = coerceInteger(carouselCtx.itemDefaultInterval, 0)
@@ -550,9 +562,11 @@ Carousel.Item = React.forwardRef(
                 }}
                 onExiting={(node) => {
                   setStartAnimation(true)
+                  carouselCtx._toggleFreezingSlide(true)
                   typeof props.onExiting === 'function' && props.onExiting(node);
                 }}
                 onExited={(node) => {
+                    carouselCtx._toggleFreezingSlide(false)
                   typeof props.onExited === 'function' && props.onExited(node);
                 }}
             >
