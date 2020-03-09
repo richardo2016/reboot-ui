@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 
-export const getAllComponents = (COM_ROOT) => {
+exports.getAllComponents = (COM_ROOT) => {
     return fs.readdirSync( COM_ROOT )
         .filter(name => {
             // all base components must existed

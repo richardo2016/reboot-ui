@@ -5,6 +5,8 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production rollup -c",
     "build:packages": "cross-env NODE_ENV=production rollup -c rollup.packages.config.js",
+    "update-src": "node ./scripts/fresh-components.js",
+    "es:test": "npm run build:packages && npm run test",
     "dev-build": "cross-env NODE_ENV=developement rollup -c",
     "watch": "cross-env ROLLUP_WATCH=true rollup -c -w",
     "prepublishOnly": "npm run build",
@@ -28,6 +30,7 @@
   "dependencies": {
     "@popperjs/core": "^2.0.6",
     "classnames": "^2.2.6",
+    "core-js": "^3.6.4",
     "date-fns": "^1.28.5",
     "history": "^4.10.1",
     "preact": "^10.3.2",
@@ -38,9 +41,11 @@
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
+    "@babel/plugin-transform-runtime": "^7.8.3",
     "@babel/plugin-transform-spread": "^7.8.3",
     "@babel/preset-env": "^7.8.4",
     "@babel/preset-react": "^7.8.3",
+    "@babel/runtime-corejs3": "^7.8.7",
     "@reboot-ui/liquidjs": "^9.7.0",
     "@rollup/plugin-alias": "^3.0.1",
     "@rollup/plugin-buble": "^0.21.1",

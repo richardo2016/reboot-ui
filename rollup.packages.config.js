@@ -11,8 +11,8 @@ const uglifyName = uglify().name
 const postcssName = postcss().name
 
 import { getConfigItem } from './rollup-fn.js'
-import { getAllComponents } from './rollup-utils/build.js';
 
+const { getAllComponents } = require('./rollup-utils/build.js')
 const UI_ROOT = path.resolve(__dirname, './src/library/reboot-ui')
 const COM_ROOT = path.resolve(UI_ROOT, '@components')
 const allComponentNames = getAllComponents(COM_ROOT)
@@ -110,6 +110,35 @@ allComponentNames.forEach(name => {
             mvvm_type: 'react',
             app_type: 'library/reboot-ui/@components',
             babel_options: {
+                runtimeHelpers: true,
+                presets: [
+					[ '@babel/preset-env', {
+                        // useBuiltIns: 'usage',
+                        // corejs: 3,
+                        loose: true,
+                        targets: {
+                            "browsers": [
+                                "last 2 versions",
+                                {
+                                    "chrome": "49",
+                                    "edge": "13",
+                                    "firefox": "36",
+                                    "safari": "10",
+                                    "ios": "10",
+                                    "samsung": "5",
+                                    "opera": "36",
+                                    "electron": "1"
+                                }
+                            ]
+                        },
+                        exclude: [
+                        ]
+					} ],
+					[ '@babel/preset-react', {
+                    }]
+                ],
+                plugins: [
+                ]
             },
             postcss_options: {
                 minimize: false,
