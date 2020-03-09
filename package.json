@@ -4,6 +4,7 @@
   "description": "one lightweight javascript library starter based on rollup",
   "scripts": {
     "build": "cross-env NODE_ENV=production rollup -c",
+    "build:packages": "cross-env NODE_ENV=production rollup -c rollup.packages.config.js",
     "dev-build": "cross-env NODE_ENV=developement rollup -c",
     "watch": "cross-env ROLLUP_WATCH=true rollup -c -w",
     "prepublishOnly": "npm run build",
