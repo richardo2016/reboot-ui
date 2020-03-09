@@ -1,7 +1,6 @@
 import React from 'react'
 
-import { resolveJSXElement } from '../../utils/ui'
-import { rclassnames } from '../../../../utils/react-like';
+import { resolveJSXElement, rclassnames } from '../common';
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/jumbotron/#supported-content

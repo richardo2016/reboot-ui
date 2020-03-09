@@ -1,17 +1,15 @@
 import React from 'react'
-
 import classnames from 'classnames'
+import { Transition } from 'react-transition-group';
 
-import { resolveJSXElement } from '../../utils/ui'
-import { parsePlacement } from '../../utils/popper'
+import { TransitionTimeouts, resolveJSXElement } from '../common';
 import { rclassnames, tryUseContext } from '../../../../utils/react-like'
 
-import {DropdownMenu, DropdownItem} from './others';
+import { DropdownMenu, DropdownItem } from './others';
 import Button from '../../@components/button/component';
-import { useFixupPopoverToken } from '../_utils/popper';
+import { parsePlacement } from '../common/popper'
+import { useFixupPopoverToken } from '../common/popper';
 import Popper from '../_helpers/popper';
-import { Transition } from 'react-transition-group';
-import { TransitionTimeouts } from '../common';
 
 const DropdownCtx = React.createContext({})
 

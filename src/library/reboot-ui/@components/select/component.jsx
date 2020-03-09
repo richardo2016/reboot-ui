@@ -1,9 +1,6 @@
-
 import React from 'react'
 
-import { resolveJSXElement } from '../../utils/ui'
-import { rclassnames, isReactTypeOf } from '../../../../utils/react-like';
-import { arraify } from '../../../../utils/array';
+import { resolveJSXElement, rclassnames, arraify, isReactTypeOf } from '../common';
 
 const Select = function ({
     children,

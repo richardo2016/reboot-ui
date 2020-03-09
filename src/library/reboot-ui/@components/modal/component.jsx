@@ -2,11 +2,10 @@ import React from 'react'
 
 import { Transition } from 'react-transition-group';
 
-import { resolveJSXElement, toggleCls } from '../../utils/ui'
-import { rclassnames, tryUseContext } from '../../../../utils/react-like';
-import { TransitionTimeouts } from '../common';
-import { coerceInteger } from '../../../../utils/coerce';
-import useClickaway from '../../../../utils/react-hooks/use-clickaway';
+import { resolveJSXElement, toggleCls } from '../common'
+import { rclassnames, tryUseContext } from '../common'
+import { TransitionTimeouts } from '../common'
+import { coerceInteger, useClickaway } from '../common'
 
 function noop() {}
 

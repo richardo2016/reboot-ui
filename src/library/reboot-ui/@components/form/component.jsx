@@ -1,7 +1,6 @@
 import React from 'react'
 
-import { resolveJSXElement } from '../../utils/ui'
-import { rclassnames, tryUseContext } from '../../../../utils/react-like';
+import { resolveJSXElement, rclassnames, tryUseContext } from '../common';
 
 import { FormContext, FormControlContext, FormGroupContext } from './context'
 import { Col } from '../layout-grid/component';

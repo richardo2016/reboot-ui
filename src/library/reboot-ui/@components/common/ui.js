@@ -1,6 +1,6 @@
 import React from 'react'
-import { coerceInteger } from '../../../utils/coerce'
-import { arraify } from '../../../utils/array'
+import { coerceInteger } from './_base'
+import { arraify } from './_base'
 
 const VALID_RESPONSIVE_BRKPOINT = [
     'sm',

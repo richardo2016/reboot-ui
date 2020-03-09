@@ -1,5 +1,4 @@
 import '../../utils/preact-helpers/preact-compat-patch'
-
 import React from 'react'
 import Router, { route } from 'preact-router';
 import Match, { Link } from 'preact-router/match';

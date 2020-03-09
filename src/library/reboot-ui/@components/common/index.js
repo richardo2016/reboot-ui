@@ -1,21 +1,26 @@
 import json from '../../@data/data.json'
 
+export {
+    getOffsetAboutClsNameListFromBreakPointConfig,
+    resolveJSXElement,
+    getDivisionAboutClsNameListFromBreakPointConfig,
+    toggleCls
+} from './ui'
 export { getHTMLElementFromJSXElement } from '../../../../utils/react-like'
 export { isReactTypeOf } from '../../../../utils/react-like'
 export { parseChildrenProp } from '../../../../utils/react-like'
-export { resolveJSXElement } from "../../utils/ui"
 export { rclassnames, tryUseContext } from "../../../../utils/react-like"
-export { useFixupPopoverToken } from '../_utils/popper'
-export { createPopup } from '../_utils/popper'
-export { filterPopperTrigger } from '../_utils/popper'
+export { useFixupPopoverToken } from './popper'
+export { createPopup } from './popper'
+export { filterPopperTrigger } from './popper'
 export { default as useClickaway } from '../../../../utils/react-hooks/use-clickaway'
 export { default as useHoveraway } from '../../../../utils/react-hooks/use-hoveraway'
 export { default as useKeyPress } from '../../../../utils/react-hooks/use-keypress'
 export { useInterval } from '../../../../utils/react-hooks/use-timer'
-export { filterPlacement } from '../../utils/popper'
-export { parsePlacement } from '../../utils/popper'
-export { flatten, arraify } from '../../../../utils/array'
-export { coerceInteger, coerceFloat } from '../../../../utils/coerce'
+export { filterPlacement } from './popper'
+export { parsePlacement } from './popper'
+export { flatten, arraify } from './_base'
+export { coerceInteger, coerceFloat } from './_base'
 
 export const themes = json['theme-colors'].map(theme => theme.name)
 

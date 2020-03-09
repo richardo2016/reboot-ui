@@ -1,5 +1,4 @@
-// component.test.js
-import React from 'react';
+// component.test.jsimport React from 'react';
 import Button from './component';
 import renderer from 'react-test-renderer';
 

@@ -1,12 +1,13 @@
 import React from 'react'
 
-import { resolveJSXElement } from '../../utils/ui'
-import Popper from '../_helpers/popper';
-import { rclassnames, tryUseContext, isReactTypeOf, parseChildrenProp } from '../../../../utils/react-like';
-import { parsePlacement } from '../../utils/popper';
-import { TransitionTimeouts } from '../common';
-import { useFixupPopoverToken } from '../_utils/popper';
 import { Transition } from 'react-transition-group';
+
+import { resolveJSXElement } from '../common';
+import Popper from '../_helpers/popper';
+import { rclassnames, tryUseContext, isReactTypeOf, parseChildrenProp } from '../common';
+import { parsePlacement } from '../common';
+import { TransitionTimeouts } from '../common';
+import { useFixupPopoverToken } from '../common';
 
 const TooltipContext = React.createContext({
     fromOptions: {},

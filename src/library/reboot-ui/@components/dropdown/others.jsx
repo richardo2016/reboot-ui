@@ -1,7 +1,8 @@
 import React from 'react'
 
-import { resolveJSXElement, getDirectionAboutClsNameListFromBreakPointConfig } from '../../utils/ui'
-import { rclassnames } from '../../../../utils/react-like';
+import { resolveJSXElement } from '../common'
+import { rclassnames } from '../common'
+import { getDirectionAboutClsNameListFromBreakPointConfig } from '../common/ui'
 
 export const DropdownItem = React.forwardRef(function ({
     children,

@@ -1,12 +1,10 @@
 import React from 'react'
 import { Transition } from 'react-transition-group';
 
-import { resolveJSXElement, getHTMLAttributesFromProps } from '../../utils/ui'
-import { isReactTypeOf, getHTMLElementFromJSXElement, parseChildrenProp, rclassnames } from '../../../../utils/react-like'
+import { isReactTypeOf, parseChildrenProp, rclassnames } from '../../../../utils/react-like'
 import useSelectorsListener from '../../../../utils/react-hooks/use-selectors-listener'
-import { arraify } from '../../../../utils/array';
 import useDefaultValue from '../../../../utils/react-hooks/use-default-value';
-import { TransitionTimeouts } from '../common';
+import { TransitionTimeouts, resolveJSXElement } from '../common';
 
 function getTransitionClass(status) {
     return transtionClasses[status] || 'collapse';

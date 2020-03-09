@@ -1,10 +1,11 @@
 import React from 'react'
 
-import { resolveJSXElement } from '../../utils/ui'
+import Dropdown from '../../@components/dropdown/component';
+
 import { rclassnames, isReactTypeOf } from '../../../../utils/react-like';
 import { flatten2trimedStrList } from '../../../../utils/string';
 import { arraify } from '../../../../utils/array';
-import Dropdown from '../../@components/dropdown/component';
+import { resolveJSXElement } from '../common';
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/nav/#supported-content

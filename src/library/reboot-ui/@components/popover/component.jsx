@@ -1,13 +1,13 @@
 import React from 'react'
 
-import { resolveJSXElement } from '../../utils/ui'
-import Popper from '../_helpers/popper';
-import { rclassnames, tryUseContext } from '../../../../utils/react-like';
-import { parsePlacement } from '../../utils/popper';
-import { coerceInteger } from '../../../../utils/coerce';
-import { TransitionTimeouts } from '../common';
-import { useFixupPopoverToken } from '../_utils/popper';
 import { Transition } from 'react-transition-group';
+import Popper from '../_helpers/popper';
+
+import { resolveJSXElement, rclassnames, tryUseContext } from '../common';
+import { parsePlacement } from '../common';
+import { coerceInteger } from '../common';
+import { TransitionTimeouts } from '../common';
+import { useFixupPopoverToken } from '../common';
 
 const PopverContext = React.createContext({
     arrowRef: null,

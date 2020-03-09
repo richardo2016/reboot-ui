@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { getOffsetAboutClsNameListFromBreakPointConfig, resolveJSXElement, getDivisionAboutClsNameListFromBreakPointConfig } from '../../utils/ui'
+import { getOffsetAboutClsNameListFromBreakPointConfig, resolveJSXElement, getDivisionAboutClsNameListFromBreakPointConfig } from '../common'
 import { rclassnames } from '../../../../utils/react-like'
 
 export const Container = ({
