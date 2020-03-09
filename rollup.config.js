@@ -153,8 +153,8 @@ function getConfigItem (name, opts) {
 						'react-dom': path.resolve(__dirname,  './node_modules/preact/hooks/dist/hooks.module.js'),
 					},
 					...(!['compat', 'hooks'].includes(preact_options.compat_mode)) && {
-						'react': path.resolve(__dirname,  './node_modules/preact/dist/preact.module.js'),
-						'react-dom': path.resolve(__dirname,  './node_modules/preact/dist/preact.module.js'),
+						'react': path.resolve(__dirname,  './node_modules/preact/dist/preact.js'),
+						'react-dom': path.resolve(__dirname,  './node_modules/preact/dist/preact.js'),
 					},
 					'preact/hooks': path.resolve(__dirname, './node_modules/preact/hooks/dist/hooks.js'),
 					'preact/compat': path.resolve(__dirname, './node_modules/preact/compat/dist/compat.js'),
