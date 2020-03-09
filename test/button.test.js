@@ -1,8 +1,8 @@
-// component.test.jsimport React from 'react';
-import Button from './component';
-import renderer from 'react-test-renderer';
+import React from 'react';
+import Button from '../es/button';
+import { themes } from '../es/common'
 
-import { themes } from '../../@components/common'
+import renderer from 'react-test-renderer';
 
 const btnSizes = ['sm', 'lg']
 
@@ -56,7 +56,7 @@ test('Button - (prop: size)', () => {
 test('Button - (prop: outline)', () => {
     themes.forEach(theme => {
         const component = renderer.create(
-            <Button outline type={theme}>Reboot UI</Button>,
+            <Button outline theme={theme}>Reboot UI</Button>,
         );
     
         let button = component.toJSON();

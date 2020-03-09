@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Transition } from 'react-transition-group';
-import Popper from '../_helpers/popper';
+import Popper from '../helper-popper/helper-popper';
 
 import { resolveJSXElement, rclassnames, tryUseContext } from '../common';
 import { parsePlacement } from '../common';

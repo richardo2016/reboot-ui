@@ -22,3 +22,4 @@ package-lock.json
 /bootstrap-*
 es
 lib
+__snapshots__

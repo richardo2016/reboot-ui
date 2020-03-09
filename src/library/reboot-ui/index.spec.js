@@ -9,7 +9,7 @@ const RebootUI = require(path.resolve(ROOT, pkg.browser))
 const React = require('react')
 const ReactDOM = require('react-dom')
 
-describe('RebootUI', () => {
+describe.skip('RebootUI', () => {
     it('RebootUI - components', () => {
         expect(
             Object.keys(RebootUI)

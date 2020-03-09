@@ -5,15 +5,9 @@ const shelljs = require('shelljs')
 
 const UI_ROOT = path.resolve(__dirname, '../src/library/reboot-ui')
 const COM_ROOT = path.resolve(UI_ROOT, '@components')
-const allComponentNames = fs.readdirSync( COM_ROOT )
-    .filter(name => {
-        if (name === 'common') return false
-        if (name === 'style') return false
-        if (name.startsWith('_')) return false
-        if (!fs.statSync(path.join(COM_ROOT, name)).isDirectory()) return false
 
-        return true
-    })
+const { getAllComponents } = require('../rollup-utils/build')
+const allComponentNames = getAllComponents(COM_ROOT)
 
 console.log('allComponentNames', allComponentNames);
 

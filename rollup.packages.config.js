@@ -11,18 +11,11 @@ const uglifyName = uglify().name
 const postcssName = postcss().name
 
 import { getConfigItem } from './rollup-fn.js'
+import { getAllComponents } from './rollup-utils/build.js';
 
 const UI_ROOT = path.resolve(__dirname, './src/library/reboot-ui')
 const COM_ROOT = path.resolve(UI_ROOT, '@components')
-const allComponentNames = fs.readdirSync( COM_ROOT )
-    .filter(name => {
-        if (name === 'common') return false
-        if (name === 'style') return false
-        if (name.startsWith('_')) return false
-        if (!fs.statSync(path.join(COM_ROOT, name)).isDirectory()) return false
-
-        return true
-    })
+const allComponentNames = getAllComponents(COM_ROOT)
 
 function capitalize (str) {
     return str[0].toUpperCase() + str.slice(1).toLowerCase()
@@ -46,7 +39,13 @@ function getPostConfig (com_name, target = 'es') {
             break;
     }
     return (rollup_cfg) => {
-        rollup_cfg.output.file = `${dest_base}/${com_name}/index.js`
+        if (!fs.existsSync(rollup_cfg.input)) {
+            rollup_cfg.input = rollup_cfg.input.replace('index.js', `${com_name}.jsx`)
+            rollup_cfg.output.file = `${dest_base}/${com_name}/${com_name}.js`
+        } else {
+            rollup_cfg.output.file = `${dest_base}/${com_name}/index.js`
+        }
+
         /**
          * @enum 'es' for es
          * @enum 'cjs' for lib
@@ -55,25 +54,6 @@ function getPostConfig (com_name, target = 'es') {
         rollup_cfg.output.sourcemap = false
         
         rollup_cfg.plugins = rollup_cfg.plugins.filter(item => item.name !== uglifyName)
-
-        if (target === 'es') {
-            // rollup_cfg.plugins = rollup_cfg.plugins.filter(item => item.name !== postcssName)
-            rollup_cfg.plugins.unshift(
-                copyGlob([
-                    {
-                        files: path.resolve(COM_ROOT, `./${com_name}/${com_name}.scss`),
-                        dest: `${dest_base}/style`
-                    },
-                ]),
-                // @notice: repeative, but no matter
-                copyGlob([
-                    {
-                        files: path.resolve(COM_ROOT, `./style/**/*.scss`),
-                        dest: `${dest_base}/style`
-                    },
-                ])
-            )
-        }
 
         rollup_cfg.external = [
             'react',
@@ -90,9 +70,33 @@ function getPostConfig (com_name, target = 'es') {
             '@popperjs/core/lib/modifiers/arrow',
             '@popperjs/core/lib/modifiers/computeStyles',
             '@popperjs/core/lib/modifiers/applyStyles',
-        ].concat(
-            ...target === 'es' ? [ '../common' ] : []
-        )
+        ]
+
+        if (target === 'es') {
+            rollup_cfg.plugins.unshift(
+                copyGlob([
+                    {
+                        files: path.resolve(COM_ROOT, `./${com_name}/${com_name}.scss`),
+                        dest: `${dest_base}/style`
+                    },
+                ]),
+                // @notice: repeative, but no matter
+                copyGlob([
+                    {
+                        files: path.resolve(COM_ROOT, `./style/**/*.scss`),
+                        dest: `${dest_base}/style`
+                    },
+                ])
+            )
+            rollup_cfg.external = rollup_cfg.external
+                .concat(
+                    ['../common']
+                ).concat(
+                    allComponentNames
+                        .filter(com_name => com_name.startsWith('helper-'))
+                        .map(com_name => `../${com_name}/helper-anchor`)
+                )
+        }
     }
 }
 
@@ -106,17 +110,6 @@ allComponentNames.forEach(name => {
             mvvm_type: 'react',
             app_type: 'library/reboot-ui/@components',
             babel_options: {
-                presets: [
-                    // [
-                    //     "@babel/preset-env",
-                    //     {
-                    //       "targets": {
-                    //         "esmodules": true
-                    //       }
-                    //     }
-                    // ],
-                    // '@babel/preset-react'
-                ]
             },
             postcss_options: {
                 minimize: false,

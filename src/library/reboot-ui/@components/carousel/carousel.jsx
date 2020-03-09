@@ -2,8 +2,8 @@ import React from 'react'
 
 import { Transition } from 'react-transition-group';
 
-import Anchor from '../_helpers/anchor'
-import { PlaceholderImage } from '../_helpers/image'
+import Anchor from '../helper-anchor/helper-anchor'
+import { PlaceholderImage } from '../helper-image/helper-image'
 
 import { resolveJSXElement } from '../common'
 import { rclassnames, tryUseContext, isReactTypeOf } from '../common'
