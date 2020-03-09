@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { resolveJSXElement, rclassnames } from '../common';
-import Dropdown from '../dropdown/dropdown';
+import Dropdown from '../dropdown';
 
 const _PrependWrap = ({ children }) => (
     <div class="input-group-prepend">

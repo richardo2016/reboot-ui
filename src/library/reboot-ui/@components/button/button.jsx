@@ -3,7 +3,7 @@ import React from 'react'
 import { resolveJSXElement } from '../common'
 import { rclassnames } from '../common'
 
-import Anchor from '../helper-anchor/helper-anchor'
+import Anchor from '../helper-anchor'
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/button

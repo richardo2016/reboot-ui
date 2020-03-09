@@ -5,7 +5,7 @@ import { rclassnames } from '../common'
 import { headingTags } from '../common'
 import { filterThemeName } from '../common'
 
-import { PlaceholderImage } from '../helper-image/helper-image'
+import { PlaceholderImage } from '../helper-image'
 
 const CardContext = React.createContext({})
 

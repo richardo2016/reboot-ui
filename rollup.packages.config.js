@@ -39,11 +39,13 @@ function getPostConfig (com_name, target = 'es') {
             break;
     }
     return (rollup_cfg) => {
-        if (!fs.existsSync(rollup_cfg.input)) {
-            rollup_cfg.input = rollup_cfg.input.replace('index.js', `${com_name}.jsx`)
-            rollup_cfg.output.file = `${dest_base}/${com_name}/${com_name}.js`
-        } else {
-            rollup_cfg.output.file = `${dest_base}/${com_name}/index.js`
+
+        rollup_cfg.output.file = `${dest_base}/${com_name}/index.js`
+
+        if (target === 'lib') {
+            const newFile = rollup_cfg.input.replace('index.js', 'index.style.js')
+            if (fs.existsSync(path.resolve(__dirname, newFile)))
+                rollup_cfg.input = rollup_cfg.input.replace('index.js', 'index.style.js')
         }
 
         /**
@@ -93,8 +95,12 @@ function getPostConfig (com_name, target = 'es') {
                     ['../common']
                 ).concat(
                     allComponentNames
-                        .filter(com_name => com_name.startsWith('helper-'))
-                        .map(com_name => `../${com_name}/helper-anchor`)
+                        .filter(com_name => {
+                            if (com_name === 'style') return false
+                            if (com_name === 'common') return false
+                            return true;
+                        })
+                        .map(com_name => `../${com_name}/${com_name}`)
                 )
         }
     }

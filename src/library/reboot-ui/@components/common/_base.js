@@ -3,6 +3,7 @@ import { arraify } from '../../../../utils/array'
 
 export { flatten, arraify } from '../../../../utils/array'
 export { coerceInteger, coerceFloat } from '../../../../utils/coerce'
+export { pick, omit } from "../../../../utils/object"
 
 export function resolveJSXElement (
     inputJSXElement,

@@ -2,8 +2,8 @@ import React from 'react'
 import classnames from 'classnames'
 import { Transition } from 'react-transition-group';
 
-import Button from '../button/button';
-import Popper from '../helper-popper/helper-popper';
+import Button from '../button';
+import Popper from '../helper-popper';
 
 import { TransitionTimeouts, resolveJSXElement } from '../common';
 import { rclassnames, tryUseContext, parsePlacement } from '../common'

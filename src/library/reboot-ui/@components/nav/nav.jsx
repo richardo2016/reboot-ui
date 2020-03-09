@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Dropdown from '../dropdown/dropdown';
+import Dropdown from '../dropdown';
 
 import { rclassnames, isReactTypeOf } from '../common';
 import { flatten2trimedStrList } from '../../../../utils/string';

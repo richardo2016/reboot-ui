@@ -3,7 +3,7 @@ import React from 'react'
 import { Transition } from 'react-transition-group';
 
 import { resolveJSXElement } from '../common';
-import Popper from '../helper-popper/helper-popper';
+import Popper from '../helper-popper';
 import { rclassnames, tryUseContext, isReactTypeOf, parseChildrenProp } from '../common';
 import { parsePlacement } from '../common';
 import { TransitionTimeouts } from '../common';

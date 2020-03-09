@@ -3,8 +3,17 @@ import React from 'react'
 import { resolveJSXElement, rclassnames, tryUseContext } from '../common';
 
 import { FormContext, FormControlContext, FormGroupContext } from './context'
-import { Col } from '../layout-grid/layout-grid';
+import { Col } from '../layout-grid';
 import { useToken } from './hooks';
+
+import makeControl from './control'
+
+import makeCheckbox from './control-checkbox'
+import makeFile from './control-file'
+import makeInput from './control-input'
+import makeRadio from './control-radio'
+import makeRange from './control-range'
+import makeSelect from './control-select'
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/form/#supported-content
@@ -226,5 +235,12 @@ Form.Text = function ({
     )
 }
 
+makeControl(Form)
+makeCheckbox(Form)
+makeFile(Form)
+makeInput(Form)
+makeRadio(Form)
+makeRange(Form)
+makeSelect(Form)
 
 export default Form

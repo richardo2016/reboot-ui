@@ -12,7 +12,7 @@ const allComponentNames = getAllComponents(COM_ROOT)
 allComponentNames
 .filter(comname => {
     if (comname === 'common') return 
-    if (comname.startsWith('helper-')) return
+    // if (comname.startsWith('helper-')) return
     
     return true
 })
@@ -60,6 +60,15 @@ ${hasBsStyle ? `\n@import "../style/bootstrap/${comname}";` : ''}
     const newIndex = path.resolve(COM_ROOT, `./${comname}/index.js`)
     if (!fs.existsSync(newIndex)) {
         fs.writeFileSync(newIndex,
+`\
+export { default } from './${comname}.jsx'\
+`
+        )
+    }
+
+    const newStyleIndex = path.resolve(COM_ROOT, `./${comname}/index.style.js`)
+    if (!fs.existsSync(newStyleIndex)) {
+        fs.writeFileSync(newStyleIndex,
 `\
 export { default } from './${comname}.jsx'
 
