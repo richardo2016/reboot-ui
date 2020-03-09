@@ -1,9 +1,11 @@
 import React from 'react'
 
+import App from './app.jsx';
+
+import './app.scss';
+
 import './docs/4.4'
 import './docs/4.4-jsx'
-
-import App from './app.jsx';
 
 import { getJSON } from '../../utils/fetch'
 

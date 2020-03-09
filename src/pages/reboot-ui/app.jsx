@@ -1,4 +1,3 @@
-import '../../utils/preact-helpers/preact-compat-patch'
 import React from 'react'
 import Router, { route } from 'preact-router';
 import Match, { Link } from 'preact-router/match';
@@ -7,15 +6,13 @@ import classnames from 'classnames'
 import Prism from 'prismjs'
 Prism.manual = true
 
-import './app.scss';
-
 import './reg-reboot-ui'
 import {
   Layout,
   Navbar,
   Nav,
   Dropdown,
-} from '../../library/reboot-ui'
+} from 'reboot-ui'
 
 import { getJSON } from '../../utils/fetch'
 import { ucfirst, unprefix, prefix } from '../../utils/string'

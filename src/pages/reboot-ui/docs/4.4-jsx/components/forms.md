@@ -89,7 +89,7 @@ const Sample = ({ uuid }) => {
         </Form.Group>
         <Form.Group>
           <Form.Control controlId={`exampleFormControlTextarea1`} label="Example textarea">
-            <TextArea />
+            <Form.Input textarea />
           </Form.Control>
         </Form.Group>
       </Form>

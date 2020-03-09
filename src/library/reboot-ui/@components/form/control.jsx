@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Col } from '../layout-grid'
+import { Col } from '../layout'
 
 import { resolveJSXElement } from '../common';
 import { isReactTypeOf, rclassnames } from '../common';

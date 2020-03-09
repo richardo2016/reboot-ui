@@ -17,14 +17,6 @@ const UI_ROOT = path.resolve(__dirname, './src/library/reboot-ui')
 const COM_ROOT = path.resolve(UI_ROOT, '@components')
 const allComponentNames = getAllComponents(COM_ROOT)
 
-function capitalize (str) {
-    return str[0].toUpperCase() + str.slice(1).toLowerCase()
-}
-
-function getComponentCamelCaseName (comDir) {
-    return comDir.split('-').map(frag => capitalize(frag)).join('')
-}
-
 function getPostConfig (com_name, target = 'es') {
     let dest_base, format
     switch (target) {
@@ -45,13 +37,9 @@ function getPostConfig (com_name, target = 'es') {
         if (target === 'lib') {
             const newFile = rollup_cfg.input.replace('index.js', 'index.style.js')
             if (fs.existsSync(path.resolve(__dirname, newFile)))
-                rollup_cfg.input = rollup_cfg.input.replace('index.js', 'index.style.js')
+                rollup_cfg.input = newFile
         }
 
-        /**
-         * @enum 'es' for es
-         * @enum 'cjs' for lib
-         */
         rollup_cfg.output.format = format
         rollup_cfg.output.sourcemap = false
         
@@ -137,8 +125,6 @@ allComponentNames.forEach(name => {
                                 }
                             ]
                         },
-                        exclude: [
-                        ]
 					} ],
 					[ '@babel/preset-react', {
                     }]

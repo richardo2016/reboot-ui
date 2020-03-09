@@ -1,6 +1,8 @@
 const fs = require('fs')
 const path = require('path')
 
+const limitedPkg = process.env.PACKAGE_NAME || process.env.PKG_NAME || process.env.PKG
+
 exports.getAllComponents = (COM_ROOT) => {
     return fs.readdirSync( COM_ROOT )
         .filter(name => {
@@ -8,7 +10,7 @@ exports.getAllComponents = (COM_ROOT) => {
             if (name.startsWith('helper-')) return true
             if (name === 'common') return true
             
-            if (process.env.PACKAGE_NAME && name !== process.env.PACKAGE_NAME) return false;
+            if (limitedPkg && name !== limitedPkg) return false;
 
             if (name === 'style') return false
             if (name.startsWith('_')) return false
@@ -16,4 +18,13 @@ exports.getAllComponents = (COM_ROOT) => {
 
             return true
         })
+}
+
+
+exports.capitalize = function (str) {
+    return str[0].toUpperCase() + str.slice(1).toLowerCase()
+}
+
+exports.getComponentCamelCaseName = function (comDir) {
+    return comDir.split('-').map(frag => capitalize(frag)).join('')
 }

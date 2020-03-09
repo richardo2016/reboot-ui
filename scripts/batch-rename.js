@@ -30,7 +30,7 @@ allComponentNames.forEach(comname => {
 
     if (fs.existsSync(oldScss)) shelljs.mv(oldScss, newScss)
 
-    if (comname !== 'layout-grid')
+    if (comname !== 'layout')
         fs.writeFileSync(
             path.resolve(COM_ROOT, `./${comname}/index.js`),
 `\

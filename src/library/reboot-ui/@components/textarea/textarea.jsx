@@ -3,7 +3,7 @@ import React from 'react'
 import { rclassnames, tryUseContext } from '../common';
 import { FormControlContext } from '../form/context';
 
-const TextArea = function ({
+const Textarea = function ({
     children,
     as: _as = 'textarea',
     autoresize = false,
@@ -24,4 +24,4 @@ const TextArea = function ({
     )
 }
 
-export default TextArea
+export default Textarea

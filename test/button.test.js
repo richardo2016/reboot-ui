@@ -72,6 +72,18 @@ test('Button - (prop: outline)', () => {
     })
 });
 
+test('Button - (prop: block)', () => {
+    themes.forEach(theme => {
+        const component = renderer.create(
+            <Button block theme={theme}>Reboot UI</Button>,
+        );
+    
+        let button = component.toJSON();
+        expect(button.props.className).toEqual(expect.stringContaining('btn'))
+        expect(button.props.className).toEqual(expect.stringContaining(`btn-block`))
+    })
+});
+
 test('Button - (prop: active)', () => {
     const component = renderer.create(
         <Button active>Reboot UI</Button>,

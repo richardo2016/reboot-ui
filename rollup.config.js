@@ -12,6 +12,8 @@ import { isProduction as production } from './rollup-plugins/build-env'
 
 import { getConfigItem } from './rollup-fn.js'
 
+import packagesConfig from './rollup.packages.config'
+
 export default [
 	getConfigItem('reboot-ui', {
 		format: 'umd',
@@ -33,7 +35,23 @@ export default [
 		name: 'RebootUIDocs',
 		mvvm_type: 'preact',
 		app_type: 'pages',
-		babel_options: {},
+		babel_options: {
+			plugins: [
+				['import', {
+					// set `reboot-ui` for published version
+					"libraryName": "reboot-ui",
+					// set `es` for for published version
+					// "libraryDirectory": "es",
+					"customName": (name) => {
+						return path.resolve(__dirname, `./es/${name}`)
+					},
+					// "style": true,
+					"customStyleName": (name) => {
+						return path.resolve(__dirname, `./es/style/${name}.scss`)
+					},
+				}]
+			]
+		},
 		preact_options: { compat_mode: 'compat', },
 		postConfig: (rollup_cfg) => {
 			const basedir = path.resolve(__dirname, `./src/pages/reboot-ui/docs/`)
@@ -85,4 +103,5 @@ export default [
 			)
 		}
 	})
-];
+]
+.concat(process.env.PARALLEL ? packagesConfig : []);

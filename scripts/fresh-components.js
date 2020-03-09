@@ -66,6 +66,15 @@ export { default } from './${comname}.jsx'\
         )
     }
 
+    const newCss = path.resolve(COM_ROOT, `./${comname}/css.js`)
+    if (!fs.existsSync(newCss)) {
+        fs.writeFileSync(newCss,
+`\
+import './${comname}.scss'
+`
+        )
+    }
+
     const newStyleIndex = path.resolve(COM_ROOT, `./${comname}/index.style.js`)
     if (!fs.existsSync(newStyleIndex)) {
         fs.writeFileSync(newStyleIndex,
