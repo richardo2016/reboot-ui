@@ -1,3 +1,3 @@
-export { default } from './component.jsx'
+export { default } from './collapse.jsx'
 
-import './component.scss'
+import './collapse.scss'

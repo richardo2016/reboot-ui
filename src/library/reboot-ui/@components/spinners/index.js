@@ -1,3 +1,3 @@
-export { default } from './component.jsx'
+export { default } from './spinners.jsx'
 
-import './component.scss'
+import './spinners.scss'

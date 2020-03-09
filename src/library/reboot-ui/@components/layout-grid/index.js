@@ -1,3 +1,3 @@
-export { Row, Col } from './component.jsx'
+export * from './layout-grid.jsx'
 
-import './component.scss'
+import './layout-grid.scss'

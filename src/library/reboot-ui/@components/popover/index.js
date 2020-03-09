@@ -1,3 +1,3 @@
-export { default } from './component.jsx'
+export { default } from './popover.jsx'
 
-import './component.scss'
+import './popover.scss'

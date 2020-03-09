@@ -1,3 +1,3 @@
-export { default } from './component.jsx'
+export { default } from './input.jsx'
 
-import './component.scss'
+import './input.scss'

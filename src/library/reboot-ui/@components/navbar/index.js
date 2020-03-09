@@ -1,3 +1,3 @@
-export { default } from './component.jsx'
+export { default } from './navbar.jsx'
 
-import './component.scss'
+import './navbar.scss'

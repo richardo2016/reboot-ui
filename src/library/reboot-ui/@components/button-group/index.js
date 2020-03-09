@@ -1,3 +1,3 @@
-export { default } from './component.jsx'
+export { default } from './button-group.jsx'
 
-import './component.scss'
+import './button-group.scss'

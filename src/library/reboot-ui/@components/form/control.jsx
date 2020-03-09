@@ -1,7 +1,7 @@
 import React from 'react'
-import Form from './component'
+import Form from '../form/form'
 
-import { Col } from '../layout-grid/component'
+import { Col } from '../layout-grid/layout-grid'
 
 import { resolveJSXElement } from '../common';
 import { isReactTypeOf, rclassnames } from '../common';

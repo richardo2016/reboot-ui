@@ -1,3 +1,3 @@
-export { default } from './component.jsx'
+export { default } from './tooltip.jsx'
 
-import './component.scss'
+import './tooltip.scss'

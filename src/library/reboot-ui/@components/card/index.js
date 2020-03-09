@@ -1,3 +1,3 @@
-export { default } from './component.jsx'
+export { default } from './card.jsx'
 
-import './component.scss'
+import './card.scss'

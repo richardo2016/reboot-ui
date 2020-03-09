@@ -1,6 +1,4 @@
-import React from 'react'
 import { coerceInteger } from './_base'
-import { arraify } from './_base'
 
 const VALID_RESPONSIVE_BRKPOINT = [
     'sm',
@@ -176,52 +174,4 @@ export function getDirectionAboutClsNameListFromBreakPointConfig (
     })
 
     return breakPointAboutClsList
-}
-
-export function resolveJSXElement (
-    inputJSXElement,
-    {
-        default: defaultValue = React.Fragment,
-        allowedHTMLTags = undefined
-    } = {}
-) {
-    if (!inputJSXElement)
-        return defaultValue
-
-    if (allowedHTMLTags && typeof inputJSXElement === 'string') {
-        inputJSXElement = inputJSXElement.toString()
-        allowedHTMLTags = arraify(allowedHTMLTags)
-            .filter(x => typeof x === 'string')
-            .map(x => x.toString())
-        
-        if (allowedHTMLTags.length && !allowedHTMLTags.includes(inputJSXElement))
-            throw new Error(`[resolveJSXElement] inputJSXElement must be valid string: ${allowedHTMLTags.join(', ')}; but ${inputJSXElement} given!`)
-    }
-
-    return inputJSXElement
-}
-
-export function getHTMLAttributesFromProps (props) {
-    const { __htmlAttributes } = props || {};
-
-    return {...__htmlAttributes}
-}
-
-export function toggleCls (
-    target = document.body || document.documentElement,
-    classname,
-    nextHas
-) {
-    classname = arraify(classname).filter(x => x && typeof x === 'string')
-
-    classname.forEach(cls => {
-        let _nextHas = nextHas
-        if (_nextHas === undefined) {
-            target.classList.toggle(cls)
-            return ;
-        }
-
-        if (_nextHas) target.classList.add(cls)
-        else target.classList.remove(cls)
-    })
 }

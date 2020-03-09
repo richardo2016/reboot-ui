@@ -1,3 +1,3 @@
-export { default } from './component.jsx'
+export { default } from './tables.jsx'
 
-import './component.scss'
+import './tables.scss'

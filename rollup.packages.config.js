@@ -16,6 +16,8 @@ const UI_ROOT = path.resolve(__dirname, './src/library/reboot-ui')
 const COM_ROOT = path.resolve(UI_ROOT, '@components')
 const allComponentNames = fs.readdirSync( COM_ROOT )
     .filter(name => {
+        if (name === 'common') return false
+        if (name === 'style') return false
         if (name.startsWith('_')) return false
         if (!fs.statSync(path.join(COM_ROOT, name)).isDirectory()) return false
 
@@ -56,14 +58,21 @@ function getPostConfig (com_name, target = 'es') {
 
         if (target === 'es') {
             // rollup_cfg.plugins = rollup_cfg.plugins.filter(item => item.name !== postcssName)
-            // rollup_cfg.plugins.unshift(
-            //     copyGlob([
-            //         {
-            //             files: path.resolve(COM_ROOT, `./${com_name}/component.scss`),
-            //             dest: `es/${com_name}`
-            //         },
-            //     ])
-            // )
+            rollup_cfg.plugins.unshift(
+                copyGlob([
+                    {
+                        files: path.resolve(COM_ROOT, `./${com_name}/${com_name}.scss`),
+                        dest: `${dest_base}/style`
+                    },
+                ]),
+                // @notice: repeative, but no matter
+                copyGlob([
+                    {
+                        files: path.resolve(COM_ROOT, `./style/**/*.scss`),
+                        dest: `${dest_base}/style`
+                    },
+                ])
+            )
         }
 
         rollup_cfg.external = [
@@ -72,7 +81,7 @@ function getPostConfig (com_name, target = 'es') {
             'preact',
             'classnames',
             'react-transition-group',
-            
+
             '@popperjs/core',
             '@popperjs/core/lib/popper-lite',
             '@popperjs/core/lib/modifiers/flip',
@@ -81,7 +90,9 @@ function getPostConfig (com_name, target = 'es') {
             '@popperjs/core/lib/modifiers/arrow',
             '@popperjs/core/lib/modifiers/computeStyles',
             '@popperjs/core/lib/modifiers/applyStyles',
-        ]
+        ].concat(
+            ...target === 'es' ? [ '../common' ] : []
+        )
     }
 }
 
@@ -96,14 +107,14 @@ allComponentNames.forEach(name => {
             app_type: 'library/reboot-ui/@components',
             babel_options: {
                 presets: [
-                    [
-                        "@babel/preset-env",
-                        {
-                          "targets": {
-                            "esmodules": true
-                          }
-                        }
-                    ],
+                    // [
+                    //     "@babel/preset-env",
+                    //     {
+                    //       "targets": {
+                    //         "esmodules": true
+                    //       }
+                    //     }
+                    // ],
                     // '@babel/preset-react'
                 ]
             },

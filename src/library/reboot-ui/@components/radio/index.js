@@ -1,3 +1,3 @@
-export { default } from './component.jsx'
+export { default } from './radio.jsx'
 
-import './component.scss'
+import './radio.scss'

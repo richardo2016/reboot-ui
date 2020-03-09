@@ -1,3 +1,3 @@
-export { default } from './component.jsx'
+export { default } from './badge.jsx'
 
-import './component.scss'
+import './badge.scss'

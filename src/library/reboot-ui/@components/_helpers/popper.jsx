@@ -1,11 +1,11 @@
 import React from 'react'
 
 import { resolveJSXElement } from '../common'
-import { parseChildrenProp, isReactTypeOf, getHTMLElementFromJSXElement } from '../common';
+import { parseChildrenProp, isReactTypeOf, getHTMLElementFromJSXElement, filterPopperTrigger } from '../common';
 import { useClickaway } from '../common';
 import { useHoveraway } from '../common';
 
-import { createPopup, filterPopperTrigger } from '../common';
+import { createPopup } from '../common/popper';
 import { flatten } from '../common';
 import { filterPlacement } from '../common';
 

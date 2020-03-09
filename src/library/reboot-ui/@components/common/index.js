@@ -1,24 +1,28 @@
 import json from '../../@data/data.json'
 
-export {
-    getOffsetAboutClsNameListFromBreakPointConfig,
-    resolveJSXElement,
-    getDivisionAboutClsNameListFromBreakPointConfig,
-    toggleCls
-} from './ui'
+// export {
+//     getOffsetAboutClsNameListFromBreakPointConfig,
+//     resolveJSXElement,
+//     getDivisionAboutClsNameListFromBreakPointConfig,
+//     toggleCls
+// } from './ui'
+// export {
+//     useFixupPopoverToken,
+//     createPopup,
+//     filterPopperTrigger,
+//     filterPlacement,
+//     parsePlacement,
+// } from './popper'
 export { getHTMLElementFromJSXElement } from '../../../../utils/react-like'
 export { isReactTypeOf } from '../../../../utils/react-like'
 export { parseChildrenProp } from '../../../../utils/react-like'
 export { rclassnames, tryUseContext } from "../../../../utils/react-like"
-export { useFixupPopoverToken } from './popper'
-export { createPopup } from './popper'
-export { filterPopperTrigger } from './popper'
 export { default as useClickaway } from '../../../../utils/react-hooks/use-clickaway'
 export { default as useHoveraway } from '../../../../utils/react-hooks/use-hoveraway'
 export { default as useKeyPress } from '../../../../utils/react-hooks/use-keypress'
 export { useInterval } from '../../../../utils/react-hooks/use-timer'
-export { filterPlacement } from './popper'
-export { parsePlacement } from './popper'
+
+export { resolveJSXElement } from './_base.js'
 export { flatten, arraify } from './_base'
 export { coerceInteger, coerceFloat } from './_base'
 
@@ -175,3 +179,66 @@ export function filterAxis (axis = '') {
 
     return axis
 }
+
+export function filterPopperTrigger (trigger) {
+    switch (trigger) {
+      case 'click':
+      case 'hover':
+        break
+      default:
+        trigger = 'click'
+        break
+    }
+  
+    return trigger
+  }
+  
+  export function filterPlacement (placement = 'bottom-start') {
+    return parsePlacement(placement).placement || 'bottom-start'
+  }
+  
+  export function parsePlacement (placement = 'bottom-start') {
+    let direction
+    let axis
+  
+    switch (placement) {
+        case 'top':
+        case 'top-start':
+        case 'top-end':
+            direction = 'top';
+            axis = 'vertical';
+            break;
+        case 'bottom':
+        case 'bottom-start':
+        case 'bottom-end':
+            direction = 'bottom';
+            axis = 'vertical';
+            break;
+        case 'left':
+        case 'left-start':
+        case 'left-end':
+            direction = 'left';
+            axis = 'horizontal';
+            break;
+        case 'right':
+        case 'right-start':
+        case 'right-end':
+            direction = 'right';
+            axis = 'horizontal';
+            break;
+        default:
+        // case 'auto':
+        //     placement = 'auto'
+        //     direction = 'auto'
+        // case 'auto-start':
+        // case 'auto-end':
+        //     axis = 'auto'
+            break
+    }
+  
+    return {
+        placement,
+        direction,
+        axis,
+    }
+  }

@@ -1,3 +1,3 @@
-export { default } from './component.jsx'
+export { default } from './carousel.jsx'
 
-import './component.scss'
+import './carousel.scss'

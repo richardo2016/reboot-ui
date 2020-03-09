@@ -1,7 +1,7 @@
 import React from 'react'
 import Form from './component'
 
-import Input from '../input/component'
+import Input from '../input/input'
 import { useControlProps } from './hooks'
 import { FEEDBACK_POSTIONS } from './symbols'
 

@@ -1,3 +1,3 @@
-export { default } from './component.jsx'
+export { default } from './alert.jsx'
 
-import './component.scss'
+import './alert.scss'

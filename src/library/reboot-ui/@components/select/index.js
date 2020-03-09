@@ -1,3 +1,3 @@
-export { default } from './component.jsx'
+export { default } from './select.jsx'
 
-import './component.scss'
+import './select.scss'

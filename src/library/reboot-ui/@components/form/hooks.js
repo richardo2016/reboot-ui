@@ -1,5 +1,5 @@
 import { pick, omit } from "../../../../utils/object"
-import { rclassnames } from "../../../../utils/react-like"
+import { rclassnames } from "../common"
 import { FORM_SYMBOL_TOKEN } from "./symbols"
 
 const CONTROL_PROPS = [

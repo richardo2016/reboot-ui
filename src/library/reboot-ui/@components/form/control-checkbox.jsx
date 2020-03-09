@@ -1,7 +1,7 @@
 import React from 'react'
 import Form from '../form/component'
 import FormInput from './control-input'
-import { rclassnames } from '../../../../utils/react-like'
+import { rclassnames } from '../common'
 import { useToken } from './hooks'
 
 const FormCheckbox = Form.Checkbox = (props) => (

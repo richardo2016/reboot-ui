@@ -1,3 +1,3 @@
-export { default } from './component.jsx'
+export { default } from './list-group.jsx'
 
-import './component.scss'
+import './list-group.scss'

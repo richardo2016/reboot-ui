@@ -1,6 +1,5 @@
 import React from 'react'
 import { arraify, dedupe, flatten } from './array'
-import classnames from 'classnames'
 
 export function getHTMLElementFromJSXElement (jsxElement) {
     if (jsxElement instanceof HTMLElement) return jsxElement

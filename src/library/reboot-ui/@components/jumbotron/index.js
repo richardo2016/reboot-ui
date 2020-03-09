@@ -1,3 +1,3 @@
-export { default } from './component.jsx'
+export { default } from './jumbotron.jsx'
 
-import './component.scss'
+import './jumbotron.scss'
