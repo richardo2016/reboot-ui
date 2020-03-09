@@ -1,10 +1,11 @@
 import React from 'react'
 import Form from './component'
 
-import Select from '../select/component'
 import { useControlProps } from './hooks'
-import { filterFormControlSize } from '../common-utils'
-import { rclassnames } from '../../../../utils/react-like'
+import Select from '../select/component'
+
+import { filterFormControlSize } from '../common'
+import { rclassnames } from '../common'
 
 const FormSelect = Form.Select = React.forwardRef(
     ({

@@ -3,12 +3,12 @@ import Form from './component'
 
 import { Col } from '../layout-grid/component'
 
-import { resolveJSXElement } from '../../utils/ui';
+import { resolveJSXElement } from '../common';
+import { isReactTypeOf, rclassnames } from '../common';
+import { arraify } from '../common';
+import { filterFormControlSize } from '../common';
 
 import { FormControlContext } from './context'
-import { isReactTypeOf, rclassnames } from '../../../../utils/react-like';
-import { arraify } from '../../../../utils/array';
-import { filterFormControlSize } from '../common-utils';
 import { FEEDBACK_POSTIONS } from './symbols';
 import { useToken } from './hooks';
 

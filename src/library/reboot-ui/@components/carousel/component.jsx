@@ -2,17 +2,18 @@ import React from 'react'
 
 import { Transition } from 'react-transition-group';
 
-import { resolveJSXElement } from '../../utils/ui'
-import { rclassnames, tryUseContext, isReactTypeOf } from '../../../../utils/react-like';
-
+import Anchor from '../_helpers/anchor'
 import { PlaceholderImage } from '../_helpers/image'
-import { TransitionTimeouts, TransitionStates } from '../common';
-import { filterPlaceholderSize } from '../common-utils';
-import Anchor from '../_helpers/anchor';
-import { coerceInteger } from '../../../../utils/coerce';
-import { arraify, flatten } from '../../../../utils/array';
-import { useInterval } from '../../../../utils/react-hooks/use-timer';
-import useKeyPress from '../../../../utils/react-hooks/use-keypress';
+
+import { resolveJSXElement } from '../common'
+import { rclassnames, tryUseContext, isReactTypeOf } from '../common'
+
+import { TransitionTimeouts, TransitionStates } from '../common'
+import { filterPlaceholderSize } from '../common'
+import { coerceInteger } from '../common'
+import { arraify, flatten } from '../common'
+import { useInterval } from '../common'
+import { useKeyPress } from '../common'
 
 const RUNTIME_TOKEN = Date.now()
 const useToken = (str) => `${RUNTIME_TOKEN}_${str}`

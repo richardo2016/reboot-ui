@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { resolveJSXElement } from '../../utils/ui'
-import { rclassnames } from '../../../../utils/react-like';
+import { resolveJSXElement } from '../common'
+import { rclassnames } from '../common'
 import { headingTags } from '../common'
-import { filterThemeName } from '../common-utils'
+import { filterThemeName } from '../common'
 
 import { PlaceholderImage } from '../_helpers/image'
 

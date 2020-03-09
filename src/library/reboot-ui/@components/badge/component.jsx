@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { resolveJSXElement, getHTMLAttributesFromProps } from '../../utils/ui'
-import { rclassnames } from '../../../../utils/react-like';
+import { resolveJSXElement } from '../common'
+import { rclassnames } from '../common'
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/badge

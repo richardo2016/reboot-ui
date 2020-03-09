@@ -71,6 +71,8 @@ function getPostConfig (com_name, target = 'es') {
             'react-dom',
             'preact',
             'classnames',
+            'react-transition-group',
+            
             '@popperjs/core',
             '@popperjs/core/lib/popper-lite',
             '@popperjs/core/lib/modifiers/flip',

@@ -1,9 +1,6 @@
 import React from 'react'
 
-import { resolveJSXElement } from '../../utils/ui'
-import { rclassnames } from '../../../../utils/react-like';
-
-import { Transition } from 'react-transition-group'
+import { resolveJSXElement, rclassnames } from '../common'
 
 const transtionClasses = {
     [`entering`]: 'fade',

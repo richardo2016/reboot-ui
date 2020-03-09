@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { rclassnames } from '../../../../utils/react-like'
-import { filterInputType } from '../common-utils';
+import { rclassnames } from '../common'
+import { filterInputType } from '../common'
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/input

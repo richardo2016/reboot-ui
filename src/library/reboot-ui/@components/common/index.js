@@ -1,4 +1,21 @@
-import json from '../@data/data.json'
+import json from '../../@data/data.json'
+
+export { getHTMLElementFromJSXElement } from '../../../../utils/react-like'
+export { isReactTypeOf } from '../../../../utils/react-like'
+export { parseChildrenProp } from '../../../../utils/react-like'
+export { resolveJSXElement } from "../../utils/ui"
+export { rclassnames, tryUseContext } from "../../../../utils/react-like"
+export { useFixupPopoverToken } from '../_utils/popper'
+export { createPopup } from '../_utils/popper'
+export { filterPopperTrigger } from '../_utils/popper'
+export { default as useClickaway } from '../../../../utils/react-hooks/use-clickaway'
+export { default as useHoveraway } from '../../../../utils/react-hooks/use-hoveraway'
+export { default as useKeyPress } from '../../../../utils/react-hooks/use-keypress'
+export { useInterval } from '../../../../utils/react-hooks/use-timer'
+export { filterPlacement } from '../../utils/popper'
+export { parsePlacement } from '../../utils/popper'
+export { flatten, arraify } from '../../../../utils/array'
+export { coerceInteger, coerceFloat } from '../../../../utils/coerce'
 
 export const themes = json['theme-colors'].map(theme => theme.name)
 
@@ -115,3 +132,41 @@ export const inputTypes = [
      */
     'week',
 ]
+
+export function filterThemeName (theme = '') {
+    if (themes.includes(theme)) return theme
+}
+
+export function filterSize (size = '') {
+    if (sizes.includes(size)) return size
+}
+
+export function filterFormControlSize (size = '') {
+    if (['sm', 'lg'].includes(size)) return size
+}
+
+export function filterPlaceholderSize (size = '') {
+    if (['sm', 'lg'].includes(size)) return size
+}
+
+export function filterInputType (type = '') {
+    if (inputTypes.includes(type)) return type
+}
+
+export function filterAxis (axis = '') {
+    switch (axis) {
+        default:
+        case 'x':
+        case 'h':
+        case 'horizontal':
+            axis = 'horizontal'
+            break
+        case 'y':
+        case 'v':
+        case 'vertical':
+            axis = 'vertical'
+            break
+    }
+
+    return axis
+}

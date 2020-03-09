@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { resolveJSXElement } from '../../utils/ui'
-import { rclassnames } from '../../../../utils/react-like';
+import { resolveJSXElement } from '../common'
+import { rclassnames } from '../common'
 
-import { filterThemeName, filterSize } from '../common-utils';
+import { filterThemeName, filterSize } from '../common'
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/spinner/#supported-content

@@ -4,8 +4,9 @@ import Form from './component'
 import Input from '../input/component'
 import { useControlProps } from './hooks'
 import { FEEDBACK_POSTIONS } from './symbols'
-import { rclassnames } from '../../../../utils/react-like'
-import { filterFormControlSize } from '../common-utils'
+
+import { rclassnames } from '../common'
+import { filterFormControlSize } from '../common'
 
 const FormInput = Form.Input = React.forwardRef(
     ({

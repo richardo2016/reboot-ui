@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { resolveJSXElement } from '../../utils/ui'
-import { rclassnames } from '../../../../utils/react-like'
+import { resolveJSXElement } from '../common'
+import { rclassnames } from '../common'
 
 import Anchor from '../_helpers/anchor'
 

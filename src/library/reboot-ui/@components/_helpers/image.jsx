@@ -1,6 +1,5 @@
 import React from 'react'
-
-import { rclassnames } from '../../../../utils/react-like';
+import { rclassnames } from '../common'
 
 export const PlaceholderImage = ({
     children = 'Image cap',

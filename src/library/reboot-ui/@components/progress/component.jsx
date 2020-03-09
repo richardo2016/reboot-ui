@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { resolveJSXElement } from '../../utils/ui'
-import { rclassnames } from '../../../../utils/react-like';
-import { coerceFloat } from '../../../../utils/coerce';
+import { resolveJSXElement } from '../common'
+import { rclassnames } from '../common'
+import { coerceFloat } from '../common'
 
-import { filterThemeName } from '../common-utils';
+import { filterThemeName } from '../common'
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/progress/
