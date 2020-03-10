@@ -246,17 +246,21 @@ Modal.Content = (
 
         const ref = React.useRef(null)
 
-        useClickaway(ref, () => modalCtx.refModal.current, {
-            clickAway: () => {
-                if (modalCtx.useStaticBackdrop) {
-                    modalCtx.onClickStaticDropback();
-                    return ;
+        useClickaway(
+            ref,
+            () => modalCtx.refModal.current || document,
+            {
+                clickAway: () => {
+                    if (modalCtx.useStaticBackdrop) {
+                        modalCtx.onClickStaticDropback();
+                        return ;
+                    }
+                    if (!modalCtx.isOpen) return ;
+                    
+                    modalCtx.onToggle();
                 }
-                if (!modalCtx.isOpen) return ;
-                
-                modalCtx.onToggle();
             }
-        })
+        )
 
         return (
             <JSXEl
