@@ -16,7 +16,7 @@ In addition, as pages likely have more than one such navigation section, it's ad
 const Sample = () => {
   const [ pagination, setPagination ] = Pagination.usePagination({
     startPage: 1,
-    page: 1,
+    currentPage: 1,
     pageSize: 3,
     total: 8,
   })
@@ -27,8 +27,8 @@ const Sample = () => {
         <Pagination
           pagination={pagination}
           onChange={
-            ({ page, pageSize }) => {
-              setPagination({ page, pageSize })
+            ({ currentPage, pageSize }) => {
+              setPagination({ currentPage, pageSize })
             }
           }
         >
@@ -53,7 +53,7 @@ Looking to use an icon or symbol in place of text for some pagination links? Be 
 const Sample = () => {
   const [ pagination, setPagination ] = Pagination.usePagination({
     startPage: 1,
-    page: 1,
+    currentPage: 1,
     pageSize: 3,
     total: 8,
   })
@@ -64,8 +64,8 @@ const Sample = () => {
         <Pagination
           pagination={pagination}
           onChange={
-            ({ page, pageSize }) => {
-              setPagination({ page, pageSize })
+            ({ currentPage, pageSize }) => {
+              setPagination({ currentPage, pageSize })
             }
           }
         >
@@ -100,7 +100,7 @@ While the `.disabled` class uses `pointer-events: none` to _try_ to disable the 
 const Sample = () => {
   const [ pagination, setPagination ] = Pagination.usePagination({
     startPage: 1,
-    page: 2,
+    currentPage: 2,
     pageSize: 3,
     total: 8,
   })
@@ -111,24 +111,17 @@ const Sample = () => {
         <Pagination
           pagination={pagination}
           onChange={
-            ({ page, pageSize }) => {
-              setPagination({ page, pageSize })
+            ({ currentPage, pageSize }) => {
+              setPagination({ currentPage, pageSize })
             }
           }
         >
           <Pagination.Item prev disabled link>
             Previous
           </Pagination.Item>
-          <Pagination.Item link page={1}></Pagination.Item>
-          <Pagination.Item link page={2}>
-            {({ page }) => (
-              <>
-                {page}{' '}
-                <span class="sr-only">(current)</span>
-              </>
-            )}
-          </Pagination.Item>
-          <Pagination.Item link page={3}></Pagination.Item>
+          <Pagination.Item link page={1} />
+          <Pagination.Item link page={2} />
+          <Pagination.Item link page={3} />
           <Pagination.Item next>
             <Pagination.Link aria-label="Next">
               Next
@@ -148,7 +141,7 @@ You can optionally swap out active or disabled anchors for `<span>`, or omit the
 const Sample = () => {
   const [ pagination, setPagination ] = Pagination.usePagination({
     startPage: 1,
-    page: 2,
+    currentPage: 2,
     pageSize: 3,
     total: 8,
   })
@@ -159,24 +152,17 @@ const Sample = () => {
         <Pagination
           pagination={pagination}
           onChange={
-            ({ page, pageSize }) => {
-              setPagination({ page, pageSize })
+            ({ currentPage, pageSize }) => {
+              setPagination({ currentPage, pageSize })
             }
           }
         >
           <Pagination.Item prev disabled>
             <span class="page-link">Previous</span>
           </Pagination.Item>
-          <Pagination.Item link page={1}></Pagination.Item>
-          <Pagination.Item link page={2}>
-            {({ page }) => (
-              <>
-                {page}
-                <span class="sr-only">(current)</span>
-              </>
-            )}
-          </Pagination.Item>
-          <Pagination.Item link page={3}></Pagination.Item>
+          <Pagination.Item link page={1} />
+          <Pagination.Item link page={2} />
+          <Pagination.Item link page={3} />
           <Pagination.Item next>
             <Pagination.Link>
               Next
@@ -198,7 +184,7 @@ Fancy larger or smaller pagination? Add `.pagination-lg` or `.pagination-sm` for
 const Sample = () => {
   const [ pagination, setPagination ] = Pagination.usePagination({
     startPage: 1,
-    page: 2,
+    currentPage: 2,
     pageSize: 3,
     total: 8,
   })
@@ -210,14 +196,14 @@ const Sample = () => {
           size="lg"
           pagination={pagination}
           onChange={
-            ({ page, pageSize }) => {
-              setPagination({ page, pageSize })
+            ({ currentPage, pageSize }) => {
+              setPagination({ currentPage, pageSize })
             }
           }
         >
-          <Pagination.Item link page={1}>1 <span class="sr-only">(current)</span></Pagination.Item>
-          <Pagination.Item link page={2}>2</Pagination.Item>
-          <Pagination.Item link page={3}></Pagination.Item>
+          <Pagination.Item link page={1} />
+          <Pagination.Item link page={2} />
+          <Pagination.Item link page={3} />
         </Pagination>
       </nav>
     </>
@@ -230,7 +216,7 @@ const Sample = () => {
 const Sample = () => {
   const [ pagination, setPagination ] = Pagination.usePagination({
     startPage: 1,
-    page: 2,
+    currentPage: 2,
     pageSize: 3,
     total: 8,
   })
@@ -242,14 +228,14 @@ const Sample = () => {
           size="sm"
           pagination={pagination}
           onChange={
-            ({ page, pageSize }) => {
-              setPagination({ page, pageSize })
+            ({ currentPage, pageSize }) => {
+              setPagination({ currentPage, pageSize })
             }
           }
         >
-          <Pagination.Item link page={1}>1 <span class="sr-only">(current)</span></Pagination.Item>
-          <Pagination.Item link page={2}>2</Pagination.Item>
-          <Pagination.Item link page={3}></Pagination.Item>
+          <Pagination.Item link page={1} />
+          <Pagination.Item link page={2} />
+          <Pagination.Item link page={3} />
         </Pagination>
       </nav>
     </>
@@ -266,7 +252,7 @@ Change the alignment of pagination components with [flexbox utilities]({{ site.b
 const Sample = () => {
   const [ pagination, setPagination ] = Pagination.usePagination({
     startPage: 1,
-    page: 2,
+    currentPage: 2,
     pageSize: 3,
     total: 8,
   })
@@ -278,24 +264,17 @@ const Sample = () => {
           class="justify-content-center"
           pagination={pagination}
           onChange={
-            ({ page, pageSize }) => {
-              setPagination({ page, pageSize })
+            ({ currentPage, pageSize }) => {
+              setPagination({ currentPage, pageSize })
             }
           }
         >
           <Pagination.Item prev disabled link>
             Previous
           </Pagination.Item>
-          <Pagination.Item link page={1}></Pagination.Item>
-          <Pagination.Item link page={2}>
-            {({ page }) => (
-              <>
-                {page}
-                <span class="sr-only">(current)</span>
-              </>
-            )}
-          </Pagination.Item>
-          <Pagination.Item link page={3}></Pagination.Item>
+          <Pagination.Item link page={1} />
+          <Pagination.Item link page={2} />
+          <Pagination.Item link page={3} />
           <Pagination.Item next>
             <Pagination.Link>
               Next
@@ -313,7 +292,7 @@ const Sample = () => {
 const Sample = () => {
   const [ pagination, setPagination ] = Pagination.usePagination({
     startPage: 1,
-    page: 2,
+    currentPage: 2,
     pageSize: 3,
     total: 8,
   })
@@ -325,29 +304,81 @@ const Sample = () => {
           class="justify-content-end"
           pagination={pagination}
           onChange={
-            ({ page, pageSize }) => {
-              setPagination({ page, pageSize })
+            ({ currentPage, pageSize }) => {
+              setPagination({ currentPage, pageSize })
             }
           }
         >
           <Pagination.Item prev disabled link>
             Previous
           </Pagination.Item>
-          <Pagination.Item link page={1}></Pagination.Item>
-          <Pagination.Item link page={2}>
-            {({ page }) => (
-              <>
-                {page}
-                <span class="sr-only">(current)</span>
-              </>
-            )}
-          </Pagination.Item>
-          <Pagination.Item link page={3}></Pagination.Item>
+          <Pagination.Item link page={1} />
+          <Pagination.Item link page={2} />
+          <Pagination.Item link page={3} />
           <Pagination.Item next>
             <Pagination.Link>
               Next
             </Pagination.Link>
           </Pagination.Item>
+        </Pagination>
+      </nav>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
+
+## Customize Pagination Items
+
+Some times you may want customize your pagination items layout:
+
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  const [ pagination, setPagination ] = Pagination.usePagination({
+    startPage: 1,
+    currentPage: 2,
+    pageSize: 3,
+    total: 8,
+  })
+
+  return (
+    <>
+      <nav aria-label="Page navigation example">
+        <Pagination
+          pagination={pagination}
+          onChange={
+            ({ currentPage, pageSize }) => {
+              setPagination({ currentPage, pageSize })
+            }
+          }
+        >
+          {({ pagination }) => {
+            const ranges = []
+            let idx = pagination.startPage
+            // dangerous code, never copy, just for example
+            while (idx <= pagination.maxPage) {
+              ranges.push(idx)
+              idx++
+            }
+            
+            return (
+              <>
+                <Pagination.Item prev disabled link>
+                  Previous
+                </Pagination.Item>
+                {ranges.map(page => {
+                  return (
+                    <Pagination.Item key={`pagi-${page}`} link page={page} />
+                  )
+                })}
+                <Pagination.Item next>
+                  <Pagination.Link>
+                    Next
+                  </Pagination.Link>
+                </Pagination.Item>
+              </>
+            )
+          }}
         </Pagination>
       </nav>
     </>

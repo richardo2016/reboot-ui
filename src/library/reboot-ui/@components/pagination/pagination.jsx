@@ -34,13 +34,12 @@ const Pagination = React.forwardRef(
         const ctxValue = {
             symbol: symbol,
             pagination,
+            computePagination,
             _updatePagi: React.useCallback(
                 (type, payload) => onChange(computePagination(type, payload, {...pagination}))
                 , [pagination]
             )
         }
-
-        children = arraify(children)
     
         return (
             <PagiContext.Provider value={ctxValue}>
@@ -52,7 +51,7 @@ const Pagination = React.forwardRef(
                         size && `pagination-${size}`,
                     ])}
                 >
-                    {children}
+                    {renderChildren(children, { pagination })}
                 </JSXEl>
             </PagiContext.Provider>
         )
@@ -117,10 +116,17 @@ Pagination.Item = function ({
 
     const pagiCtx = tryUseContext(PagiContext)
     if (active === undefined)
-        active = pagiCtx.pagination.page === page
+        active = pagiCtx.pagination.currentPage === page
 
-    if (children === undefined && page !== undefined)
-        children = page
+    if (children === undefined && page !== undefined) {
+        children = active ? (
+            <>
+                {page}{' '}
+                <span class="sr-only">(current)</span>
+            </>
+        ) : page
+
+    }
 
     if (_next) _prev = false
     if (_prev) _next = false
@@ -140,7 +146,7 @@ Pagination.Item = function ({
                         pagiCtx._updatePagi('nextPage')
                     } else if (page !== undefined)
                         if (!active)
-                            pagiCtx._updatePagi('page', page)
+                            pagiCtx._updatePagi('currentPage', page)
                 }
                     
                 if (typeof props.onClick === 'function')

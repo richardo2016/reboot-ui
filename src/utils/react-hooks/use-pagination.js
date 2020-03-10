@@ -1,12 +1,16 @@
 import React from 'react'
 
+const getMaxPage = (total, pageSize) => {
+    return Math.floor(total / pageSize) + ((total % pageSize) > 0 ? 1 : 0)
+}
+
 const computePagination = (type, payload, pagination) => {
-    const { page, pageSize, total, startPage } = pagination
-    const maxPage = Math.floor(total / pageSize) + ((total % pageSize) > 0 ? 1 : 0)
+    const { currentPage, pageSize, total, startPage } = pagination
+    const maxPage = getMaxPage(total, pageSize)
 
     let changeDiff = null
     switch (type) {
-        case 'page':
+        case 'currentPage':
         case 'pageSize':
         case 'total':
             changeDiff = {
@@ -18,12 +22,12 @@ const computePagination = (type, payload, pagination) => {
             break
         case 'nextPage':
             changeDiff = {
-                page: Math.min(page + 1, maxPage)
+                currentPage: Math.min(currentPage + 1, maxPage)
             }
             break
         case 'prevPage':
             changeDiff = {
-                page: Math.max(startPage, Math.max(page - 1, 0))
+                currentPage: Math.max(startPage, Math.max(currentPage - 1, 0))
             }
             break
     }
@@ -35,17 +39,23 @@ export default function usePagination(
     initPagi,
 ) {
     let {
-        page = 0,
+        currentPage = 0,
         pageSize = 20,
         total = 0,
         startPage = 0
     } = initPagi || {}
-    initPagi = { page, pageSize, total, startPage }
+    initPagi = { currentPage, pageSize, total, startPage }
 
-    if (page < startPage) page = startPage
+    if (currentPage < startPage) currentPage = startPage
     
     function getInitialData() {
-        return { page, pageSize, total, startPage }
+        return {
+            currentPage,
+            pageSize,
+            total,
+            startPage,
+            maxPage: getMaxPage(total, pageSize)
+        }
     }
 
     const [ pagination, setPagination ] = React.useState(getInitialData())
@@ -53,19 +63,22 @@ export default function usePagination(
     React.useEffect(() => {
         update(initPagi)
     }, [
-        initPagi.page,
+        initPagi.currentPage,
         initPagi.pageSize,
         initPagi.total
     ])
 
     const update = (payload) => {
-        const nextPagi = { ...payload }
-        setPagination({
+        let nextPagi = { ...payload }
+        nextPagi = {
             ...pagination,
-            ...nextPagi.page !== undefined && { page: nextPagi.page },
+            ...nextPagi.currentPage !== undefined && { currentPage: nextPagi.currentPage },
             ...nextPagi.pageSize !== undefined && { pageSize: nextPagi.pageSize },
             ...nextPagi.total !== undefined && { total: nextPagi.total },
-        })
+        }
+        nextPagi.maxPage = getMaxPage(nextPagi.total, nextPagi.pageSize)
+
+        setPagination(nextPagi)
     }
 
     return [
