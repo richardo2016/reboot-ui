@@ -9,7 +9,7 @@ const COM_ROOT = path.resolve(UI_ROOT, '@components')
 const { getAllComponents } = require('../rollup-utils/build')
 const allComponentNames = getAllComponents(COM_ROOT)
 
-console.log('allComponentNames', allComponentNames);
+console.log('allComponentNames\n', allComponentNames);
 
 allComponentNames.forEach(comname => {
     function capitalize (str) {

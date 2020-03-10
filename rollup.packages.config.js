@@ -111,7 +111,7 @@ function getPostConfig (com_name, target = 'es') {
     }
 }
 
-console.log('allComponentNames:', allComponentNames.join(EOL));
+console.log('allComponentNames\n:', allComponentNames.join(EOL));
 
 const buildTargets = []
 

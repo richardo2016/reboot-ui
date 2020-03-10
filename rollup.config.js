@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import replace from '@rollup/plugin-replace';
+
 import rebootdocs from './rollup-plugins/rebootdocs';
 
 import shelljs from 'shelljs'
@@ -22,7 +23,7 @@ export default [
 		app_type: 'library',
 		babel_options: {},
 		postConfig: (rollup_cfg) => {
-			rollup_cfg.output.file = `dist/index.js`
+			rollup_cfg.output.file = production ? `dist/index.min.js` : `dist/index.js`
 			rollup_cfg.output.globals = {
 				'react': 'React',
 				'react-dom': 'ReactDOM',
@@ -31,7 +32,7 @@ export default [
 			rollup_cfg.external = [ 'react', 'react-dom', 'preact' ]
 		}
 	}),
-	getConfigItem('reboot-ui', {
+	!process.env.BUILD_DIST && getConfigItem('reboot-ui', {
 		format: 'iife',
 		name: 'RebootUIDocs',
 		mvvm_type: 'preact',
@@ -108,4 +109,5 @@ export default [
 		}
 	})
 ]
+.filter(x => x)
 .concat(process.env.PARALLEL ? packagesConfig : []);
