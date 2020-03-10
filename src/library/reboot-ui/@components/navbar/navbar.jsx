@@ -57,7 +57,7 @@ const useRefRegistry = (memberType, ref) => {
         
         navbarCtx._registerRef(memberType, ref)
         return () => {
-            navbarCtx._unregisterRefs(memberType, ref)
+            navbarCtx._unregisterRef(memberType, ref)
         }
     }, [])
 
