@@ -1,4 +1,7 @@
 demo
+scripts
+static
+rollup*
 src
 rollup.config.js
 
@@ -8,7 +11,6 @@ docs
 test
 
 build
-rollup*
 jest.config.js
 rollup*.js
 
