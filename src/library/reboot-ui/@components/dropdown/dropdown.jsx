@@ -206,6 +206,8 @@ Dropdown.Toggle = React.forwardRef(
                             'dropdown-toggle'
                         ])}
                         data-toggle='dropdown'
+                        aria-haspopup={true}
+                        // aria-expanded={}
                     >
                         {buttonLabel}
                     </TogglerEl>

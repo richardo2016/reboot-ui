@@ -3,6 +3,7 @@ import React from 'react'
 import { resolveJSXElement } from '../common'
 import { rclassnames } from '../common'
 import { getDirectionAboutClsNameListFromBreakPointConfig } from '../common/ui'
+import Anchor from '../helper-anchor'
 
 export const DropdownItem = React.forwardRef(function ({
     children,
@@ -15,6 +16,7 @@ export const DropdownItem = React.forwardRef(function ({
     disabled = false,
     ...props
 }, ref) {
+    if (_as === 'a') _as = Anchor
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
     
     const isNotItem = divider || header;

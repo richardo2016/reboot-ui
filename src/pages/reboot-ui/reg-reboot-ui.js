@@ -74,6 +74,9 @@ window.Pagination = Pagination
 import * as stringUtils from '../../utils/string'
 import classnames from 'classnames'
 
+import Logo from './componenets/logo'
+window.Logo = Logo;
+
 window.React = React;
 window.ReactDOM = ReactDOM;
 

@@ -6,6 +6,7 @@
 const assert = require('assert')
 
 const htmlEscaper = require('html-escaper');
+const htmlPretty = require('pretty');
 
 const { highlightCode } = require('../prism/_utils')
 
@@ -49,6 +50,9 @@ module.exports = function (Liquid) {
 
               return highlightCode(htmlEscaper.unescape(html), this.lang);
             }
+
+            if (this.lang === 'html')
+              text = htmlPretty(text)
 
             return ''
             + '```' + this.lang + '\n'

@@ -23,13 +23,14 @@ function getMarkedRender () {
 
     function wrapToFigureTag(html) {
         return ''
-        + '<figure class="highlight">'
+        + '<figure class="highlight testest">'
         + html
         + '</figure>\n';
     }
 
     renderer.code = function (code, infostring, escaped) {
         let lang = (infostring || '').match(/\S*/)[0];
+        if (!lang) return code
         
         switch (lang) {
             case 'reboot_jsx':
@@ -200,7 +201,7 @@ export default function markdown (inputopts = {}) {
 
                     return Prism.highlight(code, Prism.languages[lang], lang)
                 },
-                xhtml: true,
+                xhtml: false,
                 gfm: true,
             }
             result = marked(result, markedOptions)

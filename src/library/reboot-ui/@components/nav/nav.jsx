@@ -6,6 +6,7 @@ import { rclassnames, isReactTypeOf } from '../common';
 import { flatten2trimedStrList } from '../../../../utils/string';
 import { arraify } from '../../../../utils/array';
 import { resolveJSXElement } from '../common';
+import Anchor from '../helper-anchor';
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/nav/#supported-content
@@ -22,6 +23,7 @@ const Nav = function ({
      * @enum pills
      */
     theme = '',
+    navbar = false,
     ...props
 }) {
     const JSXEl = resolveJSXElement(_as, { allowedHTMLTags: ['div', 'nav', 'ul', 'ol'] });
@@ -38,7 +40,7 @@ const Nav = function ({
         <JSXEl
             {...props}
             className={rclassnames(props, [
-                "nav",
+                !navbar ? 'nav' : 'navbar-nav',
                 use_tabs && 'nav-tabs',
                 use_pills && 'nav-pills',
                 use_fill && 'nav-fill',
@@ -89,6 +91,7 @@ Nav.Item = function ({
     children,
     link,
     as: _as = link ? Nav.Link : 'li',
+    active = false,
     ...props
 }) {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
@@ -97,7 +100,8 @@ Nav.Item = function ({
         <JSXEl
             {...props}
             className={rclassnames(props, [
-                "nav-item"
+                "nav-item",
+                active && 'active'
             ])}
         >
             {children}
@@ -110,17 +114,13 @@ Nav.Link = function ({
     as: _as = 'a',
     active,
     disabled,
-    href = '',
     ...props
 }) {
+    if (_as === 'a') _as = Anchor
     const JSXEl = resolveJSXElement(_as, { allowedHTMLTags: ['a'] });
-    const useAnchor = JSXEl === 'a'
-    if (useAnchor && !href)
-        href = 'javascript:;'
 
     return (
         <JSXEl
-            {...useAnchor && href && { href }}
             {...props}
             className={rclassnames(props, [
                 "nav-link",

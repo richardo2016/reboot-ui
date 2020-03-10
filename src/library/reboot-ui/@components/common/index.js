@@ -8,6 +8,9 @@ export { default as useClickaway } from '../../../../utils/react-hooks/use-click
 export { default as useHoveraway } from '../../../../utils/react-hooks/use-hoveraway'
 export { default as useKeyPress } from '../../../../utils/react-hooks/use-keypress'
 export { default as usePagination } from '../../../../utils/react-hooks/use-pagination'
+export { default as useSelectorsListener } from '../../../../utils/react-hooks/use-selectors-listener'
+export { default as useDefaultValue } from '../../../../utils/react-hooks/use-default-value'
+
 export { useInterval } from '../../../../utils/react-hooks/use-timer'
 
 export { resolveJSXElement } from './_base.js'
@@ -134,7 +137,7 @@ export function filterThemeName (theme = '') {
     if (themes.includes(theme)) return theme
 }
 
-export function filterSize (size = '') {
+export function filterRepsonsiveSize (size = '') {
     if (sizes.includes(size)) return size
 }
 

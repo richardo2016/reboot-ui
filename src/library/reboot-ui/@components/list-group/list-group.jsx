@@ -2,7 +2,7 @@ import React from 'react'
 
 import { resolveJSXElement } from '../common'
 import { rclassnames } from '../common'
-import { filterSize, filterThemeName } from '../common'
+import { filterRepsonsiveSize, filterThemeName } from '../common'
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/list-group/#supported-content
@@ -20,7 +20,7 @@ const ListGroup = function ({
 }) {
     const JSXEl = resolveJSXElement(_as, { allowedHTMLTags: ['ul', 'ol', 'div'] });
 
-    size = filterSize(size)
+    size = filterRepsonsiveSize(size)
 
     return (
         <JSXEl

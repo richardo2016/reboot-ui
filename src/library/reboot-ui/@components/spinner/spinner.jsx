@@ -3,7 +3,7 @@ import React from 'react'
 import { resolveJSXElement } from '../common'
 import { rclassnames } from '../common'
 
-import { filterThemeName, filterSize } from '../common'
+import { filterThemeName, filterRepsonsiveSize } from '../common'
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/spinner/#supported-content
@@ -34,7 +34,7 @@ const Spinner = function ({
     }
 
     color = filterThemeName(color)
-    size = filterSize(size)
+    size = filterRepsonsiveSize(size)
 
     return (
         <JSXEl
