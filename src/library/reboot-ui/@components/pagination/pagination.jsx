@@ -4,35 +4,43 @@ import {
     resolveJSXElement,
     rclassnames,
     tryUseContext,
-    filterPaginationSize
+    filterPaginationSize,
+    usePagination,
+    renderChildren,
+    arraify,
 } from '../common'
 import Anchor from '../helper-anchor';
-import { pick } from '../common/_base';
+
+const symbol = Symbol('#pagination')
 
 const PagiContext = React.createContext({})
 
+function noop () {}
 const Pagination = React.forwardRef(
     function ({
         children,
         as: _as = 'ul',
-        pagination,
+        pagination: initPage = usePagination()[0],
+        onChange = noop,
         size = '',
         ...props
     }, ref) {
         const JSXEl = resolveJSXElement(_as, { allowedHTMLTags: ['div', 'ol', 'ul'] });
 
+        const [pagination, , computePagination] = usePagination(initPage);
+
         size = filterPaginationSize(size)
 
-        pagination = {
-            page: 0,
-            pageSize: 20,
-            total: 0,
-            ...pick((pagination || {}), ['page', 'pageSize', 'total'])
+        const ctxValue = {
+            symbol: symbol,
+            pagination,
+            _updatePagi: React.useCallback(
+                (type, payload) => onChange(computePagination(type, payload, {...pagination}))
+                , [pagination]
+            )
         }
 
-        const ctxValue = {
-            pagination
-        }
+        children = arraify(children)
     
         return (
             <PagiContext.Provider value={ctxValue}>
@@ -50,6 +58,20 @@ const Pagination = React.forwardRef(
         )
     }
 )
+
+Pagination.usePagination = usePagination
+
+Pagination.useContextPagination = () => {
+    const pagiCtx = tryUseContext(PagiContext)
+
+    if (pagiCtx.symbol !== symbol)
+        throw new Error(`[useContextPagination] hooks can be only used under Pagination's context!`)
+
+    return [
+        pagiCtx.pagination,
+        pagiCtx._updatePagi
+    ]
+}
 
 Pagination.Link = ({
     children,
@@ -78,7 +100,6 @@ Pagination.Link = ({
     )
 }
 
-
 Pagination.Item = function ({
     children,
     as: _as = 'li',
@@ -86,6 +107,8 @@ Pagination.Item = function ({
     page,
     active,
     disabled = false,
+    prev: _prev = false,
+    next: _next = false,
     ...props
 }) {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
@@ -93,7 +116,14 @@ Pagination.Item = function ({
     const LinkWrppaer = link ? Pagination.Link : React.Fragment
 
     const pagiCtx = tryUseContext(PagiContext)
-    if (active === undefined) active = pagiCtx.active
+    if (active === undefined)
+        active = pagiCtx.pagination.page === page
+
+    if (children === undefined && page !== undefined)
+        children = page
+
+    if (_next) _prev = false
+    if (_prev) _next = false
 
     return (
         <JSXEl
@@ -102,13 +132,27 @@ Pagination.Item = function ({
                 disabled && `disabled`,
                 active && `active`,
             ])}
+            onClick={(evt) => {
+                if (!disabled) {
+                    if (_prev) {
+                        pagiCtx._updatePagi('prevPage')
+                    } else if (_next) {
+                        pagiCtx._updatePagi('nextPage')
+                    } else if (page !== undefined)
+                        if (!active)
+                            pagiCtx._updatePagi('page', page)
+                }
+                    
+                if (typeof props.onClick === 'function')
+                    props.onClick(evt)
+            }}
         >
             <LinkWrppaer
                 {...link && typeof link === 'string' && { href: link }}
                 active={active}
                 disabled={disabled}
             >
-                {children}
+                {renderChildren(children, { pagination: pagiCtx.pagination, page, active, disabled })}
             </LinkWrppaer>
         </JSXEl>
     )

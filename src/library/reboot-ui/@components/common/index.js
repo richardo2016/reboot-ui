@@ -1,25 +1,13 @@
 import json from '../../@data/data.json'
 
-// export {
-//     getOffsetAboutClsNameListFromBreakPointConfig,
-//     resolveJSXElement,
-//     getDivisionAboutClsNameListFromBreakPointConfig,
-//     toggleCls
-// } from './ui'
-// export {
-//     useFixupPopoverToken,
-//     createPopup,
-//     filterPopperTrigger,
-//     filterPlacement,
-//     parsePlacement,
-// } from './popper'
 export { getHTMLElementFromJSXElement } from '../../../../utils/react-like'
 export { isReactTypeOf } from '../../../../utils/react-like'
 export { parseChildrenProp } from '../../../../utils/react-like'
-export { rclassnames, tryUseContext } from "../../../../utils/react-like"
+export { rclassnames, tryUseContext, renderChildren } from "../../../../utils/react-like"
 export { default as useClickaway } from '../../../../utils/react-hooks/use-clickaway'
 export { default as useHoveraway } from '../../../../utils/react-hooks/use-hoveraway'
 export { default as useKeyPress } from '../../../../utils/react-hooks/use-keypress'
+export { default as usePagination } from '../../../../utils/react-hooks/use-pagination'
 export { useInterval } from '../../../../utils/react-hooks/use-timer'
 
 export { resolveJSXElement } from './_base.js'

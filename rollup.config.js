@@ -46,12 +46,12 @@ export default [
 					// set `es` for for published version
 					// "libraryDirectory": "es",
 					"customName": (name) => {
-						return path.resolve(__dirname, `./es/${name}`)
+						return path.resolve(__dirname, `./src/library/reboot-ui/@components/${name}/index.style.js`)
 					},
-					// "style": true,
-					"customStyleName": (name) => {
-						return path.resolve(__dirname, `./es/style/${name}.scss`)
-					},
+					"style": false,
+					// "customStyleName": (name) => {
+					// 	return path.resolve(__dirname, `./src/library/reboot-ui/@components/${name}/index.style.js`)
+					// },
 				}]
 			]
 		},

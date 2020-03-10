@@ -1,10 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-// Object.keys(RebootUI).forEach(comName => {
-//     window[comName] = RebootUI[comName]
-// })
-
 import {
     Layout,
     Container,

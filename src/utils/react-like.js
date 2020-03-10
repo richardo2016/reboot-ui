@@ -98,7 +98,7 @@ export function tryUseContext (ContextRef, { fallbackValue = {} } = {}) {
   return ctx
 }
 
-export function renderChildren (children, renderContext) {
+export function renderChildren (children, renderContext = {}) {
     if (typeof children === 'function')
         return children.call(null, renderContext)
 

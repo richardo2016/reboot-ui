@@ -7,12 +7,6 @@ import Prism from 'prismjs'
 Prism.manual = true
 
 import './reg-reboot-ui'
-import {
-  Layout,
-  Navbar,
-  Nav,
-  Dropdown,
-} from 'reboot-ui'
 
 import { getJSON } from '../../utils/fetch'
 import { ucfirst, unprefix, prefix } from '../../utils/string'
