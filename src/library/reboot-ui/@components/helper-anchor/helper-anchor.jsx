@@ -1,18 +1,21 @@
 import React from 'react'
 
-const Anchor = function ({
-    children,
-    href = 'javascript:;',
-    ...props
-}) {
-    return (
-        <a
-            {...props}
-            {...href && { href }}
-        >
-            {children}
-        </a>
-    )
-}
+const Anchor = React.forwardRef(
+    function ({
+        children,
+        href = 'javascript:;',
+        ...props
+    }, ref) {
+        return (
+            <a
+                {...props}
+                ref={ref}
+                {...href && { href }}
+            >
+                {children}
+            </a>
+        )
+    }
+)
 
 export default Anchor

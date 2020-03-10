@@ -116,34 +116,37 @@ Nav.Item = function ({
     )
 }
 
-Nav.Link = function ({
-    children,
-    as: _as = 'a',
-    active,
-    disabled,
-    ...props
-}) {
-    if (_as === 'a') _as = Anchor
-    const JSXEl = resolveJSXElement(_as, { allowedHTMLTags: ['a'] });
-
-    return (
-        <JSXEl
-            {...props}
-            className={rclassnames(props, [
-                "nav-link",
-                active && 'active',
-                disabled && 'disabled',
-            ])}
-            {...disabled && {
-                'aria-disabled': true,
-                disabled: true,
-                // un-tabfocusable
-                tabindex: '-1',
-            }}
-        >
-            {children}
-        </JSXEl>
-    )
-}
+Nav.Link = React.forwardRef(
+    function ({
+        children,
+        as: _as = 'a',
+        active,
+        disabled,
+        ...props
+    }, ref) {
+        if (_as === 'a') _as = Anchor
+        const JSXEl = resolveJSXElement(_as, { allowedHTMLTags: ['a'] });
+    
+        return (
+            <JSXEl
+                {...props}
+                ref={ref}
+                className={rclassnames(props, [
+                    "nav-link",
+                    active && 'active',
+                    disabled && 'disabled',
+                ])}
+                {...disabled && {
+                    'aria-disabled': true,
+                    disabled: true,
+                    // un-tabfocusable
+                    tabindex: '-1',
+                }}
+            >
+                {children}
+            </JSXEl>
+        )
+    }
+)
 
 export default Nav
