@@ -14,5 +14,6 @@ rollup*.js
 
 !es
 !lib
-lib/**/*.css.map
+lib/**/*.map
+dist/**/*.map
 dist/pages/

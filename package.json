@@ -20,6 +20,11 @@
   "browser": "./dist/index.js",
   "jsnext:main": "",
   "keywords": [],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/richardo2016/reboot-ui.git"
+  },
   "author": {
     "name": "richardo2016"
   },

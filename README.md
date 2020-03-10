@@ -1,8 +1,11 @@
-# juice-starter
+# Reboot UI
+
+[![npm version](https://img.shields.io/npm/v/reboot-ui.svg)](https://www.npmjs.org/package/reboot-ui)
+[![downloads](https://img.shields.io/npm/dm/reboot-ui.svg)](https://www.npmjs.org/package/reboot-ui)
 
 one UI library based on bootstrap 4, driven by (p)react
 
-> "Write As React in Hooks & Component, but DIFFER in entry file."
+> "Bootstrap 4, but in (p)react."
 
 ## Get Started
 
