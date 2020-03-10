@@ -95,13 +95,15 @@ function getPostConfig (com_name, target = 'es') {
                     },
                 ])
             )
-
-            rollup_cfg.external = rollup_cfg.external
-                .concat(
-                    ['../common']
-                )
-                .concat(externalComs.map(com_name => `../${com_name}/${com_name}`))
         }
+
+        rollup_cfg.external = rollup_cfg.external
+            .concat(
+                ['../common']
+            )
+            .concat(externalComs.map(com_name => `../${com_name}/${com_name}`))
+            .concat(externalComs.map(com_name => `../${com_name}/index.js`))
+            .concat(externalComs.map(com_name => `../${com_name}`))
 
         if (com_name === '__ESM_ENTRY__')
             rollup_cfg.external = rollup_cfg.external.concat(externalComs.map(com_name => `./${com_name}`))
