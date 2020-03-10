@@ -1,6 +1,6 @@
 {
   "name": "reboot-ui",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "one UI library based on bootstrap 4, driven by (p)react",
   "scripts": {
     "build": "cross-env NODE_ENV=production rollup -c",
