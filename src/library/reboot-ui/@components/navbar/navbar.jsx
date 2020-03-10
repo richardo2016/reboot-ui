@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { resolveJSXElement, filterRepsonsiveSize, filterThemeName, tryUseContext } from '../common'
+import { resolveJSXElement, filterRepsonsiveSize, filterThemeName, tryUseContext, renderChildren } from '../common'
 import { rclassnames } from '../common';
 import Anchor from '../helper-anchor';
 import CollapseProto from '../helper-collapse'
@@ -9,12 +9,15 @@ const ControlledCollapse = React.forwardRef(CollapseProto)
 
 const NavbarContext = React.createContext({});
 const ctxSymbol = Symbol('#Navbar')
+const useHookSymbols = {
+    collapse: Symbol('#Navbar#useHook#collapse')
+}
 
-const useInitContextState = () => {
+const useInitContextState = (SYMBOL = ctxSymbol) => {    
     const [ collapse, setCollapse ] = React.useState(true)
 
     const context = {
-        symbol: ctxSymbol,
+        symbol: SYMBOL,
         collapse,
         refs: {},
         _toggleCollapse: (nextStatus = !context.collapse) => setCollapse(nextStatus),
@@ -35,6 +38,14 @@ const useInitContextState = () => {
                 context.refs[member] = null
         }
     }
+
+    // repass change of `collapse` state to last context
+    const lastCtxState = tryUseContext(NavbarContext)
+    React.useEffect(() => {
+        if (lastCtxState.symbol === useHookSymbols.collapse) {
+            lastCtxState._toggleCollapse(context.collapse)
+        }
+    }, [context.collapse])
 
     return [context]
 }
@@ -79,7 +90,7 @@ const Navbar = React.forwardRef(
         theme = filterThemeName(theme)
         bgTheme = filterThemeName(bgTheme)
 
-        const [ contextState ] = useInitContextState()
+        const [ contextState ] = useInitContextState(ctxSymbol)
 
         return (
             <NavbarContext.Provider value={contextState}>
@@ -205,5 +216,18 @@ Navbar.Collapse = React.forwardRef(
         )
     }
 )
+
+Navbar.useCollapse = (fnOrComponent) => {
+    const [ contextState ] = useInitContextState(useHookSymbols.collapse)
+    contextState.symbol = useHookSymbols.collapse
+
+    return (
+        <NavbarContext.Provider value={contextState}>
+            {renderChildren(fnOrComponent, {
+                collapse: contextState.collapse
+            })}
+        </NavbarContext.Provider>
+    )
+}
 
 export default Navbar

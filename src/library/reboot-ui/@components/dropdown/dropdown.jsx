@@ -195,9 +195,20 @@ Dropdown.Toggle = React.forwardRef(
         if (!split)
             return (
                 <JSXEl
+                    {...props}
                     className={btnGroupCls}
                 >
                     <TogglerEl
+                        /**
+                         * @description assign props to TogglerEl when not use split and JSXEL is null
+                         * 
+                         * @why required in some case, e.g. Nav.DropdownItem
+                         */
+                        {...!_as && {
+                            ...props,
+                            className: rclassnames(props, [
+                            ])
+                        }}
                         ref={ref}
                         theme={buttonTheme}
                         size={buttonSize}

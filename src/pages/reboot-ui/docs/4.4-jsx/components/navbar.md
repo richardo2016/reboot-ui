@@ -355,129 +355,88 @@ const Sample = () => {
 
 Theming the navbar has never been easier thanks to the combination of theming classes and `background-color` utilities. Choose from `.navbar-light` for use with light background colors, or `.navbar-dark` for dark background colors. Then, customize with `.bg-*` utilities.
 
-<div class="bd-example">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      {[
+        { theme: 'dark', bgTheme: 'dark', buttonTheme: 'info', },
+        { theme: 'dark', bgTheme: 'primary', buttonTheme: 'light', },
+        { theme: '', bgTheme: '', buttonTheme: 'primary', style: {backgroundColor: '#e3f2fd'} },
 
-    <div class="collapse navbar-collapse" id="navbarColor01">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">About</a>
-        </li>
-      </ul>
-      <form class="form-inline">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
-      </form>
-    </div>
-  </nav>
+        { theme: 'light', bgTheme: 'light', buttonTheme: 'dark', },
+        { theme: 'light', bgTheme: 'warning', buttonTheme: 'dark', },
+        { theme: 'dark', bgTheme: 'danger', buttonTheme: 'light', },
 
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarColor02">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">About</a>
-        </li>
-      </ul>
-      <form class="form-inline">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
-      </form>
-    </div>
-  </nav>
-
-  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarColor03">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">About</a>
-        </li>
-      </ul>
-      <form class="form-inline">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
-      </form>
-    </div>
-  </nav>
-</div>
-
-{% highlight html %}
-<nav class="navbar navbar-dark bg-dark">
-  <!-- Navbar content -->
-</nav>
-
-<nav class="navbar navbar-dark bg-primary">
-  <!-- Navbar content -->
-</nav>
-
-<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
-  <!-- Navbar content -->
-</nav>
-{% endhighlight %}
+      ].map(({ theme, bgTheme, buttonTheme, style }) => {
+        return (
+          <Navbar expandWhen="lg" theme={theme} bgTheme={bgTheme} style={{...style}}>
+            <Navbar.Brand>Navbar</Navbar.Brand>
+            <Navbar.Toggle />
+            <Navbar.Collapse>
+              <Nav.List navbar class="mr-auto">
+                <Nav.Item active>
+                  <Nav.Link>Home <span class="sr-only">(current)</span></Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link>Features</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link>Pricing</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link>About</Nav.Link>
+                </Nav.Item>
+              </Nav.List>
+              <Form inline class="my-2 my-lg-0">
+                <Form.Input class="mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+                <Button outline theme={buttonTheme} class="my-2 my-sm-0" type="submit">Search</Button>
+              </Form>
+            </Navbar.Collapse>
+          </Navbar>
+        )
+      })}
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Containers
 
 Although it's not required, you can wrap a navbar in a `.container` to center it on a page or add one within to only center the contents of a [fixed or static top navbar](#placement).
 
-{% capture example %}
-<div class="container">
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
-  </nav>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Container>
+        <Navbar expandWhen="lg" theme="light" bgTheme="light">
+          <Navbar.Brand>Navbar</Navbar.Brand>
+        </Navbar>
+      </Container>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 When the container is within your navbar, its horizontal padding is removed at breakpoints lower than your specified `.navbar-expand{-sm|-md|-lg|-xl}` class. This ensures we're not doubling up on padding unnecessarily on lower viewports when your navbar is collapsed.
 
-{% capture example %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container">
-    <a class="navbar-brand" href="#">Navbar</a>
-  </div>
-</nav>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Navbar expandWhen="lg" theme="light" bgTheme="light">
+        <Container>
+          <Navbar.Brand>Navbar</Navbar.Brand>
+        </Container>
+      </Navbar>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Placement
 
@@ -485,33 +444,57 @@ Use our [position utilities]({{ site.baseurl }}/docs/{{ site.docs_version }}/uti
 
 Also note that **`.sticky-top` uses `position: sticky`, which [isn't fully supported in every browser](https://caniuse.com/#feat=css-sticky)**.
 
-{% capture example %}
-<nav class="navbar navbar-light bg-light">
-  <a class="navbar-brand" href="#">Default</a>
-</nav>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Navbar theme="light" bgTheme="light">
+        <Navbar.Brand>Default</Navbar.Brand>
+      </Navbar>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
-{% capture example %}
-<nav class="navbar fixed-top navbar-light bg-light">
-  <a class="navbar-brand" href="#">Fixed top</a>
-</nav>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Navbar theme="light" bgTheme="light" class="fixed-top">
+        <Navbar.Brand>Fixed top</Navbar.Brand>
+      </Navbar>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
-{% capture example %}
-<nav class="navbar fixed-bottom navbar-light bg-light">
-  <a class="navbar-brand" href="#">Fixed bottom</a>
-</nav>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Navbar theme="light" bgTheme="light" class="fixed-bottom">
+        <Navbar.Brand>Fixed bottom</Navbar.Brand>
+      </Navbar>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
-{% capture example %}
-<nav class="navbar sticky-top navbar-light bg-light">
-  <a class="navbar-brand" href="#">Sticky top</a>
-</nav>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Navbar theme="light" bgTheme="light" class="sticky-top">
+        <Navbar.Brand>Sticky top</Navbar.Brand>
+      </Navbar>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Responsive behaviors
 
@@ -525,96 +508,135 @@ Navbar togglers are left-aligned by default, but should they follow a sibling el
 
 With no `.navbar-brand` shown in lowest breakpoint:
 
-{% capture example %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-    <a class="navbar-brand" href="#">Hidden brand</a>
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-      </li>
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-  </div>
-</nav>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Navbar expandWhen="lg" theme="light" bgTheme="light">
+        <Navbar.Toggle />
+        <Navbar.Collapse>
+          <Navbar.Brand>Hidden Brand</Navbar.Brand>
+          <Nav.List navbar class="mr-auto">
+            <Nav.Item active>
+              <Nav.Link>Home <span class="sr-only">(current)</span></Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link>Link</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link disabled>Disabled</Nav.Link>
+            </Nav.Item>
+          </Nav.List>
+          <Form inline class="my-2 my-lg-0">
+            <Form.Input class="mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+            <Button outline theme="success" class="my-2 my-sm-0" type="submit">Search</Button>
+          </Form>
+        </Navbar.Collapse>
+      </Navbar>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 With a brand name shown on the left and toggler on the right:
 
-{% capture example %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Navbar</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-      </li>
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-  </div>
-</nav>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Navbar expandWhen="lg" theme="light" bgTheme="light">
+        <Navbar.Brand>Navbar</Navbar.Brand>
+        <Navbar.Toggle />
+        <Navbar.Collapse>
+          <Nav.List navbar class="mr-auto">
+            <Nav.Item active>
+              <Nav.Link>Home <span class="sr-only">(current)</span></Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link>Link</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link disabled>Disabled</Nav.Link>
+            </Nav.Item>
+          </Nav.List>
+          <Form inline class="my-2 my-lg-0">
+            <Form.Input class="mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+            <Button outline theme="success" class="my-2 my-sm-0" type="submit">Search</Button>
+          </Form>
+        </Navbar.Collapse>
+      </Navbar>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 With a toggler on the left and brand name on the right:
 
-{% capture example %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <a class="navbar-brand" href="#">Navbar</a>
-
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-      </li>
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-  </div>
-</nav>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <Navbar expandWhen="lg" theme="light" bgTheme="light">
+        <Navbar.Toggle />
+        <Navbar.Brand>Navbar</Navbar.Brand>
+        <Navbar.Collapse>
+          <Nav.List navbar class="mr-auto">
+            <Nav.Item active>
+              <Nav.Link>Home <span class="sr-only">(current)</span></Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link>Link</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link disabled>Disabled</Nav.Link>
+            </Nav.Item>
+          </Nav.List>
+          <Form inline class="my-2 my-lg-0">
+            <Form.Input class="mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+            <Button outline theme="success" class="my-2 my-sm-0" type="submit">Search</Button>
+          </Form>
+        </Navbar.Collapse>
+      </Navbar>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ### External content
 
 Sometimes you want to use the collapse plugin to trigger hidden content elsewhere on the page. Because our plugin works on the `id` and `data-target` matching, that's easily done!
+
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  const collapseRef = React.useRef(null)
+
+  return (
+    <>
+      <div class="pos-f-t">
+        {Navbar.useCollapse(({ collapse }) => {
+          return (
+            <>
+              <Collapse collapse={collapse}>
+                <div class="bg-dark p-4">
+                  <h5 class="text-white h4">Collapsed content</h5>
+                  <span class="text-muted">Toggleable via the navbar brand.</span>
+                </div>
+              </Collapse>
+              <Navbar expandWhen="lg" theme="dark" bgTheme="dark">
+                <Navbar.Toggle />
+              </Navbar>
+            </>
+          )
+        })}
+      </div>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 {% capture example %}
 <div class="pos-f-t">

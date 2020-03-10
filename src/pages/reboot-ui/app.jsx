@@ -137,42 +137,31 @@ export default function App () {
   return (
     <>
       <Navbar as={'header'} className="bd-navbar navbar-expand navbar-dark flex-column flex-md-row">
-        <a class="navbar-brand mr-0 mr-md-2 d-inline-flex align-items-center" href="#">
-            <Logo className="d-inline-block align-top mr-2" />
+        <Navbar.Brand class="mr-0 mr-md-2 d-inline-flex align-items-center">
+          <Logo className="d-inline-block align-top mr-2" />
             Reboot UI
-        </a>
+        </Navbar.Brand>
         <div class="navbar-nav-scroll">
-          <ul class="navbar-nav bd-navbar-nav flex-row">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">
-                Home
-                {/* <span class="sr-only">(current)</span> */}
-              </a>
-            </li>
-            <li class="nav-item">
-              <Link class="nav-link" href="#">Docs(JSX)</Link>
-            </li>
-            <li class="nav-item">
-              <Link class="nav-link" href="#">Docs(Orignal)</Link>
-            </li>
-          </ul>
+          <Nav.List navbar className="bd-navbar-nav flex-row">
+            <Nav.Item active>
+              <Nav.Link>Home <span class="sr-only">(current)</span></Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link>Docs(JSX)</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link>Docs(Orignal)</Nav.Link>
+            </Nav.Item>
+          </Nav.List>
         </div>
-        <ul className="navbar-nav ml-md-auto">
-          <Dropdown
-            className="nav-item"
-            as="li"
-          >
-            <a
-              class="nav-item nav-link dropdown-toggle mr-md-2"
-              href="javascript:void(0)"
+        <Nav.List navbar className="ml-md-auto">
+          <Nav.DropdownItem>
+            <Dropdown.Toggle
+              className="mr-md-2"
               id="bd-versions"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
             >
               v{docVersion}
-            </a>
-            {/* we can also set it as Dropdown::props['overlay'] */}
+            </Dropdown.Toggle>
             <Dropdown.Menu
               className="dropdown-menu-md-right"
               aria-labelledby="bd-versions"
@@ -209,8 +198,8 @@ export default function App () {
                 All versions
               </Dropdown.Item>
             </Dropdown.Menu>
-          </Dropdown>
-        </ul>
+          </Nav.DropdownItem>
+        </Nav.List>
       </Navbar>
       <Layout.Container
         fluid
@@ -226,26 +215,18 @@ export default function App () {
                 <div class="ds-dataset-1" />
               </span>
               </span>
-              <button
-                class="btn btn-link bd-search-docs-toggle d-md-none p-0 ml-3"
-                type="button"
-                data-toggle="collapse"
-                data-target="#bd-docs-nav"
-                aria-controls="bd-docs-nav"
-                aria-expanded="false"
-                aria-label="Toggle docs navigation"
-                onClick={() => {
-                  setShowNavs(!showNavs)
-                }}
+              <Button
+                theme="link"
+                class="bd-search-docs-toggle d-md-none p-0 ml-3"
+                onClick={() => setShowNavs(!showNavs)}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" role="img" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg>
-              </button>
+              </Button>
             </form>
-            <Nav
-              className={[
-                "collapse bd-links",
-                showNavs && 'show',
-              ].filter(x => x).join(' ')}
+            <Collapse
+              as={Nav}
+              collapse={!showNavs}
+              className="bd-links"
               id="bd-docs-nav"
             >
               {NAVKEYS.map((group) => {
@@ -295,7 +276,7 @@ export default function App () {
                   </Match>
                 )
               })}
-            </Nav>
+            </Collapse>
           </Layout.Col>
 
           <Router
