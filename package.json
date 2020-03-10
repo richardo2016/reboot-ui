@@ -12,7 +12,8 @@
     "prepublishOnly": "npm run build",
     "dev": "npm-run-all --parallel start watch",
     "test": "jest",
-    "start": "serve ."
+    "start": "serve .",
+    "deploy:github": "npm run build && git add -A && git commit -m'chore: deploy doc github page' && git push"
   },
   "main": "./build/library/reboot-ui/index.js",
   "browser": "./build/library/reboot-ui/index.js",
