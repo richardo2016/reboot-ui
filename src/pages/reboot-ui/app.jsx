@@ -3,8 +3,6 @@ import Router, { route } from 'preact-router';
 import Match, { Link } from 'preact-router/match';
 import { createHashHistory } from 'history';
 import classnames from 'classnames'
-import Prism from 'prismjs'
-Prism.manual = true
 
 import './reg-reboot-ui'
 
@@ -117,7 +115,6 @@ export default function App () {
 
         setTimeout(() => {
           evalDocJs();
-          // if (mainContentRef.current) Prism.highlightAllUnder(getHTMLElementFromJSXElement(mainContentRef.current), true)
         }, 50);
 
         return json;

@@ -31,13 +31,24 @@ function getPostConfig (com_name, target = 'es') {
             break;
     }
     return (rollup_cfg) => {
-
-        rollup_cfg.output.file = `${dest_base}/${com_name}/index.js`
-
-        if (target === 'lib') {
-            const newFile = rollup_cfg.input.replace('index.js', 'index.style.js')
-            if (fs.existsSync(path.resolve(__dirname, newFile)))
-                rollup_cfg.input = newFile
+        switch (com_name) {
+            case '__ESM_ENTRY__':
+                rollup_cfg.input = rollup_cfg.input.replace('__ESM_ENTRY__/index.js', 'index.no-style.js')
+                rollup_cfg.output.file = `${dest_base}/index.js`
+                break;
+            case '__LIB_ENTRY__':
+                rollup_cfg.input = rollup_cfg.input.replace('__LIB_ENTRY__/index.js', 'index.no-style.js')
+                rollup_cfg.output.file = `${dest_base}/index.js`
+                break;
+            default:
+                rollup_cfg.output.file = `${dest_base}/${com_name}/index.js`
+    
+                if (target === 'lib') {
+                    const newFile = rollup_cfg.input.replace('index.js', 'index.style.js')
+                    if (fs.existsSync(path.resolve(__dirname, newFile)))
+                        rollup_cfg.input = newFile
+                }
+                break;
         }
 
         rollup_cfg.output.format = format
@@ -62,6 +73,12 @@ function getPostConfig (com_name, target = 'es') {
             '@popperjs/core/lib/modifiers/applyStyles',
         ]
 
+        const externalComs = allComponentNames
+        .filter(com_name => {
+            if (com_name === 'style') return false
+            if (com_name === 'common') return false
+            return true;
+        })
         if (target === 'es') {
             rollup_cfg.plugins.unshift(
                 copyGlob([
@@ -78,19 +95,19 @@ function getPostConfig (com_name, target = 'es') {
                     },
                 ])
             )
+
             rollup_cfg.external = rollup_cfg.external
                 .concat(
                     ['../common']
-                ).concat(
-                    allComponentNames
-                        .filter(com_name => {
-                            if (com_name === 'style') return false
-                            if (com_name === 'common') return false
-                            return true;
-                        })
-                        .map(com_name => `../${com_name}/${com_name}`)
                 )
+                .concat(externalComs.map(com_name => `../${com_name}/${com_name}`))
         }
+
+        if (com_name === '__ESM_ENTRY__')
+            rollup_cfg.external = rollup_cfg.external.concat(externalComs.map(com_name => `./${com_name}`))
+        
+        if (com_name === '__LIB_ENTRY__')
+            rollup_cfg.external = rollup_cfg.external.concat(externalComs.map(com_name => `./${com_name}`))
     }
 }
 
@@ -98,7 +115,9 @@ console.log('allComponentNames:', allComponentNames.join(EOL));
 
 const buildTargets = []
 
-allComponentNames.forEach(name => {
+allComponentNames
+.concat('__ESM_ENTRY__')
+.forEach(name => {
     buildTargets.push(
         getConfigItem(name, {
             mvvm_type: 'react',
@@ -142,7 +161,9 @@ allComponentNames.forEach(name => {
     )
 })
 
-allComponentNames.forEach(name => {
+allComponentNames
+.concat('__LIB_ENTRY__')
+.forEach(name => {
     buildTargets.push(
         getConfigItem(name, {
             mvvm_type: 'react',

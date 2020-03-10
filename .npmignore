@@ -2,5 +2,17 @@ demo
 src
 rollup.config.js
 
+bootstrap-*
+docs
+
+test
+
+build
+rollup*
+jest.config.js
+rollup*.js
+
 !es
 !lib
+lib/**/*.css.map
+dist/pages/

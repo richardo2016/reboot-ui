@@ -22,6 +22,7 @@ export default [
 		app_type: 'library',
 		babel_options: {},
 		postConfig: (rollup_cfg) => {
+			rollup_cfg.output.file = `dist/index.js`
 			rollup_cfg.output.globals = {
 				'react': 'React',
 				'react-dom': 'ReactDOM',
@@ -58,7 +59,7 @@ export default [
 		preact_options: { compat_mode: 'compat', },
 		postConfig: (rollup_cfg) => {
 			const basedir = path.resolve(__dirname, `./src/pages/reboot-ui/docs/`)
-			const destdir = path.resolve(__dirname, `./build/pages/reboot-ui/static/docs/`)
+			const destdir = path.resolve(__dirname, `./dist/pages/reboot-ui/static/docs/`)
 			const allDocVersions = fs.readdirSync(basedir)
 			const REBOOT_DOC_VERSION = process.env.REBOOT_DOC_VERSION || allDocVersions[0];
 
@@ -97,7 +98,7 @@ export default [
 							shelljs.rm('-rf', dest)
 							shelljs.mkdir('-p', pdest)
 							
-							shelljs.cp('-fR', path.resolve(`./build/pages/reboot-ui`), pdest)
+							shelljs.cp('-fR', path.resolve(`./dist/pages/reboot-ui`), pdest)
 
 							shelljs.cp('-fR', path.resolve(`./static/`), dest)
 						}

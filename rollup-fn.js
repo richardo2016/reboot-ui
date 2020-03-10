@@ -63,7 +63,7 @@ export function getConfigItem (name, opts) {
 	const rollup_cfg = {
 		input: `src/${app_type}/${name}/index.js`,
 		output: {
-			file: `build/${app_type}/${name}/index.js`,
+			file: `dist/${app_type}/${name}/index.js`,
 			format: format, // immediately-invoked function expression — suitable for <script> tags
 			sourcemap: !isProduction,
 			name: umdName,
@@ -125,19 +125,6 @@ export function getConfigItem (name, opts) {
             'react-dom': 'ReactDOM'
         }
 		rollup_cfg.external = [ 'react', 'react-dom' ]
-
-		rollup_cfg.plugins.push(
-			copyGlob([
-				{
-					files: 'node_modules/react/umd/react.production.min.js',
-					dest: `build/${app_type}/${name}/cdn`
-				},
-				{
-					files: 'node_modules/react-dom/umd/react-dom.production.min.js',
-					dest: `build/${app_type}/${name}/cdn`
-				}
-			])
-		)
 	} else if (use_preact) {
 		rollup_cfg.plugins.unshift(
 			resolveAliases({
