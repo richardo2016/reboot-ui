@@ -12,43 +12,55 @@ We use a large block of connected links for our pagination, making links hard to
 
 In addition, as pages likely have more than one such navigation section, it's advisable to provide a descriptive `aria-label` for the `<nav>` to reflect its purpose. For example, if the pagination component is used to navigate between a set of search results, an appropriate label could be `aria-label="Search results pages"`.
 
-{% capture example %}
-<nav aria-label="Page navigation example">
-  <ul class="pagination">
-    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-  </ul>
-</nav>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <nav aria-label="Page navigation example">
+        <Pagination>
+          <Pagination.Item link>Previous</Pagination.Item>
+          <Pagination.Item link>1</Pagination.Item>
+          <Pagination.Item link>2</Pagination.Item>
+          <Pagination.Item link>3</Pagination.Item>
+          <Pagination.Item link>Next</Pagination.Item>
+        </Pagination>
+      </nav>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Working with icons
 
 Looking to use an icon or symbol in place of text for some pagination links? Be sure to provide proper screen reader support with `aria` attributes.
 
-{% capture example %}
-<nav aria-label="Page navigation example">
-  <ul class="pagination">
-    <li class="page-item">
-      <a class="page-link" href="#" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
-      </a>
-    </li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item">
-      <a class="page-link" href="#" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-      </a>
-    </li>
-  </ul>
-</nav>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <nav aria-label="Page navigation example">
+        <Pagination>
+          <Pagination.Item>
+            <Pagination.Link aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </Pagination.Link>
+          </Pagination.Item>
+          <Pagination.Item link>1</Pagination.Item>
+          <Pagination.Item link>2</Pagination.Item>
+          <Pagination.Item link>3</Pagination.Item>
+          <Pagination.Item>
+            <Pagination.Link aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </Pagination.Link>
+          </Pagination.Item>
+        </Pagination>
+      </nav>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Disabled and active states
 
@@ -56,119 +68,146 @@ Pagination links are customizable for different circumstances. Use `.disabled` f
 
 While the `.disabled` class uses `pointer-events: none` to _try_ to disable the link functionality of `<a>`s, that CSS property is not yet standardized and doesn't account for keyboard navigation. As such, you should always add `tabindex="-1"` on disabled links and use custom JavaScript to fully disable their functionality.
 
-{% capture example %}
-<nav aria-label="...">
-  <ul class="pagination">
-    <li class="page-item disabled">
-      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-    </li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item active" aria-current="page">
-      <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-    </li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item">
-      <a class="page-link" href="#">Next</a>
-    </li>
-  </ul>
-</nav>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <nav aria-label="...">
+        <Pagination>
+          <Pagination.Item disabled link>
+            Previous
+          </Pagination.Item>
+          <Pagination.Item link>1</Pagination.Item>
+          <Pagination.Item active link>2 <span class="sr-only">(current)</span></Pagination.Item>
+          <Pagination.Item link>3</Pagination.Item>
+          <Pagination.Item>
+            <Pagination.Link aria-label="Next">
+              Next
+            </Pagination.Link>
+          </Pagination.Item>
+        </Pagination>
+      </nav>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 You can optionally swap out active or disabled anchors for `<span>`, or omit the anchor in the case of the prev/next arrows, to remove click functionality and prevent keyboard focus while retaining intended styles.
 
-{% capture example %}
-<nav aria-label="...">
-  <ul class="pagination">
-    <li class="page-item disabled">
-      <span class="page-link">Previous</span>
-    </li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item active" aria-current="page">
-      <span class="page-link">
-        2
-        <span class="sr-only">(current)</span>
-      </span>
-    </li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item">
-      <a class="page-link" href="#">Next</a>
-    </li>
-  </ul>
-</nav>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <nav aria-label="...">
+        <Pagination>
+          <Pagination.Item disabled>
+            <span class="page-link">Previous</span>
+          </Pagination.Item>
+          <Pagination.Item link>1</Pagination.Item>
+          <Pagination.Item active link>2 <span class="sr-only">(current)</span></Pagination.Item>
+          <Pagination.Item link>3</Pagination.Item>
+          <Pagination.Item>
+            <Pagination.Link>
+              Next
+            </Pagination.Link>
+          </Pagination.Item>
+        </Pagination>
+      </nav>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Sizing
 
 Fancy larger or smaller pagination? Add `.pagination-lg` or `.pagination-sm` for additional sizes.
 
-{% capture example %}
-<nav aria-label="...">
-  <ul class="pagination pagination-lg">
-    <li class="page-item active" aria-current="page">
-      <span class="page-link">
-        1
-        <span class="sr-only">(current)</span>
-      </span>
-    </li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-  </ul>
-</nav>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <nav aria-label="...">
+        <Pagination size="lg">
+          <Pagination.Item active link>1 <span class="sr-only">(current)</span></Pagination.Item>
+          <Pagination.Item link>2</Pagination.Item>
+          <Pagination.Item link>3</Pagination.Item>
+        </Pagination>
+      </nav>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
-{% capture example %}
-<nav aria-label="...">
-  <ul class="pagination pagination-sm">
-    <li class="page-item active" aria-current="page">
-      <span class="page-link">
-        1
-        <span class="sr-only">(current)</span>
-      </span>
-    </li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-  </ul>
-</nav>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <nav aria-label="...">
+        <Pagination size="sm">
+          <Pagination.Item active link>1 <span class="sr-only">(current)</span></Pagination.Item>
+          <Pagination.Item link>2</Pagination.Item>
+          <Pagination.Item link>3</Pagination.Item>
+        </Pagination>
+      </nav>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
 ## Alignment
 
 Change the alignment of pagination components with [flexbox utilities]({{ site.baseurl }}/docs/{{ site.docs_version }}/utilities/flex/).
 
-{% capture example %}
-<nav aria-label="Page navigation example">
-  <ul class="pagination justify-content-center">
-    <li class="page-item disabled">
-      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-    </li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item">
-      <a class="page-link" href="#">Next</a>
-    </li>
-  </ul>
-</nav>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <nav aria-label="Page navigation example">
+        <Pagination class="justify-content-center">
+          <Pagination.Item disabled link>
+            Previous
+          </Pagination.Item>
+          <Pagination.Item link>1</Pagination.Item>
+          <Pagination.Item link>2 <span class="sr-only">(current)</span></Pagination.Item>
+          <Pagination.Item link>3</Pagination.Item>
+          <Pagination.Item>
+            <Pagination.Link>
+              Next
+            </Pagination.Link>
+          </Pagination.Item>
+        </Pagination>
+      </nav>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}
 
-{% capture example %}
-<nav aria-label="Page navigation example">
-  <ul class="pagination justify-content-end">
-    <li class="page-item disabled">
-      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-    </li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item">
-      <a class="page-link" href="#">Next</a>
-    </li>
-  </ul>
-</nav>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = () => {
+  return (
+    <>
+      <nav aria-label="Page navigation example">
+        <Pagination class="justify-content-end">
+          <Pagination.Item disabled link>
+            Previous
+          </Pagination.Item>
+          <Pagination.Item link>1</Pagination.Item>
+          <Pagination.Item link>2 <span class="sr-only">(current)</span></Pagination.Item>
+          <Pagination.Item link>3</Pagination.Item>
+          <Pagination.Item>
+            <Pagination.Link>
+              Next
+            </Pagination.Link>
+          </Pagination.Item>
+        </Pagination>
+      </nav>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html mexample=mexample_with_code %}

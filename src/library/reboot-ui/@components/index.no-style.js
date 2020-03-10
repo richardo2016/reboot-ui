@@ -36,3 +36,5 @@ export { default as Tooltip } from './tooltip'
 
 export { default as Form } from './form'
 
+export { default as Pagination } from './pagination'
+

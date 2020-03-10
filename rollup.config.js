@@ -37,6 +37,9 @@ export default [
 		app_type: 'pages',
 		babel_options: {
 			plugins: [
+				/**
+				 * @see https://github.com/ant-design/babel-plugin-import
+				 */
 				['import', {
 					// set `reboot-ui` for published version
 					"libraryName": "reboot-ui",

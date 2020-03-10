@@ -38,6 +38,7 @@ import {
     Modal,
     Tooltip,
     Form,
+    Pagination,
 } from 'reboot-ui'
 
 window.Layout = Layout
@@ -72,6 +73,7 @@ window.ListGroup = ListGroup
 window.Modal = Modal
 window.Tooltip = Tooltip
 window.Form = Form
+window.Pagination = Pagination
 
 import * as stringUtils from '../../utils/string'
 import classnames from 'classnames'
