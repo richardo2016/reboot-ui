@@ -23,7 +23,7 @@ function getMarkedRender () {
 
     function wrapToFigureTag(html) {
         return ''
-        + '<figure class="highlight testest">'
+        + '<figure class="highlight">'
         + html
         + '</figure>\n';
     }
