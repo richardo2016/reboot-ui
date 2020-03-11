@@ -15,7 +15,7 @@
     "dev": "npm-run-all --parallel start watch",
     "test": "jest",
     "start": "serve .",
-    "deploy:github": "npm run build && git add -A && git commit -m'chore: deploy doc github page' && git push"
+    "deploy:github": "npm run pkg:build && npm run build && git add -A && git commit -m'chore: deploy doc github page' && git push"
   },
   "main": "./lib/index.js",
   "module": "./es/index.js",
