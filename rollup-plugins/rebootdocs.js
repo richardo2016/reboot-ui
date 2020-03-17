@@ -1,18 +1,18 @@
-import fs from 'fs'
-import path from 'path'
-import frontmatter from 'front-matter'
-import { createFilter } from '@rollup/pluginutils';
+const fs = require('fs')
+const path = require('path')
+const frontmatter = require('front-matter')
+const { createFilter } = require('@rollup/pluginutils')
 
-import marked from 'marked'
-import shelljs from 'shelljs'
-import YAML from 'js-yaml'
-import htmlEscaper from 'html-escaper'
+const marked = require('marked')
+const shelljs = require('shelljs')
+const YAML = require('js-yaml')
+const htmlEscaper = require('html-escaper')
 
-import { Liquid } from '@reboot-ui/liquidjs';
+const { Liquid } = require('@reboot-ui/liquidjs')
 
-import { isProduction } from './build-env'
+const { isProduction } = require('./build-env')
 
-const { Prism } = require('./rollup-plugins/prism')
+const { Prism } = require('../rollup-plugins/prism')
 
 /**
  * @description for customize marked render
@@ -62,16 +62,17 @@ function getMarkedRender () {
 function getLiquidEngine (options = {}) {
     const lqengine = new Liquid(options);
 
-    lqengine.plugin(require('./rollup-plugins/liquidjs/tag-reboot_mvvm'))
-    lqengine.plugin(require('./rollup-plugins/liquidjs/tag-highlight'))
-    lqengine.plugin(require('./rollup-plugins/liquidjs/filter-markdownify'))
+    lqengine.plugin(require('../rollup-plugins/liquidjs/tag-reboot_mvvm'))
+    lqengine.plugin(require('../rollup-plugins/liquidjs/tag-highlight'))
+    lqengine.plugin(require('../rollup-plugins/liquidjs/filter-markdownify'))
 
     return lqengine;
 }
 
-function loadSiteData () {
+function loadSiteData ({
+    basedir = '_data'
+}) {
     const sitedata = {};
-    const basedir = path.resolve(__dirname, './src/pages/reboot-ui/_data')
 
     const ymls = fs.readdirSync(basedir)
 
@@ -120,14 +121,18 @@ function normalizeToPosixPath (relpath) {
 }
 
 // export a function that can take configuration options
-export default function markdown (inputopts = {}) {
+module.exports = function rollupPluginRebootDocs (inputopts = {}) {
     const options = Object.assign({}, defaults, inputopts);
+
+    const basedir = path.normalize(options.basedir)
 
     // include or exclude files
     const filter = createFilter(options.include, options.exclude);
 
-    const navs = {};
-    const sitedata = loadSiteData();
+    const versionedNavs = {};
+    const sitedata = loadSiteData({
+        basedir: path.resolve(basedir, '_data')
+    });
     const sitedataWrapper = { data: sitedata }
     const lqglobals = {
         site: sitedataWrapper,
@@ -151,14 +156,14 @@ export default function markdown (inputopts = {}) {
 
         writeBundle: () => {
             if (inputopts.destjsondir) {
-                Object.keys(navs).forEach(versionType => {
+                Object.keys(versionedNavs).forEach(versionType => {
                     const jsonpath = path.resolve(options.destjsondir, `${versionType}/manifest.json`)
                     shelljs.mkdir('-p', path.dirname(jsonpath))
 
                     fs.writeFileSync(
                         jsonpath,
                         toSource(
-                            sortNavs(navs[versionType]),
+                            sortNavs(versionedNavs[versionType]),
                             { pretty: !isProduction }
                         )
                     )
@@ -166,11 +171,11 @@ export default function markdown (inputopts = {}) {
 
                 const siteDataFilePath = path.resolve(options.destjsondir, `data.json`)
                 shelljs.mkdir('-p', path.dirname(siteDataFilePath))
-                fs.writeFileSync(siteDataFilePath, toSource(sitedataWrapper, {pretty: isProduction}))
+                fs.writeFileSync(siteDataFilePath, toSource(sitedataWrapper, {pretty: true}))
             }
 
             if (options.sourcecodedir) {
-                const sourceDataFilePath = path.resolve(options.sourcecodedir, './library/reboot-ui/@data/data.json')
+                const sourceDataFilePath = path.resolve(options.sourcecodedir, './reboot-ui/@data/data.json')
                 shelljs.mkdir('-p', path.dirname(sourceDataFilePath))
                 if (!fs.existsSync(sourceDataFilePath))
                     fs.writeFileSync(sourceDataFilePath, toSource({
@@ -206,17 +211,19 @@ export default function markdown (inputopts = {}) {
             }
             result = marked(result, markedOptions)
 
-            const basedir = path.normalize(options.basedir)
             const relname = path.relative(basedir, id)
             const extname = path.extname(id)
             const basename = path.basename(id)
             const platform_relname = path.normalize(relname)
 
-            const [versionType, group = 'common'] = path.normalize(relname).split(path.sep) || []
+            const [_, versionType, group = 'common', ...rest] = path.normalize(relname).split(path.sep) || []
+            const version_platform_relname = [versionType, group, ...rest].join(path.sep);
+
+            // console.log('relname', relname, version_platform_relname);
             const regexp = new RegExp(`${extname}$`, 'i')
             
             const name = basename.replace(regexp, '')
-            const reljsonpath = platform_relname.replace(regexp, '.json')
+            const reljsonpath = version_platform_relname.replace(regexp, '.json')
 
             result = addLeadInfoForPage(result, fm.attributes)
 
@@ -226,14 +233,14 @@ export default function markdown (inputopts = {}) {
                 type: group,
                 group,
                 basename,
-                relpath: normalizeToPosixPath(platform_relname).replace(regexp, '.json'),
+                relpath: normalizeToPosixPath(version_platform_relname).replace(regexp, '.json'),
                 attributes: fm.attributes,
             }
             
-            navs[versionType] = navs[versionType] || [];
-            let idx = navs[versionType].findIndex(item => item.name === navInfo.name)
-            if (idx === -1) navs[versionType].push(navInfo)
-            else navs[versionType][idx] = navInfo
+            versionedNavs[versionType] = versionedNavs[versionType] || [];
+            let idx = versionedNavs[versionType].findIndex(item => item.name === navInfo.name)
+            if (idx === -1) versionedNavs[versionType].push(navInfo)
+            else versionedNavs[versionType][idx] = navInfo
             
             const pageInfo = {...navInfo, html: result}
 
