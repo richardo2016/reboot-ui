@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { isReactTypeOf, parseChildrenProp, rclassnames } from '../../common'
-import { useSelectorsListener } from '../../common'
-import { useDefaultValue } from '../../common'
-import { resolveJSXElement } from '../../common';
-import CollapseProto from '../../helper-collapse'
+import { isReactTypeOf, parseChildrenProp, rclassnames } from '@reboot-ui/common'
+import { useSelectorsListener } from '@reboot-ui/common'
+import { useDefaultValue } from '@reboot-ui/common'
+import { resolveJSXElement } from '@reboot-ui/common';
+import CollapseProto from '@reboot-ui/icomponent-collapse'
 
 const Collapse = React.forwardRef(CollapseProto)
 

@@ -1,13 +1,12 @@
 import React from 'react'
 
 import { Transition } from 'react-transition-group';
-import Popper from '../../helper-popper';
+import Popper from '@reboot-ui/icomponent-popper';
 
-import { resolveJSXElement, rclassnames, tryUseContext } from '../../common';
-import { parsePlacement } from '../../common';
-import { coerceInteger } from '../../common';
-import { TransitionTimeouts } from '../../common';
-import { useFixupPopoverToken } from '../../common/popper';
+import { resolveJSXElement, rclassnames, tryUseContext } from '@reboot-ui/common';
+import { parsePlacement } from '@reboot-ui/common';
+import { coerceInteger } from '@reboot-ui/common';
+import { TransitionTimeouts } from '@reboot-ui/common';
 
 const PopverContext = React.createContext({
     arrowRef: null,
@@ -52,7 +51,7 @@ const Popover = React.forwardRef(
             popperOptions.modifiers = [];
 
             popperOptions.modifiers.push({
-                name: useFixupPopoverToken('fixup-popper-placement'),
+                name: Popper.useFixupPopoverToken('fixup-popper-placement'),
                 options: {
                     fixup: ({ realPlacement }) => {
                         if (realPlacement === pmInfo.placement) return ;

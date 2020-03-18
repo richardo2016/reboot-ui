@@ -8,8 +8,8 @@ import {
     usePagination,
     renderChildren,
     arraify,
-} from '../../common'
-import Anchor from '../../helper-anchor';
+} from '@reboot-ui/common'
+import Anchor from '@reboot-ui/icomponent-anchor';
 
 const symbol = Symbol('#pagination')
 

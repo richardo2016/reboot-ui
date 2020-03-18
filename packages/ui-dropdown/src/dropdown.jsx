@@ -3,13 +3,12 @@ import classnames from 'classnames'
 import { Transition } from 'react-transition-group';
 
 import Button from '../../ui-button';
-import Popper from '../../helper-popper';
+import Popper from '@reboot-ui/icomponent-popper';
 
-import { TransitionTimeouts, resolveJSXElement } from '../../common';
-import { rclassnames, tryUseContext, parsePlacement } from '../../common'
+import { TransitionTimeouts, resolveJSXElement } from '@reboot-ui/common';
+import { rclassnames, tryUseContext, parsePlacement } from '@reboot-ui/common'
 
 import { DropdownMenu, DropdownItem } from './others';
-import { useFixupPopoverToken } from '../../common/popper';
 
 const DropdownCtx = React.createContext({})
 
@@ -51,7 +50,7 @@ const Dropdown = React.forwardRef(
             popperOptions.modifiers = [];
 
             popperOptions.modifiers.push({
-                name: useFixupPopoverToken('fixup-popper-placement'),
+                name: Popper.useFixupPopoverToken('fixup-popper-placement'),
                 options: {
                     fixup: ({ realPlacement }) => {
                         if (realPlacement === pmInfo.placement) return ;

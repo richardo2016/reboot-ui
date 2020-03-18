@@ -2,9 +2,9 @@ import React from 'react'
 
 import { Transition } from 'react-transition-group';
 
-import { rclassnames } from '../../common'
-import { useDefaultValue } from '../../common'
-import { TransitionTimeouts, resolveJSXElement } from '../../common';
+import { rclassnames } from '@reboot-ui/common'
+import { useDefaultValue } from '@reboot-ui/common'
+import { TransitionTimeouts, resolveJSXElement } from '@reboot-ui/common';
 
 function getTransitionClass(status) {
     return transtionClasses[status] || 'collapse';

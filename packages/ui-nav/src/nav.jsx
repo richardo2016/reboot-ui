@@ -2,11 +2,11 @@ import React from 'react'
 
 import Dropdown from '../../ui-dropdown';
 
-import { rclassnames, isReactTypeOf } from '../../common';
-import { flatten2trimedStrList } from '../../common';
-import { arraify } from '../../common';
-import { resolveJSXElement } from '../../common';
-import Anchor from '../../helper-anchor';
+import { rclassnames, isReactTypeOf } from '@reboot-ui/common';
+import { flatten2trimedStrList } from '@reboot-ui/common';
+import { arraify } from '@reboot-ui/common';
+import { resolveJSXElement } from '@reboot-ui/common';
+import Anchor from '@reboot-ui/icomponent-anchor';
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/nav/#supported-content

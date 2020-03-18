@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { resolveJSXElement, rclassnames } from '../../common';
+import { resolveJSXElement, rclassnames } from '@reboot-ui/common';
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/jumbotron/#supported-content

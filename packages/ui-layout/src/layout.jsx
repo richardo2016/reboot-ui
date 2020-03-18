@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { getOffsetAboutClsNameListFromBreakPointConfig, getDivisionAboutClsNameListFromBreakPointConfig } from '../../common/ui'
-import { resolveJSXElement, rclassnames } from '../../common'
+import { getOffsetAboutClsNameListFromBreakPointConfig, getDivisionAboutClsNameListFromBreakPointConfig } from '@reboot-ui/internal-size-resolver'
+import { resolveJSXElement, rclassnames } from '@reboot-ui/common'
 
 export const Container = ({
     children,

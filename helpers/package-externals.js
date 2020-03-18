@@ -1,9 +1,13 @@
 const fs = require('fs')
 const path = require('path')
 
-const externalComponents = fs.readdirSync(
+const componentDirs = fs.readdirSync(
     path.resolve(__dirname, '../packages')
-).filter(dirname => dirname.indexOf('ui-') === 0)
+).filter(dname => 
+    dname.indexOf('ui-') === 0
+    || dname.indexOf('internal-') === 0
+    || dname.indexOf('icomponent-') === 0
+)
 
 module.exports = [
     'react',
@@ -21,7 +25,7 @@ module.exports = [
     '@popperjs/core/lib/modifiers/computeStyles',
     '@popperjs/core/lib/modifiers/applyStyles',
 ]
-.concat('../../common')
-.concat(externalComponents.map(com_name => `../../${com_name}/${com_name}`))
-.concat(externalComponents.map(com_name => `../../${com_name}/index.js`))
-.concat(externalComponents.map(com_name => `../../${com_name}`))
+// .concat(componentDirs.map(com_dname => `../../${com_dname}/${com_dname}`))
+// .concat(componentDirs.map(com_dname => `../../${com_dname}/index.js`))
+// .concat(componentDirs.map(com_dname => `../../${com_dname}`))
+.concat(componentDirs.map(com_dname => `@reboot-ui/${com_dname}`))

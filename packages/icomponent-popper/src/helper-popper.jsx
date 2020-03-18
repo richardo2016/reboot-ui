@@ -1,13 +1,13 @@
 import React from 'react'
 
-import { resolveJSXElement } from '../../common'
-import { parseChildrenProp, isReactTypeOf, getHTMLElementFromJSXElement, filterPopperTrigger } from '../../common';
-import { useClickaway } from '../../common';
-import { useHoveraway } from '../../common';
+import { resolveJSXElement } from '@reboot-ui/common'
+import { parseChildrenProp, isReactTypeOf, getHTMLElementFromJSXElement, filterPopperTrigger } from '@reboot-ui/common';
+import { useClickaway } from '@reboot-ui/common';
+import { useHoveraway } from '@reboot-ui/common';
 
-import { createPopup } from '../../common/popper';
-import { flatten } from '../../common';
-import { filterPlacement } from '../../common';
+import { useFixupPopoverToken, createPopup } from './utils';
+import { flatten } from '@reboot-ui/common';
+import { filterPlacement } from '@reboot-ui/common';
 
 function useLatestInstanceRef () {
     const popperRef = React.useRef(null);
@@ -178,5 +178,8 @@ const Popper = React.forwardRef(
         )
     }
 )
+
+Popper.createPopup = createPopup
+Popper.useFixupPopoverToken = useFixupPopoverToken
 
 export default Popper

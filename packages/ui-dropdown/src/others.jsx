@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { resolveJSXElement } from '../../common'
-import { rclassnames } from '../../common'
-import { getDirectionAboutClsNameListFromBreakPointConfig } from '../../common/ui'
-import Anchor from '../../helper-anchor'
+import { resolveJSXElement } from '@reboot-ui/common'
+import { rclassnames } from '@reboot-ui/common'
+import { getDirectionAboutClsNameListFromBreakPointConfig } from '@reboot-ui/internal-size-resolver'
+import Anchor from '@reboot-ui/icomponent-anchor'
 
 export const DropdownItem = React.forwardRef(function ({
     children,

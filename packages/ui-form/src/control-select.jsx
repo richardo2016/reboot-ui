@@ -3,8 +3,8 @@ import React from 'react'
 import { useControlProps } from './hooks'
 import Select from '../../ui-select'
 
-import { filterFormControlSize } from '../../common'
-import { rclassnames } from '../../common'
+import { filterFormControlSize } from '@reboot-ui/common'
+import { rclassnames } from '@reboot-ui/common'
 
 export default (Form) => {
     Form.Select = React.forwardRef(

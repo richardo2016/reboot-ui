@@ -2,12 +2,11 @@ import React from 'react'
 
 import { Transition } from 'react-transition-group';
 
-import { resolveJSXElement } from '../../common';
-import Popper from '../../helper-popper';
-import { rclassnames, tryUseContext, isReactTypeOf, parseChildrenProp } from '../../common';
-import { parsePlacement } from '../../common';
-import { TransitionTimeouts } from '../../common';
-import { useFixupPopoverToken } from '../../common/popper';
+import { resolveJSXElement } from '@reboot-ui/common';
+import Popper from '@reboot-ui/icomponent-popper';
+import { rclassnames, tryUseContext, isReactTypeOf, parseChildrenProp } from '@reboot-ui/common';
+import { parsePlacement } from '@reboot-ui/common';
+import { TransitionTimeouts } from '@reboot-ui/common';
 
 const TooltipContext = React.createContext({
     fromOptions: {},
@@ -54,7 +53,7 @@ const Tooltip = React.forwardRef(
             popperOptions.modifiers = [];
 
             popperOptions.modifiers.push({
-                name: useFixupPopoverToken('fixup-popper-placement'),
+                name: Popper.useFixupPopoverToken('fixup-popper-placement'),
                 options: {
                     fixup: ({ realPlacement }) => {
                         if (realPlacement === pmInfo.placement) return ;

@@ -1,0 +1,40 @@
+{
+  "name": "@reboot-ui/icomponent-collapse",
+  "version": "0.1.0",
+  "description": "UI Component of Reboot UI",
+  "author": "Richardo2016 <richardo2016@gmail.com>",
+  "homepage": "https://github.com/richardo2016/reboot-ui/packages/icomponent-collapse#readme",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "module": "./es/index.js",
+  "browser": "./dist/index.min.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib",
+    "es",
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/richardo2016/reboot-ui/packages/icomponent-collapse"
+  },
+  "scripts": {
+    "build": "cross-env NODE_ENV=production node build.js",
+    "dev-build": "cross-env NODE_ENV=developement rollup -c",
+    "watch": "cross-env ROLLUP_WATCH=true rollup -c -w",
+    "dev": "npm-run-all --parallel start watch",
+    "test": "jest"
+  },
+  "bugs": {
+    "url": "https://github.com/richardo2016/reboot-ui/issues"
+  },
+  "dependencies": {
+    "@reboot-ui/common": "^0.1.0"
+  }
+}

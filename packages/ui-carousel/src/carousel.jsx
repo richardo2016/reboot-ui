@@ -2,18 +2,17 @@ import React from 'react'
 
 import { Transition } from 'react-transition-group';
 
-import Anchor from '../../helper-anchor'
-import { PlaceholderImage } from '../../helper-image'
+import Anchor from '@reboot-ui/icomponent-anchor'
 
-import { resolveJSXElement } from '../../common'
-import { rclassnames, tryUseContext, isReactTypeOf } from '../../common'
+import { resolveJSXElement } from '@reboot-ui/common'
+import { rclassnames, tryUseContext, isReactTypeOf } from '@reboot-ui/common'
 
-import { TransitionTimeouts, TransitionStates } from '../../common'
-import { filterPlaceholderSize } from '../../common'
-import { coerceInteger } from '../../common'
-import { arraify, flatten } from '../../common'
-import { useInterval } from '../../common'
-import { useKeyPress } from '../../common'
+import { TransitionTimeouts, TransitionStates } from '@reboot-ui/common'
+import { filterPlaceholderSize } from '@reboot-ui/common'
+import { coerceInteger } from '@reboot-ui/common'
+import { arraify, flatten } from '@reboot-ui/common'
+import { useInterval } from '@reboot-ui/common'
+import { useKeyPress } from '@reboot-ui/common'
 
 const RUNTIME_TOKEN = Date.now()
 const useToken = (str) => `${RUNTIME_TOKEN}_${str}`
@@ -631,13 +630,16 @@ Carousel.Control = function ({
 
 Carousel.PlaceholderImage = function ({
     children,
+    as: _as = Anchor,
     size = '',
     ...props
 }) {
+    const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
+
     size = filterPlaceholderSize(size)
 
     return (
-        <PlaceholderImage
+        <JSXEl
             {...props}
             className={rclassnames(props, [
                 'bd-placeholder-img',
@@ -645,7 +647,7 @@ Carousel.PlaceholderImage = function ({
             ])}
         >
             {children}
-        </PlaceholderImage>
+        </JSXEl>
     )
 }
 

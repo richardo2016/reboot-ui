@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { resolveJSXElement, rclassnames } from '../../common';
+import { resolveJSXElement, rclassnames } from '@reboot-ui/common';
 import Dropdown from '../../ui-dropdown';
 
 const _PrependWrap = ({ children }) => (

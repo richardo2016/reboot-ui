@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { resolveJSXElement } from '../../common'
-import { rclassnames } from '../../common'
+import { resolveJSXElement } from '@reboot-ui/common'
+import { rclassnames } from '@reboot-ui/common'
 
-import Anchor from '../../helper-anchor'
+import Anchor from '@reboot-ui/icomponent-anchor'
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/button

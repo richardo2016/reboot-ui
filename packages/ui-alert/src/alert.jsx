@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { resolveJSXElement, rclassnames } from '../../common'
+import { resolveJSXElement, rclassnames } from '@reboot-ui/common'
 
 const transtionClasses = {
     [`entering`]: 'fade',

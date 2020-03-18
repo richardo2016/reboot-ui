@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { resolveJSXElement } from '../../common'
-import { rclassnames } from '../../common'
+import { resolveJSXElement } from '@reboot-ui/common'
+import { rclassnames } from '@reboot-ui/common'
 
 const ButtonToolbar = React.forwardRef((
     function ({

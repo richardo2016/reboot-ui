@@ -7,7 +7,7 @@ const monoPkgJson = require('../package.json')
 
 const PKG_DIR = path.resolve(__dirname, '../packages')
 
-const components = require('../helpers/components')
+const packages = require('../helpers/packages')
 
 const readJson = (jsonpath) => {
   let result = {}
@@ -18,11 +18,14 @@ const readJson = (jsonpath) => {
   return result
 }
 
-components.forEach(({ name: comname, pkgname }) => {
-    function capitalize (str) {
-        return str[0].toUpperCase() + str.slice(1).toLowerCase()
-    }
-    
+function capitalize (str) {
+    return str[0].toUpperCase() + str.slice(1).toLowerCase()
+}
+
+packages.forEach(({
+  name: comname,
+  pkgname
+}) => {
     const comPkgname = pkgname || `ui-${comname}`
     const comDirname = comPkgname
     const comDir = path.resolve(PKG_DIR, `./${comDirname}`)
@@ -164,24 +167,6 @@ buildEs()
 export { default } from './src/index.js'
 `
     )
-
-    mvFromOld: {
-      if (false && !process.env.MOVED) {
-        const OLD_UI_ROOT = path.resolve(__dirname, '../src/library/reboot-ui')
-        const OLD_COM_ROOT = path.resolve(OLD_UI_ROOT, '@components')
-
-        const oldDir = path.resolve(OLD_COM_ROOT, `./${comname}`)
-        if (fs.existsSync(oldDir)) {
-          fs.readdirSync(oldDir)
-            .forEach(relname => {
-              const source = path.resolve(oldDir, relname)
-              const dest = path.resolve(comDir, `./src/${relname}`)
-              if (!fs.existsSync(dest))
-                shelljs.cp('-f', source, dest)
-            })
-        }
-      }
-    }
     }
 })
 

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { rclassnames, tryUseContext } from '../../common';
+import { rclassnames, tryUseContext } from '@reboot-ui/common';
 import { FormControlContext } from '../../ui-form/src/context';
 
 const Textarea = function ({

@@ -1,8 +1,8 @@
 import React from 'react'
 
-import { resolveJSXElement } from '../../common'
-import { rclassnames } from '../../common'
-import { filterRepsonsiveSize, filterThemeName } from '../../common'
+import { resolveJSXElement } from '@reboot-ui/common'
+import { rclassnames } from '@reboot-ui/common'
+import { filterRepsonsiveSize, filterThemeName } from '@reboot-ui/common'
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/list-group/#supported-content

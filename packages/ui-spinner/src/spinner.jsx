@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { resolveJSXElement } from '../../common'
-import { rclassnames } from '../../common'
+import { resolveJSXElement } from '@reboot-ui/common'
+import { rclassnames } from '@reboot-ui/common'
 
-import { filterThemeName, filterRepsonsiveSize } from '../../common'
+import { filterThemeName, filterRepsonsiveSize } from '@reboot-ui/common'
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/spinner/#supported-content

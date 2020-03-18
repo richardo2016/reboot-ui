@@ -1,5 +1,28 @@
 module.exports = [
     {
+        name: 'common',
+        pkgname: 'common',
+    },
+    /* internal :start */
+    {
+        name: 'icomponent-anchor',
+        pkgname: 'icomponent-anchor',
+    },
+    {
+        name: 'icomponent-collapse',
+        pkgname: 'icomponent-collapse',
+    },
+    {
+        name: 'icomponent-popper',
+        pkgname: 'icomponent-popper',
+    },
+    {
+        name: 'internal-size-resolver',
+        pkgname: 'internal-size-resolver',
+    },
+    /* internal :end */
+    /* ui components :start */
+    {
         name: 'layout',
         pkgname: 'ui-layout',
     },
@@ -131,4 +154,5 @@ module.exports = [
         name: 'pagination',
         pkgname: 'ui-pagination',
     },
+    /* ui components :end */
 ]

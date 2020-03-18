@@ -1,5 +1,5 @@
-import { pick, omit } from "../../common"
-import { rclassnames } from "../../common"
+import { pick, omit } from '@reboot-ui/common'
+import { rclassnames } from '@reboot-ui/common'
 import { FORM_SYMBOL_TOKEN } from "./symbols"
 
 const CONTROL_PROPS = [

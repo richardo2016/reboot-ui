@@ -35,6 +35,7 @@ const Sample = () => {
       <Carousel id="carouselExampleSlidesOnly">
         <Carousel.Item>
           <Carousel.PlaceholderImage
+            as={PlaceholderImage}
             size="lg"
             class="d-block w-100"
             width={800}
@@ -46,6 +47,7 @@ const Sample = () => {
         </Carousel.Item>
         <Carousel.Item>
           <Carousel.PlaceholderImage
+            as={PlaceholderImage}
             size="lg"
             class="d-block w-100"
             width={800}
@@ -57,6 +59,7 @@ const Sample = () => {
         </Carousel.Item>
         <Carousel.Item>
           <Carousel.PlaceholderImage
+            as={PlaceholderImage}
             size="lg"
             class="d-block w-100"
             width={800}
@@ -98,6 +101,7 @@ const Sample = () => {
           return (
             <Carousel.Item>
               <Carousel.PlaceholderImage
+                as={PlaceholderImage}
                 size="lg"
                 class="d-block w-100"
                 width={800}
@@ -144,6 +148,7 @@ const Sample = () => {
           return (
             <Carousel.Item>
               <Carousel.PlaceholderImage
+                as={PlaceholderImage}
                 size="lg"
                 class="d-block w-100"
                 width={800}
@@ -202,6 +207,7 @@ const Sample = () => {
           return (
             <Carousel.Item>
               <Carousel.PlaceholderImage
+                as={PlaceholderImage}
                 size="lg"
                 class="d-block w-100"
                 width={800}
@@ -251,6 +257,7 @@ const Sample = () => {
           return (
             <Carousel.Item>
               <Carousel.PlaceholderImage
+                as={PlaceholderImage}
                 size="lg"
                 class="d-block w-100"
                 width={800}
@@ -299,6 +306,7 @@ const Sample = () => {
           return (
             <Carousel.Item interval={interval}>
               <Carousel.PlaceholderImage
+                as={PlaceholderImage}
                 size="lg"
                 class="d-block w-100"
                 width={800}
@@ -349,6 +357,7 @@ const Sample = () => {
           return (
             <Carousel.Item interval={interval}>
               <Carousel.PlaceholderImage
+                as={PlaceholderImage}
                 size="lg"
                 class="d-block w-100"
                 width={800}

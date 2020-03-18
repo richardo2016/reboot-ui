@@ -1,5 +1,5 @@
 import React from 'react'
-import { rclassnames } from '../../common'
+import { rclassnames } from '@reboot-ui/common'
 import { useToken } from './hooks'
 
 export default (Form) => {

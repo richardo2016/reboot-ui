@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Transition } from 'react-transition-group'
 
-import { TransitionTimeouts, resolveJSXElement, rclassnames } from '../../common';
+import { TransitionTimeouts, resolveJSXElement, rclassnames } from '@reboot-ui/common';
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/nav/#supported-content

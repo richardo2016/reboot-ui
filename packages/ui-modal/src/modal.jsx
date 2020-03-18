@@ -2,11 +2,30 @@ import React from 'react'
 
 import { Transition } from 'react-transition-group';
 
-import { resolveJSXElement } from '../../common'
-import { rclassnames, tryUseContext } from '../../common'
-import { TransitionTimeouts } from '../../common'
-import { coerceInteger, useClickaway } from '../../common'
-import { toggleCls } from '../../common/modal';
+import { resolveJSXElement } from '@reboot-ui/common'
+import { rclassnames, tryUseContext } from '@reboot-ui/common'
+import { TransitionTimeouts } from '@reboot-ui/common'
+import { coerceInteger, useClickaway } from '@reboot-ui/common'
+import { arraify } from '@reboot-ui/common'
+
+function toggleCls (
+    target = document.body || document.documentElement,
+    classname,
+    nextHas
+) {
+    classname = arraify(classname).filter(x => x && typeof x === 'string')
+
+    classname.forEach(cls => {
+        let _nextHas = nextHas
+        if (_nextHas === undefined) {
+            target.classList.toggle(cls)
+            return ;
+        }
+
+        if (_nextHas) target.classList.add(cls)
+        else target.classList.remove(cls)
+    })
+}
 
 function noop() {}
 

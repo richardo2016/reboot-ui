@@ -1,8 +1,8 @@
 import React from 'react'
 
-import { resolveJSXElement } from '../../common'
-import { isReactTypeOf, rclassnames } from '../../common'
-import { arraify } from '../../common'
+import { resolveJSXElement } from '@reboot-ui/common'
+import { isReactTypeOf, rclassnames } from '@reboot-ui/common'
+import { arraify } from '@reboot-ui/common'
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/breadcrumbs

@@ -92,7 +92,7 @@ const Sample = () => {
   return (
     <>
       <Card style="width: 18rem;">
-        <Card.Image height="180" className="bd-placeholder-img" />
+        <Card.Image as={PlaceholderImage} height="180" className="bd-placeholder-img" />
         <Card.Body>
           <Card.Text>
             Some quick example text to build on the card title and make up the bulk of the card's content.
@@ -155,7 +155,7 @@ const Sample = () => {
   return (
     <>
       <Card style="width: 18rem;">
-        <Card.Image height="180" />
+        <Card.Image as={PlaceholderImage} height="180" />
         <Card.Body>
           <Card.Title>Card title</Card.Title>
           <Card.Text>Some quick example text to build on the card title and make up the bulk of the card's content.</Card.Text>
@@ -455,7 +455,7 @@ const Sample = () => {
   return (
     <>
       <Card class="mb-3">
-        <Card.Image height="180" class="bd-placeholder-img" />
+        <Card.Image as={PlaceholderImage} height="180" class="bd-placeholder-img" />
         <Card.Body>
           <Card.Title>Card title</Card.Title>
           <Card.Text>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</Card.Text>
@@ -472,7 +472,7 @@ const Sample = () => {
             <small class="text-muted">Last updated 3 mins ago</small>
           </Card.Text>
         </Card.Body>
-        <Card.Image height="180" class="bd-placeholder-img" />
+        <Card.Image as={PlaceholderImage} height="180" class="bd-placeholder-img" />
       </Card>
     </>
   )
@@ -489,7 +489,7 @@ const Sample = () => {
   return (
     <>
       <Card class="bg-dark text-white">
-        <Card.Image height="270" class="bd-placeholder-img bd-placeholder-img-lg">Card Image</Card.Image>
+        <Card.Image as={PlaceholderImage} height="270" class="bd-placeholder-img bd-placeholder-img-lg">Card Image</Card.Image>
         <Card.ImageOverlay>
           <Card.Title>Card title</Card.Title>
           <Card.Text>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</Card.Text>
@@ -518,7 +518,7 @@ const Sample = () => {
       <Card class="mb-3" style="max-width: 540px;">
         <Row class="no-gutters">
           <Col md={4}>
-            <Card.Image class="bd-placeholder-img" height="250">Image</Card.Image>
+            <Card.Image as={PlaceholderImage} class="bd-placeholder-img" height="250">Image</Card.Image>
           </Col>
           <Col md={8}>
             <Card.Body>
@@ -629,7 +629,7 @@ const Sample = () => {
     <>
       <Card.Group>
         <Card>
-          <Card.Image height="180" class="card-img-top">Image cap</Card.Image>
+          <Card.Image as={PlaceholderImage} height="180" class="card-img-top">Image cap</Card.Image>
           <Card.Body>
             <Card.Title>Card title</Card.Title>
             <Card.Text>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</Card.Text>
@@ -637,7 +637,7 @@ const Sample = () => {
           </Card.Body>
         </Card>
         <Card>
-          <Card.Image height="180" class="card-img-top">Image cap</Card.Image>
+          <Card.Image as={PlaceholderImage} height="180" class="card-img-top">Image cap</Card.Image>
           <Card.Body>
             <Card.Title>Card title</Card.Title>
             <Card.Text>This card has supporting text below as a natural lead-in to additional content.</Card.Text>
@@ -645,7 +645,7 @@ const Sample = () => {
           </Card.Body>
         </Card>
         <Card>
-          <Card.Image height="180" class="card-img-top">Image cap</Card.Image>
+          <Card.Image as={PlaceholderImage} height="180" class="card-img-top">Image cap</Card.Image>
           <Card.Body>
             <Card.Title>Card title</Card.Title>
             <Card.Text>This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</Card.Text>
@@ -667,7 +667,7 @@ const Sample = () => {
     <>
       <Card.Group>
         <Card>
-          <Card.Image height="180" class="card-img-top">Image cap</Card.Image>
+          <Card.Image as={PlaceholderImage} height="180" class="card-img-top">Image cap</Card.Image>
           <Card.Body>
             <Card.Title>Card title</Card.Title>
             <Card.Text>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</Card.Text>
@@ -675,7 +675,7 @@ const Sample = () => {
           <Card.Footer><small class="text-muted">Last updated 3 mins ago</small></Card.Footer>
         </Card>
         <Card>
-          <Card.Image height="180" class="card-img-top">Image cap</Card.Image>
+          <Card.Image as={PlaceholderImage} height="180" class="card-img-top">Image cap</Card.Image>
           <Card.Body>
             <Card.Title>Card title</Card.Title>
             <Card.Text>This card has supporting text below as a natural lead-in to additional content.</Card.Text>
@@ -683,7 +683,7 @@ const Sample = () => {
           <Card.Footer><small class="text-muted">Last updated 3 mins ago</small></Card.Footer>
         </Card>
         <Card>
-          <Card.Image height="180" class="card-img-top">Image cap</Card.Image>
+          <Card.Image as={PlaceholderImage} height="180" class="card-img-top">Image cap</Card.Image>
           <Card.Body>
             <Card.Title>Card title</Card.Title>
             <Card.Text>This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</Card.Text>
@@ -707,7 +707,7 @@ const Sample = () => {
     <>
       <Card.Group deck>
         <Card>
-          <Card.Image height="180" class="card-img-top">Image cap</Card.Image>
+          <Card.Image as={PlaceholderImage} height="180" class="card-img-top">Image cap</Card.Image>
           <Card.Body>
             <Card.Title>Card title</Card.Title>
             <Card.Text>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</Card.Text>
@@ -715,7 +715,7 @@ const Sample = () => {
           </Card.Body>
         </Card>
         <Card>
-          <Card.Image height="180" class="card-img-top">Image cap</Card.Image>
+          <Card.Image as={PlaceholderImage} height="180" class="card-img-top">Image cap</Card.Image>
           <Card.Body>
             <Card.Title>Card title</Card.Title>
             <Card.Text>This card has supporting text below as a natural lead-in to additional content.</Card.Text>
@@ -723,7 +723,7 @@ const Sample = () => {
           </Card.Body>
         </Card>
         <Card>
-          <Card.Image height="180" class="card-img-top">Image cap</Card.Image>
+          <Card.Image as={PlaceholderImage} height="180" class="card-img-top">Image cap</Card.Image>
           <Card.Body>
             <Card.Title>Card title</Card.Title>
             <Card.Text>This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</Card.Text>
@@ -745,7 +745,7 @@ const Sample = () => {
     <>
       <Card.Group deck>
         <Card>
-          <Card.Image height="180" class="card-img-top">Image cap</Card.Image>
+          <Card.Image as={PlaceholderImage} height="180" class="card-img-top">Image cap</Card.Image>
           <Card.Body>
             <Card.Title>Card title</Card.Title>
             <Card.Text>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</Card.Text>
@@ -753,7 +753,7 @@ const Sample = () => {
           <Card.Footer><small class="text-muted">Last updated 3 mins ago</small></Card.Footer>
         </Card>
         <Card>
-          <Card.Image height="180" class="card-img-top">Image cap</Card.Image>
+          <Card.Image as={PlaceholderImage} height="180" class="card-img-top">Image cap</Card.Image>
           <Card.Body>
             <Card.Title>Card title</Card.Title>
             <Card.Text>This card has supporting text below as a natural lead-in to additional content.</Card.Text>
@@ -761,7 +761,7 @@ const Sample = () => {
           <Card.Footer><small class="text-muted">Last updated 3 mins ago</small></Card.Footer>
         </Card>
         <Card>
-          <Card.Image height="180" class="card-img-top">Image cap</Card.Image>
+          <Card.Image as={PlaceholderImage} height="180" class="card-img-top">Image cap</Card.Image>
           <Card.Body>
             <Card.Title>Card title</Card.Title>
             <Card.Text>This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</Card.Text>
@@ -793,7 +793,7 @@ const Sample = () => {
           return (
             <Col class="mb-4">
               <Card>
-                <Card.Image height="180" class="card-img-top">Image cap</Card.Image>
+                <Card.Image as={PlaceholderImage} height="180" class="card-img-top">Image cap</Card.Image>
                 <Card.Body>
                   <Card.Title>Card title</Card.Title>
                   <Card.Text>{text}</Card.Text>
@@ -825,7 +825,7 @@ const Sample = () => {
           return (
             <Col class="mb-4">
               <Card>
-                <Card.Image height="180" class="card-img-top">Image cap</Card.Image>
+                <Card.Image as={PlaceholderImage} height="180" class="card-img-top">Image cap</Card.Image>
                 <Card.Body>
                   <Card.Title>Card title</Card.Title>
                   <Card.Text>{text}</Card.Text>
@@ -857,7 +857,7 @@ const Sample = () => {
           return (
             <Col class="mb-4">
               <Card class="h-100">
-                <Card.Image height="180" class="card-img-top">Image cap</Card.Image>
+                <Card.Image as={PlaceholderImage} height="180" class="card-img-top">Image cap</Card.Image>
                 <Card.Body>
                   <Card.Title>Card title</Card.Title>
                   <Card.Text>{text}</Card.Text>
@@ -885,7 +885,7 @@ const Sample = () => {
     <>
       <Card.Columns>
         <Card>
-          <Card.Image height="160" class="card-img-top">Image cap</Card.Image>
+          <Card.Image as={PlaceholderImage} height="160" class="card-img-top">Image cap</Card.Image>
           <Card.Body>
             <Card.Title>Card title that wraps to a new line</Card.Title>
             <Card.Text>This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</Card.Text>
@@ -902,7 +902,7 @@ const Sample = () => {
           </blockquote>
         </Card>
         <Card>
-          <Card.Image height="160" class="card-img-top">Image cap</Card.Image>
+          <Card.Image as={PlaceholderImage} height="160" class="card-img-top">Image cap</Card.Image>
           <Card.Body>
             <Card.Title>Card title</Card.Title>
             <Card.Text>This card has supporting text below as a natural lead-in to additional content.</Card.Text>
@@ -927,7 +927,7 @@ const Sample = () => {
           </Card.Body>
         </Card>
         <Card>
-          <Card.Image height="260" class="card-img-top">Image cap</Card.Image>
+          <Card.Image as={PlaceholderImage} height="260" class="card-img-top">Image cap</Card.Image>
         </Card>
         <Card class="p-3 text-right">
           <blockquote class="blockquote mb-0">

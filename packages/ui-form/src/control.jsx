@@ -2,10 +2,10 @@ import React from 'react'
 
 import { Col } from '../../ui-layout'
 
-import { resolveJSXElement } from '../../common';
-import { isReactTypeOf, rclassnames } from '../../common';
-import { arraify } from '../../common';
-import { filterFormControlSize } from '../../common';
+import { resolveJSXElement } from '@reboot-ui/common';
+import { isReactTypeOf, rclassnames } from '@reboot-ui/common';
+import { arraify } from '@reboot-ui/common';
+import { filterFormControlSize } from '@reboot-ui/common';
 
 import { FormControlContext } from './context'
 import { FEEDBACK_POSTIONS } from './symbols';

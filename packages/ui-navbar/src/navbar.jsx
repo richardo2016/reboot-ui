@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { resolveJSXElement, filterRepsonsiveSize, filterThemeName, tryUseContext, renderChildren } from '../../common'
-import { rclassnames } from '../../common';
-import Anchor from '../../helper-anchor/src';
-import CollapseProto from '../../helper-collapse'
+import { resolveJSXElement, filterRepsonsiveSize, filterThemeName, tryUseContext, renderChildren } from '@reboot-ui/common'
+import { rclassnames } from '@reboot-ui/common';
+import Anchor from '@reboot-ui/icomponent-anchor';
+import CollapseProto from '@reboot-ui/icomponent-collapse'
 
 const ControlledCollapse = React.forwardRef(CollapseProto)
 

@@ -1,6 +1,6 @@
 import {
-  popperGenerator,
-  defaultModifiers,
+    popperGenerator,
+    defaultModifiers,
 } from '@popperjs/core/lib/popper-lite';
 
 import cpm_flip from '@popperjs/core/lib/modifiers/flip';
@@ -11,7 +11,7 @@ import cpm_computeStyles from '@popperjs/core/lib/modifiers/computeStyles';
 import cpm_applyStyles from '@popperjs/core/lib/modifiers/applyStyles';
 
 export const useFixupPopoverToken = (str = '') => {
-  return `FIXUP_POPOVER_TOKEN$${str}`
+    return `FIXUP_POPOVER_TOKEN$${str}`
 }
 /**
  * @see https://popper.js.org/docs/v2/modifiers/
@@ -24,7 +24,7 @@ export const fixupPopoverModifier = {
         const { fixup } = options || {};
 
         const timer = setTimeout(() => {
-            if (typeof fixup !== 'function') return ;
+            if (typeof fixup !== 'function') return;
 
             fixup({
                 strategy: state.options.strategy,
@@ -42,7 +42,7 @@ export const fixupPopoverModifier = {
 }
 
 export const createPopup = popperGenerator({
-  defaultModifiers: [
+    defaultModifiers: [
         ...defaultModifiers,
         cpm_flip,
         cpm_preventOverflow,

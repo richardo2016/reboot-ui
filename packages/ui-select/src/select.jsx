@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { resolveJSXElement, rclassnames, arraify, isReactTypeOf } from '../../common';
+import { resolveJSXElement, rclassnames, arraify, isReactTypeOf } from '@reboot-ui/common';
 
 const Select = function ({
     children,

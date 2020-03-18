@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { resolveJSXElement, rclassnames, tryUseContext } from '../../common';
+import { resolveJSXElement, rclassnames, tryUseContext } from '@reboot-ui/common';
 
 import { FormContext, FormControlContext, FormGroupContext } from './context'
 import { Col } from '../../ui-layout';

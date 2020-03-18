@@ -1,11 +1,9 @@
 import React from 'react'
 
-import { resolveJSXElement } from '../../common'
-import { rclassnames } from '../../common'
-import { headingTags } from '../../common'
-import { filterThemeName } from '../../common'
-
-import { PlaceholderImage } from '../../helper-image'
+import { resolveJSXElement } from '@reboot-ui/common'
+import { rclassnames } from '@reboot-ui/common'
+import { headingTags } from '@reboot-ui/common'
+import { filterThemeName } from '@reboot-ui/common'
 
 const CardContext = React.createContext({})
 
@@ -183,7 +181,7 @@ Card.Body = React.forwardRef((
 Card.Image = React.forwardRef((
     function ({
         children,
-        as: _as = PlaceholderImage,
+        as: _as = 'img',
         __htmlAttributes,
         ...props
     }, ref) {
@@ -345,7 +343,6 @@ Card.Typical = React.forwardRef((
                 {...props}
                 ref={ref}
             >
-                <Card.Image as={PlaceholderImage} />
                 <Card.Body>
                     {titleNode || null}
                     {subTitleNode || null}

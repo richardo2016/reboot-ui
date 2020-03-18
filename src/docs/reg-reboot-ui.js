@@ -36,8 +36,8 @@ import {
     Form,
     Pagination,
 } from 'reboot-ui'
-// } from '../../library/reboot-ui/@components/index.no-style'
-// import '../../library/reboot-ui/@components/index.scss'
+
+import { PlaceholderImage } from './componenets/helper-image'
 
 window.Layout = Layout
 window.Container = Container
@@ -84,3 +84,5 @@ window.ReactDOM = ReactDOM;
 
 window.stringUtils = stringUtils;
 window.classnames = classnames;
+
+window.PlaceholderImage = PlaceholderImage;

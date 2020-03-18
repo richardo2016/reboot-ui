@@ -1,4 +1,4 @@
-import { coerceInteger } from './_base'
+import { coerceInteger } from '@reboot-ui/common'
 
 const VALID_RESPONSIVE_BRKPOINT = [
     'sm',

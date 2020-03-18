@@ -65,6 +65,7 @@
     "jest": "^25.1.0",
     "js-yaml": "^3.13.1",
     "lerna": "^3.20.2",
+    "lodash.merge": "^4.6.2",
     "marked": "^0.8.0",
     "normalize.css": "^8.0.1",
     "npm-run-all": "^4.1.2",
@@ -90,7 +91,12 @@
     "serve": "^6.4.8",
     "shelljs": "^0.8.3",
     "stylus": "^0.54.5",
-    "typescript": "^3.7.5",
-    "lodash.merge": "^4.6.2"
+    "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "@reboot-ui/common": "^0.1.0",
+    "@reboot-ui/icomponent-anchor": "^0.1.0",
+    "@reboot-ui/icomponent-popper": "^0.1.0",
+    "@reboot-ui/internal-size-resolver": "^0.1.0"
   }
 }

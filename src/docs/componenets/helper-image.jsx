@@ -1,5 +1,5 @@
 import React from 'react'
-import { rclassnames } from '../../common'
+import { rclassnames } from '../../../packages/common'
 
 export const PlaceholderImage = ({
     children = 'Image cap',
