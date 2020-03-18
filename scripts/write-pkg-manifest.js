@@ -7,58 +7,34 @@ const monoPkgJson = require('../package.json')
 
 const PKG_DIR = path.resolve(__dirname, '../packages')
 
-const ALL_COMPONENT_NAMES = [
-    'layout',
-    'row',
-    'col',
-    'container',
-    'alert',
-    'navbar',
-    'nav',
-    'nav-tab',
-    'table',
-    'dropdown',
-    'button-toolbar',
-    'button-group',
-    'button',
-    'badge',
-    'breadcrumb',
-    'collapse',
-    'card',
-    'carousel',
-    'input-group',
-    'input',
-    'checkbox',
-    'radio',
-    'select',
-    'textarea',
-    'popover',
-    'progress',
-    'spinner',
-    'jumbotron',
-    'list-group',
-    'modal',
-    'tooltip',
-    'form',
-    'pagination',
-]
+const components = require('../helpers/components')
 
-ALL_COMPONENT_NAMES.forEach(comname => {
+const readJson = (jsonpath) => {
+  let result = {}
+  try {
+    result = JSON.parse(fs.readFileSync(jsonpath))
+  } catch (error) {}
+
+  return result
+}
+
+components.forEach(({ name: comname, pkgname }) => {
     function capitalize (str) {
         return str[0].toUpperCase() + str.slice(1).toLowerCase()
     }
     
-    const comDirname = `ui-${comname}`
+    const comPkgname = pkgname || `ui-${comname}`
+    const comDirname = comPkgname
     const comDir = path.resolve(PKG_DIR, `./${comDirname}`)
     if (!fs.existsSync(comDir)) shelljs.mkdir(comDir)
 
-    const pkgJson = path.resolve(comDir, `./package.json`)
+    const pkgJsonpath = path.resolve(comDir, `./package.json`)
 
-    pkgJson: {
+    pkgJsonpath: {
       let jsonObj = JSON.parse(
 `\
 {
-  "name": "@reboot-ui/${comDirname}",
+  "name": "@reboot-ui/${comPkgname}",
   "version": "0.1.0",
   "description": "UI Component of Reboot UI",
   "author": "Richardo2016 <richardo2016@gmail.com>",
@@ -92,19 +68,17 @@ ALL_COMPONENT_NAMES.forEach(comname => {
   },
   "bugs": {
     "url": "https://github.com/richardo2016/reboot-ui/issues"
-  },
-  "dependencies": {
-    "@popperjs/core": "^2.0.6",
-    "classnames": "^2.2.6",
-    "react-transition-group": "^4.3.0"
   }
 }
 `
       )
-      if (fs.existsSync(pkgJson)) jsonObj = lmerge({}, jsonObj, pkgJson)
-      jsonObj.devDependencies = monoPkgJson.devDependencies
+      if (fs.existsSync(pkgJsonpath)) {
+        const prev = readJson(pkgJsonpath)
+        jsonObj = lmerge({}, jsonObj, prev)
+        jsonObj.devDependencies = lmerge({}, jsonObj.devDependencies, monoPkgJson.devDependencies)
+      }
       fs.writeFileSync(
-        pkgJson,
+        pkgJsonpath,
         JSON.stringify(jsonObj, null, '  ')
       )
     }
@@ -143,7 +117,7 @@ function buildLib () {
           return bundle.write(outputConfig)
       })
       .then(() => {
-          console.log('[${comDirname} -- lib]build finished!')
+          console.log('[${comPkgname} -- lib]build finished!')
       })
 }
 
@@ -170,7 +144,7 @@ function buildEs () {
           return bundle.write(outputConfig)
       })
       .then(() => {
-          console.log('[${comDirname} -- esm]build finished!')
+          console.log('[${comPkgname} -- esm]build finished!')
       })
 }
 

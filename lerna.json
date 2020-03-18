@@ -12,6 +12,7 @@
     },
     "bootstrap": {
       "ignore": "component-*",
+      "hoist": true,
       "npmClientArgs": ["--no-package-lock"]
     },
     "version": {
