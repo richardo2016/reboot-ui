@@ -2,7 +2,7 @@ const path = require('path')
 const rollup = require('rollup')
 
 const { getConfigItem } = require('../../helpers/rollup-utils')
-const externalModules = require('../../helpers/package-externals')
+const externalModulesWhenBuild = require('../../helpers/package-externals')
 
 function buildLib () {
   const { output: outputConfig, ...rollupConfig } = getConfigItem({
@@ -15,7 +15,7 @@ function buildLib () {
       babel_options: {},
       postConfig: (rollup_cfg) => {
         rollup_cfg.output.file = 'lib/index.js'
-        rollup_cfg.external = Array.from(externalModules)
+        rollup_cfg.external = Array.from(externalModulesWhenBuild.forLib)
       }
   })
 
@@ -29,7 +29,7 @@ function buildLib () {
       })
 }
 
-function buildEs () {
+function buildEsm () {
   const { output: outputConfig, ...rollupConfig } = getConfigItem({
       format: 'esm',
       name: path.basename(__dirname),
@@ -42,7 +42,7 @@ function buildEs () {
         rollup_cfg.output.file = 'es/index.js'
         rollup_cfg.output.sourcemap = false
 
-        rollup_cfg.external = Array.from(externalModules)
+        rollup_cfg.external = Array.from(externalModulesWhenBuild.forEsm)
       }
   })
 
@@ -56,5 +56,5 @@ function buildEs () {
       })
 }
 
-buildLib()
-buildEs()
+
+buildEsm()

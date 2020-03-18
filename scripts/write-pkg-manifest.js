@@ -13,29 +13,34 @@ const readJson = (jsonpath) => {
   let result = {}
   try {
     result = JSON.parse(fs.readFileSync(jsonpath))
-  } catch (error) {}
+  } catch (error) { }
 
   return result
 }
 
-function capitalize (str) {
-    return str[0].toUpperCase() + str.slice(1).toLowerCase()
+function capitalize(str) {
+  return str[0].toUpperCase() + str.slice(1).toLowerCase()
 }
 
 packages.forEach(({
   name: comname,
-  pkgname
+  pkgname,
+  buildLib,
+  buildEsm = true,
 }) => {
-    const comPkgname = pkgname || `ui-${comname}`
-    const comDirname = comPkgname
-    const comDir = path.resolve(PKG_DIR, `./${comDirname}`)
-    if (!fs.existsSync(comDir)) shelljs.mkdir(comDir)
+  if (buildLib === undefined && pkgname.indexOf('ui-') === 0) buildLib = true;
+  else if (buildLib === undefined) buildLib = false;
 
-    const pkgJsonpath = path.resolve(comDir, `./package.json`)
+  const comPkgname = pkgname || `ui-${comname}`
+  const comDirname = comPkgname
+  const comDir = path.resolve(PKG_DIR, `./${comDirname}`)
+  if (!fs.existsSync(comDir)) shelljs.mkdir(comDir)
 
-    pkgJsonpath: {
-      let jsonObj = JSON.parse(
-`\
+  const pkgJsonpath = path.resolve(comDir, `./package.json`)
+
+  pkgJsonpath: {
+    let jsonObj = JSON.parse(
+      `\
 {
   "name": "@reboot-ui/${comPkgname}",
   "version": "0.1.0",
@@ -74,30 +79,30 @@ packages.forEach(({
   }
 }
 `
-      )
-      if (fs.existsSync(pkgJsonpath)) {
-        const prev = readJson(pkgJsonpath)
-        jsonObj = lmerge({}, jsonObj, prev)
-        jsonObj.devDependencies = lmerge({}, jsonObj.devDependencies, monoPkgJson.devDependencies)
-      }
-      fs.writeFileSync(
-        pkgJsonpath,
-        JSON.stringify(jsonObj, null, '  ')
-      )
+    )
+    if (fs.existsSync(pkgJsonpath)) {
+      const prev = readJson(pkgJsonpath)
+      jsonObj = lmerge({}, jsonObj, prev)
+      jsonObj.devDependencies = lmerge({}, jsonObj.devDependencies, monoPkgJson.devDependencies)
     }
+    fs.writeFileSync(
+      pkgJsonpath,
+      JSON.stringify(jsonObj, null, '  ')
+    )
+  }
 
-    buildFile: {
-      const rollupBuildFile = path.resolve(comDir, 'build.js')
-      if (!fs.existsSync(path.dirname(rollupBuildFile))) shelljs.mkdir(path.dirname(rollupBuildFile))
+  buildFile: {
+    const rollupBuildFile = path.resolve(comDir, 'build.js')
+    if (!fs.existsSync(path.dirname(rollupBuildFile))) shelljs.mkdir(path.dirname(rollupBuildFile))
 
     fs.writeFileSync(
       rollupBuildFile,
-`\
+      `\
 const path = require('path')
 const rollup = require('rollup')
 
 const { getConfigItem } = require('../../helpers/rollup-utils')
-const externalModules = require('../../helpers/package-externals')
+const externalModulesWhenBuild = require('../../helpers/package-externals')
 
 function buildLib () {
   const { output: outputConfig, ...rollupConfig } = getConfigItem({
@@ -110,7 +115,7 @@ function buildLib () {
       babel_options: {},
       postConfig: (rollup_cfg) => {
         rollup_cfg.output.file = 'lib/index.js'
-        rollup_cfg.external = Array.from(externalModules)
+        rollup_cfg.external = Array.from(externalModulesWhenBuild.forLib)
       }
   })
 
@@ -124,7 +129,7 @@ function buildLib () {
       })
 }
 
-function buildEs () {
+function buildEsm () {
   const { output: outputConfig, ...rollupConfig } = getConfigItem({
       format: 'esm',
       name: path.basename(__dirname),
@@ -137,7 +142,7 @@ function buildEs () {
         rollup_cfg.output.file = 'es/index.js'
         rollup_cfg.output.sourcemap = false
 
-        rollup_cfg.external = Array.from(externalModules)
+        rollup_cfg.external = Array.from(externalModulesWhenBuild.forEsm)
       }
   })
 
@@ -151,23 +156,23 @@ function buildEs () {
       })
 }
 
-buildLib()
-buildEs()
+${buildLib ? `buildLib()` : ''}
+${buildEsm ? `buildEsm()` : ''}
 `
     )
-    }
+  }
 
-    indexFile: {
-      const entryFile = path.resolve(comDir, 'index.js')
-      if (!fs.existsSync(path.dirname(entryFile))) shelljs.mkdir(path.dirname(entryFile))
+  indexFile: {
+    const entryFile = path.resolve(comDir, 'index.js')
+    if (!fs.existsSync(path.dirname(entryFile))) shelljs.mkdir(path.dirname(entryFile))
     if (!fs.existsSync(entryFile))
-    fs.writeFileSync(
-      entryFile,
-`\
+      fs.writeFileSync(
+        entryFile,
+        `\
 export { default } from './src/index.js'
 `
-    )
-    }
+      )
+  }
 })
 
 console.info(`write pkg manifest success!`)

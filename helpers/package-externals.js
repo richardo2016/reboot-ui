@@ -7,9 +7,10 @@ const componentDirs = fs.readdirSync(
     dname.indexOf('ui-') === 0
     || dname.indexOf('internal-') === 0
     || dname.indexOf('icomponent-') === 0
+    || dname === 'common'
 )
 
-module.exports = [
+const base = [
     'react',
     'react-dom',
     'preact',
@@ -25,7 +26,12 @@ module.exports = [
     '@popperjs/core/lib/modifiers/computeStyles',
     '@popperjs/core/lib/modifiers/applyStyles',
 ]
-// .concat(componentDirs.map(com_dname => `../../${com_dname}/${com_dname}`))
-// .concat(componentDirs.map(com_dname => `../../${com_dname}/index.js`))
-// .concat(componentDirs.map(com_dname => `../../${com_dname}`))
-.concat(componentDirs.map(com_dname => `@reboot-ui/${com_dname}`))
+
+module.exports = {
+    forLib: base,
+    forEsm: base
+        // .concat(componentDirs.map(com_dname => `../../${com_dname}/${com_dname}`))
+        // .concat(componentDirs.map(com_dname => `../../${com_dname}/index.js`))
+        // .concat(componentDirs.map(com_dname => `../../${com_dname}`))
+        .concat(componentDirs.map(com_dname => `@reboot-ui/${com_dname}`))
+}
