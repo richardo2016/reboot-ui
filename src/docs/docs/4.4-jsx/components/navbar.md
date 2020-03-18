@@ -185,7 +185,7 @@ You may also utilize dropdowns in your navbar nav. Dropdown menus require a wrap
 const Sample = () => {
   return (
     <>
-      <Navbar theme="light" bgTheme="light">
+      <Navbar expandWhen="lg" theme="light" bgTheme="light">
         <Navbar.Brand>Navbar</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse>
