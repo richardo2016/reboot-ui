@@ -24,8 +24,7 @@
 // Happy Bootstrapping!
 
 // Load Bootstrap variables and mixins
-// @import "../../../../es/style/base";
-@import "../../../packages/style/base";
+@import "../../../packages/style/vars";
 
 // Load docs components
 @import "variables";

@@ -2,8 +2,7 @@ $navbar-padding-x: .5rem;
 
 @import "./scss/docs";
 
-// @import "../../../es/style/extras";
-@import "../../packages/style/extras";
+@import "../../packages/style/normalizers";
 
 // @import "../../node_modules/prismjs/themes/prism-coy";
 // @import "../../node_modules/prismjs/themes/prism-dark";

@@ -52,7 +52,7 @@ export default function ({
         const hasBsStyle = fs.existsSync(path.resolve(COM_ROOT, `./style/bootstrap/_${comname}.scss`))
         fs.writeFileSync(newScss,
 `\
-@import "../style/base";
+@import "../style/vars";
 ${hasBsStyle ? `\n@import "../style/bootstrap/${comname}";` : ''}
 `
                     )
