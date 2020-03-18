@@ -24,16 +24,19 @@ $navbar-padding-x: .5rem;
     }
 }
 
-.bd-clipboard + figure {
+.bd-clipboard + figure,
+.bd-clipboard + figure > pre {
     // @extend .collapse;
     transition: opacity .25s ease, height .1s ease-out;
 }
 
 .bd-clipboard.next-figure-hide + figure {
-    // visibility: hidden;
-    opacity: 0;
     height: 24px;
     overflow: hidden;
+
+    > pre {
+        opacity: 0;
+    }
 }
 
 .btn-sample-collapse {
