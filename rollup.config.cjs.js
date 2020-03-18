@@ -41,13 +41,12 @@ const docsConfig = getConfigItem({
                 // set `es` for for published version
                 // "libraryDirectory": "es",
                 "customName": (name) => {
-                    // return path.resolve(__dirname, `./src/library/reboot-ui/@components/${name}/index.style.js`)
-                    return path.resolve(__dirname, `./packages/ui-${name}/src/index.style.js`)
+                    return path.resolve(__dirname, `./packages/ui-${name}/index.js`)
                 },
-                "style": false,
-                // "customStyleName": (name) => {
-                // 	return path.resolve(__dirname, `./src/library/reboot-ui/@components/${name}/index.style.js`)
-                // },
+                "style": true,
+                "customStyleName": (name) => {
+                	return path.resolve(__dirname, `./packages/ui-${name}/src/${name}.scss`)
+                },
             }]
         ]
     },
