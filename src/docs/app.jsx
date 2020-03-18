@@ -65,6 +65,24 @@ const evalDocJs = () => {
   })
 }
 
+document.addEventListener('click', (evt) => {
+  if (!evt.target) return ;
+  if (!evt.target.classList.contains('btn-sample-collapse')) return ;
+
+  const pNode = evt.target.parentElement;
+  const nextEle = pNode.nextElementSibling;
+  if (nextEle && nextEle.tagName.toLowerCase() === 'figure' && nextEle.classList.contains('highlight')) {
+    pNode.classList.toggle('next-figure-hide')
+    // if (nextEle.style.visibility === 'hidden') {
+    //   nextEle.style.visibility = 'visible';
+    //   nextEle.style.height = '';
+    // } else {
+    //   nextEle.style.visibility = 'hidden';
+    //   nextEle.style.height = '24px';
+    // }
+  }
+})
+
 export default function App () {
   const [showNavs, setShowNavs] = React.useState(false);
   const [docVersion, setDocVersion] = React.useState('4.4-jsx'/* REBOOT_DOC_VERSION */);

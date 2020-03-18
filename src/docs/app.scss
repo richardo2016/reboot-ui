@@ -23,3 +23,34 @@ $navbar-padding-x: .5rem;
         @extend .bd-callout-info;
     }
 }
+
+.bd-clipboard + figure {
+    // @extend .collapse;
+    transition: opacity .25s ease, height .1s ease-out;
+}
+
+.bd-clipboard.next-figure-hide + figure {
+    // visibility: hidden;
+    opacity: 0;
+    height: 24px;
+    overflow: hidden;
+}
+
+.btn-sample-collapse {
+    position: absolute;
+    top: .5rem;
+    right: 3rem;
+    z-index: 10;
+    display: block;
+    padding: .25rem .5rem;
+    @include font-size(75%);
+    color: #818a91;
+    background-color: transparent;
+    border: 0;
+    @include border-radius();
+  
+    &:hover {
+      color: $white;
+      background-color: #027de7;
+    }
+  }
