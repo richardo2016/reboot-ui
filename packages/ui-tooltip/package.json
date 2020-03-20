@@ -88,7 +88,7 @@
     "rollup-plugin-resolve-aliases": "^0.3.0",
     "rollup-plugin-uglify": "^3.0.0",
     "sass": "^1.24.4",
-    "serve": "^6.4.8",
+    "serve": "^11.3.0",
     "shelljs": "^0.8.3",
     "stylus": "^0.54.5",
     "typescript": "^3.7.5"
