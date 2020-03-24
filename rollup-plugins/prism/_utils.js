@@ -37,7 +37,7 @@ const wrapHtml = exports.wrapHtml = function (code, lang) {
     return /* htmlEscaper.escape */(`\
 <div class="bd-clipboard">
     <button type="button" class="btn-sample-collapse" title="" data-original-title="Toggle the sample">
-        Toggle
+        Toggle Sample
     </button>
     <button type="button" class="btn-clipboard" title="" data-original-title="Copy to clipboard">
         Copy

@@ -65,6 +65,18 @@ const evalDocJs = () => {
   })
 }
 
+const hideDocSample = () => {
+  const allSampleNodes = document.querySelectorAll('.bd-example + .bd-clipboard')
+
+  Array.prototype.forEach.call(allSampleNodes, (node) => {
+    if (!node.classList.contains('next-figure-hide'))
+      node.classList.add('next-figure-hide')
+
+    if (node.querySelector('.btn-sample-collapse'))
+      node.querySelector('.btn-sample-collapse').classList.add('btn-primary')
+  })
+}
+
 document.addEventListener('click', (evt) => {
   if (!evt.target) return ;
   if (!evt.target.classList.contains('btn-sample-collapse')) return ;
@@ -73,13 +85,6 @@ document.addEventListener('click', (evt) => {
   const nextEle = pNode.nextElementSibling;
   if (nextEle && nextEle.tagName.toLowerCase() === 'figure' && nextEle.classList.contains('highlight')) {
     pNode.classList.toggle('next-figure-hide')
-    // if (nextEle.style.visibility === 'hidden') {
-    //   nextEle.style.visibility = 'visible';
-    //   nextEle.style.height = '';
-    // } else {
-    //   nextEle.style.visibility = 'hidden';
-    //   nextEle.style.height = '24px';
-    // }
   }
 })
 
@@ -133,6 +138,7 @@ export default function App () {
 
         setTimeout(() => {
           evalDocJs();
+          hideDocSample();
         }, 50);
 
         return json;
