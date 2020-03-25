@@ -29,10 +29,10 @@ function getMarkedRender ({
     const renderer = new marked.Renderer();
     const origCode = renderer.code;
 
-    function wrapToFigureTag(html) {
+    function wrapToFigureTag(sourcecode) {
         return ''
         + '<figure class="highlight">'
-        + html
+        + sourcecode
         + '</figure>\n';
     }
 
@@ -74,6 +74,10 @@ function getMarkedRender ({
     return renderer
 }
 
+function capitalize (str) {
+    return str[0].toUpperCase() + str.slice(1).toLowerCase()
+}
+
 function getLiquidEngine (options = {}) {
     const lqengine = new Liquid(options);
 
@@ -111,7 +115,7 @@ const toSource = function (input, { pretty = false } = {}) {
     return JSON.stringify(input)
 }
 
-function addLeadInfoForPage (html, attributes) {
+function addLeadInfoToPage (html, attributes) {
     return `\
 <h1 class="bd-title" id="content">${attributes.title}</h1>\
 <p class="bd-lead">${attributes.description}</p>\
@@ -148,7 +152,10 @@ module.exports = function rollupPluginRebootDocs (inputopts = {}) {
     const sitedata = loadSiteData({
         basedir: path.resolve(basedir, '_data')
     });
-    const sitedataWrapper = { data: sitedata }
+    const sitedataWrapper = {
+        ...options.sitedata,
+        data: sitedata,
+    }
     const lqglobals = {
         site: sitedataWrapper,
     }
@@ -156,13 +163,13 @@ module.exports = function rollupPluginRebootDocs (inputopts = {}) {
     options.globals = lqglobals;
 
     const lqengine = getLiquidEngine({...options.liquidjs});
-    const lqengine2 = getLiquidEngine({
-        ...options.liquidjs,
-        tagDelimiterLeft: '{%-',
-        tagDelimiterRight: '-%}',
-        outputDelimiterLeft: '{{-',
-        outputDelimiterRight: '-}}',
-    });
+    // const lqengine2 = getLiquidEngine({
+    //     ...options.liquidjs,
+    //     tagDelimiterLeft: '{%-',
+    //     tagDelimiterRight: '-%}',
+    //     outputDelimiterLeft: '{{-',
+    //     outputDelimiterRight: '-}}',
+    // });
 
     const markedRenderer = getMarkedRender({ lqengine, lqglobals });
 
@@ -213,7 +220,7 @@ module.exports = function rollupPluginRebootDocs (inputopts = {}) {
             result = renderLiquid(result, { lqengine, lqglobals })
             // result = lqengine2.parseAndRenderSync(result, {...lqglobals})
             
-            const markedOptions = {
+            result = marked(result, {
                 ...options.marked,
                 renderer: markedRenderer,
                 highlight: (code, lang) => {
@@ -225,8 +232,7 @@ module.exports = function rollupPluginRebootDocs (inputopts = {}) {
                 },
                 xhtml: false,
                 gfm: true,
-            }
-            result = marked(result, markedOptions)
+            })
 
             const relname = path.relative(basedir, id)
             const extname = path.extname(id)
@@ -240,7 +246,7 @@ module.exports = function rollupPluginRebootDocs (inputopts = {}) {
             const name = basename.replace(regexp, '')
             const reljsonpath = version_platform_relname.replace(regexp, '.json')
 
-            result = addLeadInfoForPage(result, fm.attributes)
+            result = addLeadInfoToPage(result, fm.attributes)
 
             const navInfo = {
                 name,
@@ -248,12 +254,14 @@ module.exports = function rollupPluginRebootDocs (inputopts = {}) {
                 type: group,
                 group,
                 basename,
+                navtitle: capitalize(name).split('-').join(' '),
+                uripath: normalizeToPosixPath(version_platform_relname).replace(regexp, ''),
                 relpath: normalizeToPosixPath(version_platform_relname).replace(regexp, '.json'),
                 attributes: fm.attributes,
             }
             
             versionedNavs[versionType] = versionedNavs[versionType] || [];
-            let idx = versionedNavs[versionType].findIndex(item => item.name === navInfo.name)
+            let idx = versionedNavs[versionType].findIndex(item => item.name === navInfo.name && item.group === navInfo.group)
             if (idx === -1) versionedNavs[versionType].push(navInfo)
             else versionedNavs[versionType][idx] = navInfo
             

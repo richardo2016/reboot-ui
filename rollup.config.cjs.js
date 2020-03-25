@@ -79,6 +79,9 @@ const docsConfig = getConfigItem({
                     extname: '',
                     dynamicPartials: false
                 },
+                sitedata: {
+                    repo: 'https://github.com/richardo2016/reboot-ui'
+                }
             })
         )
 

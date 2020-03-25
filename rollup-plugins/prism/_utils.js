@@ -73,7 +73,7 @@ exports.highlightCode = function (
     filterPrismLang(lang);
 
     if (lang === 'html')
-        code = htmlPretty(code, { ocd: true } )
+        code = htmlPretty(code, { ocd: true })
 
     code = code.trim();
 

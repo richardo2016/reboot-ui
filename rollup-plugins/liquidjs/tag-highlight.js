@@ -52,11 +52,11 @@ module.exports = function (Liquid) {
             }
 
             if (this.lang === 'html')
-              text = htmlPretty(text)
+              text = htmlPretty(text, { ocd: true })
 
             return ''
-            + '```' + this.lang + '\n'
-            + text + '\n'
+            + '\n```' + this.lang + '\n'
+            + htmlEscaper.unescape(text) + '\n'
             + '```' + '\n'
         },
     });

@@ -16,19 +16,25 @@ function resolveOffsetAboutBreakPointConfig (
     input,
     { numberAsKey = 'span' } = {}
 ) {
-    if (typeof input === 'number') input = { [numberAsKey]: input };
+    if (typeof input === 'number' || VALID_OFFSET_ENUM_VALUES.includes(input)) input = { [numberAsKey]: input };
 
     const { span: spanValue, offset: offsetValue, rowCols } = input || {};
 
     return {
-        span: coerceResponsiveOfferValue(spanValue, 0),
-        offset: coerceResponsiveOfferValue(offsetValue, 0),
-        rowCols: coerceResponsiveOfferValue(rowCols, 0),
+        $origInput: {
+            span: spanValue,
+            offset: offsetValue,
+            rowCols: rowCols,
+        },
+        span: coerceResponsiveOfferValue(spanValue),
+        offset: coerceResponsiveOfferValue(offsetValue),
+        rowCols: coerceResponsiveOfferValue(rowCols),
     }
 }
 
+const VALID_OFFSET_ENUM_VALUES = ['auto'];
 function coerceResponsiveOfferValue (value, fallbackValue) {
-    if (value === 'auto') return value
+    if (VALID_OFFSET_ENUM_VALUES.includes(value)) return value
 
     return coerceInteger(value, fallbackValue)
 }
@@ -72,10 +78,10 @@ function makeIntegerAboutClsFromBreakPointConfig (prefix = 'col', { value: intOr
             throw new Error(`[makeIntegerAboutClsFromBreakPointConfig] invalid make target ${prefix}!`)
     }
     
-    return `${prefix}-${breakpoint ? `${breakpoint}-` : ''}${intOrEnumValue}`
+    return `${prefix}-${breakpoint ? `${breakpoint}-` : ''}${intOrEnumValue !== undefined ? intOrEnumValue : '' }`
 }
 
-export function getDivisionAboutClsNameListFromBreakPointConfig ({
+export function getRowColsClsNameListFromBreakPointConfig ({
     rowCols,
 
     ...input
@@ -97,6 +103,10 @@ export function getDivisionAboutClsNameListFromBreakPointConfig ({
     return breakPointAboutClsList
 }
 
+function isValidOffsetValue (value) {
+    return typeof value === 'number' || VALID_OFFSET_ENUM_VALUES.includes(value)
+}
+
 export function getOffsetAboutClsNameListFromBreakPointConfig ({
     span = undefined,
     offset = undefined,
@@ -105,19 +115,20 @@ export function getOffsetAboutClsNameListFromBreakPointConfig ({
 }) {
     const breakPointAboutClsList = []
 
-    if (span = coerceResponsiveOfferValue(span))
+    if ((span = coerceResponsiveOfferValue(span)))
         breakPointAboutClsList.push( makeIntegerAboutClsFromBreakPointConfig('col', { value: span } ) )
 
-    if (offset = coerceResponsiveOfferValue(offset))
+    if ((offset = coerceResponsiveOfferValue(offset)))
         breakPointAboutClsList.push( makeIntegerAboutClsFromBreakPointConfig('offset', { value: offset } ) )
 
     let tmpResolved
     VALID_RESPONSIVE_BRKPOINT.forEach(breakpoint => {
         if (input[breakpoint]) {
             tmpResolved = resolveOffsetAboutBreakPointConfig(input[breakpoint], { numberAsKey: 'span' })
-            if (tmpResolved.span)
+
+            if (tmpResolved.span || (tmpResolved.$origInput.span === 0))
                 breakPointAboutClsList.push( makeIntegerAboutClsFromBreakPointConfig('col', { value: tmpResolved.span, breakpoint } ) )
-            if (tmpResolved.offset)
+            if (tmpResolved.offset || (tmpResolved.$origInput.offset === 0))
                 breakPointAboutClsList.push( makeIntegerAboutClsFromBreakPointConfig('offset', { value: tmpResolved.offset, breakpoint } ) )
         }
     })

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { getOffsetAboutClsNameListFromBreakPointConfig, getDivisionAboutClsNameListFromBreakPointConfig } from '@reboot-ui/internal-size-resolver'
+import { getOffsetAboutClsNameListFromBreakPointConfig, getRowColsClsNameListFromBreakPointConfig } from '@reboot-ui/internal-size-resolver'
 import { resolveJSXElement, rclassnames } from '@reboot-ui/common'
 
 export const Container = ({
@@ -49,7 +49,7 @@ export const Row = ({
     xl = undefined,
     ...props
 }) => {
-    const clsNameList = getDivisionAboutClsNameListFromBreakPointConfig({ rowCols, sm, md, lg, xl })
+    const clsNameList = getRowColsClsNameListFromBreakPointConfig({ rowCols, sm, md, lg, xl })
 
     const JSXEl = resolveJSXElement(_as)
 
@@ -70,6 +70,7 @@ export const Row = ({
 export const Col = ({
     children,
     as: _as = 'div',
+    col = false,
     span = undefined,
     offset = undefined,
     /**
@@ -88,20 +89,32 @@ export const Col = ({
      * @break-config
      */
     xl = undefined,
-    breakpoint = '',
     ...props
 }) => {
     const breakPointAboutClsList = getOffsetAboutClsNameListFromBreakPointConfig({ span, offset, sm, md, lg, xl })
 
     const JSXEl = resolveJSXElement(_as)
 
+    const clsTuple = [
+        sm === true && 'col-sm',
+        md === true && 'col-md',
+        lg === true && 'col-lg',
+        xl === true && 'col-xl',
+    ].filter(x => x)
+    if (!col)
+        col = (!clsTuple.length && !breakPointAboutClsList.length && !span)
+
+    if (col) clsTuple.unshift('col')
+
     return (
         <JSXEl
             {...props}
-            className={rclassnames(props, [
-                'col',
-                breakPointAboutClsList
-            ])}
+            className={rclassnames(
+                props, 
+                []
+                .concat(clsTuple)
+                .concat(breakPointAboutClsList)
+            )}
         >
             {children}
         </JSXEl>

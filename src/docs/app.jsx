@@ -39,8 +39,17 @@ function parseNavData (versionedNavData) {
     ).filter(x => x),
     content: versionedNavData.filter(info => info.group === 'content').sort(sortCb),
     components: versionedNavData.filter(info => info.group === 'components').sort(sortCb),
-    extend: versionedNavData.filter(info => info.group === 'extend').sort(sortCb),
     utilities: versionedNavData.filter(info => info.group === 'utilities').sort(sortCb),
+    extend: versionedNavData.filter(info => info.group === 'extend').sort(sortCb),
+    about: [
+      'overview.md',
+      // 'brand.md',
+      // 'license.md',
+      // 'team.md',
+      // 'translations.md',
+    ].map(fname => 
+      versionedNavData.find(info => info.group === 'about' && info.basename === fname)
+    ).filter(x => x),
     all: versionedNavData,
   }
 }
@@ -187,9 +196,6 @@ export default function App () {
             <Nav.Item>
               <Nav.Link>Docs(JSX)</Nav.Link>
             </Nav.Item>
-            <Nav.Item>
-              <Nav.Link>Docs(Orignal)</Nav.Link>
-            </Nav.Item>
           </Nav.List>
         </div>
         <Nav.List navbar className="ml-md-auto">
@@ -295,13 +301,13 @@ export default function App () {
                               return (
                                 <li
                                   className={[
-                                    matches && 'active bd-sidenav-active'                                
+                                    matches && 'active bd-sidenav-active'
                                   ].filter(x => x).join(' ')}
                                 >
-                                  {matches && <a href="javascript:void(0);">{info.attributes.title}</a>}
+                                  {matches && <a href="javascript:void(0);">{info.navtitle}</a>}
                                   {!matches && (
                                     <Link href={`/${info.relpath}`}>
-                                      {info.attributes.title}
+                                      {info.navtitle}
                                     </Link>
                                   )}
                                 </li>

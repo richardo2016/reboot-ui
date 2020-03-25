@@ -4,6 +4,7 @@
  * @param Liquid: provides facilities to implement tags and filters.
  */
 const buble = require('buble');
+const babel = require('@babel/core')
 
 const assert = require('assert')
 
@@ -45,9 +46,14 @@ module.exports = function (Liquid) {
             const sampleElId = `mvvm_type${uuid}`
 
             source += `;ReactDOM.render(<Sample uuid={'${uuid}'} />, document.getElementById('${sampleElId}'));`
-            let { code: output } = buble.transform(source, {
-              jsx: 'React.createElement',
-              objectAssign: 'Object.assign',
+            let { code: output } = babel.transformSync(source, {
+              babelrc: false,
+              presets: [
+                ["@babel/preset-env", {
+                  "modules": false
+                }],
+                "@babel/preset-react"
+              ]
             })
               
             const markdownCode = ''
