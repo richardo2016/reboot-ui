@@ -59,7 +59,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Wrapping
 
@@ -82,7 +82,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Sizing
 
@@ -148,7 +148,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Checkboxes and radios
 
@@ -178,7 +178,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Multiple inputs
 
@@ -199,7 +199,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Multiple addons
 
@@ -236,7 +236,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Button addons
 
@@ -318,7 +318,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Buttons with dropdowns
 
@@ -368,7 +368,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Segmented buttons
 
@@ -418,7 +418,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Custom forms
 

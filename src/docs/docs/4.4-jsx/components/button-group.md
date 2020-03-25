@@ -23,7 +23,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 {% capture callout %}
 ##### Ensure correct `role` and provide a label
@@ -62,7 +62,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 Feel free to mix input groups with button groups in your toolbars. Similar to the example above, you'll likely need some utilities though to space things properly.
 
@@ -102,7 +102,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Sizing
 
@@ -134,7 +134,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Nesting
 
@@ -165,7 +165,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Vertical variation
 
@@ -188,7 +188,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = () => {
@@ -225,4 +225,4 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}

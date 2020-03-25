@@ -25,7 +25,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Active items
 
@@ -46,7 +46,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Disabled items
 
@@ -67,7 +67,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Links and buttons
 
@@ -90,7 +90,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 With `<button>`s, you can also make use of the `disabled` attribute instead of the `.disabled` class. Sadly, `<a>`s don't support the disabled attribute.
 
@@ -109,7 +109,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Flush
 
@@ -130,7 +130,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Horizontal
 
@@ -155,7 +155,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Contextual classes
 
@@ -177,7 +177,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 Contextual classes also work with `.list-group-item-action`. Note the addition of the hover styles here not present in the previous example. Also supported is the `.active` state; apply it to indicate an active selection on a contextual list group item.
 
@@ -197,7 +197,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 {% include callout-warning-color-assistive-technologies.md %}
 
@@ -227,7 +227,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Custom content
 
@@ -267,7 +267,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Controlled Items
 
@@ -334,4 +334,4 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}

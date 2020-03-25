@@ -22,7 +22,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 To make the jumbotron full width, and without rounded corners, add the `.jumbotron-fluid` modifier class and add a `.container` or `.container-fluid` within.
 
@@ -40,4 +40,4 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}

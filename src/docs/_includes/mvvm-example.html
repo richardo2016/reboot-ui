@@ -1,11 +1,12 @@
-{%- assign mexample = include.mexample -%}
+{%- assign reboot_mvvm_ctx = include.reboot_mvvm_ctx -%}
 {%- assign class = include.class -%}
+{%- assign defaultopen = include.defaultopen === '1' -%}
 
-<div class="bd-example{% if class %} {{ class }}{% endif %}" id="{{- mexample.id -}}" data-mvvm-type="{{- mexample.mvvm_type -}}">
+<div class="bd-example{% if class %} {{ class }}{% endif %}" id="{{- reboot_mvvm_ctx.id -}}" data-mvvm-type="{{- reboot_mvvm_ctx.mvvm_type -}}" data-sample-defaultopen="{{- defaultopen -}}">
 </div>
 
-<script type="text/plain" data-js-id={{- mexample.id -}}>
-{{- mexample.clientRenderJs -}}
+<script type="text/plain" data-js-id={{- reboot_mvvm_ctx.id -}}>
+{{- reboot_mvvm_ctx.clientRenderJs -}}
 </script>
 
-{{ mexample.markdownCode }}
+{{ reboot_mvvm_ctx.markdownCode }}

@@ -27,7 +27,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ### Colors
 
@@ -48,7 +48,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 {% capture callout %}
 **Why not use `border-color` utilities?** Each border spinner specifies a `transparent` border for at least one side, so `.border-{color}` utilities would override that.
@@ -70,7 +70,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 Once again, this spinner is built with `currentColor`, so you can easily change its appearance with [text color utilities][color]. Here it is in blue, along with the supported variants.
 
@@ -89,7 +89,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Alignment
 
@@ -110,7 +110,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ### Placement
 
@@ -131,7 +131,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = () => {
@@ -145,7 +145,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 #### Floats
 
@@ -162,7 +162,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 #### Text align
 
@@ -179,7 +179,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Size
 
@@ -199,7 +199,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 Or, use custom CSS or inline styles to change the dimensions as needed.
 
@@ -217,7 +217,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Buttons
 
@@ -239,7 +239,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = () => {
@@ -257,7 +257,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 [color]:   {{ site.baseurl }}/docs/{{ site.docs_version }}/utilities/colors/
 [display]: {{ site.baseurl }}/docs/{{ site.docs_version }}/utilities/display/

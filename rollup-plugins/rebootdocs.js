@@ -13,11 +13,19 @@ const { Liquid } = require('@reboot-ui/liquidjs')
 const { isProduction } = require('./build-env')
 
 const { Prism } = require('../rollup-plugins/prism')
+const { filterPrismLang } = require('../rollup-plugins/prism/_utils')
+
+const renderLiquid = (code, { lqengine, lqglobals }, options) => {
+    return lqengine.parseAndRenderSync(code, {...lqglobals}, options)
+}
 
 /**
  * @description for customize marked render
  */
-function getMarkedRender () {
+function getMarkedRender ({
+    lqengine = null,
+    lqglobals
+} = {}) {
     const renderer = new marked.Renderer();
     const origCode = renderer.code;
 
@@ -30,6 +38,7 @@ function getMarkedRender () {
 
     renderer.code = function (code, infostring, escaped) {
         let lang = (infostring || '').match(/\S*/)[0];
+
         if (!lang) return code
         
         switch (lang) {
@@ -45,7 +54,7 @@ function getMarkedRender () {
                 return ''
                 + `<div class="bd-clipboard">
                     <button type="button" class="btn-sample-collapse" title="" data-original-title="Toggle the sample">
-                        Toggle Sample
+                        Toggle Code
                     </button>
                     <button type="button" class="btn-clipboard" title="" data-original-title="Copy to clipboard">
                         Copy
@@ -53,6 +62,9 @@ function getMarkedRender () {
                 </div>`
                 + wrapToFigureTag(html);
             default:
+                if (lqengine)
+                    code = renderLiquid(code, { lqengine, lqglobals })
+
                 return wrapToFigureTag(
                     origCode.call(this, code, infostring, escaped)
                 );
@@ -152,7 +164,7 @@ module.exports = function rollupPluginRebootDocs (inputopts = {}) {
         outputDelimiterRight: '-}}',
     });
 
-    const markedRenderer = getMarkedRender();
+    const markedRenderer = getMarkedRender({ lqengine, lqglobals });
 
     const plugin = {
         name: 'rebootdocs',
@@ -198,14 +210,16 @@ module.exports = function rollupPluginRebootDocs (inputopts = {}) {
             const fm = frontmatter(sourcecode)
             let result = fm.body
             
-            result = lqengine.parseAndRenderSync(result, {...lqglobals}, {globals: {NOHIGHTLITHGT: false}})
-            // result = lqengine2.parseAndRenderSync(result, {...lqglobals}, {globals: {NOHIGHTLITHGT: true}})
+            result = renderLiquid(result, { lqengine, lqglobals })
+            // result = lqengine2.parseAndRenderSync(result, {...lqglobals})
             
             const markedOptions = {
                 ...options.marked,
                 renderer: markedRenderer,
                 highlight: (code, lang) => {
                     if (!Prism.languages[lang]) return code;
+
+                    lang = filterPrismLang(lang)
 
                     return Prism.highlight(code, Prism.languages[lang], lang)
                 },
@@ -217,12 +231,10 @@ module.exports = function rollupPluginRebootDocs (inputopts = {}) {
             const relname = path.relative(basedir, id)
             const extname = path.extname(id)
             const basename = path.basename(id)
-            const platform_relname = path.normalize(relname)
 
             const [_, versionType, group = 'common', ...rest] = path.normalize(relname).split(path.sep) || []
             const version_platform_relname = [versionType, group, ...rest].join(path.sep);
 
-            // console.log('relname', relname, version_platform_relname);
             const regexp = new RegExp(`${extname}$`, 'i')
             
             const name = basename.replace(regexp, '')

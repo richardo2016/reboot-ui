@@ -21,10 +21,25 @@ const filterPrismLang = exports.filterPrismLang = function (lang) {
         case 'sass':
             break
 
+        case 'sh':
+        case 'bash':
         case 'shell': lang = 'bash'
             break
-        case 'bash':
         case 'powershell':
+        case 'ps1':
+            lang = 'powershell'
+            break
+        case 'plaintext':
+            lang = 'plaintext'
+            break
+        case 'ruby':
+        case 'rb':
+            lang = 'ruby'
+            break
+        /**
+         * @special
+         */
+        case 'reboot_jsx':
             break
         default:
             throw new Error(`[filterPrismLang] unsupported lang ${lang}`)
@@ -37,7 +52,7 @@ const wrapHtml = exports.wrapHtml = function (code, lang) {
     return /* htmlEscaper.escape */(`\
 <div class="bd-clipboard">
     <button type="button" class="btn-sample-collapse" title="" data-original-title="Toggle the sample">
-        Toggle Sample
+        Toggle Code
     </button>
     <button type="button" class="btn-clipboard" title="" data-original-title="Copy to clipboard">
         Copy

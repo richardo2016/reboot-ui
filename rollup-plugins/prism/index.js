@@ -9,6 +9,8 @@ require('prismjs/components/prism-powershell')
 require('prismjs/components/prism-jsx')
 require('prismjs/components/prism-javascript')
 require('prismjs/components/prism-typescript')
+require('prismjs/components/prism-bash')
+require('prismjs/components/prism-shell-session')
 require('prismjs/plugins/normalize-whitespace/prism-normalize-whitespace')
 
 Prism.plugins.NormalizeWhitespace.setDefaults({

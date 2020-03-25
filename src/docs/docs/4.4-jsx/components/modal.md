@@ -57,7 +57,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code class="bd-example-modal" %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code class="bd-example-modal" %}
 
 ### Live demo
 
@@ -90,7 +90,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ### Static backdrop
 
@@ -128,7 +128,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ### Scrolling long content
 
@@ -178,7 +178,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 You can also create a scrollable modal that allows scroll the modal body by adding `.modal-dialog-scrollable` to `.modal-dialog`.
 
@@ -226,7 +226,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ### Vertically centered
 
@@ -283,7 +283,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ### Tooltips and popovers
 
@@ -347,7 +347,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ### Using the grid
 
@@ -405,7 +405,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ### Change animation
 

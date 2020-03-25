@@ -47,7 +47,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Form controls
 
@@ -97,7 +97,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 For file inputs, swap the `.form-control` for `.form-control-file`.
 
@@ -116,7 +116,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ### Sizing
 
@@ -135,7 +135,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = ({ uuid }) => {
@@ -156,7 +156,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ### Readonly
 
@@ -173,7 +173,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ### Readonly plain text
 
@@ -209,7 +209,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = ({ uuid }) => {
@@ -238,7 +238,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Range Inputs
 
@@ -262,7 +262,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Checkboxes and radios
 
@@ -299,7 +299,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = ({ uuid }) => {
@@ -335,7 +335,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ### Inline
 
@@ -371,7 +371,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = ({ uuid }) => {
@@ -406,7 +406,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ### Without labels
 
@@ -437,7 +437,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Layout
 
@@ -473,7 +473,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ### Form grid
 
@@ -495,7 +495,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 #### Form row
 
@@ -519,7 +519,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 More complex layouts can also be created with the grid system.
 
@@ -567,7 +567,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 #### Horizontal form
 
@@ -630,7 +630,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ##### Horizontal form label sizing
 
@@ -675,7 +675,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 #### Column sizing
 
@@ -702,7 +702,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 #### Auto-sizing
 
@@ -750,7 +750,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 You can then remix that once again with size-specific column classes.
 
@@ -794,7 +794,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 And of course [custom form controls](#custom-forms) are supported.
 
@@ -838,7 +838,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ### Inline forms
 
@@ -882,7 +882,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 Custom form controls and selects are also supported.
 
@@ -916,7 +916,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 {% capture callout %}
 ##### Alternatives to hidden labels
@@ -956,7 +956,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 Inline text can use any typical inline HTML element (be it a `<small>`, `<span>`, or something else) with nothing more than a utility class.
 
@@ -984,7 +984,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Disabled forms
 
@@ -1035,7 +1035,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 {% capture callout %}
 ##### Caveat with anchors
@@ -1179,7 +1179,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ### Browser defaults
 
@@ -1265,7 +1265,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ### Server side
 
@@ -1363,7 +1363,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ### Supported elements
 
@@ -1445,7 +1445,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ### Tooltips
 
@@ -1537,7 +1537,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ### Customizing
 
@@ -1602,7 +1602,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 Custom checkboxes can also utilize the `:indeterminate` pseudo class when manually set via JavaScript (there is no available HTML attribute for specifying it).
 
@@ -1622,7 +1622,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code class="bd-example-indeterminate" %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code class="bd-example-indeterminate" %}
 
 #### Radios
 
@@ -1650,7 +1650,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 #### Inline
 
@@ -1678,7 +1678,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 #### Disabled
 
@@ -1709,7 +1709,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ### Switches
 
@@ -1738,7 +1738,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ### Select menu
 
@@ -1758,7 +1758,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 You may also choose from small and large custom selects to match our similarly sized text inputs.
 
@@ -1782,7 +1782,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 The `multiple` attribute is also supported:
 
@@ -1800,7 +1800,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 As is the `size` attribute:
 
@@ -1818,7 +1818,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ### Range
 
@@ -1836,7 +1836,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 Range inputs have implicit values for `min` and `max`—`0` and `100`, respectively. You may specify new values for those using the `min` and `max` attributes.
 
@@ -1855,7 +1855,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 By default, range inputs "snap" to integer values. To change this, you can specify a `step` value. In the example below, we double the number of steps by using `step="0.5"`.
 
@@ -1875,7 +1875,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ### File browser
 
@@ -1901,7 +1901,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 We hide the default file `<input>` via `opacity` and instead style the `<label>`. The button is generated and positioned with `::after`. Lastly, we declare a `width` and `height` on the `<input>` for proper spacing for surrounding content.
 
@@ -1934,7 +1934,7 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 You'll need to set the language of your document (or subtree thereof) correctly in order for the correct text to be shown. This can be done using [the `lang` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang) on the `<html>` element or the [`Content-Language` HTTP header](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.12), among other methods.
 
@@ -1957,4 +1957,4 @@ const Sample = ({ uuid }) => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}

@@ -47,7 +47,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ### Four directions
 
@@ -76,7 +76,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code class="popover-demo" %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code class="popover-demo" %}
 
 ### Dismiss only on clicking trigger
 
@@ -109,7 +109,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ### Disabled Popover
 
@@ -143,7 +143,7 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code class="popover-demo" %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code class="popover-demo" %}
 
 ### Show on hover trigger
 
@@ -179,5 +179,5 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code class="popover-demo" %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code class="popover-demo" %}
 

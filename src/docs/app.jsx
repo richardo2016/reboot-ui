@@ -19,9 +19,26 @@ function parseNavData (versionedNavData) {
   const sortCb = (a, b) => a.name < b.name ? -1 : 1
 
   return {
-    components: versionedNavData.filter(info => info.group === 'components').sort(sortCb),
+    'getting-started': [
+      'introduction.md',
+      // 'download.md',
+      // 'contents.md',
+      'browsers-devices.md',
+      'javascript.md',
+      'theming.md',
+      // 'build-tools.md',
+    ].map(fname => 
+      versionedNavData.find(info => info.group === 'getting-started' && info.basename === fname)
+    ).filter(x => x),
+    layout: [
+      'overview.md',
+      'grid.md',
+      'utilities-for-layout.md',
+    ].map(fname => 
+      versionedNavData.find(info => info.group === 'layout' && info.basename === fname)
+    ).filter(x => x),
     content: versionedNavData.filter(info => info.group === 'content').sort(sortCb),
-    layout: versionedNavData.filter(info => info.group === 'layout').sort(sortCb),
+    components: versionedNavData.filter(info => info.group === 'components').sort(sortCb),
     extend: versionedNavData.filter(info => info.group === 'extend').sort(sortCb),
     utilities: versionedNavData.filter(info => info.group === 'utilities').sort(sortCb),
     all: versionedNavData,
@@ -306,12 +323,12 @@ export default function App () {
             }}
             history={HASH_ROUTE}
           >
-            {navData.all && navData.all[0] && navData.all[0].relpath ? (
-              <Redirect path="/" to={navData.all[0].relpath} />
+            {navData['getting-started'] && navData['getting-started'][0] && navData['getting-started'][0].relpath ? (
+              <Redirect path="/" to={navData['getting-started'][0].relpath} />
             ) : (
               <div path="/">loading...</div>
             )}
-            {navData.components.map((component, idx) => {
+            {navData.all.map((component, idx) => {
               return (
                 <Layout.Col
                   {...idx === 0 && { default: true }}
@@ -325,7 +342,15 @@ export default function App () {
                   }}
                 />
               )
-              })}
+            })}
+            {navData.all.map((component) => {
+              return (
+                <Redirect
+                  path={`/${component.group}/${component.basename}`}
+                  to={`/${component.relpath}`}
+                />
+              )
+            })}
           </Router>
         </Layout.Row>
       </Layout.Container>

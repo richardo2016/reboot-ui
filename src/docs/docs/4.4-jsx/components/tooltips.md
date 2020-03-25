@@ -46,4 +46,4 @@ const Sample = () => {
   )
 }
 {% endreboot_mvvm %}
-{% include mvvm-example.html mexample=mexample_with_code class="tooltip-demo" %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code class="tooltip-demo" %}

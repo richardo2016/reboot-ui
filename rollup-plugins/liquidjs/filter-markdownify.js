@@ -4,7 +4,7 @@
  * @param Liquid: provides facilities to implement tags and filters.
  */
 const marked = require('marked')
-const htmlEscaper = require('html-escaper');
+const cheerio = require('cheerio')
 
 module.exports = function (Liquid) {
     this.registerFilter('markdownify', content => {
@@ -16,6 +16,22 @@ module.exports = function (Liquid) {
         else
             html = marked(content, options);
 
-        return /* htmlEscaper.escape */(html)
+        return html
+    });
+
+    this.registerFilter('cheerio_remove', (content, selector) => {
+        const $ = cheerio.load(content, { xmlMode: true })
+        $(selector).remove()
+
+        return $.html()
+    });
+
+    this.registerFilter('cheerio_addCls', (content, selector, clsName) => {
+        if (!clsName) return content;
+
+        const $ = cheerio.load(content, { xmlMode: true })
+        $(selector).addClass(clsName)
+
+        return $.html()
     });
 }

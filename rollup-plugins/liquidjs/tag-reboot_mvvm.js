@@ -66,4 +66,64 @@ module.exports = function (Liquid) {
             };
         },
     });
+
+    this.registerTag('capture_react', {
+      parse (tagToken, remainTokens) {
+        const match = tagToken.args.match(reg);
+        assert(match, `${tagToken.args} not valid identifier`);
+
+        this.varname = match[1] || 'captured_react';
+        this.tokens = []
+
+        const stream = this.liquid.parser.parseStream(remainTokens)
+        stream
+          .on('token', (token) => {
+            if (token.name === 'endcapture_react') stream.stop()
+            else this.tokens.push(token)
+          })
+          .on('end', () => {
+            throw new Error(`tag ${tagToken.raw} not closed`)
+          })
+        stream.start()
+      },
+
+      render (ctx) {
+        let source = this.tokens.map((token) => token.raw).join('')
+        const originalCode = source;
+
+        const uuid = md5(`${source}${Date.now()}`);
+        const sampleElId = `react-fragment-id/${uuid}`
+
+        source += `;ReactDOM.render(<Sample uuid={'${uuid}'} />, document.getElementById('${sampleElId}'));`
+        const { code: clientRenderJs } = buble.transform(source, {
+          jsx: 'React.createElement',
+          objectAssign: 'Object.assign',
+          transforms: {
+            modules: false,
+          }
+        })
+          
+        const markdown = ''
+          + '```jsx' + '\n'
+          + originalCode + '\n'
+          + '```' + '\n'
+
+        ctx.front()[this.varname] = {
+          uuid,
+          id: sampleElId,
+          varname: this.varname,
+          
+          clientRenderJs,
+          source: originalCode,
+          markdown
+        };
+        
+//         return `
+// <div class="bd-example" id="${sampleElId}">
+// </div>
+// <script type="text/plain" data-js-id="${sampleElId}">
+//   ${clientRenderJs}
+// </script>`;
+      },
+    });
 }

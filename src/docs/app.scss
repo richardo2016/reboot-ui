@@ -13,6 +13,15 @@ $navbar-padding-x: .5rem;
 // @import "../../node_modules/prismjs/themes/prism-twilight";
 // @import "../../node_modules/prismjs/themes/prism";
 
+code, pre {
+    /* &[class*=language-]:not([class*="language-html"]) */
+    [class*=language-sh],
+    [class*=language-powershell],
+    [class*=language-ruby] {
+        white-space: nowrap;
+    }
+}
+
 .bg-navbar {
     background-color: #563d7c;
 }
@@ -26,7 +35,6 @@ $navbar-padding-x: .5rem;
 
 .bd-clipboard + figure,
 .bd-clipboard + figure > pre {
-    // @extend .collapse;
     transition: opacity .25s ease, height .1s ease-out;
 }
 
@@ -39,13 +47,13 @@ $navbar-padding-x: .5rem;
     }
 }
 
-.bd-clipboard {
-    float: left;
+// .bd-clipboard {
+//     float: left;
 
-    .btn-sample-collapse {
-        left: 1rem;
-    }
-}
+//     .btn-sample-collapse {
+//         left: 1rem;
+//     }
+// }
 
 .btn-sample-collapse {
     position: absolute;

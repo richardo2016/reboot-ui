@@ -1,6 +1,24 @@
 /**
  * import markdowns but never use it, just trigger compilation for markdowns
  */
+
+import './about/brand.md'
+import './about/license.md'
+import './about/overview.md'
+import './about/team.md'
+import './about/translations.md'
+
+import './getting-started/accessibility.md'
+import './getting-started/best-practices.md'
+import './getting-started/browsers-devices.md'
+import './getting-started/build-tools.md'
+import './getting-started/contents.md'
+import './getting-started/download.md'
+import './getting-started/introduction.md'
+import './getting-started/javascript.md'
+import './getting-started/theming.md'
+import './getting-started/webpack.md'
+
 import './components/alerts.md'
 import './components/badge.md'
 import './components/breadcrumb.md'
@@ -26,16 +44,16 @@ import './components/spinners.md'
 import './components/toasts.md'
 import './components/tooltips.md'
 
-// import './content/code.md'
-// import './content/figures.md'
-// import './content/images.md'
-// import './content/reboot.md'
-// import './content/tables.md'
-// import './content/typography.md'
+import './content/code.md'
+import './content/figures.md'
+import './content/images.md'
+import './content/reboot.md'
+import './content/tables.md'
+import './content/typography.md'
 
-// import './layout/grid.md'
-// import './layout/overview.md'
-// import './layout/utilities-for-layout.md'
+import './layout/overview.md'
+import './layout/grid.md'
+import './layout/utilities-for-layout.md'
 
 // import './extend/approach.md'
 // import './extend/icons.md'
