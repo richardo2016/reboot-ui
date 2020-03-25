@@ -2,14 +2,6 @@ import React from 'react'
 
 import { resolveJSXElement, rclassnames } from '@reboot-ui/common'
 
-const transtionClasses = {
-    [`entering`]: 'fade',
-    [`entered`]: 'fade show',
-    [`exiting`]: 'fade',
-    [`exited`]: 'fade hide',
-}
-
-function noop () {}
 const DFLT_FADE_DURATION = 150
 /**
  * @see https://getbootstrap.com/docs/4.4/components/alerts
@@ -18,7 +10,7 @@ const Alert = React.forwardRef((
     ({
         children,
         as: _as = 'div',
-        type = '',
+        theme = '',
         __htmlAttributes,
         /**
          * @type {boolean} whether display
@@ -28,6 +20,8 @@ const Alert = React.forwardRef((
          * @type {boolean} whether could be dismiss
          */
         closable = false,
+
+        fade = true,
         ...props
     }, ref) => {
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
@@ -35,7 +29,7 @@ const Alert = React.forwardRef((
         const [dismiss, setDismiss] = React.useState(!propShow);
         const [shouldRender, setShouldRender] = React.useState(propShow);
     
-        switch (type) {
+        switch (theme) {
             case 'primary':
             case 'secondary':
             case 'success':
@@ -48,7 +42,7 @@ const Alert = React.forwardRef((
             case 'link':
                 break
             default:
-                type = ''
+                theme = ''
                 break
         }
 
@@ -79,9 +73,9 @@ const Alert = React.forwardRef((
                 ref={ref}
                 className={rclassnames(props, [
                     'alert',
-                    type && `alert-${type}`,
+                    theme && `alert-${theme}`,
                     closable && `alert-dismissible`,
-                    'fade',
+                    fade && 'fade',
                     !dismiss && 'show'
                 ])}
                 role="alert"

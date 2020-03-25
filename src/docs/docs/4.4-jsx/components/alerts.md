@@ -11,7 +11,7 @@ toc: true
 
 ## Examples
 
-Alerts are available for any length of text, as well as an optional dismiss button. For proper styling, use one of the eight **required** contextual classes (e.g., `.alert-success`). For inline dismissal, use the [alerts jQuery plugin](#dismissing).
+Alerts are available for any length of text, as well as an optional dismiss button. For proper styling, use one of the eight **required** contextual `theme` type (e.g., `success`).
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = () => {
@@ -20,7 +20,7 @@ const Sample = () => {
       {site.data['theme-colors']
         .map(color => {
           return (
-            <Alert type={color.name}>
+            <Alert theme={color.name}>
               A simple { color.name } alert—check it out!
             </Alert>
           )
@@ -36,7 +36,7 @@ const Sample = () => {
 
 ### Link color
 
-Use the `.alert-link` utility class to quickly provide matching colored links within any alert.
+Use the `Alert.Link` component to quickly provide matching colored links within any alert.
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = () => {
@@ -45,8 +45,8 @@ const Sample = () => {
       {site.data['theme-colors']
         .map(color => {
           return (
-            <Alert type={color.name}>
-              A simple { color.name } alert with 
+            <Alert theme={color.name}>
+              A simple { color.name } alert with{' '}
               <Alert.Link href="#">
               an example link
               </Alert.Link>. 
@@ -69,7 +69,7 @@ Alerts can also contain additional HTML elements like headings, paragraphs and d
 const Sample = () => {
   return (
     <>
-      <Alert type="success">
+      <Alert theme="success">
         <Alert.Heading as="h4">
           Well done!
         </Alert.Heading>
@@ -87,19 +87,13 @@ const Sample = () => {
 
 Using the alert JavaScript plugin, it's possible to dismiss any alert inline. Here's how:
 
-- Be sure you've loaded the alert plugin, or the compiled Bootstrap JavaScript.
-- If you're building our JavaScript from source, it [requires `util.js`]({{ site.baseurl }}/docs/{{ site.docs_version }}/getting-started/javascript/#util). The compiled version includes this.
-- Add a dismiss button and the `.alert-dismissible` class, which adds extra padding to the right of the alert and positions the `.close` button.
-- On the dismiss button, add the `data-dismiss="alert"` attribute, which triggers the JavaScript functionality. Be sure to use the `<button>` element with it for proper behavior across all devices.
-- To animate alerts when dismissing them, be sure to add the `.fade` and `.show` classes.
-
 You can see this in action with a live demo:
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = () => {
   return (
     <>
-      <Alert type="warning" closable>
+      <Alert theme="warning" closable>
         <strong>Holy guacamole!</strong> You should check in on some of those fields below.
       </Alert>
     </>
@@ -108,47 +102,31 @@ const Sample = () => {
 {% endreboot_mvvm %}
 {% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
-## JavaScript behavior
+## React API
 
-### Triggers
+### Sub Components
 
-Enable dismissal of an alert via JavaScript:
-
-{% highlight js %}
-$('.alert').alert()
-{% endhighlight %}
-
-Or with `data` attributes on a button **within the alert**, as demonstrated above:
-
-{% highlight html %}
-<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-  <span aria-hidden="true">&times;</span>
-</button>
-{% endhighlight %}
-
-Note that closing an alert will remove it from the DOM.
-
-### Methods
-
-| Method | Description |
+<div class="rbt-properties-table-wrapper">
+{% capture markdown %}
+| Property | Description |
 | --- | --- |
-| `$().alert()` | Makes an alert listen for click events on descendant elements which have the `data-dismiss="alert"` attribute. (Not necessary when using the data-api's auto-initialization.) |
-| `$().alert('close')` | Closes an alert by removing it from the DOM. If the `.fade` and `.show` classes are present on the element, the alert will fade out before it is removed. |
-| `$().alert('dispose')` | Destroys an element's alert. |
+| `Alert.Link` | `Alert`'s anchor element |
+| `Alert.Heading` | `Alert`'s heading element, for case alert containing details |
 
-{% highlight js %}$('.alert').alert('close'){% endhighlight %}
+{% endcapture %}
+{{ markdown | markdownify | cheerio_addCls: 'table', 'table table-bordered' }}
+</div>
 
-### Events
+### Properties
 
-Bootstrap's alert plugin exposes a few events for hooking into alert functionality.
-
-| Event | Description |
-| --- | --- |
-| `close.bs.alert` | This event fires immediately when the <code>close</code> instance method is called. |
-| `closed.bs.alert` | This event is fired when the alert has been closed (will wait for CSS transitions to complete). |
-
-{% highlight js %}
-$('#myAlert').on('closed.bs.alert', function () {
-  // do something...
-})
-{% endhighlight %}
+<div class="rbt-properties-table-wrapper">
+{% capture markdown %}
+| Property | Description | Type | Default Value |
+| --- | --- | --- | --- |
+| `show` | whether `Alert` displaying, use it to controll Alert. | boolean | true |
+| `fade` | whether `Alert` using animation. | boolean | true |
+| `theme` | `Alert`'s theme type. | Enum: {{ site.rbtMdFragments.themeTypes }} |  |
+| `closable` | whether dismissable. | boolean | false |
+{% endcapture %}
+{{ markdown | markdownify | cheerio_addCls: 'table', 'table table-bordered table-hover' }}
+</div>

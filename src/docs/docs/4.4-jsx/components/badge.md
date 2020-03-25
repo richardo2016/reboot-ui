@@ -19,7 +19,7 @@ const Sample = () => {
           const JSXEl = `h${idx + 1}`
           return (
             <JSXEl>
-              Example heading <Badge type="secondary">New</Badge>
+              Example heading <Badge theme="secondary">New</Badge>
             </JSXEl>
           )
         })
@@ -37,7 +37,7 @@ const Sample = () => {
   return (
     <>
       <Button theme="primary">
-        Notifications <Badge type="light">4</Badge>
+        Notifications <Badge theme="light">4</Badge>
       </Button>
     </>
   )
@@ -54,7 +54,7 @@ const Sample = () => {
   return (
     <>
       <Button theme="primary">
-        Profile <Badge type="light">9</Badge>
+        Profile <Badge theme="light">9</Badge>
         <span class="sr-only">unread messages</span>
       </Button>
     </>
@@ -74,8 +74,8 @@ const Sample = () => {
       {site.data['theme-colors']
         .map(color => {
           return (
-            <Badge type={color.name} class="mr-1">
-              {color.name.slice(0, 1).toUpperCase()}{color.name.slice(1)}
+            <Badge theme={color.name} class="mr-1">
+              {stringUtils.ucfirst(color.name)}
             </Badge>
           )
         })
@@ -90,7 +90,7 @@ const Sample = () => {
 
 ## Pill badges
 
-Use the `.badge-pill` modifier class to make badges more rounded (with a larger `border-radius` and additional horizontal `padding`). Useful if you miss the badges from v3.
+Use the `pill` property to make badges more rounded (with a larger `border-radius` and additional horizontal `padding`). Useful if you miss the badges from v3.
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = () => {
@@ -99,8 +99,8 @@ const Sample = () => {
       {site.data['theme-colors']
         .map(color => {
           return (
-            <Badge type={color.name} pill class="mr-1">
-              {color.name.slice(0, 1).toUpperCase()}{color.name.slice(1)}
+            <Badge theme={color.name} pill class="mr-1">
+              {stringUtils.ucfirst(color.name)}
             </Badge>
           )
         })
@@ -122,8 +122,8 @@ const Sample = () => {
       {site.data['theme-colors']
         .map(color => {
           return (
-            <Badge href="#" as="a" type={color.name} class="mr-1">
-              {color.name.slice(0, 1).toUpperCase()}{color.name.slice(1)}
+            <Badge href="#" as="a" theme={color.name} class="mr-1">
+              {stringUtils.ucfirst(color.name)}
             </Badge>
           )
         })
@@ -133,3 +133,18 @@ const Sample = () => {
 }
 {% endreboot_mvvm %}
 {% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
+
+## React API
+
+### Properties
+
+<div class="rbt-properties-table-wrapper">
+{% capture markdown %}
+| Property | Description | Type | Default Value |
+| --- | --- | --- | --- |
+| `theme` | theme type. | Enum: {{ site.rbtMdFragments.themeTypes }} |  |
+| `pill` | whether using pill style. | boolean | false  |
+
+{% endcapture %}
+{{ markdown | markdownify | cheerio_addCls: 'table', 'table table-bordered table-hover' }}
+</div>

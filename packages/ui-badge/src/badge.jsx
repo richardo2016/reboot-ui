@@ -9,14 +9,14 @@ import { rclassnames } from '@reboot-ui/common'
 function Badge ({
     children,
     as: _as = 'span',
-    type = '',
+    theme = '',
     pill = false,
     __htmlAttributes,
     ...props
 }, ref) {
     const JSXEl = resolveJSXElement(_as, { allowedHTMLTags: ['button', 'span', 'a'] });
 
-    switch (type) {
+    switch (theme) {
         case 'primary':
         case 'secondary':
         case 'success':
@@ -30,7 +30,7 @@ function Badge ({
             outline = false
             break
         default:
-            type = ''
+            theme = ''
             break
     }
 
@@ -41,7 +41,7 @@ function Badge ({
             ref={ref}
             className={rclassnames(props, [
                 'badge',
-                type && `badge-${type}`,
+                theme && `badge-${theme}`,
                 pill && `badge-pill`,
             ])}
         >

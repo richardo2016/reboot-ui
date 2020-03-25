@@ -155,6 +155,9 @@ module.exports = function rollupPluginRebootDocs (inputopts = {}) {
     const sitedataWrapper = {
         ...options.sitedata,
         data: sitedata,
+        rbtMdFragments: {
+            themeTypes: `${sitedata['theme-colors'].map(item => `<li>\`${item.name}\`</li>`).join('')}`
+        }
     }
     const lqglobals = {
         site: sitedataWrapper,

@@ -78,3 +78,11 @@ code, pre {
         display: none;
     }
   }
+
+  .rbt-properties-table-wrapper {
+    overflow-x: auto;
+
+    > table {
+        min-width: 800px;
+    }
+  }
