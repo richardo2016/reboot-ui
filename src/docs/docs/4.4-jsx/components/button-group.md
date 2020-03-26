@@ -8,7 +8,7 @@ toc: true
 
 ## Basic example
 
-Wrap a series of buttons with `.btn` in `.btn-group`. Add on optional JavaScript radio and checkbox style behavior with [our buttons plugin]({{ site.baseurl }}/docs/{{ site.docs_version }}/components/buttons/#button-plugin).
+Wrap a series of `<Button />` in `<ButtonGroup />`.
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = () => {
@@ -77,12 +77,9 @@ const Sample = () => {
           <Button theme="secondary">3</Button>
           <Button theme="secondary">4</Button>
         </ButtonGroup>
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <div class="input-group-text" id="btnGroupAddon">@</div>
-          </div>
-          <input type="text" class="form-control" placeholder="Input group example" aria-label="Input group example" aria-describedby="btnGroupAddon" />
-        </div>
+        <InputGroup prepend="@">
+          <Input type="text" class="form-control" placeholder="Input group example" aria-label="Input group example" aria-describedby="btnGroupAddon" />
+        </InputGroup>
       </ButtonToolbar>
       <ButtonToolbar class="justify-content-between" aria-label="Toolbar with button groups">
         <ButtonGroup class="mr-2" aria-label="First group">
@@ -91,12 +88,9 @@ const Sample = () => {
           <Button theme="secondary">3</Button>
           <Button theme="secondary">4</Button>
         </ButtonGroup>
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <div class="input-group-text" id="btnGroupAddon2">@</div>
-          </div>
-          <input type="text" class="form-control" placeholder="Input group example" aria-label="Input group example" aria-describedby="btnGroupAddon2" />
-        </div>
+        <InputGroup prepend="@">
+          <Input type="text" class="form-control" placeholder="Input group example" aria-label="Input group example" aria-describedby="btnGroupAddon2" />
+        </InputGroup>
       </ButtonToolbar>
     </>
   )
@@ -226,3 +220,18 @@ const Sample = () => {
 }
 {% endreboot_mvvm %}
 {% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
+
+## React API
+
+### Properties
+
+<div class="rbt-properties-table-wrapper">
+{% capture markdown %}
+| Property | Description | Type | Default Value |
+| --- | --- | --- | --- |
+| `size` | size of button group, affect `<Button />` in children. | Enum: <ul><li>lg</li><li>sm</li></ul> |  |
+| `vertical` | whether using vertical style. | boolean | false  |
+
+{% endcapture %}
+{{ markdown | markdownify | cheerio_addCls: 'table', 'table table-bordered table-hover' }}
+</div>

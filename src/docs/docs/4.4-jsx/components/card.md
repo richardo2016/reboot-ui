@@ -965,3 +965,40 @@ Card columns can also be extended and customized with some additional code. Show
   }
 }
 {% endhighlight %}
+
+## React API
+
+### Sub Components
+
+<div class="rbt-properties-table-wrapper">
+{% capture markdown %}
+| Property | Description |
+| --- | --- |
+| `Card.Title` | title widget |
+| `Card.Header` | header widget |
+| `Card.Footer` | footer widget |
+| `Card.Body` | body widget |
+| `Card.Image` | image element |
+| `Card.ImageOverlay` | image overlay element |
+| `Card.Text` | text element |
+| `Card.Link` | link anchor element |
+| `Card.Group` | group element |
+| `Card.Columns` | columns layout |
+| `Card.Typical` | typical card configurable |
+
+{% endcapture %}
+{{ markdown | markdownify | cheerio_addCls: 'table', 'table table-bordered' }}
+</div>
+
+### Properties
+
+<div class="rbt-properties-table-wrapper">
+{% capture markdown %}
+| Property | Description | Type | Default Value |
+| --- | --- | --- | --- |
+| `theme` | theme type. | Enum: {{ site.rbtMdFragments.themeTypes }} |  |
+| `borderTheme` | theme type. | Enum: {{ site.rbtMdFragments.themeTypes }} |  |
+
+{% endcapture %}
+{{ markdown | markdownify | cheerio_addCls: 'table', 'table table-bordered table-hover' }}
+</div>

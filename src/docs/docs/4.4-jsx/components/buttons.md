@@ -16,10 +16,7 @@ const Sample = () => {
     <>
         {site.data['theme-colors'].map(({ name: theme }) =>
           <>
-            <Button
-              class="mb-3"
-              theme={theme}
-            >
+            <Button class="mb-3" theme={theme}>
               {stringUtils.ucfirst(theme)}
             </Button>
             {' '}
@@ -39,9 +36,7 @@ If you don't want the button text to wrap, you can add the `.text-nowrap` class 
 
 ## Button tags
 
-The `.btn` classes are designed to be used with the `<button>` element. However, you can also use these classes on `<a>` or `<input>` elements (though some browsers may apply a slightly different rendering).
-
-When using button classes on `<a>` elements that are used to trigger in-page functionality (like collapsing content), rather than linking to new pages or sections within the current page, these links should be given a `role="button"` to appropriately convey their purpose to assistive technologies such as screen readers.
+The `<Button />` uses `button` as JSXElement by default, you can also pass `a` to `as`, make it trigger in-page functionality (like collapsing content), rather than linking to new pages or sections within the current page, these links should be given a `role="button"` to appropriately convey their purpose to assistive technologies such as screen readers.
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = () => {
@@ -60,7 +55,7 @@ const Sample = () => {
 
 ## Outline buttons
 
-In need of a button, but not the hefty background colors they bring? Replace the default modifier classes with the `.btn-outline-*` ones to remove all background images and colors on any button.
+In need of a button, but not the hefty background colors they bring? Just set `outline` property as `true`.
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = () => {
@@ -68,10 +63,7 @@ const Sample = () => {
     <>
       {site.data['theme-colors'].map(({ name: theme }) =>
         <>
-          <Button
-            outline
-            theme={theme}
-          >
+          <Button outline theme={theme}>
             {stringUtils.ucfirst(theme)}
           </Button>
           {' '}
@@ -85,7 +77,7 @@ const Sample = () => {
 
 ## Sizes
 
-Fancy larger or smaller buttons? Add `.btn-lg` or `.btn-sm` for additional sizes.
+Fancy larger or smaller buttons? set `size` for additional sizes.
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = () => {
@@ -111,7 +103,7 @@ const Sample = () => {
 {% endreboot_mvvm %}
 {% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
-Create block level buttons—those that span the full width of a parent—by adding `.btn-block`.
+Create block level buttons—those that span the full width of a parent—by set `block`.
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = () => {
@@ -127,7 +119,7 @@ const Sample = () => {
 
 ## Active state
 
-Buttons will appear pressed (with a darker background, darker border, and inset shadow) when active. **There's no need to add a class to `<button>`s as they use a pseudo-class**. However, you can still force the same active appearance with `.active` (and include the <code>aria-pressed="true"</code> attribute) should you need to replicate the state programmatically.
+Buttons will appear pressed (with a darker background, darker border, and inset shadow) when active. **There's no need to add a class to `<button>`s as they use a pseudo-class**. However, you can still force the same active appearance with property `active={true}`  (and include the <code>aria-pressed="true"</code> attribute).
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = () => {
@@ -157,18 +149,18 @@ const Sample = () => {
 {% endreboot_mvvm %}
 {% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
-Disabled buttons using the `<a>` element behave a bit different:
+Disabled `<Button />` using the `<a>` element behave a bit different:
 
-- `<a>`s don't support the `disabled` attribute, so you must add the `.disabled` class to make it visually appear disabled.
+- `<a>`s don't support the `disabled` attribute, so RebootUI adds the `.disabled` class to make it visually appear disabled.
 - Some future-friendly styles are included to disable all `pointer-events` on anchor buttons. In browsers which support that property, you won't see the disabled cursor at all.
-- Disabled buttons should include the `aria-disabled="true"` attribute to indicate the state of the element to assistive technologies.
+- Disabled buttons include the `aria-disabled="true"` attribute to indicate the state of the element to assistive technologies.
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = () => {
   return (
     <>
-      <Button as="a" tabindex="-1" size="lg" theme="primary" disabled>Primary link</Button>{' '}
-      <Button as="a" tabindex="-1" size="lg" theme="secondary" disabled>Link</Button>{' '}
+      <Button as="a" size="lg" theme="primary" disabled>Primary link</Button>{' '}
+      <Button as="a" size="lg" theme="secondary" disabled>Link</Button>{' '}
     </>
   )
 }
@@ -182,19 +174,27 @@ The `.disabled` class uses `pointer-events: none` to try to disable the link fun
 {% endcapture %}
 {% include callout.html content=callout type="warning" %}
 
-## Button plugin
+## Button usage
 
 Do more with buttons. Control button states or create groups of buttons for more components like toolbars.
 
 ### Toggle states
 
-Add `data-toggle="button"` to toggle a button's `active` state. If you're pre-toggling a button, you must manually add the `.active` class **and** `aria-pressed="true"` to the `<button>`.
+Toggle a button's `active` state.
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = () => {
+  const [active, setActive] = React.useState(false)
+
   return (
     <>
-      <Button theme="primary" data-toggle="button" aria-pressed="false">Single toggle</Button>{' '}
+      <Button
+        theme="primary"
+        active={active}
+        onClick={() => setActive(!active)}
+      >
+        Single toggle ({active ? 'active' : 'inactive'})
+      </Button>{' '}
     </>
   )
 }
@@ -213,12 +213,9 @@ Note that pre-checked buttons require you to manually add the `.active` class to
 const Sample = () => {
   return (
     <>
-      <ButtonGroup toggle data-toggle="buttons">
-        <Button as="label" active theme="secondary">
-          <Checkbox checked /> Checked
-        </Button>{' '}
-      </ButtonGroup>
-      
+      <Button.Checkbox theme="secondary">
+        Checked
+      </Button.Checkbox>{' '}
     </>
   )
 }
@@ -249,3 +246,24 @@ const Sample = () => {
 }
 {% endreboot_mvvm %}
 {% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
+
+## React API
+
+### Properties
+
+<div class="rbt-properties-table-wrapper">
+{% capture markdown %}
+| Property | Description | Type | Default Value |
+| --- | --- | --- | --- |
+| `theme` | theme type. | Enum: {{ site.rbtMdFragments.themeTypes }} |  |
+| `size` | size of button group, affect `<Button />` in children. | Enum: <ul><li>lg</li><li>sm</li></ul> |  |
+| `vertical` | whether using vertical style. | boolean | false  |
+| `outline` | whether using outline style. | boolean | false  |
+| `block` | whether using block style. | boolean | false  |
+| `active` | whether active. | boolean | false  |
+| `disabled` | whether disabled. | boolean | false  |
+| `divider` | whether using divider. | boolean | false  |
+
+{% endcapture %}
+{{ markdown | markdownify | cheerio_addCls: 'table', 'table table-bordered table-hover' }}
+</div>
