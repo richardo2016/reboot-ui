@@ -13,6 +13,7 @@ export default function useListenerDispose (
 ) {
     const elsRef = React.useRef(null)
     const assignElRef = () => {
+        if (!elSelector) return ;
         elsRef.current = document.querySelectorAll(elSelector)
     }
     const disposeHandler = () => {

@@ -10,7 +10,7 @@ const Collapse = React.forwardRef(CollapseProto)
 
 Collapse.Uncontrolled = /* React.forwardRef */(
     ({
-        toggler: togglerSelector = '',
+        toggler: togglerSelector,
         defaultCollapsed = true,
         ...props
     }) => {
@@ -49,10 +49,6 @@ Collapse.useGroup = () => {
  * @see https://getbootstrap.com/docs/4.4/components/collapse/#supported-content
  */
 Collapse.Group = function CollapseGroup ({
-    disabled = false,
-    /**
-     * @see placment option.placement in popper.js
-     */
     children: childEles,
     as: _as = null,
     activeKey = null,
@@ -73,7 +69,7 @@ Collapse.Group = function CollapseGroup ({
                     return panel({ activeKey, context }) || null
 
                 if (isReactTypeOf(panel, Collapse))
-                 return panel
+                    return panel
 
                 let nextCloneProps
                 if (!panel.hasOwnProperty('key')) {

@@ -213,3 +213,65 @@ Be sure to add `aria-expanded` to the control element. This attribute explicitly
 If your control element is targeting a single collapsible element – i.e. the `data-target` attribute is pointing to an `id` selector – you should add the `aria-controls` attribute to the control element, containing the `id` of the collapsible element. Modern screen readers and similar assistive technologies make use of this attribute to provide users with additional shortcuts to navigate directly to the collapsible element itself.
 
 Note that Bootstrap's current implementation does not cover the various keyboard interactions described in the [WAI-ARIA Authoring Practices 1.1 accordion pattern](https://www.w3.org/TR/wai-aria-practices-1.1/#accordion) - you will need to include these yourself with custom JavaScript.
+
+## React API
+
+### Sub Components
+
+<div class="rbt-properties-table-wrapper">
+{% capture markdown %}
+| Property | Description |
+| --- | --- |
+| `Collapse.Uncontrolled` | uncontrolled collapse, link controller by `toggler` property.  |
+| `Collapse.Group` | collapse group widget |
+
+{% endcapture %}
+{{ markdown | markdownify | cheerio_addCls: 'table', 'table table-bordered' }}
+</div>
+
+### Properties
+
+<div class="rbt-properties-table-wrapper">
+{% capture markdown %}
+| Property | Description | Type | Default Value |
+| --- | --- | --- | --- |
+| `collapse` | whether collapse. | `boolean` | true  |
+| `onEntering` | transition hook passed to `<Transition />`, see [react-transition-group:Transition] | `Function` | `noop`  |
+| `onEntered` | transition hook passed to `<Transition />`, see [react-transition-group:Transition] | `Function` | `noop`  |
+| `onExit` | transition hook passed to `<Transition />`, see [react-transition-group:Transition] | `Function` | `noop`  |
+| `onExiting` | transition hook passed to `<Transition />`, see [react-transition-group:Transition] | `Function` | `noop`  |
+| `onExited` | transition hook passed to `<Transition />`, see [react-transition-group:Transition] | `Function` | `noop`  |
+
+[react-transition-group:Transition]:https://reactcommunity.org/react-transition-group/transition
+
+{% endcapture %}
+{{ markdown | markdownify | cheerio_addCls: 'table', 'table table-bordered table-hover' }}
+
+<br />
+
+### Properties of `<Collapse.Uncontrolled>`
+
+<div class="rbt-properties-table-wrapper">
+{% capture markdown %}
+| Property | Description | Type | Default Value |
+| --- | --- | --- | --- |
+| `toggler` | selector for specify collapse's toggle element. <br /> **Warning**: if invalid selector passed, the collapse would be never toggled programmatically! | `string` | |
+| `defaultCollapsed` | if carousel default collapsed. | `string` | true |
+
+{% endcapture %}
+{{ markdown | markdownify | cheerio_addCls: 'table', 'table table-bordered table-hover' }}
+
+</div>
+
+### Properties of `<Collapse.Group>`
+
+<div class="rbt-properties-table-wrapper">
+{% capture markdown %}
+| Property | Description | Type | Default Value |
+| --- | --- | --- | --- |
+| `activeKey` | key to specify active child collapse item. Control child collapse item by setting it `key` property | `string` \| `number` | |
+
+{% endcapture %}
+{{ markdown | markdownify | cheerio_addCls: 'table', 'table table-bordered table-hover' }}
+
+</div>
