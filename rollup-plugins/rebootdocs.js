@@ -161,6 +161,7 @@ module.exports = function rollupPluginRebootDocs (inputopts = {}) {
         data: sitedata,
         rbtMdFragments: {
             themeTypes: `${makeEnumList(sitedata['theme-colors'].map(item => item.name)).join('')}`,
+            breakpoints: `${makeEnumList(sitedata['breakpoints'].map(item => item.breakpoint)).join('')}`,
             popperPlacements: makeEnumList([
                 'top-start',
                 'top-end',

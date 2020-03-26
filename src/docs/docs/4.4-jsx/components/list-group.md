@@ -335,3 +335,58 @@ const Sample = ({ uuid }) => {
 }
 {% endreboot_mvvm %}
 {% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
+
+## React API
+
+### Sub Components
+
+<div class="rbt-properties-table-wrapper">
+{% capture markdown %}
+| Property | Description |
+| --- | --- |
+| `ListGroup.Item` | styled item in list group.  |
+| `ListGroup.LinkItem` | |
+| `ListGroup.ButtonItem` | |
+
+{% endcapture %}
+{{ markdown | markdownify | cheerio_addCls: 'table', 'table table-bordered' }}
+</div>
+
+### Properties
+
+<div class="rbt-properties-table-wrapper">
+{% capture markdown %}
+| Property | Description | Type | Default Value |
+| --- | --- | --- | --- |
+| `size` | list group size. | Enum: {{ site.rbtMdFragments.breakpoints }} |  |
+| `flush` | whether using flush style. | `boolean` | false  |
+| `horizontal` | whether using horizontal style. | `boolean` | false  |
+
+{% endcapture %}
+{{ markdown | markdownify | cheerio_addCls: 'table', 'table table-bordered table-hover' }}
+
+<br />
+
+### Properties of `<ListGroup.Item>`
+
+<div class="rbt-properties-table-wrapper">
+{% capture markdown %}
+| Property | Description | Type | Default Value |
+| --- | --- | --- | --- |
+| `theme` | theme type. | Enum: {{ site.rbtMdFragments.themeTypes }} | |
+| `active` | whether active. | `boolean` | false  |
+| `disabled` | whether disabled. | `boolean` | false  |
+| `action` | whether action. | `boolean` | false  |
+
+{% endcapture %}
+{{ markdown | markdownify | cheerio_addCls: 'table', 'table table-bordered table-hover' }}
+
+</div>
+
+### Properties of `<ListGroup.LinkItem>`
+
+Same with `<ListGroup.Item>`, with `as` property always set `a`.
+
+### Properties of `<ListGroup.ButtonItem>`
+
+Same with `<ListGroup.Item>`, with `as` property always set `button`.

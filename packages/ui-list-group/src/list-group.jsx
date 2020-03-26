@@ -3,6 +3,7 @@ import React from 'react'
 import { resolveJSXElement } from '@reboot-ui/common'
 import { rclassnames } from '@reboot-ui/common'
 import { filterRepsonsiveSize, filterThemeName } from '@reboot-ui/common'
+import Anchor from '@reboot-ui/icomponent-anchor'
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/list-group/#supported-content
@@ -45,6 +46,8 @@ ListGroup.Item = function ({
     theme = '',
     ...props
 }) {
+    if (_as === 'a') _as = Anchor
+    
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
     theme = filterThemeName(theme)
@@ -68,24 +71,7 @@ ListGroup.Item = function ({
     )
 }
 
-ListGroup.LinkItem = function ({
-    children,
-    as: _as = 'a',
-    action = true,
-    href = 'javascript:;',
-    ...props
-}) {
-    return (
-        <ListGroup.Item
-            {...props}
-            href={href}
-            as={_as}
-            action={action}
-        >
-            {children}
-        </ListGroup.Item>
-    )
-}
+ListGroup.LinkItem = ({ ...props }) => <ListGroup.Item {...props} action as="a" />
 
 ListGroup.ButtonItem = function ({
     children,
@@ -95,7 +81,7 @@ ListGroup.ButtonItem = function ({
     return (
         <ListGroup.Item
             {...props}
-            as={'button'}
+            as="button"
             action={action}
         >
             {children}

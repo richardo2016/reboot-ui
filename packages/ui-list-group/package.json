@@ -94,6 +94,7 @@
     "typescript": "^3.7.5"
   },
   "dependencies": {
-    "@reboot-ui/common": "^0.1.0"
+    "@reboot-ui/common": "^0.1.0",
+    "@reboot-ui/icomponent-anchor": "^0.1.0"
   }
 }
