@@ -11,7 +11,8 @@ import cpm_computeStyles from '@popperjs/core/lib/modifiers/computeStyles';
 import cpm_applyStyles from '@popperjs/core/lib/modifiers/applyStyles';
 
 export const useFixupPopoverToken = (str = '') => {
-    return `FIXUP_POPOVER_TOKEN$${str}`
+    // return `FIXUP_POPOVER_TOKEN$${str}`
+    return `FIXUP_POPOVER_TOKEN$${'fixup-popper-placement'}`
 }
 /**
  * @see https://popper.js.org/docs/v2/modifiers/

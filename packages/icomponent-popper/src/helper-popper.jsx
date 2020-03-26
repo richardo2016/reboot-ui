@@ -182,4 +182,12 @@ const Popper = React.forwardRef(
 Popper.createPopup = createPopup
 Popper.useFixupPopoverToken = useFixupPopoverToken
 
+const DROPDOWN_TOKEN = Date.now()
+Popper._usePopperPlacementPassingToken = () => DROPDOWN_TOKEN
+// function getPlacementFromOverlayJSX (overlayJsx) {
+//     if (!overlayJsx || !overlayJsx.props) return ;
+
+//     return overlayJsx.props[Popper._usePopperPlacementPassingToken()]
+// }
+
 export default Popper

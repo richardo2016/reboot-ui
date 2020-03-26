@@ -1,18 +1,16 @@
 ---
 layout: docs
 title: Dropdowns
-description: Toggle contextual overlays for displaying lists of links and more with the Bootstrap dropdown plugin.
+description: Toggle contextual overlays for displaying lists of links.
 group: components
 toc: true
 ---
 
 ## Overview
 
-Dropdowns are toggleable, contextual overlays for displaying lists of links and more. They're made interactive with the included Bootstrap dropdown JavaScript plugin. They're toggled by clicking, not by hovering; this is [an intentional design decision](http://markdotto.com/2012/02/27/bootstrap-explained-dropdowns/).
+Dropdowns are toggleable, contextual overlays for displaying lists of links and more. They're toggled **by clicking, not by hovering**; this is [an intentional design decision](http://markdotto.com/2012/02/27/bootstrap-explained-dropdowns/).
 
-Dropdowns are built on a third party library, [Popper.js](https://popper.js.org/), which provides dynamic positioning and viewport detection. Be sure to include [popper.min.js]({{ site.cdn.popper }}) before Bootstrap's JavaScript or use `bootstrap.bundle.min.js` / `bootstrap.bundle.js` which contains Popper.js. Popper.js isn't used to position dropdowns in navbars though as dynamic positioning isn't required.
-
-If you're building our JavaScript from source, it [requires `util.js`]({{ site.baseurl }}/docs/{{ site.docs_version }}/getting-started/javascript/#util).
+Dropdowns are built on a third party library, [Popper.js](https://popper.js.org/), which provides dynamic positioning and viewport detection. Popper.js isn't used to position dropdowns in navbars though as dynamic positioning isn't required.
 
 ## Accessibility
 
@@ -20,33 +18,32 @@ The [<abbr title="Web Accessibility Initiative">WAI</abbr> <abbr title="Accessib
 
 Bootstrap's dropdowns, on the other hand, are designed to be generic and applicable to a variety of situations and markup structures. For instance, it is possible to create dropdowns that contain additional inputs and form controls, such as search fields or login forms. For this reason, Bootstrap does not expect (nor automatically add) any of the `role` and `aria-` attributes required for true <abbr title="Accessible Rich Internet Applications">ARIA</abbr> menus. Authors will have to include these more specific attributes themselves.
 
-However, Bootstrap does add built-in support for most standard keyboard menu interactions, such as the ability to move through individual `.dropdown-item` elements using the cursor keys and close the menu with the <kbd>ESC</kbd> key.
+<!-- However, Bootstrap does add built-in support for most standard keyboard menu interactions, such as the ability to move through individual `.dropdown-item` elements using the cursor keys and close the menu with the <kbd>ESC</kbd> key. -->
 
 ## Examples
 
-Wrap the dropdown's toggle (your button or link) and the dropdown menu within `.dropdown`, or another element that declares `position: relative;`. Dropdowns can be triggered from `<a>` or `<button>` elements to better fit your potential needs.
+`<Dropdown />` wraps the dropdown's toggle and the dropdown menu within `.dropdown`, or another element that declares `position: relative;`, such as `<ButtonGroup />`. Dropdowns can be triggered from `<a>` or `<button>` elements to better fit your potential needs.
 
 ### Single button
 
-Any single `.btn` can be turned into a dropdown toggle with some markup changes. Here's how you can put them to work with either `<button>` elements:
+Any single `<Button />` can be turned into a dropdown toggle. Here's how it works:
 
 {% reboot_mvvm reboot_mvvm_ctx %}
 const Sample = () => {
   return (
     <>
       <Dropdown
-        as={null}
         overlay={(
           <Dropdown.Menu aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
+            <Dropdown.LinkItem>Action</Dropdown.LinkItem>
+            <Dropdown.LinkItem>Another action</Dropdown.LinkItem>
+            <Dropdown.LinkItem>Something else here</Dropdown.LinkItem>
           </Dropdown.Menu>
         )}
       >
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <Dropdown.Toggle theme="secondary" class="dropdown-toggle" id="dropdownMenuButton">
           Dropdown button
-        </button>
+        </Dropdown.Toggle>
       </Dropdown>
     </>
   )
@@ -54,25 +51,24 @@ const Sample = () => {
 {% endreboot_mvvm %}
 {% include mvvm-example.html reboot_mvvm_ctx=reboot_mvvm_ctx %}
 
-And with `<a>` elements:
+And set `link` to use `<a>` elements:
 
 {% reboot_mvvm reboot_mvvm_ctx %}
 const Sample = () => {
   return (
     <>
       <Dropdown
-        as={null}
         overlay={(
           <Dropdown.Menu aria-labelledby="dropdownMenuLink">
-            <a class="dropdown-item" href="javascript:void(0);">Action</a>
-            <a class="dropdown-item" href="javascript:void(0);">Another action</a>
-            <a class="dropdown-item" href="javascript:void(0);">Something else here</a>
+            <Dropdown.LinkItem>Action</Dropdown.LinkItem>
+            <Dropdown.LinkItem>Another action</Dropdown.LinkItem>
+            <Dropdown.LinkItem>Something else here</Dropdown.LinkItem>
           </Dropdown.Menu>
         )}
       >
-        <a class="btn btn-secondary dropdown-toggle" href="javascript:void(0);" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <Dropdown.Toggle link theme="secondary" class="dropdown-toggle" id="dropdownMenuLink">
           Dropdown link
-        </a>
+        </Dropdown.Toggle>
       </Dropdown>
     </>
   )
@@ -98,14 +94,14 @@ const Sample = () => {
       {themes.map(theme =>
         <>
           <Dropdown
-            as={null}
+            as={ButtonGroup}
             overlay={(
               <Dropdown.Menu>
-                <a class="dropdown-item" href="javascript:void(0)">Action</a>
-                <a class="dropdown-item" href="javascript:void(0)">Another action</a>
-                <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="javascript:void(0)">Separated link</a>
+                <Dropdown.LinkItem>Action</Dropdown.LinkItem>
+                <Dropdown.LinkItem>Another action</Dropdown.LinkItem>
+                <Dropdown.LinkItem>Something else here</Dropdown.LinkItem>
+                <Dropdown.Item divider />
+                <Dropdown.LinkItem>Separated link</Dropdown.LinkItem>
               </Dropdown.Menu>
             )}
           >
@@ -143,28 +139,25 @@ const Sample = () => {
   return (
     <>
       {themes.map(theme =>
-        <div class="btn-group mr-1">
+        <>
           <Dropdown
-            as={null}
             overlay={(
               <Dropdown.Menu>
-                <a class="dropdown-item" href="javascript:void(0)">Action</a>
-                <a class="dropdown-item" href="javascript:void(0)">Another action</a>
-                <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="javascript:void(0)">Separated link</a>
+                <Dropdown.LinkItem>Action</Dropdown.LinkItem>
+                <Dropdown.LinkItem>Another action</Dropdown.LinkItem>
+                <Dropdown.LinkItem>Something else here</Dropdown.LinkItem>
+                <Dropdown.Item divider />
+                <Dropdown.LinkItem>Separated link</Dropdown.LinkItem>
               </Dropdown.Menu>
             )}
           >
-            <Dropdown.Toggle
-              split
-              label={stringUtils.ucfirst(theme)}
-              theme={theme}
-            >
+            <Dropdown.SplitButtonToggle split theme={theme}>
+              {stringUtils.ucfirst(theme)}
               <span class="sr-only">Toggle Dropdown</span>
-            </Dropdown.Toggle>
+            </Dropdown.SplitButtonToggle>
           </Dropdown>
-        </div>
+          {' '}
+        </>
       )}
     </>
   )
@@ -194,28 +187,28 @@ const Sample = () => {
           <div class="btn-toolbar" role="toolbar">
             {
               samples.map(({ split, size, labelPrefix }, idx) => {
+                const ToggleEl = split ? Dropdown.SplitButtonToggle : Dropdown.Toggle
                 return (
                   <Dropdown
-                    as={null}
+                    as={ButtonGroup}
+                    class={classnames([idx > 0 && 'ml-2'])}
                     overlay={(
                       <Dropdown.Menu>
-                        <a class="dropdown-item" href="javascript:void(0)">Action</a>
-                        <a class="dropdown-item" href="javascript:void(0)">Another action</a>
-                        <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="javascript:void(0)">Separated link</a>
+                        <Dropdown.LinkItem>Action</Dropdown.LinkItem>
+                        <Dropdown.LinkItem>Another action</Dropdown.LinkItem>
+                        <Dropdown.LinkItem>Something else here</Dropdown.LinkItem>
+                        <Dropdown.Item divider />
+                        <Dropdown.LinkItem>Separated link</Dropdown.LinkItem>
                       </Dropdown.Menu>
                     )}
                   >
-                    <Dropdown.Toggle
-                      class={classnames([idx > 0 && 'ml-2'])}
+                    <ToggleEl
                       theme="secondary"
-                      label={split ? `${labelPrefix} split button` : `${labelPrefix} button`}
                       size={size}
-                      split={split}
                     >
+                      {split ? `${labelPrefix} split button` : `${labelPrefix} button`}
                       <span class="sr-only">Toggle Dropdown</span>
-                    </Dropdown.Toggle>
+                    </ToggleEl>
                   </Dropdown>
                 )
               })
@@ -292,35 +285,32 @@ const Sample = () => {
         return (
           <div class="btn-toolbar" role="toolbar">
             {samples.map(({ split, placement, className, label }, idx) => {
+              const ToggleEl = split ? Dropdown.SplitButtonToggle : Dropdown.Toggle
               return (
                 <Dropdown
                   placement={placement}
-                  as={null}
-                  className="btn-group"
+                  as={ButtonGroup}
+                  class={classnames([idx > 0 && 'ml-2'])}
                   overlay={(
                     <Dropdown.Menu aria-labelledby="dropdownMenuButton">
-                      <a class="dropdown-item" href="javascript:void(0)">Action</a>
-                      <a class="dropdown-item" href="javascript:void(0)">Another action</a>
-                      <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="javascript:void(0)">Separated link</a>
+                      <Dropdown.LinkItem>Action</Dropdown.LinkItem>
+                      <Dropdown.LinkItem>Another action</Dropdown.LinkItem>
+                      <Dropdown.LinkItem>Something else here</Dropdown.LinkItem>
+                      <Dropdown.Item divider />
+                      <Dropdown.LinkItem>Separated link</Dropdown.LinkItem>
                     </Dropdown.Menu>
                   )}
                 >
-                  <Dropdown.Toggle
-                    class={classnames([idx > 0 && 'ml-2'])}
+                  <ToggleEl
                     theme="secondary"
-                    label={
-                      <>
-                        {!split && placement.indexOf('left') > -1 ? ' ' : ''}
-                        {label}
-                        {!split && placement.indexOf('right') > -1 ? ' ' : ''}
-                      </>
-                    }
-                    split={split}
                   >
+                    <>
+                      {!split && placement.indexOf('left') > -1 ? ' ' : ''}
+                      {label}
+                      {!split && placement.indexOf('right') > -1 ? ' ' : ''}
+                    </>
                     <span class="sr-only">Toggle Dropdown</span>
-                  </Dropdown.Toggle>
+                  </ToggleEl>
                 </Dropdown>
               )
             })}
@@ -342,9 +332,9 @@ const Sample = () => {
   return (
     <>
       <Dropdown.Menu>
-        <Dropdown.Item as={'a'} href="javascript:;">Regular link</Dropdown.Item>
-        <Dropdown.Item as={'a'} active href="javascript:;">Active link</Dropdown.Item>
-        <Dropdown.Item as={'a'} href="javascript:;">Another link</Dropdown.Item>
+        <Dropdown.LinkItem>Regular link</Dropdown.LinkItem>
+        <Dropdown.LinkItem active>Active link</Dropdown.LinkItem>
+        <Dropdown.LinkItem>Another link</Dropdown.LinkItem>
       </Dropdown.Menu>
     </>
   )
@@ -361,9 +351,9 @@ const Sample = () => {
   return (
     <>
       <Dropdown.Menu>
-        <Dropdown.Item as={'a'} href="javascript:;">Regular link</Dropdown.Item>
-        <Dropdown.Item as={'a'} disabled href="javascript:;">Active link</Dropdown.Item>
-        <Dropdown.Item as={'a'} href="javascript:;">Another link</Dropdown.Item>
+        <Dropdown.LinkItem>Regular link</Dropdown.LinkItem>
+        <Dropdown.LinkItem disabled>Active link</Dropdown.LinkItem>
+        <Dropdown.LinkItem>Another link</Dropdown.LinkItem>
       </Dropdown.Menu>
     </>
   )
@@ -471,8 +461,8 @@ const Sample = () => {
     <>
       <Dropdown.Menu>
         <Dropdown.Item header>Dropdown header</Dropdown.Item>
-        <Dropdown.Item as={'a'} href="javascript:;">Action</Dropdown.Item>
-        <Dropdown.Item as={'a'} href="javascript:;">Another action</Dropdown.Item>
+        <Dropdown.LinkItem>Action</Dropdown.LinkItem>
+        <Dropdown.LinkItem>Another action</Dropdown.LinkItem>
       </Dropdown.Menu>
     </>
   )
@@ -489,11 +479,11 @@ const Sample = () => {
   return (
     <>
       <Dropdown.Menu>
-        <Dropdown.Item as={'a'} href="javascript:;">Action</Dropdown.Item>
-        <Dropdown.Item as={'a'} href="javascript:;">Another action</Dropdown.Item>
-        <Dropdown.Item as={'a'} href="javascript:;">Something else here</Dropdown.Item>
+        <Dropdown.LinkItem>Action</Dropdown.LinkItem>
+        <Dropdown.LinkItem>Another action</Dropdown.LinkItem>
+        <Dropdown.LinkItem>Something else here</Dropdown.LinkItem>
         <Dropdown.Item divider />
-        <Dropdown.Item as={'a'} href="javascript:;">Separated link</Dropdown.Item>
+        <Dropdown.LinkItem>Separated link</Dropdown.LinkItem>
       </Dropdown.Menu>
     </>
   )
@@ -560,8 +550,8 @@ const Sample = ({ uuid }) => {
           <Button type="submit" theme="primary">Sign in</Button>
         </Form>
         <Dropdown.Item divider />
-        <Dropdown.Item as="a" href="javascript:;">New around here? Sign up</Dropdown.Item>
-        <Dropdown.Item as="a" href="javascript:;">Forgot password?</Dropdown.Item>
+        <Dropdown.LinkItem>New around here? Sign up</Dropdown.LinkItem>
+        <Dropdown.LinkItem>Forgot password?</Dropdown.LinkItem>
       </Dropdown.Menu>
     </>
   )
@@ -618,9 +608,9 @@ const Sample = ({ uuid }) => {
         <Dropdown
           overlay={(
             <Dropdown.Menu>
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
+              <Dropdown.LinkItem>Action</Dropdown.LinkItem>
+              <Dropdown.LinkItem>Another action</Dropdown.LinkItem>
+              <Dropdown.LinkItem>Something else here</Dropdown.LinkItem>
             </Dropdown.Menu>
           )}
           popperOptions={{
@@ -644,3 +634,70 @@ const Sample = ({ uuid }) => {
 }
 {% endreboot_mvvm %}
 {% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
+
+## React API
+
+### Sub Components
+
+<div class="rbt-properties-table-wrapper">
+{% capture markdown %}
+| Property | Description |
+| --- | --- |
+| `Dropdown.Menu` | dropdown menu widget |
+| `Dropdown.Item` | dropdown menu item element |
+| `Dropdown.LinkItem` | dropdown menu link item(anchor) element |
+| `Dropdown.Toggle` | dropdown menu toggle element |
+| `Dropdown.SplitButtonToggle` | dropdown split-style toggle button element |
+
+{% endcapture %}
+{{ markdown | markdownify | cheerio_addCls: 'table', 'table table-bordered' }}
+</div>
+
+### Properties
+
+<div class="rbt-properties-table-wrapper">
+{% capture markdown %}
+| Property | Description | Type | Default Value |
+| --- | --- | --- | --- |
+| `disabled` | whether disable dropdown. | `boolean` | false |
+| `placement` | popper over position relative reference. See [popper.js] | Enum: {{ site.rbtMdFragments.popperPlacements }} | 'bottom-start' |
+| `popperOptions` | popper options passed to popper.js. See [popper.js] | `object` | {} |
+| `overlay` | overlay element to popup. <br /> **NOTICE**: you can also use `Dropdown.Menu` in Dropdown's `children` rather than set this property. | `React.ReactElement` | null |
+
+
+[popper.js]:https://popper.js.org/docs/v2/
+{% endcapture %}
+{{ markdown | markdownify | cheerio_addCls: 'table', 'table table-bordered table-hover' }}
+
+### Properties of `<Dropdown.Menu>`
+
+<div class="rbt-properties-table-wrapper">
+{% capture markdown %}
+| Property | Description | Type | Default Value |
+| --- | --- | --- | --- |
+| `placement` | [WIP] specify menu's placement against responsive breakpoint. | `string` \| `object` | |
+
+{% endcapture %}
+{{ markdown | markdownify | cheerio_addCls: 'table', 'table table-bordered table-hover' }}
+
+</div>
+
+### Properties of `<Dropdown.Item>`
+
+<div class="rbt-properties-table-wrapper">
+{% capture markdown %}
+| Property | Description | Type | Default Value |
+| --- | --- | --- | --- |
+| `divider` | whether a divider item. | `boolean` | false |
+| `header` | whether a header item. | `boolean` | false |
+| `active` | whether active. invalid for divider-item or header-item. | `boolean` | false |
+| `disabled` | whether disabled. invalid for divider-item or header-item. | `boolean` | false |
+
+{% endcapture %}
+{{ markdown | markdownify | cheerio_addCls: 'table', 'table table-bordered table-hover' }}
+
+</div>
+
+### Properties of `<Dropdown.LinkItem>`
+
+Same with `<Dropdown.Item>`, with `as` property always set `a`.

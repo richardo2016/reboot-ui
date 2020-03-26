@@ -139,6 +139,10 @@ function normalizeToPosixPath (relpath) {
     return path.normalize(relpath).split(path.sep).join(path.posix.sep)
 }
 
+function makeEnumList (list) {
+    return list.map(ev => `<li>\`${ev}\`</li>`)
+}
+
 // export a function that can take configuration options
 module.exports = function rollupPluginRebootDocs (inputopts = {}) {
     const options = Object.assign({}, defaults, inputopts);
@@ -156,7 +160,21 @@ module.exports = function rollupPluginRebootDocs (inputopts = {}) {
         ...options.sitedata,
         data: sitedata,
         rbtMdFragments: {
-            themeTypes: `${sitedata['theme-colors'].map(item => `<li>\`${item.name}\`</li>`).join('')}`
+            themeTypes: `${makeEnumList(sitedata['theme-colors'].map(item => item.name)).join('')}`,
+            popperPlacements: makeEnumList([
+                'top-start',
+                'top-end',
+                'top',
+                'bottom-start',
+                'bottom-end',
+                'bottom',
+                'left-start',
+                'left-end',
+                'left',
+                'right-start',
+                'right-end',
+                'right',
+            ]).join('')
         }
     }
     const lqglobals = {

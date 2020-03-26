@@ -48,7 +48,7 @@ const Popover = React.forwardRef(
         
         fixupPopperOptions: {
             popperOptions = popperOptions || {};
-            popperOptions.modifiers = [];
+            popperOptions.modifiers = popperOptions.modifiers || [];
 
             popperOptions.modifiers.push({
                 name: Popper.useFixupPopoverToken('fixup-popper-placement'),

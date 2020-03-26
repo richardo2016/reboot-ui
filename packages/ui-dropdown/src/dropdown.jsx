@@ -7,6 +7,7 @@ import Popper from '@reboot-ui/icomponent-popper';
 
 import { TransitionTimeouts, resolveJSXElement } from '@reboot-ui/common';
 import { rclassnames, tryUseContext, parsePlacement } from '@reboot-ui/common'
+import Anchor from '@reboot-ui/icomponent-anchor';
 
 import { DropdownMenu, DropdownItem } from './others';
 
@@ -30,24 +31,21 @@ const Dropdown = React.forwardRef(
     function ({
         disabled = false,
         /**
-         * @see placment option.placement in poper.js
+         * @see placment option.placement in popper.js
          */
         placement = 'bottom-start',
         popperOptions = {},
         children,
         as: _as = 'div',
         overlay = null,
-        noWrap = false,
         ...props
-    }, ref) {
-        const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
-        
+    }, ref) {        
         const [fixedPlacement, setFixedPlacement] = React.useState(null)
         const pmInfo = parsePlacement(placement)
         
         fixupPopperOptions: {
             popperOptions = popperOptions || {};
-            popperOptions.modifiers = [];
+            popperOptions.modifiers = popperOptions.modifiers || [];
 
             popperOptions.modifiers.push({
                 name: Popper.useFixupPopoverToken('fixup-popper-placement'),
@@ -61,6 +59,8 @@ const Dropdown = React.forwardRef(
             })
         }
 
+        const [toggleIsSplitButton, setToggleIsSplitButton] = React.useState(false)
+
         const dropdownCtx = {
             fromOptions: {
                 direction: pmInfo.direction,
@@ -71,62 +71,18 @@ const Dropdown = React.forwardRef(
                 ...fixedPlacement && parsePlacement(fixedPlacement)
             },
             useArrow: false,
+            _toggleIsSplitButton: toggleIsSplitButton,
+            _setToggleIsSplitButton: () => {
+                setToggleIsSplitButton(true)
+            }
         }
 
-        const INNER_NODE = (
-            <DropdownCtx.Provider value={dropdownCtx}>
-                <Popper
-                    {...props}
-                    children={children}
-                    placement={dropdownCtx.fromFixed.placement}
-                    popperOptions={popperOptions}
-                    overlayType={Dropdown.Menu}
-                    overlay={overlay}
-                    destroyOnUnmount={false}
-                    dismissOnClickAway={true}
-                    ref={ref}
-                    compose={({
-                        restChildren,
-                        overlayElement,
-                        isShowPopup,
-                    }) => {
-                        return (
-                            <>
-                                {restChildren}
-                                {(
-                                    <Transition
-                                        in={isShowPopup}
-                                        timeout={{
-                                            enter: TransitionTimeouts.Fade,
-                                            exit: TransitionTimeouts.Fade,
-                                        }}
-                                    >
-                                        {(state) => {
-                                            if (state === 'exited' && !isShowPopup) return ;
-                                            
-                                            return (
-                                                React.cloneElement(overlayElement, {
-                                                    className: rclassnames(overlayElement.props, [
-                                                        transitionStateClass[state],
-                                                    ]),
-                                                    style: {
-                                                        ...transitionStateStyle[state],
-                                                        ...overlayElement.props.style,
-                                                    }
-                                                })
-                                            )
-                                        }}
-                                    </Transition>
-                                )}
-                            </>
-                        )
-                    }}
-                />
-            </DropdownCtx.Provider>
-        )
+        const { directionCls = '' } = parsePlacementFromDDCtx(dropdownCtx.fromOptions.placement)
 
-        if (!_as || noWrap)
-            return INNER_NODE
+        if (toggleIsSplitButton)
+            _as = ButtonGroup
+
+        const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
 
         return (
             <>
@@ -134,10 +90,60 @@ const Dropdown = React.forwardRef(
                     {...props}
                     ref={ref}
                     className={rclassnames(props, [
-                        'dropdown'
+                        (JSXEl instanceof HTMLElement || typeof JSXEl === 'string') && 'dropdown',
+                        directionCls
                     ])}
                 >
-                    {INNER_NODE}
+                    <DropdownCtx.Provider value={dropdownCtx}>
+                        <Popper
+                            {...props}
+                            disabled={disabled}
+                            children={children}
+                            placement={dropdownCtx.fromFixed.placement}
+                            popperOptions={popperOptions}
+                            overlayType={Dropdown.Menu}
+                            overlay={overlay}
+                            destroyOnUnmount={false}
+                            dismissOnClickAway={true}
+                            // ref={ref}
+                            compose={({
+                                restChildren,
+                                overlayElement,
+                                isShowPopup,
+                            }) => {
+                                return (
+                                    <>
+                                        {restChildren}
+                                        {(
+                                            <Transition
+                                                in={isShowPopup}
+                                                timeout={{
+                                                    enter: TransitionTimeouts.Fade,
+                                                    exit: TransitionTimeouts.Fade,
+                                                }}
+                                            >
+                                                {(state) => {
+                                                    if (state === 'exited' && !isShowPopup) return ;
+                                                    
+                                                    return (
+                                                        React.cloneElement(overlayElement, {
+                                                            className: rclassnames(overlayElement.props, [
+                                                                transitionStateClass[state],
+                                                            ]),
+                                                            style: {
+                                                                ...transitionStateStyle[state],
+                                                                ...overlayElement.props.style,
+                                                            }
+                                                        })
+                                                    )
+                                                }}
+                                            </Transition>
+                                        )}
+                                    </>
+                                )
+                            }}
+                        />
+                    </DropdownCtx.Provider>
                 </JSXEl>
             </>
         )
@@ -147,120 +153,126 @@ export default Dropdown
 
 Dropdown.Menu = DropdownMenu;
 Dropdown.Item = DropdownItem;
+Dropdown.LinkItem = ({ ...props }) => <DropdownItem {...props} as={'a'} />
+
+function parsePlacementFromDDCtx (placement) {
+    let isCaretPlaceLeft = false, directionCls = ''
+    switch (placement) {
+        case 'top-start':
+        case 'top-end':
+        case 'top': directionCls = 'dropup'; break;
+        case 'bottom-start':
+        case 'bottom-end':
+        case 'bottom': /* directionCls = 'dropbottom' */; break;
+        case 'left-start':
+        case 'left-end':
+        case 'left': directionCls = 'dropleft'; isCaretPlaceLeft = true; break;
+        case 'right-start':
+        case 'right-end':
+        case 'right': directionCls = 'dropright'; break;
+        default: break
+    }
+
+    return {
+        isCaretPlaceLeft,
+        directionCls,
+        placement,
+    }
+}
 
 Dropdown.Toggle = React.forwardRef(
     function ({
         children,
-        as: _as = 'div',
+        as: _as = null,
         toggleAs: TogglerEl = Button,
-        split = false,
+        ...props
+    }, ref) {
+        const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
+
+        if (TogglerEl === 'a') TogglerEl = Anchor
+    
+        return (
+            <JSXEl
+                {...props}
+            >
+                <TogglerEl
+                    /**
+                     * @description assign props to TogglerEl when not use split and JSXEL is null
+                     * 
+                     * @why required in some case, e.g. Nav.DropdownItem
+                     */
+                    {...!_as && {
+                        ...props,
+                        className: rclassnames(props, [
+                        ])
+                    }}
+                    ref={ref}
+                    className={classnames([
+                        'dropdown-toggle'
+                    ])}
+                    data-toggle='dropdown'
+                    aria-haspopup={true}
+                    // aria-expanded={}
+                >
+                    {children}
+                </TogglerEl>
+            </JSXEl>
+        )
+    }
+)
+
+Dropdown.SplitButtonToggle = React.forwardRef(
+    function ({
+        children,
+        as: _as = null,
         theme,
-        label,
         size,
         outline,
         ...props
     }, ref) {
-        const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
-    
         const ddCtx = tryUseContext(DropdownCtx)
-    
-        let isCaretPlaceLeft = false, directionCls = null
-        switch (ddCtx.fromOptions.placement) {
-            case 'top-start':
-            case 'top-end':
-            case 'top': directionCls = 'dropup'; break;
-            case 'bottom-start':
-            case 'bottom-end':
-            case 'bottom': directionCls = 'dropbottom'; break;
-            case 'left-start':
-            case 'left-end':
-            case 'left': directionCls = 'dropleft'; isCaretPlaceLeft = true; break;
-            case 'right-start':
-            case 'right-end':
-            case 'right': directionCls = 'dropright'; break;
-            default: break
-        }
         
-        const buttonTheme = theme;
-        let buttonLabel = label || (!split ? children : null);
-        const buttonSize = size;
-        const buttonOutline = outline;
+        /**
+         * @internal set once only
+         */
+        if (!ddCtx._toggleIsSplitButton)
+            ddCtx._setToggleIsSplitButton(true)
 
-        const btnGroupCls = rclassnames(props, [
-            'btn-group',
-            directionCls
-        ])
-    
-        if (!split)
-            return (
-                <JSXEl
-                    {...props}
-                    className={btnGroupCls}
-                >
-                    <TogglerEl
-                        /**
-                         * @description assign props to TogglerEl when not use split and JSXEL is null
-                         * 
-                         * @why required in some case, e.g. Nav.DropdownItem
-                         */
-                        {...!_as && {
-                            ...props,
-                            className: rclassnames(props, [
-                            ])
-                        }}
-                        ref={ref}
-                        theme={buttonTheme}
-                        size={buttonSize}
-                        outline={buttonOutline}
-                        className={classnames([
-                            'dropdown-toggle'
-                        ])}
-                        data-toggle='dropdown'
-                        aria-haspopup={true}
-                        // aria-expanded={}
-                    >
-                        {buttonLabel}
-                    </TogglerEl>
-                </JSXEl>
-            )
-        
-        if (typeof split === 'string') buttonLabel = split
+        const {isCaretPlaceLeft = false, directionCls = ''} = parsePlacementFromDDCtx(ddCtx.fromOptions.placement)
+
         let splitedButtonGroupTuple = [
             <Button
-                theme={buttonTheme}
-                size={buttonSize}
-                outline={buttonOutline}
+                theme={theme}
+                size={size}
+                outline={outline}
             >
-                {buttonLabel}
+                {children}
             </Button>,
             <Button
-                theme={buttonTheme}
-                size={buttonSize}
-                outline={buttonOutline}
-                {...split && { ref }}
+                theme={theme}
+                size={size}
+                outline={outline}
+                ref={ref}
                 className={classnames([
                     'dropdown-toggle',
                     'dropdown-toggle-split'
                 ])}
                 data-toggle='dropdown'
-            >
-                {children}
-            </Button>
+            />
         ]
     
         if (isCaretPlaceLeft) {
             splitedButtonGroupTuple = splitedButtonGroupTuple.reverse()
             splitedButtonGroupTuple[0] = (
-                <div className={`btn-group ${directionCls}`}>
+                <div className={rclassnames({}, [
+                    'btn-group',
+                    directionCls
+                ])}>
                     {React.cloneElement(splitedButtonGroupTuple[0], { ref })}
                 </div>
             )
         }
-    
-        return (
-            <JSXEl className={btnGroupCls}>
-                {splitedButtonGroupTuple}
-            </JSXEl>
-        )
+
+        return splitedButtonGroupTuple;
     }
 )
