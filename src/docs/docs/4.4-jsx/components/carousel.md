@@ -16,13 +16,9 @@ In browsers where the [Page Visibility API](https://www.w3.org/TR/page-visibilit
 
 Please be aware that nested carousels are not supported, and carousels are generally not compliant with accessibility standards.
 
-Lastly, if you're building our JavaScript from source, it [requires `util.js`]({{ site.baseurl }}/docs/{{ site.docs_version }}/getting-started/javascript/#util).
-
 ## Example
 
 Carousels don't automatically normalize slide dimensions. As such, you may need to use additional utilities or custom styles to appropriately size content. While carousels support previous/next controls and indicators, they're not explicitly required. Add and customize as you see fit.
-
-**The `.active` class needs to be added to one of the slides** otherwise the carousel will not be visible. Also be sure to set a unique id on the `.carousel` for optional controls, especially if you're using multiple carousels on a single page. Control and indicator elements must have a `data-target` attribute (or `href` for links) that matches the id of the `.carousel` element.
 
 ### Slides only
 
@@ -171,7 +167,7 @@ const Sample = () => {
 
 ### With captions
 
-Add captions to your slides easily with the `.carousel-caption` element within any `.carousel-item`. They can be easily hidden on smaller viewports, as shown below, with optional [display utilities]({{ site.baseurl }}/docs/{{ site.docs_version }}/utilities/display/). We hide them initially with `.d-none` and bring them back on medium-sized devices with `.d-md-block`.
+Add captions to your slides easily with the `<Carousel.Caption />` element within any `<Carousel.Item />`. They can be easily hidden on smaller viewports, as shown below, with optional [display utilities]({{ site.baseurl }}/docs/{{ site.docs_version }}/utilities/display/). We hide them initially with `.d-none` and bring them back on medium-sized devices with `.d-md-block`.
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = () => {
@@ -234,7 +230,7 @@ const Sample = () => {
 
 ### Crossfade
 
-Add `.carousel-fade` to your carousel to animate slides with a fade transition instead of a slide.
+Set `crossFade={true}` to your carousel to animate slides with a fade transition instead of a slide.
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = () => {
@@ -280,7 +276,7 @@ const Sample = () => {
 
 ### Individual `.carousel-item` interval
 
-Add `data-interval=""` to a `.carousel-item` to change the amount of time to delay between automatically cycling to the next item.
+Set `interval` for each `<Carousel.Item />` to change the amount of time to delay between automatically cycling to the next item.
 
 {% reboot_mvvm mexample_with_code %}
 const Sample = () => {
@@ -392,150 +388,41 @@ const Sample = () => {
 {% endreboot_mvvm %}
 {% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
-## Usage
-
-### Via data attributes
-
-Use data attributes to easily control the position of the carousel. `data-slide` accepts the keywords `prev` or `next`, which alters the slide position relative to its current position. Alternatively, use `data-slide-to` to pass a raw slide index to the carousel `data-slide-to="2"`, which shifts the slide position to a particular index beginning with `0`.
-
-The `data-ride="carousel"` attribute is used to mark a carousel as animating starting at page load. If you don't use `data-ride="carousel"` to initialize your carousel, you have to initialize it yourself. **It cannot be used in combination with (redundant and unnecessary) explicit JavaScript initialization of the same carousel.**
-
-### Via JavaScript
-
-Call carousel manually with:
-
-{% highlight js %}
-$('.carousel').carousel()
-{% endhighlight %}
-
-### Options
-
-Options can be passed via data attributes or JavaScript. For data attributes, append the option name to `data-`, as in `data-interval=""`.
-
-<table class="table table-bordered table-striped">
-  <thead>
-    <tr>
-      <th style="width: 100px;">Name</th>
-      <th style="width: 50px;">Type</th>
-      <th style="width: 50px;">Default</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>interval</td>
-      <td>number</td>
-      <td>5000</td>
-      <td>The amount of time to delay between automatically cycling an item. If false, carousel will not automatically cycle.</td>
-    </tr>
-    <tr>
-      <td>keyboard</td>
-      <td>boolean</td>
-      <td>true</td>
-      <td>Whether the carousel should react to keyboard events.</td>
-    </tr>
-    <tr>
-      <td>pause</td>
-      <td>string | boolean</td>
-      <td>"hover"</td>
-      <td><p>If set to <code>"hover"</code>, pauses the cycling of the carousel on <code>mouseenter</code> and resumes the cycling of the carousel on <code>mouseleave</code>. If set to <code>false</code>, hovering over the carousel won't pause it.</p>
-      <p>On touch-enabled devices, when set to <code>"hover"</code>, cycling will pause on <code>touchend</code> (once the user finished interacting with the carousel) for two intervals, before automatically resuming. Note that this is in addition to the above mouse behavior.</p></td>
-    </tr>
-    <tr>
-      <td>ride</td>
-      <td>string</td>
-      <td>false</td>
-      <td>Autoplays the carousel after the user manually cycles the first item. If "carousel", autoplays the carousel on load.</td>
-    </tr>
-    <tr>
-      <td>wrap</td>
-      <td>boolean</td>
-      <td>true</td>
-      <td>Whether the carousel should cycle continuously or have hard stops.</td>
-    </tr>
-    <tr>
-      <td>touch</td>
-      <td>boolean</td>
-      <td>true</td>
-      <td>Whether the carousel should support left/right swipe interactions on touchscreen devices.</td>
-    </tr>
-  </tbody>
-</table>
-
-### Methods
-
-{% include callout-danger-async-methods.md %}
-
-#### `.carousel(options)`
-
-Initializes the carousel with an optional options `object` and starts cycling through items.
-
-{% highlight js %}
-$('.carousel').carousel({
-  interval: 2000
-})
-{% endhighlight %}
-
-#### `.carousel('cycle')`
-
-Cycles through the carousel items from left to right.
-
-#### `.carousel('pause')`
-
-Stops the carousel from cycling through items.
-
-#### `.carousel(number)`
-
-Cycles the carousel to a particular frame (0 based, similar to an array). **Returns to the caller before the target item has been shown** (i.e. before the `slid.bs.carousel` event occurs).
-
-#### `.carousel('prev')`
-
-Cycles to the previous item. **Returns to the caller before the previous item has been shown** (i.e. before the `slid.bs.carousel` event occurs).
-
-#### `.carousel('next')`
-
-Cycles to the next item. **Returns to the caller before the next item has been shown** (i.e. before the `slid.bs.carousel` event occurs).
-
-#### `.carousel('dispose')`
-
-Destroys an element's carousel.
-
-### Events
-
-Bootstrap's carousel class exposes two events for hooking into carousel functionality. Both events have the following additional properties:
-
-- `direction`: The direction in which the carousel is sliding (either `"left"` or `"right"`).
-- `relatedTarget`: The DOM element that is being slid into place as the active item.
-- `from`: The index of the current item
-- `to`: The index of the next item
-
-All carousel events are fired at the carousel itself (i.e. at the `<div class="carousel">`).
-
-<table class="table table-bordered table-striped">
-  <thead>
-    <tr>
-      <th style="width: 150px;">Event Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>slide.bs.carousel</td>
-      <td>This event fires immediately when the <code>slide</code> instance method is invoked.</td>
-    </tr>
-    <tr>
-      <td>slid.bs.carousel</td>
-      <td>This event is fired when the carousel has completed its slide transition.</td>
-    </tr>
-  </tbody>
-</table>
-
-{% highlight js %}
-$('#myCarousel').on('slide.bs.carousel', function () {
-  // do something...
-})
-{% endhighlight %}
-
 ### Change transition duration
 
 The transition duration of `.carousel-item` can be changed with the `$carousel-transition` Sass variable before compiling or custom styles if you're using the compiled CSS. If multiple transitions are applied, make sure the transform transition is defined first (eg. `transition: transform 2s ease, opacity .5s ease-out`).
+
+## React API
+
+### Sub Components
+
+<div class="rbt-properties-table-wrapper">
+{% capture markdown %}
+| Property | Description |
+| --- | --- |
+| `Carousel.Indicators` | carousel indicators |
+| `Carousel.Inner` | carousel inner wrapper |
+| `Carousel.Caption` | carousel caption element |
+| `Carousel.Item` | carousel item element |
+| `Carousel.Control` | carousel control element |
+| `Carousel.PlaceholderImage` | carousel placeholder widget |
+
+{% endcapture %}
+{{ markdown | markdownify | cheerio_addCls: 'table', 'table table-bordered' }}
+</div>
+
+### Properties
+
+<div class="rbt-properties-table-wrapper">
+{% capture markdown %}
+| Property | Description | Type | Default Value |
+| --- | --- | --- | --- |
+| `slide` | whether using slide. | boolean | true  |
+| `pause` | time slide pause. | Enum: `hover` | `hover` |
+| `ride` | play mode of carousel. By default, carousel would start playing after user's first manual click; for `ride=carousel`, carousel would auto-start. | Enum: `carousel` | | 
+| `interval` | duration carousel switch to next item | number | 5000 |
+| `keyboard` | whether controlled by keyowrd arrowLeft/arrowRight. | boolean | false |
+| `crossFade` | whether using cross face animation when playing. | boolean | false |
+{% endcapture %}
+{{ markdown | markdownify | cheerio_addCls: 'table', 'table table-bordered table-hover' }}
+</div>

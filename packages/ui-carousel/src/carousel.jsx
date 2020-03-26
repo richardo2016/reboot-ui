@@ -124,10 +124,6 @@ const Carousel = React.forwardRef(
         as: _as = 'div',
         slide = true,
         /**
-         * @deprecated
-         */
-        innerLess = false,
-        /**
          * @description if set hover, pause on mouse enter carousel and resume on mouse leave carousel
          * 
          * @enum 'hover'
@@ -158,8 +154,7 @@ const Carousel = React.forwardRef(
         ...props
     }, ref) {
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
-    
-        const INNER_WRAPPER = (false && innerLess) ? React.Fragment : Carousel.Inner
+
 
         const [slidesRef, setSlides] = useSlides()
         const [lastIndexRef, currentIdxRef, setCurrentIdx] = useIndexInfo()
@@ -385,9 +380,9 @@ const Carousel = React.forwardRef(
                     ref={ref}
                 >
                     {indicatorsNode}
-                    <INNER_WRAPPER>
+                    <Carousel.Inner>
                         {itemList}
-                    </INNER_WRAPPER>
+                    </Carousel.Inner>
                     {controlList}
                     {restChildren}
                 </JSXEl>
