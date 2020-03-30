@@ -15,8 +15,8 @@ const image = require('@rollup/plugin-image')
 const json = require('@rollup/plugin-json')
 const cleanup = require('rollup-plugin-cleanup')
 
-const reactNamedExports = require('./rollup-cjs-named-exports/react-named-exports');
-const preactNamedExports = require('./rollup-cjs-named-exports/preact-named-exports');
+const reactNamedExports = require('./rollup-cjs-named-exports/react-named-exports').default;
+const preactNamedExports = require('./rollup-cjs-named-exports/preact-named-exports').default;
 
 // `npm run build` -> `production` is true
 // `npm run dev` -> `production` is false
