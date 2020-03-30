@@ -268,7 +268,7 @@ const Sample = () => {
             type="text"
             placeholder="Username"
             aria-label="Username"
-            controlRefParentAs={({ children }) => 
+            controlGroupedBy={({ children }) => 
               <InputGroup prepend="@">{children}</InputGroup>
             }
           />

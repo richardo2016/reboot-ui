@@ -39,7 +39,7 @@ const ButtonGroup = React.forwardRef((
                     size && `btn-group-${size}`,
                     toggle && `btn-group-toggle`,
                 ])}
-                role={'group'}
+                role="group"
             >
                 {children}
             </JSXEl>

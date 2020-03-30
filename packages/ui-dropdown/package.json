@@ -97,6 +97,8 @@
     "@reboot-ui/common": "^0.1.0",
     "@reboot-ui/icomponent-anchor": "^0.1.0",
     "@reboot-ui/icomponent-popper": "^0.1.0",
-    "@reboot-ui/internal-size-resolver": "^0.1.0"
+    "@reboot-ui/internal-size-resolver": "^0.1.0",
+    "@reboot-ui/ui-button": "^0.1.0",
+    "@reboot-ui/ui-nav": "^0.1.0"
   }
 }

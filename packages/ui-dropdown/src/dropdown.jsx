@@ -2,10 +2,11 @@ import React from 'react'
 import classnames from 'classnames'
 import { Transition } from 'react-transition-group';
 
-import Button from '../../ui-button';
+import Button from '@reboot-ui/ui-button';
+import Nav from '@reboot-ui/ui-nav';
 import Popper from '@reboot-ui/icomponent-popper';
 
-import { TransitionTimeouts, resolveJSXElement } from '@reboot-ui/common';
+import { TransitionTimeouts, resolveJSXElement, arraify, isReactTypeOf } from '@reboot-ui/common';
 import { rclassnames, tryUseContext, parsePlacement } from '@reboot-ui/common'
 import Anchor from '@reboot-ui/icomponent-anchor';
 
@@ -72,9 +73,8 @@ const Dropdown = React.forwardRef(
             },
             useArrow: false,
             _toggleIsSplitButton: toggleIsSplitButton,
-            _setToggleIsSplitButton: () => {
+            _setToggleIsSplitButton: () =>
                 setToggleIsSplitButton(true)
-            }
         }
 
         const { directionCls = '' } = parsePlacementFromDDCtx(dropdownCtx.fromOptions.placement)
@@ -90,7 +90,11 @@ const Dropdown = React.forwardRef(
                     {...props}
                     ref={ref}
                     className={rclassnames(props, [
-                        (JSXEl instanceof HTMLElement || typeof JSXEl === 'string') && 'dropdown',
+                        (
+                            JSXEl instanceof HTMLElement
+                            || typeof JSXEl === 'string' 
+                            || _as === Nav.Item
+                        ) && 'dropdown',
                         directionCls
                     ])}
                 >
@@ -221,6 +225,9 @@ Dropdown.Toggle = React.forwardRef(
     }
 )
 
+const INTERNAL_PROP_TOKEN = Date.now()
+function useInternalPropToken (propName) { return `${INTERNAL_PROP_TOKEN}$${propName}` }
+
 Dropdown.SplitButtonToggle = React.forwardRef(
     function ({
         children,
@@ -228,20 +235,23 @@ Dropdown.SplitButtonToggle = React.forwardRef(
         theme,
         size,
         outline,
+        [useInternalPropToken('__internal_no_notify_dropdowncontext')]: __internal_no_notify_dropdowncontext = false,
         ...props
     }, ref) {
         const ddCtx = tryUseContext(DropdownCtx)
         
-        /**
-         * @internal set once only
-         */
-        if (!ddCtx._toggleIsSplitButton)
-            ddCtx._setToggleIsSplitButton(true)
+        if (!__internal_no_notify_dropdowncontext)
+            /**
+             * @internal set once only
+             */
+            if (!ddCtx._toggleIsSplitButton)
+                ddCtx._setToggleIsSplitButton(true)
 
         const {isCaretPlaceLeft = false, directionCls = ''} = parsePlacementFromDDCtx(ddCtx.fromOptions.placement)
 
         let splitedButtonGroupTuple = [
             <Button
+                {...props}
                 theme={theme}
                 size={size}
                 outline={outline}
@@ -276,3 +286,50 @@ Dropdown.SplitButtonToggle = React.forwardRef(
         return splitedButtonGroupTuple;
     }
 )
+
+Dropdown.ForInputGroup = ({
+    children,
+    label = '',
+    split = false,
+    ...props
+}) => {
+    const ToggleEl = split ? Dropdown.SplitButtonToggle : Dropdown.Toggle
+
+    return (
+        <Dropdown as={null}>
+            <ToggleEl
+                {...props}
+                {...split && {
+                    [useInternalPropToken('__internal_no_notify_dropdowncontext')]: true
+                }}
+            >
+                {label}
+                <span class="sr-only">Toggle Dropdown</span>
+            </ToggleEl>
+            {children}
+        </Dropdown>
+    )
+}
+
+Dropdown.AsNavItem = function ({ children: childEles, ...props }) {
+    const children = arraify(childEles);
+    const menuNode = children.find(el => isReactTypeOf(el, Dropdown.Menu))
+    let togglerNode = children.find(el => isReactTypeOf(el, Dropdown.Toggle))
+
+    const restChildren = children.filter(el => el !== menuNode && el !== togglerNode)
+
+    if (!togglerNode)
+        togglerNode = <Dropdown.Toggle as={null} toggleAs={Nav.Link}>{restChildren}</Dropdown.Toggle>
+    else
+        togglerNode = React.cloneElement(togglerNode, { toggleAs: Nav.Link, as: null })
+
+    return (
+        <Dropdown
+            {...props}
+            as={Nav.Item}
+            overlay={menuNode || null}
+        >
+            {togglerNode}
+        </Dropdown>
+    )
+}

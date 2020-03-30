@@ -726,7 +726,7 @@ const Sample = ({ uuid }) => {
             <Form.Input
               id="inlineFormInputGroup"
               placeholder="Username"
-              controlRefParentAs={({ children }) => 
+              controlGroupedBy={({ children }) => 
                 <InputGroup class="mb-2" prepend="@">{children}</InputGroup>
               }
               label={<Form.Label class="sr-only">Username</Form.Label>}
@@ -771,7 +771,7 @@ const Sample = ({ uuid }) => {
             <Form.Input
               id="inlineFormInputGroupUsername"
               placeholder="Username"
-              controlRefParentAs={({ children }) => 
+              controlGroupedBy={({ children }) => 
                 <InputGroup prepend="@">{children}</InputGroup>
               }
               label={<Form.Label class="sr-only">Username</Form.Label>}
@@ -865,7 +865,7 @@ const Sample = ({ uuid }) => {
           id="inlineFormInputGroupUsername2"
           placeholder="Username"
           label={<Form.Label class="sr-only">Username</Form.Label>}
-          controlRefParentAs={({ children }) => (
+          controlGroupedBy={({ children }) => (
             <InputGroup children={children} class="mb-2 mr-sm-2" prepend="@" />
           )}
         />
@@ -1125,7 +1125,7 @@ const Sample = ({ uuid }) => {
               label="Username"
               required
               aria-describedby="inputGroupPrepend"
-              controlRefParentAs={({ children }) => (
+              controlGroupedBy={({ children }) => (
                 <InputGroup prepend="@" id="inputGroupPrepend" children={children} />
               )}
               controlValidationFeedback={<Form.ValidationFeedback when="invalid">Please choose a username.</Form.ValidationFeedback>}
@@ -1214,7 +1214,7 @@ const Sample = ({ uuid }) => {
               id="validationDefaultUsername"
               label="Username"
               aria-describedby="inputGroupPrepend2"
-              controlRefParentAs={({ children }) => 
+              controlGroupedBy={({ children }) => 
                 <InputGroup prepend="@" id="inputGroupPrepend2">{children}</InputGroup>
               }
               required
@@ -1304,7 +1304,7 @@ const Sample = ({ uuid }) => {
               required
               rbValid={false}
               aria-describedby="inputGroupPrepend3"
-              controlRefParentAs={({ children }) => 
+              controlGroupedBy={({ children }) => 
                 <InputGroup prepend="@" id="inputGroupPrepend3">{children}</InputGroup>
               }
               controlValidationFeedback={<Form.ValidationFeedback when="invalid">Please choose a username.</Form.ValidationFeedback>}
@@ -1495,7 +1495,7 @@ const Sample = ({ uuid }) => {
               label="Username"
               required
               aria-describedby="inputGroupPrepend"
-              controlRefParentAs={({ children }) => (
+              controlGroupedBy={({ children }) => (
                 <InputGroup prepend="@" id="inputGroupPrepend" children={children} />
               )}
               controlValidationTooltip={<Form.ValidationTooltip when="invalid">Please choose a username.</Form.ValidationTooltip>}

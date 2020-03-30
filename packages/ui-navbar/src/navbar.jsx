@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { resolveJSXElement, filterRepsonsiveSize, filterThemeName, tryUseContext, renderChildren } from '@reboot-ui/common'
+import { resolveJSXElement, filterRepsonsiveSize, filterThemeName, tryUseContext, renderJSXFunc } from '@reboot-ui/common'
 import { rclassnames } from '@reboot-ui/common';
 import Anchor from '@reboot-ui/icomponent-anchor';
 import CollapseProto from '@reboot-ui/icomponent-collapse'
@@ -223,7 +223,7 @@ Navbar.useCollapse = (fnOrComponent) => {
 
     return (
         <NavbarContext.Provider value={contextState}>
-            {renderChildren(fnOrComponent, {
+            {renderJSXFunc(fnOrComponent, {
                 collapse: contextState.collapse
             })}
         </NavbarContext.Provider>

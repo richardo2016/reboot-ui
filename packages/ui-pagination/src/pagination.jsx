@@ -6,7 +6,7 @@ import {
     tryUseContext,
     filterPaginationSize,
     usePagination,
-    renderChildren,
+    renderJSXFunc,
     arraify,
 } from '@reboot-ui/common'
 import Anchor from '@reboot-ui/icomponent-anchor';
@@ -51,7 +51,7 @@ const Pagination = React.forwardRef(
                         size && `pagination-${size}`,
                     ])}
                 >
-                    {renderChildren(children, { pagination })}
+                    {renderJSXFunc(children, { pagination })}
                 </JSXEl>
             </PagiContext.Provider>
         )
@@ -158,7 +158,7 @@ Pagination.Item = function ({
                 active={active}
                 disabled={disabled}
             >
-                {renderChildren(children, { pagination: pagiCtx.pagination, page, active, disabled })}
+                {renderJSXFunc(children, { pagination: pagiCtx.pagination, page, active, disabled })}
             </LinkWrppaer>
         </JSXEl>
     )

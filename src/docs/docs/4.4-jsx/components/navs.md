@@ -269,7 +269,7 @@ const Sample = () => {
     <>
       <Nav theme="tabs">
         <Nav.Item><Nav.Link active href="#">Active</Nav.Link></Nav.Item>
-        <Nav.DropdownItem>
+        <Dropdown.AsNavItem>
           Dropdown
           <Dropdown.Menu>
               <Dropdown.Item as="a" href="#">Action</Dropdown.Item>
@@ -278,7 +278,7 @@ const Sample = () => {
               <Dropdown.Item divider />
               <Dropdown.Item as="a" href="#">Separated link</Dropdown.Item>
             </Dropdown.Menu>
-        </Nav.DropdownItem>
+        </Dropdown.AsNavItem>
         <Nav.Item><Nav.Link href="#">Link</Nav.Link></Nav.Item>
         <Nav.Item><Nav.Link disabled href="#">Disabled</Nav.Link></Nav.Item>
       </Nav>
@@ -296,7 +296,7 @@ const Sample = () => {
     <>
       <Nav theme="pills">
         <Nav.Item><Nav.Link active href="#">Active</Nav.Link></Nav.Item>
-        <Nav.DropdownItem>
+        <Dropdown.AsNavItem>
           Dropdown
           <Dropdown.Menu>
               <Dropdown.Item as="a" href="#">Action</Dropdown.Item>
@@ -305,7 +305,7 @@ const Sample = () => {
               <Dropdown.Item divider />
               <Dropdown.Item as="a" href="#">Separated link</Dropdown.Item>
             </Dropdown.Menu>
-        </Nav.DropdownItem>
+        </Dropdown.AsNavItem>
         <Nav.Item><Nav.Link href="#">Link</Nav.Link></Nav.Item>
         <Nav.Item><Nav.Link disabled href="#">Disabled</Nav.Link></Nav.Item>
       </Nav>

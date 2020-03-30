@@ -97,7 +97,6 @@ const Sample = ({ uuid }) => {
       <InputGroup
         size="sm"
         class="mb-3"
-        prependNoWrap
         prepend={(
           <div class="input-group-prepend">
             <span class="input-group-text" id={`inputGroup-sizing-sm${uuid}`}>Small</span>
@@ -113,8 +112,7 @@ const Sample = ({ uuid }) => {
       </InputGroup>
       <InputGroup
         class="mb-3"
-        prependNoWrap
-        prepend={(
+        prepend={() => (
           <div class="input-group-prepend">
             <span class="input-group-text" id={`inputGroup-sizing-default${uuid}`}>Default</span>
           </div>
@@ -130,8 +128,7 @@ const Sample = ({ uuid }) => {
       <InputGroup
         size="lg"
         class="mb-3"
-        prependNoWrap
-        prepend={(
+        prepend={() => (
           <div class="input-group-prepend">
             <span class="input-group-text" id={`inputGroup-sizing-lg${uuid}`}>Large</span>
           </div>
@@ -161,7 +158,9 @@ const Sample = ({ uuid }) => {
       <InputGroup
         class="mb-3"
         prepend={(
-          <Input type="checkbox" aria-label="Checkbox for following text input" />
+          <span class="input-group-text">
+            <Input type="checkbox" aria-label="Checkbox for following text input" />
+          </span>
         )}
       >
         <Input type="text" class="form-control" aria-label="Text input with checkbox" />
@@ -169,7 +168,9 @@ const Sample = ({ uuid }) => {
       <InputGroup
         class="mb-3"
         prepend={(
-          <Input type="radio" aria-label="Radio button for following text input" />
+          <span class="input-group-text">
+            <Input type="radio" aria-label="Radio button for following text input" />
+          </span>
         )}
       >
         <Input type="text" class="form-control" aria-label="Text input with radio" />
@@ -211,8 +212,7 @@ const Sample = ({ uuid }) => {
     <>
       <InputGroup
         class="mb-3"
-        prependNoWrap
-        prepend={(
+        prepend={() => (
           <div class="input-group-prepend">
             <span class="input-group-text">$</span>
             <span class="input-group-text">0.00</span>
@@ -222,8 +222,7 @@ const Sample = ({ uuid }) => {
         <Input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)" />
       </InputGroup>
       <InputGroup
-        appendNoWrap
-        append={(
+        append={() => (
           <div class="input-group-append">
             <span class="input-group-text">$</span>
             <span class="input-group-text">0.00</span>
@@ -246,8 +245,7 @@ const Sample = ({ uuid }) => {
     <>
       <InputGroup
         class="mb-3"
-        prependNoWrap
-        prepend={(
+        prepend={() => (
           <div class="input-group-prepend">
             <Button outline theme="secondary" id={`button-addon1${uuid}`}>Button</Button>
           </div>
@@ -263,8 +261,7 @@ const Sample = ({ uuid }) => {
       </InputGroup>
       <InputGroup
         class="mb-3"
-        appendNoWrap
-        append={(
+        append={() => (
           <div class="input-group-append">
             <Button outline theme="secondary" id={`button-addon2${uuid}`}>Button</Button>
           </div>
@@ -280,8 +277,7 @@ const Sample = ({ uuid }) => {
       </InputGroup>
       <InputGroup
         class="mb-3"
-        prependNoWrap
-        prepend={(
+        prepend={() => (
           <div class="input-group-prepend" id={`button-addon3${uuid}`}>
             <Button outline theme="secondary">Button</Button>
             <Button outline theme="secondary">Button</Button>
@@ -298,8 +294,7 @@ const Sample = ({ uuid }) => {
       </InputGroup>
       <InputGroup
         class="mb-3"
-        appendNoWrap
-        append={(
+        append={() => (
           <div class="input-group-append" id={`button-addon4${uuid}`}>
             <Button outline theme="secondary">Button</Button>
             <Button outline theme="secondary">Button</Button>
@@ -328,18 +323,17 @@ const Sample = ({ uuid }) => {
     <>
       <InputGroup
         class="mb-3"
-        prependNoWrap
-        prepend={(
+        prepend={() => (
           <div class="input-group-prepend">
-            <InputGroup.ButtonDropdown label="Dropdown" outline theme="secondary">
+            <Dropdown.ForInputGroup label="Dropdown" outline theme="secondary">
               <Dropdown.Menu>
-                <Dropdown.Item as="a" href="javascript:;">Action</Dropdown.Item>
-                <Dropdown.Item as="a" href="javascript:;">Another action</Dropdown.Item>
-                <Dropdown.Item as="a" href="javascript:;">Something else here</Dropdown.Item>
+                <Dropdown.LinkItem>Action</Dropdown.LinkItem>
+                <Dropdown.LinkItem>Another action</Dropdown.LinkItem>
+                <Dropdown.LinkItem>Something else here</Dropdown.LinkItem>
                 <Dropdown.Item role="separator" divider />
-                <Dropdown.Item as="a" href="javascript:;">Separated link</Dropdown.Item>
+                <Dropdown.LinkItem>Separated link</Dropdown.LinkItem>
               </Dropdown.Menu>
-            </InputGroup.ButtonDropdown>
+            </Dropdown.ForInputGroup>
           </div>
         )}
       >
@@ -347,18 +341,17 @@ const Sample = ({ uuid }) => {
       </InputGroup>
       <InputGroup
         class="mb-3"
-        appendNoWrap
-        append={(
+        append={() => (
           <div class="input-group-append">
-            <InputGroup.ButtonDropdown label="Dropdown" outline theme="secondary">
+            <Dropdown.ForInputGroup label="Dropdown" outline theme="secondary">
               <Dropdown.Menu>
-                <Dropdown.Item as="a" href="javascript:;">Action</Dropdown.Item>
-                <Dropdown.Item as="a" href="javascript:;">Another action</Dropdown.Item>
-                <Dropdown.Item as="a" href="javascript:;">Something else here</Dropdown.Item>
+                <Dropdown.LinkItem>Action</Dropdown.LinkItem>
+                <Dropdown.LinkItem>Another action</Dropdown.LinkItem>
+                <Dropdown.LinkItem>Something else here</Dropdown.LinkItem>
                 <Dropdown.Item role="separator" divider />
-                <Dropdown.Item as="a" href="javascript:;">Separated link</Dropdown.Item>
+                <Dropdown.LinkItem>Separated link</Dropdown.LinkItem>
               </Dropdown.Menu>
-            </InputGroup.ButtonDropdown>
+            </Dropdown.ForInputGroup>
           </div>
         )}
       >
@@ -378,18 +371,17 @@ const Sample = ({ uuid }) => {
     <>
       <InputGroup
         class="mb-3"
-        prependNoWrap
-        prepend={(
+        prepend={() => (
           <div class="input-group-prepend">
-            <InputGroup.ButtonDropdown split="Action" outline theme="secondary">
+            <Dropdown.ForInputGroup split label="Action" outline theme="secondary">
               <Dropdown.Menu>
-                <Dropdown.Item as="a" href="javascript:;">Action</Dropdown.Item>
-                <Dropdown.Item as="a" href="javascript:;">Another action</Dropdown.Item>
-                <Dropdown.Item as="a" href="javascript:;">Something else here</Dropdown.Item>
+                <Dropdown.LinkItem>Action</Dropdown.LinkItem>
+                <Dropdown.LinkItem>Another action</Dropdown.LinkItem>
+                <Dropdown.LinkItem>Something else here</Dropdown.LinkItem>
                 <Dropdown.Item role="separator" divider />
-                <Dropdown.Item as="a" href="javascript:;">Separated link</Dropdown.Item>
+                <Dropdown.LinkItem>Separated link</Dropdown.LinkItem>
               </Dropdown.Menu>
-            </InputGroup.ButtonDropdown>
+            </Dropdown.ForInputGroup>
           </div>
         )}
       >
@@ -397,18 +389,17 @@ const Sample = ({ uuid }) => {
       </InputGroup>
       <InputGroup
         class="mb-3"
-        appendNoWrap
-        append={(
+        append={() => (
           <div class="input-group-append">
-            <InputGroup.ButtonDropdown split="Action" outline theme="secondary">
+            <Dropdown.ForInputGroup split label="Action" outline theme="secondary">
               <Dropdown.Menu>
-                  <Dropdown.Item as="a" href="javascript:;">Action</Dropdown.Item>
-                  <Dropdown.Item as="a" href="javascript:;">Another action</Dropdown.Item>
-                  <Dropdown.Item as="a" href="javascript:;">Something else here</Dropdown.Item>
+                  <Dropdown.LinkItem>Action</Dropdown.LinkItem>
+                  <Dropdown.LinkItem>Another action</Dropdown.LinkItem>
+                  <Dropdown.LinkItem>Something else here</Dropdown.LinkItem>
                   <Dropdown.Item role="separator" divider />
-                  <Dropdown.Item as="a" href="javascript:;">Separated link</Dropdown.Item>
+                  <Dropdown.LinkItem>Separated link</Dropdown.LinkItem>
                 </Dropdown.Menu>
-            </InputGroup.ButtonDropdown>
+            </Dropdown.ForInputGroup>
           </div>
         )}
       >
@@ -426,101 +417,165 @@ Input groups include support for custom selects and custom file inputs. Browser 
 
 ### Custom select
 
-{% capture example %}
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <label class="input-group-text" for="inputGroupSelect01">Options</label>
-  </div>
-  <select class="custom-select" id="inputGroupSelect01">
-    <option selected>Choose...</option>
-    <option value="1">One</option>
-    <option value="2">Two</option>
-    <option value="3">Three</option>
-  </select>
-</div>
-
-<div class="input-group mb-3">
-  <select class="custom-select" id="inputGroupSelect02">
-    <option selected>Choose...</option>
-    <option value="1">One</option>
-    <option value="2">Two</option>
-    <option value="3">Three</option>
-  </select>
-  <div class="input-group-append">
-    <label class="input-group-text" for="inputGroupSelect02">Options</label>
-  </div>
-</div>
-
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <button class="btn btn-outline-secondary" type="button">Button</button>
-  </div>
-  <select class="custom-select" id="inputGroupSelect03" aria-label="Example select with button addon">
-    <option selected>Choose...</option>
-    <option value="1">One</option>
-    <option value="2">Two</option>
-    <option value="3">Three</option>
-  </select>
-</div>
-
-<div class="input-group">
-  <select class="custom-select" id="inputGroupSelect04" aria-label="Example select with button addon">
-    <option selected>Choose...</option>
-    <option value="1">One</option>
-    <option value="2">Two</option>
-    <option value="3">Three</option>
-  </select>
-  <div class="input-group-append">
-    <button class="btn btn-outline-secondary" type="button">Button</button>
-  </div>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form.Select
+        id="inputGroupSelect01"
+        custom
+        controlGroupedBy={({ children }) => (
+          <InputGroup
+            children={children}
+            class="mb-3"
+            prepend={() => 
+              <div class="input-group-prepend">
+                <Form.Label class="input-group-text">Options</Form.Label>
+              </div>
+            }
+          />
+        )}
+      >
+        <Select.Option selected>Choose...</Select.Option>
+        <Select.Option value="1">One</Select.Option>
+        <Select.Option value="2">Two</Select.Option>
+        <Select.Option value="3">Three</Select.Option>
+      </Form.Select>
+      <Form.Select
+        id="inputGroupSelect02"
+        custom
+        controlGroupedBy={({ children }) => (
+          <InputGroup
+            children={children}
+            class="mb-3"
+            append={() => 
+              <div class="input-group-append">
+                <Form.Label class="input-group-text">Options</Form.Label>
+              </div>
+            }
+          />
+        )}
+      >
+        <Select.Option selected>Choose...</Select.Option>
+        <Select.Option value="1">One</Select.Option>
+        <Select.Option value="2">Two</Select.Option>
+        <Select.Option value="3">Three</Select.Option>
+      </Form.Select>
+      <Form.Select
+        id="inputGroupSelect03"
+        custom
+        aria-label="Example select with button addon"
+        controlGroupedBy={({ children }) => (
+          <InputGroup
+            children={children}
+            class="mb-3"
+            prepend={() => 
+              <div class="input-group-prepend">
+                <Button outline theme="secondary">Button</Button>
+              </div>
+            }
+          />
+        )}
+      >
+        <Select.Option selected>Choose...</Select.Option>
+        <Select.Option value="1">One</Select.Option>
+        <Select.Option value="2">Two</Select.Option>
+        <Select.Option value="3">Three</Select.Option>
+      </Form.Select>
+      <Form.Select
+        id="inputGroupSelect04"
+        custom
+        aria-label="Example select with button addon"
+        controlGroupedBy={({ children }) => (
+          <InputGroup
+            children={children}
+            class="mb-3"
+            append={() => 
+              <div class="input-group-append">
+                <Button outline theme="secondary">Button</Button>
+              </div>
+            }
+          />
+        )}
+      >
+        <Select.Option selected>Choose...</Select.Option>
+        <Select.Option value="1">One</Select.Option>
+        <Select.Option value="2">Two</Select.Option>
+        <Select.Option value="3">Three</Select.Option>
+      </Form.Select>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ### Custom file input
 
-{% capture example %}
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
-  </div>
-  <div class="custom-file">
-    <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-  </div>
-</div>
-
-<div class="input-group mb-3">
-  <div class="custom-file">
-    <input type="file" class="custom-file-input" id="inputGroupFile02">
-    <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Choose file</label>
-  </div>
-  <div class="input-group-append">
-    <span class="input-group-text" id="inputGroupFileAddon02">Upload</span>
-  </div>
-</div>
-
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon03">Button</button>
-  </div>
-  <div class="custom-file">
-    <input type="file" class="custom-file-input" id="inputGroupFile03" aria-describedby="inputGroupFileAddon03">
-    <label class="custom-file-label" for="inputGroupFile03">Choose file</label>
-  </div>
-</div>
-
-<div class="input-group">
-  <div class="custom-file">
-    <input type="file" class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
-    <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
-  </div>
-  <div class="input-group-append">
-    <button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Button</button>
-  </div>
-</div>
-{% endcapture %}
-{% include example.html content=example %}
+{% reboot_mvvm mexample_with_code %}
+const Sample = ({ uuid }) => {
+  return (
+    <>
+      <Form.Input
+        type="file"
+        id="inputGroupFileAddon01"
+        custom
+        controlGroupedBy={({ children }) => (
+          <InputGroup class="mb-3" prepend="Upload">
+            <div class="custom-file">
+              {children}
+              <Form.Label>Choose file</Form.Label>
+            </div>
+          </InputGroup>
+        )}
+      >
+      </Form.Input>
+      <Form.Input
+        type="file"
+        id="inputGroupFileAddon02"
+        custom
+        controlGroupedBy={({ children }) => (
+          <InputGroup class="mb-3" append="Upload">
+            <div class="custom-file">
+              {children}
+              <Form.Label>Choose file</Form.Label>
+            </div>
+          </InputGroup>
+        )}
+      >
+      </Form.Input>
+      <Form.Input
+        type="file"
+        id="inputGroupFileAddon03"
+        custom
+        controlGroupedBy={({ children }) => (
+          <InputGroup class="mb-3" prepend={<Button outline theme="secondary">Button</Button>}>
+            <div class="custom-file">
+              {children}
+              <Form.Label>Choose file</Form.Label>
+            </div>
+          </InputGroup>
+        )}
+      >
+      </Form.Input>
+      <Form.Input
+        type="file"
+        id="inputGroupFileAddon04"
+        custom
+        controlGroupedBy={({ children }) => (
+          <InputGroup class="mb-3" append={<Button outline theme="secondary">Button</Button>}>
+            <div class="custom-file">
+              {children}
+              <Form.Label>Choose file</Form.Label>
+            </div>
+          </InputGroup>
+        )}
+      >
+      </Form.Input>
+    </>
+  )
+}
+{% endreboot_mvvm %}
+{% include mvvm-example.html reboot_mvvm_ctx=mexample_with_code %}
 
 ## Accessibility
 

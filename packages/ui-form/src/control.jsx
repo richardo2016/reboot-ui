@@ -49,7 +49,7 @@ export default (Form) => {
             /**
              * @description if wrap control with another element, if not set, its default value depends on value of `controlRefParentCol`
              */
-            controlRefParentAs = !controlRefParentCol ? React.Fragment : 'div',
+            controlGroupedBy = !controlRefParentCol ? React.Fragment : 'div',
             ...props
         }, ref) {
             const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
@@ -94,7 +94,7 @@ export default (Form) => {
             
             const controlRefParentColClsList = Col.useColClass(controlRefParentCol)
             const ControlRefParentJSX = ({ children }) => {
-                const JSX = resolveJSXElement(controlRefParentAs)
+                const JSX = resolveJSXElement(controlGroupedBy)
                 return <JSX className={controlRefParentColClsList}>{children}</JSX>
             }
             /* support controlRefParentCol :end */

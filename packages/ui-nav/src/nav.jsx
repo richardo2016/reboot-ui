@@ -1,10 +1,7 @@
 import React from 'react'
 
-import Dropdown from '../../ui-dropdown';
-
 import { rclassnames, isReactTypeOf } from '@reboot-ui/common';
 import { flatten2trimedStrList } from '@reboot-ui/common';
-import { arraify } from '@reboot-ui/common';
 import { resolveJSXElement } from '@reboot-ui/common';
 import Anchor from '@reboot-ui/icomponent-anchor';
 
@@ -68,29 +65,6 @@ Nav.List = function ({
         >
             {children}
         </Nav>
-    )
-}
-
-Nav.DropdownItem = function ({ children: childEles, ...props }) {
-    const children = arraify(childEles);
-    const menuNode = children.find(el => isReactTypeOf(el, Dropdown.Menu))
-    let togglerNode = children.find(el => isReactTypeOf(el, Dropdown.Toggle))
-
-    const restChildren = children.filter(el => el !== menuNode && el !== togglerNode)
-
-    if (!togglerNode)
-        togglerNode = <Dropdown.Toggle as={null} toggleAs={Nav.Link}>{restChildren}</Dropdown.Toggle>
-    else
-        togglerNode = React.cloneElement(togglerNode, { toggleAs: Nav.Link, as: null })
-
-    return (
-        <Dropdown
-            {...props}
-            as={Nav.Item}
-            overlay={menuNode || null}
-        >
-            {togglerNode}
-        </Dropdown>
     )
 }
 

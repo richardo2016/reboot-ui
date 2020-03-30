@@ -20,7 +20,7 @@ const CONTROL_PROPS = [
     'labelAfter',
     // @TODO depreacte it 
     'controlRefParentCol',
-    'controlRefParentAs',
+    'controlGroupedBy',
     'controlHelp',
     'controlValidationFeedback',
     'controlValidationTooltip',

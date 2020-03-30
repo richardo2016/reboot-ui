@@ -199,7 +199,7 @@ export default function App () {
           </Nav.List>
         </div>
         <Nav.List navbar className="ml-md-auto">
-          <Nav.DropdownItem>
+          <Dropdown.AsNavItem>
             <Dropdown.Toggle
               className="mr-md-2"
               id="bd-versions"
@@ -242,7 +242,7 @@ export default function App () {
                 All versions
               </Dropdown.Item>
             </Dropdown.Menu>
-          </Nav.DropdownItem>
+          </Dropdown.AsNavItem>
         </Nav.List>
       </Navbar>
       <Layout.Container

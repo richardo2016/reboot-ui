@@ -63,7 +63,8 @@ export function isHTMLElementOf (input, compare) {
 
 export function isReactTypeOf (input, compare) {
     if (Array.isArray(compare)) return compare.some(citem => isReactTypeOf(input, citem))
-    if (input.type === compare) return true
+
+    return input.type === compare
 }
 
 export function parseChildrenProp (childEle) {
@@ -98,7 +99,7 @@ export function tryUseContext (ContextRef, { fallbackValue = {} } = {}) {
   return ctx
 }
 
-export function renderChildren (children, renderContext = {}) {
+export function renderJSXFunc (children, renderContext = {}) {
     if (typeof children === 'function')
         return children.call(null, renderContext)
 
