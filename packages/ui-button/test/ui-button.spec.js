@@ -1,6 +1,6 @@
 import React from 'react';
-import Button from '../es/button';
-import { themes } from '../es/common'
+import Button from '../';
+import { themes } from '@reboot-ui/common';
 
 import renderer from 'react-test-renderer';
 

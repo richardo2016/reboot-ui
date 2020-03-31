@@ -1,3 +1,4 @@
+import React from 'react'
 import json from '../../../src/reboot-ui/@data/data.json'
 
 export { getHTMLElementFromJSXElement } from '../../../src/utils/react-like'

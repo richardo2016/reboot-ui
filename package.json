@@ -19,7 +19,7 @@
   },
   "main": "./lib/index.js",
   "module": "./es/index.js",
-  "browser": "./dist/index.min.js",
+  "browser": "./dist/index.js",
   "jsnext:main": "",
   "keywords": [],
   "license": "MIT",
