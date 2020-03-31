@@ -36,6 +36,11 @@
   "bugs": {
     "url": "https://github.com/richardo2016/reboot-ui/issues"
   },
+  "dependencies": {
+    "@reboot-ui/common": "^0.1.0",
+    "@reboot-ui/internal-size-resolver": "^0.1.0",
+    "@reboot-ui/istyle": "^0.1.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.8.4",
     "@babel/plugin-transform-runtime": "^7.8.3",
@@ -96,10 +101,5 @@
     "stylus": "^0.54.5",
     "typescript": "^3.7.5",
     "rollup-plugin-copy": "^3.3.0"
-  },
-  "dependencies": {
-    "@reboot-ui/common": "^0.1.0",
-    "@reboot-ui/internal-size-resolver": "^0.1.0",
-    "@reboot-ui/istyle": "^0.1.0"
   }
 }

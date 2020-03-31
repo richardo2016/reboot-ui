@@ -87,7 +87,10 @@ packages.forEach(({
     if (fs.existsSync(pkgJsonpath)) {
       const prev = readJson(pkgJsonpath)
       jsonObj = lmerge({}, jsonObj, prev)
-      jsonObj.devDependencies = lmerge({}, jsonObj.devDependencies, monoPkgJson.devDependencies)
+      
+      const devDependencies = lmerge({}, jsonObj.devDependencies, monoPkgJson.devDependencies)
+      delete jsonObj.devDependencies;
+      jsonObj.devDependencies = devDependencies
     }
     fs.writeFileSync(
       pkgJsonpath,
