@@ -1,6 +1,6 @@
 {
   "name": "@reboot-ui/ui-dropdown",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "UI Component of Reboot UI",
   "author": "Richardo2016 <richardo2016@gmail.com>",
   "homepage": "https://github.com/richardo2016/reboot-ui/packages/ui-dropdown#readme",
@@ -38,13 +38,13 @@
     "dist"
   ],
   "dependencies": {
-    "@reboot-ui/common": "^0.1.0",
-    "@reboot-ui/icomponent-anchor": "^0.1.0",
-    "@reboot-ui/icomponent-popper": "^0.1.0",
-    "@reboot-ui/internal-size-resolver": "^0.1.0",
-    "@reboot-ui/istyle": "^0.1.0",
-    "@reboot-ui/ui-button": "^0.1.0",
-    "@reboot-ui/ui-nav": "^0.1.0",
+    "@reboot-ui/common": "^0.1.1",
+    "@reboot-ui/icomponent-anchor": "^0.1.1",
+    "@reboot-ui/icomponent-popper": "^0.1.1",
+    "@reboot-ui/internal-size-resolver": "^0.1.1",
+    "@reboot-ui/istyle": "^0.1.1",
+    "@reboot-ui/ui-button": "^0.1.1",
+    "@reboot-ui/ui-nav": "^0.1.1",
     "react-transition-group": "^4.3.0"
   },
   "devDependencies": {

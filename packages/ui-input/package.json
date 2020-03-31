@@ -1,6 +1,6 @@
 {
   "name": "@reboot-ui/ui-input",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "UI Component of Reboot UI",
   "author": "Richardo2016 <richardo2016@gmail.com>",
   "homepage": "https://github.com/richardo2016/reboot-ui/packages/ui-input#readme",
@@ -38,8 +38,8 @@
     "dist"
   ],
   "dependencies": {
-    "@reboot-ui/common": "^0.1.0",
-    "@reboot-ui/istyle": "^0.1.0"
+    "@reboot-ui/common": "^0.1.1",
+    "@reboot-ui/istyle": "^0.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
