@@ -98,10 +98,8 @@ packages.forEach(({
       delete jsonObj.devDependencies;
       jsonObj.devDependencies = devDependencies
     }
-    fs.writeFileSync(
-      pkgJsonpath,
-      JSON.stringify(jsonObj, null, '  ')
-    )
+    const output = JSON.stringify(jsonObj, null, '  ')
+    fs.writeFileSync(pkgJsonpath, output)
   }
 
   buildFile: {
@@ -157,7 +155,7 @@ function buildDist () {
       postcss_options: { extract: false },
       postConfig: (rollup_cfg) => {
         rollup_cfg.output.file = 'dist/index.js'
-        rollup_cfg.external = Array.from(externalModulesWhenBuild.forLib)
+        rollup_cfg.external = Array.from(externalModulesWhenBuild.forDist)
       }
   })
 

@@ -10,10 +10,14 @@ const componentDirs = fs.readdirSync(
     || dname === 'common'
 )
 
-const base = [
+const reactBase = [
     'react',
     'react-dom',
     'preact',
+]
+
+const base = [
+    ...reactBase,
     'classnames',
     'react-transition-group',
 
@@ -28,6 +32,7 @@ const base = [
 ]
 
 module.exports = {
+    forDist: reactBase,
     forLib: base,
     forEsm: base
         // .concat(componentDirs.map(com_dname => `../../${com_dname}/${com_dname}`))

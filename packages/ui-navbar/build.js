@@ -42,7 +42,7 @@ function buildDist () {
       postcss_options: { extract: false },
       postConfig: (rollup_cfg) => {
         rollup_cfg.output.file = 'dist/index.js'
-        rollup_cfg.external = Array.from(externalModulesWhenBuild.forLib)
+        rollup_cfg.external = Array.from(externalModulesWhenBuild.forDist)
       }
   })
 
