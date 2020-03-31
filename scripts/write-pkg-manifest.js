@@ -58,6 +58,7 @@ packages.forEach(({
     "test": "__tests__"
   },
   "files": [
+    "index.js",
     "scss",
     "lib",
     "es",
@@ -86,7 +87,12 @@ packages.forEach(({
     )
     if (fs.existsSync(pkgJsonpath)) {
       const prev = readJson(pkgJsonpath)
-      jsonObj = lmerge({}, jsonObj, prev)
+      const files = Array.from(new Set([...jsonObj.files, ...prev.files]));
+      delete jsonObj.files;
+
+      jsonObj = lmerge({}, jsonObj, prev);
+
+      jsonObj.files = files;
       
       const devDependencies = lmerge({}, jsonObj.devDependencies, monoPkgJson.devDependencies)
       delete jsonObj.devDependencies;

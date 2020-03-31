@@ -12,12 +12,6 @@
     "lib": "lib",
     "test": "__tests__"
   },
-  "files": [
-    "scss",
-    "lib",
-    "es",
-    "dist"
-  ],
   "publishConfig": {
     "access": "public"
   },
@@ -36,6 +30,13 @@
   "bugs": {
     "url": "https://github.com/richardo2016/reboot-ui/issues"
   },
+  "files": [
+    "index.js",
+    "scss",
+    "lib",
+    "es",
+    "dist"
+  ],
   "dependencies": {
     "@reboot-ui/common": "^0.1.0"
   },
