@@ -1,5 +1,4 @@
 import React from 'react'
-import classnames from 'classnames'
 import { Transition } from 'react-transition-group';
 
 import Button from '@reboot-ui/ui-button';
@@ -211,7 +210,7 @@ Dropdown.Toggle = React.forwardRef(
                         ])
                     }}
                     ref={ref}
-                    className={classnames([
+                    className={rclassnames({}, [
                         'dropdown-toggle'
                     ])}
                     data-toggle='dropdown'
@@ -263,7 +262,7 @@ Dropdown.SplitButtonToggle = React.forwardRef(
                 size={size}
                 outline={outline}
                 ref={ref}
-                className={classnames([
+                className={rclassnames({}, [
                     'dropdown-toggle',
                     'dropdown-toggle-split'
                 ])}
