@@ -1,1 +1,1 @@
-export { default } from './helper-collapse.jsx'
+export { default } from './icomponent-collapse.jsx'

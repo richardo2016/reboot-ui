@@ -1,3 +1,3 @@
-export { default } from './helper-anchor.jsx'
+export { default } from './icomponent-anchor.jsx'
 
-import './helper-anchor.scss'
+import './icomponent-anchor.scss'

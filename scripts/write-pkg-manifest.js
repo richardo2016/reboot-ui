@@ -28,6 +28,7 @@ packages.forEach(({
   buildLib,
   buildDist,
   buildEsm = true,
+  buildFragment = ''
 }) => {
   if (buildLib === undefined && pkgname.indexOf('ui-') === 0) buildLib = true;
   if (buildDist === undefined && pkgname.indexOf('ui-') === 0) buildDist = true;
@@ -160,6 +161,8 @@ function buildDist () {
 }
 `}
 ${!buildEsm ? '' : `\
+const copy = require('rollup-plugin-copy');
+
 function buildEsm () {
   const { output: outputConfig, ...rollupConfig } = getConfigItem({
       format: 'esm',
@@ -175,6 +178,18 @@ function buildEsm () {
         rollup_cfg.output.sourcemap = false
 
         rollup_cfg.external = Array.from(externalModulesWhenBuild.forEsm)
+
+        rollup_cfg.plugins.unshift(
+          copy({
+            targets: [
+              {
+                src: 'src/${comname}.scss',
+                dest: 'es',
+                rename: 'index.scss'
+              }
+            ]
+          })
+        )
       }
   })
 
@@ -191,6 +206,7 @@ function buildEsm () {
 ${buildLib ? `buildLib()` : ''}
 ${buildDist ? `buildDist()` : ''}
 ${buildEsm ? `buildEsm()` : ''}
+${buildFragment || ''}
 `
     )
   }

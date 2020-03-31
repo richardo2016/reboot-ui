@@ -6,6 +6,8 @@ const externalModulesWhenBuild = require('../../helpers/package-externals')
 
 
 
+const copy = require('rollup-plugin-copy');
+
 function buildEsm () {
   const { output: outputConfig, ...rollupConfig } = getConfigItem({
       format: 'esm',
@@ -21,6 +23,18 @@ function buildEsm () {
         rollup_cfg.output.sourcemap = false
 
         rollup_cfg.external = Array.from(externalModulesWhenBuild.forEsm)
+
+        rollup_cfg.plugins.unshift(
+          copy({
+            targets: [
+              {
+                src: 'src/common.scss',
+                dest: 'es',
+                rename: 'index.scss'
+              }
+            ]
+          })
+        )
       }
   })
 
@@ -37,3 +51,4 @@ function buildEsm () {
 
 
 buildEsm()
+

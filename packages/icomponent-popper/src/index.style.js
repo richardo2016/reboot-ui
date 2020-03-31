@@ -1,3 +1,3 @@
-export { default } from './helper-popper.jsx'
+export { default } from './icomponent-popper.jsx'
 
-import './helper-popper.scss'
+import './icomponent-popper.scss'

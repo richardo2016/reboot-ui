@@ -1,1 +1,1 @@
-export { default } from './helper-anchor.jsx'
+export { default } from './icomponent-anchor.jsx'

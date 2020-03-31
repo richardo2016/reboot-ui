@@ -56,6 +56,8 @@ function buildDist () {
       })
 }
 
+const copy = require('rollup-plugin-copy');
+
 function buildEsm () {
   const { output: outputConfig, ...rollupConfig } = getConfigItem({
       format: 'esm',
@@ -71,6 +73,18 @@ function buildEsm () {
         rollup_cfg.output.sourcemap = false
 
         rollup_cfg.external = Array.from(externalModulesWhenBuild.forEsm)
+
+        rollup_cfg.plugins.unshift(
+          copy({
+            targets: [
+              {
+                src: 'src/form.scss',
+                dest: 'es',
+                rename: 'index.scss'
+              }
+            ]
+          })
+        )
       }
   })
 
@@ -87,3 +101,4 @@ function buildEsm () {
 buildLib()
 buildDist()
 buildEsm()
+

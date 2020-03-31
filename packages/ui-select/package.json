@@ -55,6 +55,7 @@
     "babel-jest": "^25.1.0",
     "babel-plugin-import": "^1.13.0",
     "bowser": "^2.9.0",
+    "cheerio": "^1.0.0-rc.3",
     "clipboard.js": "^1.0.1",
     "cross-env": "^7.0.0",
     "eslint-plugin-react-hooks": "^1.0.2",
@@ -92,9 +93,10 @@
     "shelljs": "^0.8.3",
     "stylus": "^0.54.5",
     "typescript": "^3.7.5",
-    "cheerio": "^1.0.0-rc.3"
+    "rollup-plugin-copy": "^3.3.0"
   },
   "dependencies": {
-    "@reboot-ui/common": "^0.1.0"
+    "@reboot-ui/common": "^0.1.0",
+    "@reboot-ui/istyle": "^0.1.0"
   }
 }

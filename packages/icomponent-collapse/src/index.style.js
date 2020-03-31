@@ -1,3 +1,3 @@
-export { default } from './helper-collapse.jsx'
+export { default } from './icomponent-collapse.jsx'
 
-import './helper-collapse.scss'
+import './icomponent-collapse.scss'
