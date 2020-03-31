@@ -5,6 +5,10 @@ module.exports = [
     },
     /* internal :start */
     {
+        name: 'style',
+        pkgname: 'istyle',
+    },
+    {
         name: 'icomponent-anchor',
         pkgname: 'icomponent-anchor',
     },

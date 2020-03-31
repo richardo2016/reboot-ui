@@ -91,7 +91,8 @@
     "serve": "^11.3.0",
     "shelljs": "^0.8.3",
     "stylus": "^0.54.5",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "cheerio": "^1.0.0-rc.3"
   },
   "dependencies": {
     "@reboot-ui/common": "^0.1.0"

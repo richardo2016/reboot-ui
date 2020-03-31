@@ -105,6 +105,7 @@ const rollup = require('rollup')
 const { getConfigItem } = require('../../helpers/rollup-utils')
 const externalModulesWhenBuild = require('../../helpers/package-externals')
 
+${!buildLib ? '' : `\
 function buildLib () {
   const { output: outputConfig, ...rollupConfig } = getConfigItem({
       format: 'cjs',
@@ -130,7 +131,8 @@ function buildLib () {
           console.log('[${comPkgname} -- lib >>]build finished!')
       })
 }
-
+`}
+${!buildDist ? '' : `\
 function buildDist () {
   const { output: outputConfig, ...rollupConfig } = getConfigItem({
       format: 'umd',
@@ -156,7 +158,8 @@ function buildDist () {
           console.log('[${comPkgname} -- dist >>]build finished!')
       })
 }
-
+`}
+${!buildEsm ? '' : `\
 function buildEsm () {
   const { output: outputConfig, ...rollupConfig } = getConfigItem({
       format: 'esm',
@@ -184,7 +187,7 @@ function buildEsm () {
           console.log('[${comPkgname} -- esm >>]build finished!')
       })
 }
-
+`}
 ${buildLib ? `buildLib()` : ''}
 ${buildDist ? `buildDist()` : ''}
 ${buildEsm ? `buildEsm()` : ''}
