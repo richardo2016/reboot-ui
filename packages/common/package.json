@@ -13,6 +13,7 @@
     "test": "__tests__"
   },
   "files": [
+    "scss",
     "lib",
     "es",
     "dist"
@@ -29,7 +30,8 @@
     "dev-build": "cross-env NODE_ENV=developement rollup -c",
     "watch": "cross-env ROLLUP_WATCH=true rollup -c -w",
     "dev": "npm-run-all --parallel start watch",
-    "test": "jest"
+    "test": "jest",
+    "prepublishOnly": "npm run build"
   },
   "bugs": {
     "url": "https://github.com/richardo2016/reboot-ui/issues"

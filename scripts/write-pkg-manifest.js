@@ -52,12 +52,13 @@ packages.forEach(({
   "license": "ISC",
   "main": "lib/index.js",
   "module": "./es/index.js",
-  "browser": "./dist/index.min.js",
+  "browser": "./dist/index.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
   },
   "files": [
+    "scss",
     "lib",
     "es",
     "dist"
@@ -74,7 +75,8 @@ packages.forEach(({
     "dev-build": "cross-env NODE_ENV=developement rollup -c",
     "watch": "cross-env ROLLUP_WATCH=true rollup -c -w",
     "dev": "npm-run-all --parallel start watch",
-    "test": "jest"
+    "test": "jest",
+    "prepublishOnly": "npm run build"
   },
   "bugs": {
     "url": "https://github.com/richardo2016/reboot-ui/issues"
@@ -219,6 +221,24 @@ ${buildFragment || ''}
         entryFile,
         `\
 export { default } from './src/index.js'
+`
+      )
+  }
+
+  _npmIgnore:  {
+    const npmIgnoreFile = path.resolve(comDir, '.npmignore')
+    if (!fs.existsSync(path.dirname(npmIgnoreFile))) shelljs.mkdir(path.dirname(npmIgnoreFile))
+    fs.writeFileSync(
+      npmIgnoreFile,
+      `\
+build.js
+node_modules
+src
+
+!*.scss
+!es
+!lib
+!dist
 `
       )
   }
