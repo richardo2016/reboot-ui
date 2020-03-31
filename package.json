@@ -11,7 +11,7 @@
     "update-pkg": "node ./scripts/write-pkg-manifest.js",
     "dev-build": "cross-env NODE_ENV=developement rollup -c rollup.config.cjs.js",
     "watch": "cross-env rollup -c rollup.config.cjs.js -w",
-    "prepublishOnly": "npm run pkg:build && npm run dist:build && npm run test && npm run dist:dev-build",
+    "prepublishOnly": "npm run test && npm run dist:dev-build",
     "dev": "npm-run-all --parallel start watch",
     "test": "jest",
     "start": "serve .",
@@ -20,7 +20,6 @@
   "main": "./lib/index.js",
   "module": "./es/index.js",
   "browser": "./dist/index.js",
-  "jsnext:main": "",
   "keywords": [],
   "license": "MIT",
   "repository": {
@@ -38,6 +37,7 @@
   ],
   "dependencies": {
     "@popperjs/core": "^2.0.6",
+    "@reboot-ui/internal-size-resolver": "file:packages/internal-size-resolver",
     "@reboot-ui/istyle": "file:packages/istyle",
     "classnames": "^2.2.6",
     "react-transition-group": "^4.3.0"

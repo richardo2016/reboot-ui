@@ -123,9 +123,9 @@ exports.getConfigItem = function (opts) {
 			}),
 			
 			resolve({
-				browser: true,
+				browser: false,
+				main: true,
 				extensions: ['.mjs', '.js', '.jsx', '.json', '.node']
-				// main: true
 			}),
 			commonjs({
 				namedExports: {

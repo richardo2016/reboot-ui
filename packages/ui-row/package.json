@@ -39,6 +39,7 @@
   ],
   "dependencies": {
     "@reboot-ui/common": "^0.1.0",
+    "@reboot-ui/ui-layout": "^0.1.0",
     "@reboot-ui/istyle": "^0.1.0"
   },
   "devDependencies": {
