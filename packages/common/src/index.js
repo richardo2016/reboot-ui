@@ -1,5 +1,5 @@
 import React from 'react'
-import json from '../../../libs/reboot-ui/@data/data.json'
+import json from '../../../libs/reboot-ui/src/@data/data.json'
 
 export { getHTMLElementFromJSXElement } from '../../../src/utils/react-like'
 export { isReactTypeOf } from '../../../src/utils/react-like'
