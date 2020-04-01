@@ -130,7 +130,7 @@ export { default } from './src/index.js'
   README: {
     const READMEFile = path.resolve(comDir, 'README.md')
     if (!fs.existsSync(path.dirname(READMEFile))) shelljs.mkdir(path.dirname(READMEFile))
-    if (true || !fs.existsSync(READMEFile))
+    if (!fs.existsSync(READMEFile))
       fs.writeFileSync(
         READMEFile,
         ejs.render(ejs.render(readEjs('README.md'), ejsCtx))
