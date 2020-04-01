@@ -23,13 +23,14 @@ yarn add @reboot-ui/icomponent-collapse
 import React from 'react'
 import ICollapse from '@reboot-ui/icomponent-collapse'
 
+// you can also import in your .scss.
+import '@reboot-ui/icomponent-collapse/es/index.scss';
+
 const App = () => {
     const [ collapse, setCollapse ] = React.useState(false);
 
     return (
-        <ICollapse
-            collapse={collapse}
-        >
+        <div>
             <button
                 onClick={React.useCallback(() => {
                     setCollapse(!collapse)
@@ -37,7 +38,12 @@ const App = () => {
             >
                 Toggle
             </button>
-        </ICollapse>
+            <ICollapse
+                collapse={collapse}
+            >
+                Collapse panel
+            </ICollapse>
+        </div>
     )
 }
 ```
