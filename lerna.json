@@ -8,6 +8,12 @@
     "publish": {
       "ignoreChanges": [
         "*.md",
+        "./*",
+        "./scripts",
+        "./rollup-plugins",
+        "./helpers",
+        "./static",
+        "./demo",
         "**/package-lock.json"
       ],
       "message": "chore(release): publish",
