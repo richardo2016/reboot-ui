@@ -1,7 +1,7 @@
 {
   "name": "@reboot-ui/ui-modal",
   "version": "0.1.1",
-  "description": "UI Component of Reboot UI",
+  "description": "UI Component package of @reboot-ui",
   "author": "Richardo2016 <richardo2016@gmail.com>",
   "homepage": "https://github.com/richardo2016/reboot-ui/tree/master/packages/ui-modal#readme",
   "license": "ISC",

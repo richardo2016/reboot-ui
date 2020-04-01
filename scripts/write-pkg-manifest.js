@@ -38,15 +38,20 @@ packages.forEach(({
   const comDir = path.resolve(PKG_DIR, `./${comDirname}`)
   if (!fs.existsSync(comDir)) shelljs.mkdir(comDir)
 
+  const isInternal = comPkgname.startsWith(`internal-`);
+  const isUIComponent = comPkgname.startsWith(`ui-`);
+  const isOther = !isInternal || isUIComponent;
+
   const pkgJsonpath = path.resolve(comDir, `./package.json`)
+  const fullpkgname = `@reboot-ui/${comPkgname}`
 
   pkgJsonpath: {
     let jsonObj = JSON.parse(
       `\
 {
-  "name": "@reboot-ui/${comPkgname}",
+  "name": "${fullpkgname}",
   "version": "0.1.0",
-  "description": "UI Component of Reboot UI",
+  "description": "${(isInternal ? 'Internal package ' : '')}${(isUIComponent ? 'UI Component ' : '')}${isOther ? 'package ' : ''}of @reboot-ui",
   "author": "Richardo2016 <richardo2016@gmail.com>",
   "homepage": "https://github.com/richardo2016/reboot-ui/tree/master/packages/${comDirname}#readme",
   "license": "ISC",
@@ -249,6 +254,39 @@ src
 !es
 !lib
 !dist
+`
+      )
+  }
+
+  README: {
+    const READMEFile = path.resolve(comDir, 'README.md')
+    if (!fs.existsSync(path.dirname(READMEFile))) shelljs.mkdir(path.dirname(READMEFile))
+    if (true || !fs.existsSync(READMEFile))
+      fs.writeFileSync(
+        READMEFile,
+        `\
+## ${fullpkgname}
+
+[![npm version](https://img.shields.io/npm/v/${fullpkgname}.svg)](https://www.npmjs.org/package/${fullpkgname})
+[![downloads](https://img.shields.io/npm/dm/${fullpkgname}.svg)](https://www.npmjs.org/package/${fullpkgname})
+
+${!isInternal ? '' : 'Internal package for @reboot-ui.'}\
+${!isUIComponent ? '' : 'UI component package for @reboot-ui.'}\
+
+
+## Get started
+
+\`\`\`bash
+npm i -S ${fullpkgname}
+# or
+yarn add ${fullpkgname}
+\`\`\`
+
+## LICENSE
+
+ISC
+
+Copyright (c) 2020-present, Richard
 `
       )
   }
