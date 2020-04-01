@@ -3,7 +3,7 @@
   "version": "0.1.1",
   "description": "UI Component of Reboot UI",
   "author": "Richardo2016 <richardo2016@gmail.com>",
-  "homepage": "https://github.com/richardo2016/reboot-ui/packages/icomponent-popper#readme",
+  "homepage": "https://github.com/richardo2016/reboot-ui/tree/master/packages/icomponent-popper#readme",
   "license": "ISC",
   "main": "lib/index.js",
   "module": "./es/index.js",
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/richardo2016/reboot-ui/packages/icomponent-popper"
+    "url": "https://github.com/richardo2016/reboot-ui/tree/master/packages/icomponent-popper"
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production node build.js",

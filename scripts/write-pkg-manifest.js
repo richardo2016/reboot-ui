@@ -48,7 +48,7 @@ packages.forEach(({
   "version": "0.1.0",
   "description": "UI Component of Reboot UI",
   "author": "Richardo2016 <richardo2016@gmail.com>",
-  "homepage": "https://github.com/richardo2016/reboot-ui/packages/${comDirname}#readme",
+  "homepage": "https://github.com/richardo2016/reboot-ui/tree/master/packages/${comDirname}#readme",
   "license": "ISC",
   "main": "lib/index.js",
   "module": "./es/index.js",
@@ -69,7 +69,7 @@ packages.forEach(({
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/richardo2016/reboot-ui/packages/${comDirname}"
+    "url": "https://github.com/richardo2016/reboot-ui/tree/master/packages/${comDirname}"
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production node build.js",
@@ -89,9 +89,12 @@ packages.forEach(({
       const prev = readJson(pkgJsonpath)
       const files = Array.from(new Set([...jsonObj.files, ...prev.files]));
       delete jsonObj.files;
+      const version = prev.version || jsonObj.version;
+      if (prev.version) 
 
-      jsonObj = lmerge({}, jsonObj, prev);
+      jsonObj = lmerge({}, prev, jsonObj);
 
+      jsonObj.version = version;
       jsonObj.files = files;
       
       const devDependencies = lmerge({}, jsonObj.devDependencies, monoPkgJson.devDependencies)
