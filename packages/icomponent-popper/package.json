@@ -1,6 +1,6 @@
 {
   "name": "@reboot-ui/icomponent-popper",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "package of @reboot-ui",
   "author": "Richardo2016 <richardo2016@gmail.com>",
   "homepage": "https://github.com/richardo2016/reboot-ui/tree/master/packages/icomponent-popper#readme",
@@ -39,8 +39,8 @@
   ],
   "dependencies": {
     "@popperjs/core": "^2.1.1",
-    "@reboot-ui/common": "^0.1.2",
-    "@reboot-ui/istyle": "^0.1.2"
+    "@reboot-ui/common": "^0.1.3",
+    "@reboot-ui/istyle": "^0.1.3"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
