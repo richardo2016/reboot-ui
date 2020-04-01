@@ -1,6 +1,6 @@
 {
   "name": "@reboot-ui/common",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "package of @reboot-ui",
   "author": "Richardo2016 <richardo2016@gmail.com>",
   "homepage": "https://github.com/richardo2016/reboot-ui/tree/master/packages/common#readme",
@@ -61,6 +61,7 @@
     "cheerio": "^1.0.0-rc.3",
     "clipboard.js": "^1.0.1",
     "cross-env": "^7.0.0",
+    "ejs": "^3.0.2",
     "eslint-plugin-react-hooks": "^1.0.2",
     "front-matter": "^3.1.0",
     "highlight.js": "^9.18.1",
@@ -96,7 +97,6 @@
     "serve": "^11.3.0",
     "shelljs": "^0.8.3",
     "stylus": "^0.54.5",
-    "typescript": "^3.7.5",
-    "ejs": "^3.0.2"
+    "typescript": "^3.7.5"
   }
 }
