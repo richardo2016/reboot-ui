@@ -2,6 +2,8 @@ const fs = require('fs')
 const path = require('path')
 const lmerge = require('lodash.merge')
 
+const ejs = require('ejs')
+
 const shelljs = require('shelljs')
 const monoPkgJson = require('../package.json')
 
@@ -20,6 +22,12 @@ const readJson = (jsonpath) => {
 
 function capitalize(str) {
   return str[0].toUpperCase() + str.slice(1).toLowerCase()
+}
+
+const TPL_DIR = path.resolve(__dirname, './tpls/package')
+
+const readEjs = (relpath) => {
+  return fs.readFileSync(path.resolve(TPL_DIR, relpath)).toString()
 }
 
 packages.forEach(({
@@ -45,51 +53,26 @@ packages.forEach(({
   const pkgJsonpath = path.resolve(comDir, `./package.json`)
   const fullpkgname = `@reboot-ui/${comPkgname}`
 
-  pkgJsonpath: {
-    let jsonObj = JSON.parse(
-      `\
-{
-  "name": "${fullpkgname}",
-  "version": "0.1.0",
-  "description": "${(isInternal ? 'Internal package ' : '')}${(isUIComponent ? 'UI Component ' : '')}${isOther ? 'package ' : ''}of @reboot-ui",
-  "author": "Richardo2016 <richardo2016@gmail.com>",
-  "homepage": "https://github.com/richardo2016/reboot-ui/tree/master/packages/${comDirname}#readme",
-  "license": "ISC",
-  "main": "lib/index.js",
-  "module": "./es/index.js",
-  "browser": "./dist/index.js",
-  "directories": {
-    "lib": "lib",
-    "test": "__tests__"
-  },
-  "files": [
-    "index.js",
-    "scss",
-    "lib",
-    "es",
-    "dist"
-  ],
-  "publishConfig": {
-    "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/richardo2016/reboot-ui/tree/master/packages/${comDirname}"
-  },
-  "scripts": {
-    "build": "cross-env NODE_ENV=production node build.js",
-    "dev-build": "cross-env NODE_ENV=developement rollup -c",
-    "watch": "cross-env ROLLUP_WATCH=true rollup -c -w",
-    "dev": "npm-run-all --parallel start watch",
-    "test": "jest",
-    "prepublishOnly": "npm run build"
-  },
-  "bugs": {
-    "url": "https://github.com/richardo2016/reboot-ui/issues"
+  const ejsCtx = {
+    pkg: {
+      name: comPkgname,
+      fullpkgname,
+      description: `${(isInternal ? 'Internal package ' : '')}${(isUIComponent ? 'UI Component ' : '')}${isOther ? 'package ' : ''}of @reboot-ui`,
+    },
+    pkgdirname: comDirname,
+    comname,
+    pkgmeta: { isInternal, isUIComponent, isOther },
+    buildmeta: {
+      buildDist,
+      buildEsm,
+      buildLib,
+      buildFragment,
+    }
   }
-}
-`
-    )
+
+  pkgJsonpath: {
+    const ejsRaw = ejs.render(readEjs('package.json'), ejsCtx)
+    let jsonObj = JSON.parse(ejsRaw)
     if (fs.existsSync(pkgJsonpath)) {
       const prev = readJson(pkgJsonpath)
       const files = Array.from(new Set([...jsonObj.files, ...prev.files]));
@@ -116,115 +99,7 @@ packages.forEach(({
 
     fs.writeFileSync(
       rollupBuildFile,
-      `\
-const path = require('path')
-const rollup = require('rollup')
-
-const { getConfigItem } = require('../../helpers/rollup-utils')
-const externalModulesWhenBuild = require('../../helpers/package-externals')
-
-${!buildLib ? '' : `\
-function buildLib () {
-  const { output: outputConfig, ...rollupConfig } = getConfigItem({
-      format: 'cjs',
-      name: path.basename(__dirname),
-      input: 'src/index.style.js',
-      mvvm_type: 'react',
-      pkg_type: 'ui',
-      use_uglify: false,
-      babel_options: {},
-      postcss_options: {},
-      postConfig: (rollup_cfg) => {
-        rollup_cfg.output.file = 'lib/index.js'
-        rollup_cfg.external = Array.from(externalModulesWhenBuild.forLib)
-      }
-  })
-
-  // build lib
-  rollup.rollup(rollupConfig)
-      .then((bundle) => {
-          return bundle.write(outputConfig)
-      })
-      .then(() => {
-          console.log('[${comPkgname} -- lib >>]build finished!')
-      })
-}
-`}
-${!buildDist ? '' : `\
-function buildDist () {
-  const { output: outputConfig, ...rollupConfig } = getConfigItem({
-      format: 'umd',
-      name: path.basename(__dirname),
-      input: 'src/index.style.js',
-      mvvm_type: 'react',
-      pkg_type: 'ui',
-      use_uglify: false,
-      babel_options: {},
-      postcss_options: { extract: false },
-      postConfig: (rollup_cfg) => {
-        rollup_cfg.output.file = 'dist/index.js'
-        rollup_cfg.external = Array.from(externalModulesWhenBuild.forDist)
-      }
-  })
-
-  // build dist
-  rollup.rollup(rollupConfig)
-      .then((bundle) => {
-          return bundle.write(outputConfig)
-      })
-      .then(() => {
-          console.log('[${comPkgname} -- dist >>]build finished!')
-      })
-}
-`}
-${!buildEsm ? '' : `\
-const copy = require('rollup-plugin-copy');
-
-function buildEsm () {
-  const { output: outputConfig, ...rollupConfig } = getConfigItem({
-      format: 'esm',
-      name: path.basename(__dirname),
-      input: 'src/index.js',
-      mvvm_type: 'react',
-      pkg_type: 'ui',
-      use_uglify: false,
-      babel_options: {},
-      postcss_options: {},
-      postConfig: (rollup_cfg) => {
-        rollup_cfg.output.file = 'es/index.js'
-        rollup_cfg.output.sourcemap = false
-
-        rollup_cfg.external = Array.from(externalModulesWhenBuild.forEsm)
-
-        rollup_cfg.plugins.unshift(
-          copy({
-            targets: [
-              {
-                src: 'src/${comname}.scss',
-                dest: 'es',
-                rename: 'index.scss'
-              }
-            ]
-          })
-        )
-      }
-  })
-
-  // build es
-  rollup.rollup(rollupConfig)
-      .then((bundle) => {
-          return bundle.write(outputConfig)
-      })
-      .then(() => {
-          console.log('[${comPkgname} -- esm >>]build finished!')
-      })
-}
-`}
-${buildLib ? `buildLib()` : ''}
-${buildDist ? `buildDist()` : ''}
-${buildEsm ? `buildEsm()` : ''}
-${buildFragment || ''}
-`
+      ejs.render(ejs.render(readEjs('build.js.ejs'), ejsCtx))
     )
   }
 
@@ -245,49 +120,17 @@ export { default } from './src/index.js'
     if (!fs.existsSync(path.dirname(npmIgnoreFile))) shelljs.mkdir(path.dirname(npmIgnoreFile))
     fs.writeFileSync(
       npmIgnoreFile,
-      `\
-build.js
-node_modules
-src
-
-!*.scss
-!es
-!lib
-!dist
-`
+      ejs.render(ejs.render(readEjs('.npmignore'), ejsCtx))
       )
   }
 
   README: {
     const READMEFile = path.resolve(comDir, 'README.md')
     if (!fs.existsSync(path.dirname(READMEFile))) shelljs.mkdir(path.dirname(READMEFile))
-    if (true || !fs.existsSync(READMEFile))
+    if (!fs.existsSync(READMEFile))
       fs.writeFileSync(
         READMEFile,
-        `\
-## ${fullpkgname}
-
-[![npm version](https://img.shields.io/npm/v/${fullpkgname}.svg)](https://www.npmjs.org/package/${fullpkgname})
-[![downloads](https://img.shields.io/npm/dm/${fullpkgname}.svg)](https://www.npmjs.org/package/${fullpkgname})
-
-${!isInternal ? '' : 'Internal package for @reboot-ui.'}\
-${!isUIComponent ? '' : 'UI component package for @reboot-ui.'}\
-
-
-## Get started
-
-\`\`\`bash
-npm i -S ${fullpkgname}
-# or
-yarn add ${fullpkgname}
-\`\`\`
-
-## LICENSE
-
-ISC
-
-Copyright (c) 2020-present, Richard
-`
+        ejs.render(ejs.render(readEjs('README.md'), ejsCtx))
       )
   }
 })

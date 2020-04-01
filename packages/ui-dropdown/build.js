@@ -98,7 +98,6 @@ function buildEsm () {
       })
 }
 
-buildLib()
-buildDist()
-buildEsm()
-
+buildLib();
+buildDist();
+buildEsm();

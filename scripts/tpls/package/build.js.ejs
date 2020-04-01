@@ -3,7 +3,7 @@ const rollup = require('rollup')
 
 const { getConfigItem } = require('../../helpers/rollup-utils')
 const externalModulesWhenBuild = require('../../helpers/package-externals')
-
+<% if (buildmeta.buildLib) { %>
 function buildLib () {
   const { output: outputConfig, ...rollupConfig } = getConfigItem({
       format: 'cjs',
@@ -26,10 +26,10 @@ function buildLib () {
           return bundle.write(outputConfig)
       })
       .then(() => {
-          console.log('[ui-row -- lib >>]build finished!')
+          console.log('[<%= pkg.name %> -- lib >>]build finished!')
       })
-}
-
+}<% } %>
+<% if (buildmeta.buildDist) { %>
 function buildDist () {
   const { output: outputConfig, ...rollupConfig } = getConfigItem({
       format: 'umd',
@@ -52,10 +52,10 @@ function buildDist () {
           return bundle.write(outputConfig)
       })
       .then(() => {
-          console.log('[ui-row -- dist >>]build finished!')
+          console.log('[<%= pkg.name %> -- dist >>]build finished!')
       })
-}
-
+}<% } %>
+<% if (buildmeta.buildEsm) { %>
 const copy = require('rollup-plugin-copy');
 
 function buildEsm () {
@@ -78,7 +78,7 @@ function buildEsm () {
           copy({
             targets: [
               {
-                src: 'src/row.scss',
+                src: 'src/<%= comname %>.scss',
                 dest: 'es',
                 rename: 'index.scss'
               }
@@ -94,10 +94,11 @@ function buildEsm () {
           return bundle.write(outputConfig)
       })
       .then(() => {
-          console.log('[ui-row -- esm >>]build finished!')
+          console.log('[<%= pkg.name %> -- esm >>]build finished!')
       })
 }
-
-buildLib();
-buildDist();
-buildEsm();
+<% } %>
+<% if (buildmeta.buildLib) { %>buildLib();<% } %>
+<% if (buildmeta.buildDist) { %>buildDist();<% } %>
+<% if (buildmeta.buildEsm) { %>buildEsm();<% } %>
+<%= buildmeta.buildFragment || '' %>

@@ -50,5 +50,4 @@ function buildEsm () {
 
 
 
-buildEsm()
-
+buildEsm();
