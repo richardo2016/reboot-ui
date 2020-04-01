@@ -12,7 +12,7 @@
     "update-pkg": "node ./scripts/write-pkg-manifest.js",
     "dev-build": "cross-env NODE_ENV=developement rollup -c rollup.config.cjs.js",
     "watch": "cross-env rollup -c rollup.config.cjs.js -w",
-    "prepublishOnly": "npm run test && npm run dist:dev-build",
+    "prepublishOnly": "npm run test",
     "dev": "npm-run-all --parallel start watch",
     "test": "jest",
     "start": "serve .",
