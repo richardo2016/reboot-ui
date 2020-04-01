@@ -11,19 +11,6 @@ const { isProduction: production } = require('./rollup-plugins/build-env')
 const { getConfigItem } = require('./helpers/rollup-utils')
 const DOC_DIST_DIR = `docs`
 
-const rebootConfig = getConfigItem({
-    input: 'src/reboot-ui/index.js',
-    format: 'umd',
-    name: 'RebootUI',
-    mvvm_type: 'react',
-    use_uglify: true,
-    babel_options: {
-    },
-    postConfig: (rollup_cfg) => {
-        rollup_cfg.output.file = `dist/index.js`
-    }
-})
-
 const docsConfig = getConfigItem({
     input: 'src/docs/index.js',
     format: 'iife',
@@ -109,6 +96,5 @@ const docsConfig = getConfigItem({
 })
 
 module.exports = [
-    rebootConfig,
     docsConfig
 ];

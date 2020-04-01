@@ -219,7 +219,7 @@ module.exports = function rollupPluginRebootDocs (inputopts = {}) {
             }
 
             if (options.sourcecodedir) {
-                const sourceDataFilePath = path.resolve(options.sourcecodedir, './reboot-ui/@data/data.json')
+                const sourceDataFilePath = path.resolve(options.sourcecodedir, '../libs/reboot-ui/src/@data/data.json')
                 shelljs.mkdir('-p', path.dirname(sourceDataFilePath))
                 if (!fs.existsSync(sourceDataFilePath))
                     fs.writeFileSync(sourceDataFilePath, toSource({

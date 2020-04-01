@@ -1,5 +1,5 @@
 import React from 'react'
-import { rclassnames } from '../../../packages/common'
+import { rclassnames } from '@reboot-ui/common'
 
 export const PlaceholderImage = ({
     children = 'Image cap',
