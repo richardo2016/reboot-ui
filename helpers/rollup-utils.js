@@ -99,7 +99,15 @@ exports.getConfigItem = function (opts) {
 			}),
 			postcss({
 				extract: true,
+				modules: false,
 				plugins: [],
+				use: [
+					[
+						'sass', {
+							includePaths: [path.resolve('node_modules')]
+						}
+					]
+				],
 				minimize: isProduction,
 				sourceMap: !isProduction,
 				...postcss_options,

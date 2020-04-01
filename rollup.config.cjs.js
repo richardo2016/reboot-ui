@@ -41,11 +41,11 @@ const docsConfig = getConfigItem({
                 // set `es` for for published version
                 // "libraryDirectory": "es",
                 "customName": (name) => {
-                    return path.resolve(__dirname, `./packages/ui-${name}/index.js`)
+                    return `@reboot-ui/ui-${name}`
                 },
                 "style": true,
                 "customStyleName": (name) => {
-                	return path.resolve(__dirname, `./packages/ui-${name}/src/${name}.scss`)
+                	return `@reboot-ui/ui-${name}/es/index.scss`
                 },
             }]
         ]

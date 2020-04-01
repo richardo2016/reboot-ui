@@ -5,7 +5,7 @@
   "author": "Richardo2016 <richardo2016@gmail.com>",
   "homepage": "https://github.com/richardo2016/reboot-ui/tree/master/packages/ui-nav-tab#readme",
   "license": "ISC",
-  "main": "lib/index.js",
+  "main": "./lib/index.js",
   "module": "./es/index.js",
   "browser": "./dist/index.js",
   "directories": {

@@ -19,6 +19,9 @@ const readJson = (jsonpath) => {
 
   return result
 }
+const prettyJson = (input) => {
+  return JSON.stringify(input, null, '  ')
+}
 
 function capitalize(str) {
   return str[0].toUpperCase() + str.slice(1).toLowerCase()
@@ -78,7 +81,6 @@ packages.forEach(({
       const files = Array.from(new Set([...jsonObj.files, ...prev.files]));
       delete jsonObj.files;
       const version = prev.version || jsonObj.version;
-      if (prev.version) 
 
       jsonObj = lmerge({}, prev, jsonObj);
 
@@ -89,8 +91,9 @@ packages.forEach(({
       delete jsonObj.devDependencies;
       jsonObj.devDependencies = devDependencies
     }
-    const output = JSON.stringify(jsonObj, null, '  ')
-    fs.writeFileSync(pkgJsonpath, output)
+    if (isUIComponent)
+      monoPkgJson.dependencies[fullpkgname] = '*.*';// `^${jsonObj.version}`;
+    fs.writeFileSync(pkgJsonpath, prettyJson(jsonObj) + '\n')
   }
 
   buildFile: {
@@ -127,7 +130,7 @@ export { default } from './src/index.js'
   README: {
     const READMEFile = path.resolve(comDir, 'README.md')
     if (!fs.existsSync(path.dirname(READMEFile))) shelljs.mkdir(path.dirname(READMEFile))
-    if (!fs.existsSync(READMEFile))
+    if (true || !fs.existsSync(READMEFile))
       fs.writeFileSync(
         READMEFile,
         ejs.render(ejs.render(readEjs('README.md'), ejsCtx))
@@ -136,3 +139,8 @@ export { default } from './src/index.js'
 })
 
 console.info(`write pkg manifest success!`)
+
+fs.writeFileSync(
+  path.resolve(__dirname, '../package.json'),
+  prettyJson(monoPkgJson)
+)
