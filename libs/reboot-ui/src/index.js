@@ -38,3 +38,5 @@ export { default as Form } from '@reboot-ui/ui-form/src/index.style'
 
 export { default as Pagination } from '@reboot-ui/ui-pagination/src/index.style'
 
+import * as RebootUI from './'
+export default RebootUI

@@ -1,21 +1,19 @@
 {
   "name": "reboot-ui",
-  "version": "0.0.9",
-  "private": true,
+  "version": "0.0.10",
   "description": "one UI library based on bootstrap 4, driven by (p)react",
   "scripts": {
     "boot": "lerna bootstrap --force-local",
-    "doc:build": "cross-env NODE_ENV=production rollup -c rollup.config.cjs.js",
-    "doc:dev-build": "cross-env NODE_ENV=development rollup -c rollup.config.cjs.js",
+    "build": "cross-env NODE_ENV=production rollup -c rollup.config.cjs.js",
+    "dev-build": "cross-env NODE_ENV=development rollup -c rollup.config.cjs.js",
     "watch": "cross-env rollup -c rollup.config.cjs.js -w",
-    "prepublishOnly": "npm run test && npm run dist:dev-build",
+    "prepublishOnly": "npm run build && npm run test",
     "dev": "npm-run-all --parallel start watch",
     "test": "jest",
-    "start": "serve .",
-    "deploy:github": "npm run doc:build && git add -A && git commit -m'chore: deploy doc github page' && git push"
+    "start": "serve ."
   },
-  "main": "./lib/index.js",
-  "module": "./es/index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
   "browser": "./dist/index.js",
   "keywords": [],
   "license": "MIT",
@@ -136,5 +134,6 @@
     "shelljs": "^0.8.3",
     "stylus": "^0.54.5",
     "typescript": "^3.7.5"
-  }
+  },
+  "gitHead": "9b5396e0dae5bb08afec4a67a13f1b69077f9c5a"
 }
