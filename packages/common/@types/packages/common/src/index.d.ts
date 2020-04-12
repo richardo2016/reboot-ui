@@ -14,6 +14,11 @@ export { coerceInteger, coerceFloat } from './utils/coerce';
 export { pick, omit } from './utils/object';
 export { useInterval } from './utils/react-hooks/use-timer';
 export { flatten, arraify } from './utils/array';
+export declare namespace RebootUI {
+    type IComponentPropsWithChildren<T> = React.PropsWithChildren<{
+        as?: string;
+    } & T>;
+}
 export declare const themes: string[];
 export declare const sizes: string[];
 export declare const TransitionTimeouts: {

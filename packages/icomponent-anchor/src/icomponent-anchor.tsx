@@ -5,7 +5,10 @@ const Anchor = React.forwardRef(
         children,
         href = 'javascript:;',
         ...props
-    }, ref) {
+    }: React.PropsWithChildren<{
+        href?: string
+    // put ref here to compat react/preact
+    }>, ref: any) {
         return (
             <a
                 {...props}

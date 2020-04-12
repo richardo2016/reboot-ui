@@ -1,5 +1,1 @@
-declare module "@reboot-ui/icomponent-anchor" {
-    const mod: any
-    export = mod
-    export default mod
-}
+export { default } from './icomponent-anchor';

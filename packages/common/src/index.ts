@@ -20,6 +20,13 @@ export { flatten, arraify } from './utils/array'
 
 import { arraify } from './utils/array'
 
+export namespace RebootUI {
+    export type IComponentPropsWithChildren<T> = React.PropsWithChildren<{
+        as?: string
+        style?: React.CSSProperties
+    } & T>
+}
+
 export const themes = json['theme-colors'].map(theme => theme.name)
 
 export const sizes = json['breakpoints'].map(x => x.breakpoint).filter(x => x)

@@ -2,25 +2,32 @@ import React from 'react'
 
 import { Transition } from 'react-transition-group';
 
-import { rclassnames } from '@reboot-ui/common'
-import { useDefaultValue } from '@reboot-ui/common'
-import { TransitionTimeouts, resolveJSXElement } from '@reboot-ui/common';
+import { TransitionStatus } from 'react-transition-group/Transition';
 
-function getTransitionClass(status) {
+import {
+    rclassnames,
+    useDefaultValue,
+    TransitionTimeouts,
+    resolveJSXElement,
+    RebootUI
+} from '@reboot-ui/common'
+
+function getTransitionClass(status: TransitionStatus) {
     return transtionClasses[status] || 'collapse';
 }
 
-function getNodeHeight(node) {
+function getNodeHeight(node: HTMLElement) {
     return node.scrollHeight;
 }
 
 function noop () {}
 
-const transtionClasses = {
+const transtionClasses: {[P in TransitionStatus]: string} = {
     [`entering`]: 'collapsing',
     [`entered`]: 'collapse show',
     [`exiting`]: 'collapsing',
     [`exited`]: 'collapse',
+    [`unmounted`]: ''
 }
 
 /**
@@ -36,8 +43,15 @@ export default function CollapseProto ({
     onExiting = noop,
     onExited = noop,
     ...props
-}, ref) {
-    const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
+}: RebootUI.IComponentPropsWithChildren<{
+    collapse?: boolean
+    onEntering?: (node: HTMLElement, isAppearing: boolean) => void
+    onEntered?: (node: HTMLElement, isAppearing: boolean) => void
+    onExit?: (node: HTMLElement) => void
+    onExiting?: (node: HTMLElement) => void
+    onExited?: (node: HTMLElement) => void
+}>, ref: React.RefObject<any>) {
+    const JSXEl: any = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
 
     const [ collapse, setCollapse ] = React.useState(true)
     useDefaultValue(propCollapsed, (defaultValue) => {
@@ -49,21 +63,21 @@ export default function CollapseProto ({
         setCollapse(propCollapsed)
     }, [propCollapsed])
 
-    let [ height, setHeight ] = React.useState(null);
+    let [ height, setHeight ] = React.useState<number | null>(null);
     const hRef = React.useRef(height)
 
-    const _onEntering = ((node, isAppearing) => {
+    const _onEntering: typeof onEntering = ((node, isAppearing) => {
         setHeight(getNodeHeight(node));
         onEntering(node, isAppearing);
     })
 
-    const _onEntered = ((node, isAppearing) => {
+    const _onEntered: typeof onEntered = ((node, isAppearing) => {
         setHeight(null);
         hRef.current = height;
         onEntered(node, isAppearing);
     })
 
-    const _onExit = ((node) => {
+    const _onExit: typeof onExit = ((node) => {
         /**
          * @why for preact, variable `height` would be changed in next tick,
          * but collapse(exit) had started before that,
@@ -81,13 +95,13 @@ export default function CollapseProto ({
         onExit(node);
     })
 
-    const _onExiting = ((node) => {
+    const _onExiting: typeof onExiting = ((node) => {
         hRef.current = null;
         setHeight(0);
         onExiting(node);
     })
 
-    const _onExited = ((node) => {
+    const _onExited: typeof onExited = ((node) => {
         setHeight(null);
         onExited(node);
     })
@@ -97,7 +111,7 @@ export default function CollapseProto ({
     return (
         <>
             <Transition
-                {...Transition.defaultProps}
+                {...(Transition as any).defaultProps}
                 appear={false}
                 enter={true}
                 exit={true}
