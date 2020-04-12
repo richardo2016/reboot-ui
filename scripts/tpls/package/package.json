@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "description": "<%= pkg.description %>",
   "author": "Richardo2016 <richardo2016@gmail.com>",
-  "homepage": "https://github.com/richardo2016/reboot-ui/tree/master/packages/<%= pkgdirname %>#readme",
+  "homepage": "https://github.com/<%= repoinfo.gitpath %>/tree/master/packages/<%= pkgdirname %>#readme",
   "license": "ISC",
   "main": "./<%= buildmeta.buildLib ? 'lib' : 'es' %>/index.js",
+  "types": "./<%- buildmeta.useTs ? '@types/index.d.ts' : '' %>",
   "module": "./es/index.js",
   "browser": "./<%= buildmeta.buildDist ? 'dist' : 'es' %>/index.js",
   "directories": {
@@ -24,7 +25,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/richardo2016/reboot-ui/tree/master/packages/<%= pkgdirname %>"
+    "url": "https://github.com/<%= repoinfo.gitpath %>/tree/master/packages/<%= pkgdirname %>"
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production node build.js",
@@ -32,9 +33,10 @@
     "watch": "cross-env ROLLUP_WATCH=true rollup -c -w",
     "dev": "npm-run-all --parallel start watch",
     "test": "jest",
+    "ci": "npm run build && npm run test",
     "prepublishOnly": "npm run build"
   },
   "bugs": {
-    "url": "https://github.com/richardo2016/reboot-ui/issues"
+    "url": "https://github.com/<%= repoinfo.gitpath %>/issues"
   }
 }

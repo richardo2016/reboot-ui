@@ -5,6 +5,8 @@ const uglify = require('rollup-plugin-uglify')
 
 const buble = require('@rollup/plugin-buble')
 const babel = require('rollup-plugin-babel')
+const { DEFAULT_EXTENSIONS } = require('@babel/core');
+const typescript = require('rollup-plugin-typescript2')
 
 const alias = require('@rollup/plugin-alias')
 const resolveAliases = require('rollup-plugin-resolve-aliases')
@@ -48,8 +50,10 @@ exports.getConfigItem = function (opts) {
 		production: isProduction = production,
 
 		babel_options = undefined,
+		ts_options = undefined,
 		preact_options = {},
 		postcss_options = {},
+		namedExports = {},
 
 		use_uglify = production,
 		
@@ -79,8 +83,9 @@ exports.getConfigItem = function (opts) {
 	const use_react = mvvm_type === 'react'
 	const use_preact = mvvm_type === 'preact'
 
+	const use_ts = !!ts_options;
 	const use_babel = !!babel_options;
-	const use_buble = !use_babel && (use_react || use_preact);
+	const use_buble = (!use_babel && !use_ts) && (use_react || use_preact);
 
 	const rollup_cfg = {
 		input,
@@ -115,10 +120,18 @@ exports.getConfigItem = function (opts) {
 			pug(),
 			image(),
 			json(),
+			use_ts && typescript({
+				...ts_options
+			}),
 			use_buble && buble({
 				objectAssign: 'Object.assign',
 			}),
 			use_babel && babel({
+				extensions: [
+					...DEFAULT_EXTENSIONS,
+					'.ts',
+					'.tsx'
+				],
 				babelrc: false,
 				exclude: 'node_modules/**',
 				presets: [
@@ -133,13 +146,14 @@ exports.getConfigItem = function (opts) {
 			resolve({
 				browser: false,
 				main: true,
-				extensions: ['.mjs', '.js', '.jsx', '.json', '.node']
+				extensions: ['.mjs', '.js', '.jsx', '.json', '.node', '.ts', '.tsx']
 			}),
 			commonjs({
 				namedExports: {
 					...use_react && reactNamedExports,
 					// add hooks exports when using preact, but you still need to import 'preact/hooks' and patch preact by your self,
 					...use_preact && preactNamedExports,
+					...namedExports,
 				},
 				sourceMap: !isProduction
 			}),
