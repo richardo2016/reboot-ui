@@ -21,9 +21,10 @@ export { flatten, arraify } from './utils/array'
 import { arraify } from './utils/array'
 
 export namespace RebootUI {
-    export type IComponentPropsWithChildren<T> = React.PropsWithChildren<{
+    export type IComponentPropsWithChildren<T, REFT = any> = React.PropsWithChildren<{
         as?: string
         style?: React.CSSProperties
+        ref?: React.MutableRefObject<REFT>
     } & T>
 }
 
@@ -254,10 +255,10 @@ export function resolveJSXElement (
         default: defaultValue = React.Fragment,
         allowedHTMLTags = undefined
     }: {
-        default?: React.ReactNode,
+        default?: React.ReactElement | React.ExoticComponent | string,
         allowedHTMLTags?: string[]
     } = {}
-) {
+): any {
     if (!inputJSXElement)
         return defaultValue
 
