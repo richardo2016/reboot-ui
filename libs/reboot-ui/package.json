@@ -71,6 +71,7 @@
     "@reboot-ui/ui-table": "^0.1.3",
     "@reboot-ui/ui-textarea": "^0.1.3",
     "@reboot-ui/ui-tooltip": "^0.1.3",
+    "@types/react": "^16.9.34",
     "react-transition-group": "^4.3.0"
   },
   "devDependencies": {

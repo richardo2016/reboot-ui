@@ -2,6 +2,12 @@
   "name": "mono-reboot-ui",
   "version": "0.0.0",
   "description": "one UI library based on bootstrap 4, driven by (p)react",
+  "private": true,
+  "mono:config": {
+    "name": "reboot-ui",
+    "scope": "reboot-ui",
+    "gitpath": "richardo2016/reboot-ui"
+  },
   "scripts": {
     "boot": "lerna bootstrap --force-local",
     "doc:build": "cross-env NODE_ENV=production rollup -c rollup.config.cjs.js",

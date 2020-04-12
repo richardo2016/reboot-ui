@@ -67,7 +67,7 @@ packages.forEach(({
       description: `${(isInternal ? 'Internal package ' : '')}${(isUIComponent ? 'UI Component ' : '')}${isOther ? 'package ' : ''}of @${pkgscope}`,
     },
     repoinfo: {
-      gitpath: `${pkgscope}/${monoPkgJson['name']}`,
+      gitpath: monoPkgJson['mono:config'].gitpath || `${pkgscope}/${monoPkgJson['name']}`,
     },
     pkgdirname: comDirname,
     comname,
