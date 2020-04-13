@@ -1,0 +1,1 @@
+export { getJSON } from '../../packages/common/src/utils/fetch'
