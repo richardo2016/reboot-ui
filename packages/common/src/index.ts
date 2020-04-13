@@ -104,6 +104,13 @@ export namespace RebootUI {
         onExited?: ExitHandler
     }
 
+    export type TransitionStateNames =
+        'exited'
+        | 'entering'
+        | 'entered'
+        | 'exiting'
+        | 'unmounted'
+
     export type ReactRef<T = any, P = any> = Parameters<React.ForwardRefRenderFunction<T, P>>[1] | null
 
     export type DOMSelector = Document | HTMLElement | string
@@ -231,8 +238,12 @@ export function filterThemeName(theme = ''): RebootUI.ThemeType | undefined {
         return theme as RebootUI.ThemeType
 }
 
-export function filterRepsonsiveSize(size = '') {
-    if (sizes.includes(size)) return size
+export function filterRepsonsiveSize(size = ''): RebootUI.BreakPointType | undefined {
+    if (sizes.includes(size)) return size as RebootUI.BreakPointType
+}
+
+export function filterBinraySize(size = ''): RebootUI.BinarySizeType | undefined {
+    if (['sm', 'lg'].includes(size)) return size as RebootUI.BinarySizeType
 }
 
 export function filterFormControlSize(size = ''): RebootUI.BinarySizeType | undefined {

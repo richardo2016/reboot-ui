@@ -1,22 +1,22 @@
 import React from 'react'
 
-import { resolveJSXElement, rclassnames, renderJSXFunc } from '@reboot-ui/common';
+import { resolveJSXElement, rclassnames, renderJSXFunc, RebootUI, filterBinraySize } from '@reboot-ui/common';
 
-const _PrependWrap = ({ children }) => {
+const _PrependWrap = ({ children }: RebootUI.IComponentPropsWithChildren) => {
     if (typeof children === 'string')
-        children = (<span class="input-group-text">{children}</span>)
+        children = (<span className="input-group-text">{children}</span>)
 
     return (
-        <div class="input-group-prepend">{children}</div>
+        <div className="input-group-prepend">{children}</div>
     )
 }
 
-const _AppendWrap = ({ children }) => {
+const _AppendWrap = ({ children }: RebootUI.IComponentPropsWithChildren) => {
     if (typeof children === 'string')
-        children = (<span class="input-group-text">{children}</span>)
+        children = (<span className="input-group-text">{children}</span>)
 
     return (
-        <div class="input-group-append">{children}</div>
+        <div className="input-group-append">{children}</div>
     )
 }
 /**
@@ -26,22 +26,19 @@ const InputGroup = React.forwardRef((
     function ({
         children,
         as: _as = 'div',
-        size = '',
-        __htmlAttributes,
+        size,
         prepend = '',
         append = '',
         ...props
-    }, ref) {
+    }: RebootUI.IComponentPropsWithChildren<{
+        size?: RebootUI.BinarySizeType
+        prepend?: React.ReactNode
+        append?: React.ReactNode
+    }>, ref) {
         const JSXEl = resolveJSXElement(_as, { allowedHTMLTags: ['div'] });
 
-        switch (size) {
-            case 'lg':
-            case 'sm':
-                break
-            default:
-                size = ''
-                break
-        }
+        size = filterBinraySize(size)
+        
         const prependNoWrap = typeof prepend === 'function'
         const PrependWrap = prependNoWrap ? React.Fragment : _PrependWrap
         prepend = renderJSXFunc(prepend)
@@ -55,7 +52,6 @@ const InputGroup = React.forwardRef((
         return (
             <JSXEl
                 {...props}
-                {...__htmlAttributes}
                 ref={ref}
                 className={rclassnames(props, [
                     'input-group',

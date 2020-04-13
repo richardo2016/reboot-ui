@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { resolveJSXElement } from '@reboot-ui/common'
+import { resolveJSXElement, RebootUI } from '@reboot-ui/common'
 import { rclassnames } from '@reboot-ui/common'
 import { filterRepsonsiveSize, filterThemeName } from '@reboot-ui/common'
 import Anchor from '@reboot-ui/icomponent-anchor'
@@ -16,9 +16,13 @@ const ListGroup = function ({
     as: _as = 'ul',
     flush = false,
     horizontal = false,
-    size = '',
+    size,
     ...props
-}) {
+}: RebootUI.IComponentPropsWithChildren<{
+    flush?: boolean
+    horizontal?: boolean
+    size?: Parameters<typeof filterRepsonsiveSize>[0]
+}>) {
     const JSXEl = resolveJSXElement(_as, { allowedHTMLTags: ['ul', 'ol', 'div'] });
 
     size = filterRepsonsiveSize(size)
@@ -43,9 +47,14 @@ ListGroup.Item = function ({
     as: _as = action ? 'a' : 'li',
     active = false,
     disabled = false,
-    theme = '',
+    theme,
     ...props
-}) {
+}: RebootUI.IComponentPropsWithChildren<{
+    action?: boolean
+    active?: boolean
+    disabled?: boolean
+    theme?: RebootUI.ThemeType
+}>) {
     if (_as === 'a') _as = Anchor
     
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
@@ -71,13 +80,19 @@ ListGroup.Item = function ({
     )
 }
 
-ListGroup.LinkItem = ({ ...props }) => <ListGroup.Item {...props} action as="a" />
+ListGroup.LinkItem = ({
+    ...props
+}: RebootUI.IComponentPropsWithChildren) => (
+    <ListGroup.Item {...props} action as="a" />
+)
 
 ListGroup.ButtonItem = function ({
     children,
     action = true,
     ...props
-}) {
+}: RebootUI.IComponentPropsWithChildren<{
+    action?: boolean
+}>) {
     return (
         <ListGroup.Item
             {...props}

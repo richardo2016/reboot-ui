@@ -2,53 +2,75 @@ import React from 'react'
 
 import { Transition } from 'react-transition-group';
 
-import { resolveJSXElement } from '@reboot-ui/common'
-import { rclassnames, tryUseContext } from '@reboot-ui/common'
-import { TransitionTimeouts } from '@reboot-ui/common'
-import { coerceInteger, useClickaway } from '@reboot-ui/common'
-import { arraify } from '@reboot-ui/common'
+import {
+    resolveJSXElement,
+    RebootUI,
+    rclassnames,
+    tryUseContext,
+    TransitionTimeouts,
+    coerceInteger, useClickaway,
+    arraify,
+} from '@reboot-ui/common'
 
 function toggleCls (
     target = document.body || document.documentElement,
-    classname,
-    nextHas
+    classname: string | string[],
+    nextHas: boolean
 ) {
-    classname = arraify(classname).filter(x => x && typeof x === 'string')
+    arraify(classname)
+        .filter(x => x && typeof x === 'string')
+        .forEach(cls => {
+            let _nextHas = nextHas
+            if (_nextHas === undefined) {
+                target.classList.toggle(cls)
+                return ;
+            }
 
-    classname.forEach(cls => {
-        let _nextHas = nextHas
-        if (_nextHas === undefined) {
-            target.classList.toggle(cls)
-            return ;
-        }
-
-        if (_nextHas) target.classList.add(cls)
-        else target.classList.remove(cls)
-    })
+            if (_nextHas) target.classList.add(cls)
+            else target.classList.remove(cls)
+        })
 }
 
 function noop() {}
 
-const ModalContext = React.createContext({
-    arrowRef: null,
-})
+type ModelContextType = {
+    // arrowRef: React.MutableRefObject<>
+    isOpen: boolean
+    onToggle: () => void
+
+    refModal: React.MutableRefObject<any>
+    refBackdrop: React.MutableRefObject<any>
+    useStaticBackdrop: boolean
+    onClickStaticDropback: () => void
+    dialogRole: 'document' | 'dialog',
+    dialogSize?: RebootUI.BinarySizeType
+    dialogScrollable: boolean
+    dialogCentered: boolean
+}
+
+const ModalContext = React.createContext<ModelContextType>({} as ModelContextType)
 
 const TRANSITION_STATE_CLASS = {
     entering: '',
     entered: 'show',
     exiting: '',
-    exited: ''
+    exited: '',
+    unmounted: '',
 }
 
-const TRANSITION_STATE_STYLE = {
+const TRANSITION_STATE_STYLE: Record<string, React.CSSProperties> = {
     entering: {display: 'block'},
     entered: {display: 'block'},
     exiting: {display: 'block'},
+    unmounted: {},
 }
 
-function useClickingStaticBackdrop () {
+function useClickingStaticBackdrop (): [
+    boolean,
+    React.Dispatch<React.SetStateAction<boolean>>
+] {
     const [clicking, setClicking] = React.useState(false)
-    const timerRef = React.useRef(null)
+    const timerRef = React.useRef<any>(null)
     const clean = () => {
         let timer = timerRef.current
         if (timer) clearTimeout(timer)
@@ -78,235 +100,255 @@ function useClickingStaticBackdrop () {
  * @inner-content `.modal-header`
  * @inner-content `.modal-body`
  */
-const Modal = (
-    ({
-        children,
-        document: useDocumentMode = false,
-        isOpen = useDocumentMode ? true : false,
-        onToggle = noop,
-        duration = TransitionTimeouts.Modal,
-        dialogLess = false,
-        contentLess = false,
-        size: dialogSize = false,
+const Modal = function ({
+    children,
+    document: useDocumentMode = false,
+    isOpen = useDocumentMode ? true : false,
+    onToggle = noop,
+    duration = TransitionTimeouts.Modal,
+    dialogLess = false,
+    contentLess = false,
+    size: dialogSize,
+    dialogRole,
+    /**
+     * @description when use staticBackdrop, modal wouldn't dismiss when click away `.modal-content`
+     */
+    staticBackdrop = false,
+    /**
+     * @description when use scrollable, modal will add `.modal-dialog-scrollable` to Modal.Dialog
+     */
+    scrollable = false,
+    /**
+     * @description when use centered, modal will add `.modal-dialog-centered` to Modal.Dialog
+     */
+    centered = false,
+    ...props
+}: RebootUI.IComponentPropsWithChildren<{
+    document?: boolean
+    isOpen?: boolean
+    onToggle?: (isOpen: boolean) => void
+    duration?: number
+    dialogLess?: boolean
+    contentLess?: boolean
+    size?: RebootUI.BinarySizeType
+    dialogRole?: ModelContextType['dialogRole']
+    staticBackdrop?: boolean
+    scrollable?: boolean
+    centered?: boolean
+}>) {
+    dialogRole = dialogRole || (useDocumentMode ? 'document' : 'dialog')
+
+    const [ clickingStaticBackdrop, setClickingStaticBackdrop ] = useClickingStaticBackdrop()
+
+    const modalCtx: ModelContextType = {
+        isOpen,
+        onToggle: () => onToggle(modalCtx.isOpen),
+
+        refModal: React.useRef(null),
+        refBackdrop: React.useRef(null),
+        useStaticBackdrop: staticBackdrop,
+        onClickStaticDropback: () => {
+            setClickingStaticBackdrop(true);
+        },
         dialogRole,
-        /**
-         * @description when use staticBackdrop, modal wouldn't dismiss when click away `.modal-content`
-         */
-        staticBackdrop = false,
-        /**
-         * @description when use scrollable, modal will add `.modal-dialog-scrollable` to Modal.Dialog
-         */
-        scrollable = false,
-        /**
-         * @description when use centered, modal will add `.modal-dialog-centered` to Modal.Dialog
-         */
-        centered = false,
-        ...props
-    }) => {
-        dialogRole = dialogRole || (useDocumentMode ? 'document' : 'dialog')
+        dialogSize,
+        dialogScrollable: scrollable,
+        dialogCentered: centered,
+    }
 
-        const [clickingStaticBackdrop, setClickingStaticBackdrop] = useClickingStaticBackdrop()
+    duration = coerceInteger(duration, TransitionTimeouts.Modal)
 
-        const modalCtx = {
-            isOpen,
-            onToggle: () => onToggle(modalCtx.isOpen),
-
-            refModal: React.useRef(null),
-            refBackdrop: React.useRef(null),
-            useStaticBackdrop: staticBackdrop,
-            onClickStaticDropback: () => {
-                setClickingStaticBackdrop(true);
-            },
-            dialogRole,
-            dialogSize,
-            dialogScrollable: scrollable,
-            dialogCentered: centered,
-        }
-
-        duration = coerceInteger(duration, TransitionTimeouts.Modal)
-
-        React.useLayoutEffect(() => {
-            toggleCls(document.body, 'modal-open', isOpen)
-        }, [isOpen])
+    React.useLayoutEffect(() => {
+        toggleCls(document.body, 'modal-open', isOpen)
+    }, [isOpen])
 
 
-        const DialogJSX = dialogLess ? React.Fragment : Modal.Dialog
-        const ContentJSX = contentLess ? React.Fragment : Modal.Content
+    const DialogJSX = dialogLess ? React.Fragment : Modal.Dialog
+    const ContentJSX = contentLess ? React.Fragment : Modal.Content
 
-        return (
-            <ModalContext.Provider value={modalCtx}>
+    return (
+        <ModalContext.Provider value={modalCtx}>
+            <Transition
+                in={isOpen}
+                timeout={{
+                    enter: TransitionTimeouts.Fade,
+                    exit: TransitionTimeouts.Fade + 100,
+                }}
+            >
+                {state => {
+                    if (state === 'exited' && !isOpen) return ;
+
+                    return (
+                        <div
+                            role="dialog"
+                            {...!isOpen && {
+                                'aria-hidden': true
+                            }}
+                            {...{
+                                tabindex: "-1"
+                            }}
+                            {...props}
+                            className={rclassnames(props, [
+                                'modal',
+                                'fade',
+                                TRANSITION_STATE_CLASS[state],
+                                clickingStaticBackdrop && 'modal-static'
+                            ])}
+                            style={{
+                                ...TRANSITION_STATE_STYLE[state],
+                                ...props.style,
+                            }}
+                            ref={modalCtx.refModal}
+                            
+                        >
+                            <DialogJSX><ContentJSX>{children}</ContentJSX></DialogJSX>
+                        </div>
+                    )
+                }}
+            </Transition>
+            {!useDocumentMode && (
                 <Transition
                     in={isOpen}
                     timeout={{
                         enter: TransitionTimeouts.Fade,
-                        exit: TransitionTimeouts.Fade + 100,
+                        exit: TransitionTimeouts.Modal,
                     }}
                 >
                     {state => {
                         if (state === 'exited' && !isOpen) return ;
-
+                        
                         return (
                             <div
-                                role="dialog"
                                 {...!isOpen && {
                                     'aria-hidden': true
                                 }}
-                                tabindex="-1"
+                                {...{
+                                    tabindex: "-1"
+                                }}
                                 {...props}
                                 className={rclassnames(props, [
-                                    'modal',
+                                    'modal-backdrop',
                                     'fade',
                                     TRANSITION_STATE_CLASS[state],
-                                    clickingStaticBackdrop && 'modal-static'
                                 ])}
                                 style={{
-                                    ...TRANSITION_STATE_STYLE[state],
-                                    ...props.style,
+                                    ...!isOpen && { display: 'none' }
                                 }}
-                                ref={modalCtx.refModal}
-                                
-                            >
-                                <DialogJSX><ContentJSX>{children}</ContentJSX></DialogJSX>
-                            </div>
+                                ref={modalCtx.refBackdrop}
+                            />
                         )
                     }}
                 </Transition>
-                {!useDocumentMode && (
-                    <Transition
-                        in={isOpen}
-                        timeout={{
-                            enter: TransitionTimeouts.Fade,
-                            exit: TransitionTimeouts.Modal,
-                        }}
-                    >
-                        {state => {
-                            if (state === 'exited' && !isOpen) return ;
-                            
-                            return (
-                                <div
-                                    {...!isOpen && {
-                                        'aria-hidden': true
-                                    }}
-                                    tabindex="-1"
-                                    {...props}
-                                    className={rclassnames(props, [
-                                        'modal-backdrop',
-                                        'fade',
-                                        TRANSITION_STATE_CLASS[state],
-                                    ])}
-                                    style={{
-                                        ...!isOpen && { display: 'none' }
-                                    }}
-                                    ref={modalCtx.refBackdrop}
-                                />
-                            )
-                        }}
-                    </Transition>
-                )}
-            </ModalContext.Provider>
-        )
-    }
-)
+            )}
+        </ModalContext.Provider>
+    )
+}
 
-Modal.Dialog = React.forwardRef(
-    ({
+
+Modal.Dialog = function (
+    {
         children,
         as: _as = 'div',
         scrollable,
         centered,
-        size: dialogSize = '',
+        size: dialogSize,
         ...props
-    }, ref) => {
-        const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
+    }: RebootUI.IComponentPropsWithChildren<{
+        scrollable?: boolean
+        centered?: boolean
+        size?: RebootUI.BinarySizeType | 'xl'
+    }>
+) {
+    const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
-        const modalCtx = tryUseContext(ModalContext)
+    const modalCtx = tryUseContext(ModalContext)
 
-        if (scrollable === undefined) scrollable = modalCtx.dialogScrollable
-        if (centered === undefined) centered = modalCtx.dialogCentered
+    if (scrollable === undefined) scrollable = modalCtx.dialogScrollable
+    if (centered === undefined) centered = modalCtx.dialogCentered
 
-        dialogSize = dialogSize || modalCtx.dialogSize
-        switch (dialogSize) {
-            case 'sm':
-            case 'lg':
-            case 'xl':
-                break
-            default:
-                dialogSize = ''
-                break
-        }
-
-        return (
-            <JSXEl
-                {...props}
-                ref={ref}
-                className={rclassnames(props, [
-                    'modal-dialog',
-                    scrollable && 'modal-dialog-scrollable',
-                    centered && 'modal-dialog-centered',
-                    dialogSize && `modal-dialog-${dialogSize}`,
-                ])}
-                {...modalCtx.dialogRole && { role: modalCtx.dialogRole }}
-            >
-                {children}
-            </JSXEl>
-        )
+    dialogSize = dialogSize || modalCtx.dialogSize
+    switch (dialogSize) {
+        case 'sm':
+        case 'lg':
+        case 'xl':
+            break
+        default:
+            dialogSize = undefined
+            break
     }
-)
 
-Modal.Content = (
-    ({
-        children,
-        as: _as = 'div',
-        ...props
-    }) => {
-        const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
+    return (
+        <JSXEl
+            {...props}
+            className={rclassnames(props, [
+                'modal-dialog',
+                scrollable && 'modal-dialog-scrollable',
+                centered && 'modal-dialog-centered',
+                dialogSize && `modal-dialog-${dialogSize}`,
+            ])}
+            {...modalCtx.dialogRole && { role: modalCtx.dialogRole }}
+        >
+            {children}
+        </JSXEl>
+    )
+}
 
-        const modalCtx = tryUseContext(ModalContext)
+Modal.Content = ({
+    children,
+    as: _as = 'div',
+    ...props
+}: RebootUI.IComponentPropsWithChildren) => {
+    const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
-        const ref = React.useRef(null)
+    const modalCtx = tryUseContext(ModalContext)
 
-        useClickaway(
-            ref,
-            () => modalCtx.refModal.current || document,
-            {
-                clickAway: () => {
-                    if (modalCtx.useStaticBackdrop) {
-                        modalCtx.onClickStaticDropback();
-                        return ;
-                    }
-                    if (!modalCtx.isOpen) return ;
-                    
-                    modalCtx.onToggle();
+    const ref = React.useRef(null)
+
+    useClickaway(
+        ref,
+        () => modalCtx.refModal.current || document,
+        {
+            clickAway: () => {
+                if (modalCtx.useStaticBackdrop) {
+                    modalCtx.onClickStaticDropback();
+                    return ;
                 }
+                if (!modalCtx.isOpen) return ;
+                
+                modalCtx.onToggle();
             }
-        )
+        }
+    )
 
-        return (
-            <JSXEl
-                {...props}
-                ref={ref}
-                className={rclassnames(props, [
-                    'modal-content',
-                ])}
-            >
-                {children}
-            </JSXEl>
-        )
-    }
-)
+    return (
+        <JSXEl
+            {...props}
+            ref={ref}
+            className={rclassnames(props, [
+                'modal-content',
+            ])}
+        >
+            {children}
+        </JSXEl>
+    )
+}
 
 Modal.Header = ({
     children,
     as: _as = 'div',
-    title = children,
+    title = children as any,
     closable = true,
     onToggle,
     ...props
-}) => {
+}: RebootUI.IComponentPropsWithChildren<{
+    title?: React.ReactNode
+    closable?: boolean
+    onToggle?: (nextVal: boolean) => void
+}>) => {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
     const modalCtx = tryUseContext(ModalContext)
-    onToggle = onToggle || modalCtx.onToggle || noop
+    const _onToggle = onToggle || modalCtx.onToggle || noop
 
     return (
         <JSXEl
@@ -319,9 +361,11 @@ Modal.Header = ({
             {closable && (
                 <button
                     onClick={() => {
-                        onToggle(modalCtx ? modalCtx.isOpen : false)
+                        _onToggle(modalCtx ? modalCtx.isOpen : false)
                     }}
-                    type="button" class="close" aria-label="Close"
+                    type="button"
+                    className="close"
+                    aria-label="Close"
                 >
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -334,7 +378,7 @@ Modal.Body = ({
     children,
     as: _as = 'div',
     ...props
-}) => {
+}: RebootUI.IComponentPropsWithChildren) => {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
     return (
@@ -353,7 +397,7 @@ Modal.Footer = ({
     children,
     as: _as = 'div',
     ...props
-}) => {
+}: RebootUI.IComponentPropsWithChildren) => {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
     return (
@@ -372,7 +416,7 @@ Modal.Title = ({
     children,
     as: _as = 'h5',
     ...props
-}) => {
+}: RebootUI.IComponentPropsWithChildren) => {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
     return (

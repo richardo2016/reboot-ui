@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { resolveJSXElement, rclassnames } from '@reboot-ui/common';
+import { resolveJSXElement, rclassnames, RebootUI } from '@reboot-ui/common';
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/jumbotron/#supported-content
@@ -12,7 +12,9 @@ const Jumbotron = function ({
     as: _as = 'div',
     fluid = false,
     ...props
-}) {
+}: RebootUI.IComponentPropsWithChildren<{
+    fluid?: boolean
+}>) {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
     return (
