@@ -14,7 +14,7 @@
     "test": "__tests__"
   },
   "files": [
-    "@types",
+    "@types/**/*.d.ts",
     "index.js",
     "scss",
     "lib",
