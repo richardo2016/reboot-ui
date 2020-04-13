@@ -101,6 +101,7 @@ Button.Checkbox = ({
     ...props
 }: RebootUI.IComponentPropsWithChildren<{
     active?: boolean
+    name?: RebootUI.IGetReactLikeComponentProps<typeof Checkbox>['name']
 }>) => {
     const activeRef = React.useRef(propActive)
     const [ active, setActive ] = React.useState(activeRef.current)
@@ -121,7 +122,7 @@ Button.Checkbox = ({
         }, [])}
     >
         <Button as="label" active={active} {...props}>
-          <Checkbox {...active && { checked: true }} />
+          <Checkbox name={name} {...active && { checked: true }} />
           {children}
         </Button>
       </ButtonGroup>
@@ -131,9 +132,11 @@ Button.Checkbox = ({
 Button.Radio = ({
     children,
     active: propActive = false,
+    name,
     ...props
 }: RebootUI.IComponentPropsWithChildren<{
     active?: boolean
+    name?: RebootUI.IGetReactLikeComponentProps<typeof Radio>['name']
 }>) => {
     const activeRef = React.useRef(propActive)
     const [ active, setActive ] = React.useState(activeRef.current)

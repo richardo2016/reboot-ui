@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { resolveJSXElement } from '@reboot-ui/common'
+import { resolveJSXElement, RebootUI } from '@reboot-ui/common'
 import { rclassnames } from '@reboot-ui/common'
 import { getDirectionAboutClsNameListFromBreakPointConfig } from '@reboot-ui/internal-size-resolver'
 import Anchor from '@reboot-ui/icomponent-anchor'
@@ -15,8 +15,13 @@ export const DropdownItem = React.forwardRef(function ({
     active = false,
     disabled = false,
     ...props
-}, ref) {
-    if (_as === 'a') _as = Anchor
+}: RebootUI.IComponentPropsWithChildren<{
+    divider?: boolean
+    header?: boolean
+    active?: boolean
+    disabled?: boolean
+}>, ref) {
+    if (_as === 'a') _as = Anchor as any
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
     
     const isNotItem = divider || header;
@@ -44,13 +49,14 @@ export const DropdownMenu = React.forwardRef(function ({
     as: _as = 'div',
     placement,
     ...props
-}, ref) {
+}: RebootUI.IComponentPropsWithChildren<{
+    placement: RebootUI.DirectionType | { direction: RebootUI.DirectionType }
+}>, ref) {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
     
-    const _type = typeof placement
     const clsList = getDirectionAboutClsNameListFromBreakPointConfig('dropdown-menu', {
-        ..._type === 'string' && { direction: placement },
-        ..._type === 'object' && placement
+        ...typeof placement === 'string' && { direction: placement },
+        ...typeof placement === 'object' && placement
     })
 
     return (

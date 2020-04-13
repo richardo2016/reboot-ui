@@ -2,9 +2,9 @@ import React from 'react'
 import { componentOrElementContains } from '../react-like';
 
 type DocEle = Document | HTMLElement
-const noop: EventListenerOrEventListenerObject = () => void 0
+const noop = (evt: MouseEvent) => void 0
 export default function useClickaway (
-    clkEleRef: React.MutableRefObject<HTMLElement>,
+    clkEleRef: React.MutableRefObject<HTMLElement | null>,
     getTerminalElement: (() => DocEle) | DocEle = document,
     {
         /**
@@ -19,6 +19,10 @@ export default function useClickaway (
          * @description stop propagation when click in
          */
         stopPropagation = false,
+    } : {
+        clickAway?: (evt: MouseEvent) => any
+        clickIn?: (evt: MouseEvent) => any
+        stopPropagation?: boolean
     } = {}
 ) {
     clickAway = React.useCallback(clickAway as any, []);
@@ -37,13 +41,13 @@ export default function useClickaway (
                     if (stopPropagation) evt.stopPropagation();
 
                     if (typeof clickIn === 'function')
-                        clickIn(evt);
+                        clickIn(evt as MouseEvent);
 
                     return ;
                 }
 
                 if (typeof clickAway === 'function')
-                    clickAway(evt);
+                    clickAway(evt as MouseEvent);
             }
         )
         bubleEl.addEventListener('click', handler)

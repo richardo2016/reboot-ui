@@ -6,7 +6,9 @@ import { RebootUI } from '@reboot-ui/common'
 
 const Radio = function ({
     ...props
-}: Omit<RebootUI.IComponentPropsWithChildren<typeof Input>, 'type'>) {
+}: Omit<RebootUI.IComponentPropsWithChildren<
+    RebootUI.IGetReactLikeComponentProps<typeof Input>
+>, 'type'>) {
     return (
         <Input
             {...props}

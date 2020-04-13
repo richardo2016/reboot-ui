@@ -1,5 +1,5 @@
 import React from 'react';
-export declare function getHTMLElementFromJSXElement(jsxElement: React.ReactNode): Document | HTMLElement;
+export declare function getHTMLElementFromJSXElement<T = Document>(jsxElement: React.ReactNode): T | HTMLElement;
 export declare function componentOrElementContains(jsxElement: React.ReactNode, targetEl: Node | null): boolean;
 export declare function isHTMLElementOf(input: HTMLElement, compare: string | HTMLElement): boolean;
 export declare function isReactTypeOf(input: any, compare: React.ReactNode | React.ReactNode[]): boolean;

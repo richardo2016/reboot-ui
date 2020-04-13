@@ -1,5 +1,2 @@
-declare module "@reboot-ui/icomponent-popper" {
-    const mod: any
-    export = mod
-    export default mod
-}
+export { default } from './icomponent-popper';
+export * from './icomponent-popper';

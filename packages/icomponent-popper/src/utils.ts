@@ -10,17 +10,30 @@ import cpm_arrow from '@popperjs/core/lib/modifiers/arrow';
 import cpm_computeStyles from '@popperjs/core/lib/modifiers/computeStyles';
 import cpm_applyStyles from '@popperjs/core/lib/modifiers/applyStyles';
 
+import { Modifier, State, Options } from '@popperjs/core/lib';
+
 export const useFixupPopoverToken = (str = '') => {
     // return `FIXUP_POPOVER_TOKEN$${str}`
     return `FIXUP_POPOVER_TOKEN$${'fixup-popper-placement'}`
 }
+
+export type IPopperOptions = Partial<Options>
+export type FixupPopoverModifierConfig = {
+    fixup: (ctx: {
+        strategy: State['options']['strategy']
+        elements: State['elements']
+        expectedPlacement: State['options']['placement']
+        realPlacement: State['options']['placement']
+    }) => any
+}
 /**
  * @see https://popper.js.org/docs/v2/modifiers/
  */
-export const fixupPopoverModifier = {
+export const fixupPopoverModifier: Modifier<FixupPopoverModifierConfig> = {
     name: useFixupPopoverToken('fixup-popper-placement'),
     enabled: true,
     phase: 'main',
+    fn: (args) => void 0,
     effect: ({ state, options, name }) => {
         const { fixup } = options || {};
 

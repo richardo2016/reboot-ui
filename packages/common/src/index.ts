@@ -22,13 +22,18 @@ import { arraify } from './utils/array'
 
 export namespace RebootUI {
     export type Nilable<T> = null | T
-    export type IComponentPropsWithChildren<T = {}, REFT = any> = React.PropsWithChildren<{
-        as?: string | React.ReactElement | null
-        style?: React.CSSProperties
-        className?: string
-        class?: string
-        ref?: React.MutableRefObject<REFT>
-    } & T>
+    export type IComponentPropsWithChildren<T = any, REFT = any> = React.PropsWithChildren<
+        React.Props<REFT> & React.HTMLAttributes<any> & {
+            as?: IPropAs
+
+            // dont support string ref
+            ref?: React.Ref<REFT> // equals to `Exclude<React.Legancy<REFT>, string>`
+            class?: React.HTMLAttributes<any>['className']
+        } & T
+    >
+
+    export type INoRefComponentHtmlPropsWithChildren<T = React.AllHTMLAttributes<any>, REFT = any>
+        = React.PropsWithChildren<Omit<IComponentPropsWithChildren<T, REFT>, 'ref'>>
 
     export type IPropAs<HTMLTags = any> =
         React.ReactElement
@@ -64,6 +69,20 @@ export namespace RebootUI {
         | 'right'
         | 'top'
         | 'bottom'
+    export type AxisType = 'horizontal' | 'vertical'
+
+    export type PlacementType =
+        DirectionType
+        | 'top-start'
+        | 'top-end'
+        | 'left-start'
+        | 'left-end'
+        | 'right-start'
+        | 'right-end'
+        | 'bottom-start'
+        | 'bottom-end'
+
+    export type PopupTriggerType = 'hover' | 'click'
 
     export type IGetReactLikeComponentProps<TC> =
         TC extends React.Component<infer U, any> ? U : 
@@ -232,7 +251,7 @@ export function filterInputType(type = '') {
     if (inputTypes.includes(type)) return type
 }
 
-export function filterAxis(axis = '') {
+export function filterAxis(axis = ''): RebootUI.AxisType {
     switch (axis) {
         default:
         case 'x':
@@ -247,10 +266,10 @@ export function filterAxis(axis = '') {
             break
     }
 
-    return axis
+    return axis as RebootUI.AxisType
 }
 
-export function filterPopperTrigger(trigger: string) {
+export function filterPopperTrigger(trigger: string): RebootUI.PopupTriggerType {
     switch (trigger) {
         case 'click':
         case 'hover':
@@ -260,14 +279,18 @@ export function filterPopperTrigger(trigger: string) {
             break
     }
 
-    return trigger
+    return trigger as RebootUI.PopupTriggerType
 }
 
-export function filterPlacement(placement = 'bottom-start') {
+export function filterPlacement(placement = 'bottom-start'): RebootUI.PlacementType {
     return parsePlacement(placement).placement || 'bottom-start'
 }
 
-export function parsePlacement(placement = 'bottom-start') {
+export function parsePlacement(placement: string = 'bottom-start'): {
+    direction: RebootUI.DirectionType
+    placement: RebootUI.PlacementType
+    axis: RebootUI.AxisType
+} {
     let direction
     let axis
 
@@ -307,9 +330,9 @@ export function parsePlacement(placement = 'bottom-start') {
     }
 
     return {
-        placement,
-        direction,
-        axis,
+        placement: placement as RebootUI.PlacementType,
+        direction: direction as RebootUI.DirectionType,
+        axis: axis as RebootUI.AxisType,
     }
 }
 

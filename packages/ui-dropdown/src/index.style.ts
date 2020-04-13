@@ -1,3 +1,3 @@
-export { default } from './dropdown.jsx'
+export { default } from './dropdown'
 
 import './dropdown.scss'

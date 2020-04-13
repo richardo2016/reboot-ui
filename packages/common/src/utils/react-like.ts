@@ -1,9 +1,9 @@
 import React, { ReactNode } from 'react'
 import { arraify, dedupe, flatten } from './array'
 
-export function getHTMLElementFromJSXElement (
+export function getHTMLElementFromJSXElement<T = Document> (
     jsxElement: React.ReactNode
-): Document | HTMLElement {
+): T | HTMLElement {
     if (jsxElement instanceof HTMLElement) return jsxElement
 
     // preact

@@ -6,7 +6,9 @@ import { RebootUI } from '@reboot-ui/common'
 
 export default function Checkbox ({
     ...props
-}: Omit<RebootUI.IGetReactLikeComponentProps<typeof Input>, 'type'>) {
+}: Omit<RebootUI.IComponentPropsWithChildren<
+    RebootUI.IGetReactLikeComponentProps<typeof Input>
+>, 'type'>) {
     return (
         <Input
             {...props}

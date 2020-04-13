@@ -16,13 +16,11 @@ export { useInterval } from './utils/react-hooks/use-timer';
 export { flatten, arraify } from './utils/array';
 export declare namespace RebootUI {
     export type Nilable<T> = null | T;
-    export type IComponentPropsWithChildren<T = {}, REFT = any> = React.PropsWithChildren<{
-        as?: string | React.ReactElement | null;
-        style?: React.CSSProperties;
-        className?: string;
+    export type IComponentPropsWithChildren<T = any, REFT = any> = React.PropsWithChildren<{
+        as?: IPropAs;
         class?: string;
-        ref?: React.MutableRefObject<REFT>;
-    } & T>;
+    } & React.Props<REFT> & React.HTMLAttributes<any> & T>;
+    export type IComponentHtmlPropsWithChildren<T = React.AllHTMLAttributes<any>, REFT = any> = IComponentPropsWithChildren<T & React.HTMLAttributes<any>, REFT>;
     export type IPropAs<HTMLTags = any> = React.ReactElement | HTMLTags | string | React.ExoticComponent<any> | React.ForwardRefExoticComponent<any>;
     export type IPropAsTagHeadings = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
     export type ThemeType = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'link';
@@ -36,6 +34,9 @@ export declare namespace RebootUI {
         xl?: ValueType;
     }
     export type DirectionType = 'left' | 'right' | 'top' | 'bottom';
+    export type AxisType = 'horizontal' | 'vertical';
+    export type PlacementType = DirectionType | 'top-start' | 'top-end' | 'left-start' | 'left-end' | 'right-start' | 'right-end' | 'bottom-start' | 'bottom-end';
+    export type PopupTriggerType = 'hover' | 'click';
     export type IGetReactLikeComponentProps<TC> = TC extends React.Component<infer U, any> ? U : TC extends React.FunctionComponent<infer U> ? U : never;
     export type ValueOf<T> = T extends object ? T[keyof T] : never;
     type EnterHandler = (node: HTMLElement, isAppearing: boolean) => void;
@@ -75,13 +76,13 @@ export declare function filterFormControlSize(size?: string): RebootUI.BinarySiz
 export declare function filterPlaceholderSize(size?: string): RebootUI.BinarySizeType | undefined;
 export declare function filterPaginationSize(size?: string): RebootUI.BinarySizeType | undefined;
 export declare function filterInputType(type?: string): string | undefined;
-export declare function filterAxis(axis?: string): string;
-export declare function filterPopperTrigger(trigger: string): string;
-export declare function filterPlacement(placement?: string): string;
+export declare function filterAxis(axis?: string): RebootUI.AxisType;
+export declare function filterPopperTrigger(trigger: string): RebootUI.PopupTriggerType;
+export declare function filterPlacement(placement?: string): RebootUI.PlacementType;
 export declare function parsePlacement(placement?: string): {
-    placement: string;
-    direction: string | undefined;
-    axis: string | undefined;
+    direction: RebootUI.DirectionType;
+    placement: RebootUI.PlacementType;
+    axis: RebootUI.AxisType;
 };
 export declare function resolveJSXElement(inputJSXElement: RebootUI.IPropAs, { default: defaultValue, allowedHTMLTags }?: {
     default?: React.ReactElement | React.ExoticComponent | string | null;

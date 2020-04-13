@@ -1,3 +1,3 @@
-export { default } from './textarea.jsx'
+export { default } from './textarea'
 
 import './textarea.scss'

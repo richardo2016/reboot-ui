@@ -1,5 +1,5 @@
 import React from 'react';
-export default function useHoveraway(hoveredElRef: React.MutableRefObject<HTMLElement>, { 
+export default function useHoveraway(hoveredElRef: React.MutableRefObject<HTMLElement | null>, { 
 /**
  * @notice wrap it with `useCallback` recommended
  */

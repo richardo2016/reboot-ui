@@ -2,7 +2,7 @@ import React from 'react'
 
 const noop: EventListenerOrEventListenerObject = () => void 0
 export default function useHoveraway (
-    hoveredElRef: React.MutableRefObject<HTMLElement>,
+    hoveredElRef: React.MutableRefObject<HTMLElement | null>,
     {
         /**
          * @notice wrap it with `useCallback` recommended
