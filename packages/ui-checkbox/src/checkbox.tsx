@@ -1,12 +1,12 @@
 import React from 'react'
 
-import Input from '../../ui-input'
+import Input from '@reboot-ui/ui-input'
 
-/**
- */
-const Checkbox = function ({
+import { RebootUI } from '@reboot-ui/common'
+
+export default function Checkbox ({
     ...props
-}) {
+}: Omit<RebootUI.IGetReactLikeComponentProps<typeof Input>, 'type'>) {
     return (
         <Input
             {...props}
@@ -14,5 +14,3 @@ const Checkbox = function ({
         />
     )
 }
-
-export default Checkbox

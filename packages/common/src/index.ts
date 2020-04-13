@@ -21,11 +21,38 @@ export { flatten, arraify } from './utils/array'
 import { arraify } from './utils/array'
 
 export namespace RebootUI {
-    export type IComponentPropsWithChildren<T, REFT = any> = React.PropsWithChildren<{
-        as?: string
+    export type IComponentPropsWithChildren<T = {}, REFT = any> = React.PropsWithChildren<{
+        as?: string | React.ReactElement
         style?: React.CSSProperties
+        className?: string
+        class?: string
         ref?: React.MutableRefObject<REFT>
     } & T>
+
+    export type IPropAs<HTMLTags = any> =
+        React.ReactElement
+        | HTMLTags
+        | string
+        | React.ExoticComponent<any>
+        | React.ForwardRefExoticComponent<any>
+    export type IPropAsTagHeadings = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+
+    export type ThemeType = 
+        'primary'
+        | 'secondary'
+        | 'success'
+        | 'danger'
+        | 'warning'
+        | 'info'
+        | 'light'
+        | 'dark'
+        | 'link'
+
+    export type BinarySizeType = 'lg' | 'sm'
+
+    export type IGetReactLikeComponentProps<TC> =
+        TC extends React.Component<infer U, any> ? U : 
+        TC extends React.FunctionComponent<infer U> ? U : never
 }
 
 export const themes = json['theme-colors'].map(theme => theme.name)
@@ -144,13 +171,14 @@ export const inputTypes = [
     'week',
 ]
 
-// export function filterThemeName(theme = '') {
-//     if (themes.includes(theme)) return theme
-// }
+export function filterThemeName(theme = ''): RebootUI.ThemeType | undefined {
+    if (themes.includes(theme))
+        return theme as RebootUI.ThemeType
+}
 
-// export function filterRepsonsiveSize(size = '') {
-//     if (sizes.includes(size)) return size
-// }
+export function filterRepsonsiveSize(size = '') {
+    if (sizes.includes(size)) return size
+}
 
 export function filterFormControlSize(size = '') {
     if (['sm', 'lg'].includes(size)) return size
@@ -250,7 +278,7 @@ export function parsePlacement(placement = 'bottom-start') {
 }
 
 export function resolveJSXElement (
-    inputJSXElement: React.ReactElement | string,
+    inputJSXElement: RebootUI.IPropAs,
     {
         default: defaultValue = React.Fragment,
         allowedHTMLTags = undefined

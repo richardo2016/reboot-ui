@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { resolveJSXElement } from '@reboot-ui/common'
+import { resolveJSXElement, RebootUI } from '@reboot-ui/common'
 import { rclassnames } from '@reboot-ui/common'
 
 /**
@@ -10,11 +10,14 @@ export default React.forwardRef(
     function ({
         children,
         as: _as = 'span',
-        theme = '',
+        theme,
         pill = false,
-        __htmlAttributes,
         ...props
-    }, ref) {
+    }: RebootUI.IComponentPropsWithChildren<{
+        as?: RebootUI.IPropAs<'button' | 'span' | 'a'>
+        theme?: RebootUI.ThemeType
+        pill?: boolean
+    }>, ref) {
         const JSXEl = resolveJSXElement(_as, { allowedHTMLTags: ['button', 'span', 'a'] });
 
         switch (theme) {
@@ -26,19 +29,16 @@ export default React.forwardRef(
             case 'info':
             case 'light':
             case 'dark':
-                break
             case 'link':
-                outline = false
                 break
             default:
-                theme = ''
+                theme = undefined
                 break
         }
 
         return (
             <JSXEl
                 {...props}
-                {...__htmlAttributes}
                 ref={ref}
                 className={rclassnames(props, [
                     'badge',

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { rclassnames, isReactTypeOf } from '@reboot-ui/common';
+import { rclassnames, RebootUI } from '@reboot-ui/common';
 import { flatten2trimedStrList } from '@reboot-ui/common';
 import { resolveJSXElement } from '@reboot-ui/common';
 import Anchor from '@reboot-ui/icomponent-anchor';
@@ -19,13 +19,17 @@ const Nav = function ({
      * @enum tabs
      * @enum pills
      */
-    theme = '',
+    theme,
     navbar = false,
     ...props
-}) {
+}: RebootUI.IComponentPropsWithChildren<{
+    navAsParent?: boolean
+    theme?: 'tabs' | 'pills',
+    navbar?: boolean
+}>) {
     const JSXEl = resolveJSXElement(_as, { allowedHTMLTags: ['div', 'nav', 'ul', 'ol'] });
 
-    const themes = flatten2trimedStrList(theme)
+    const themes = flatten2trimedStrList(theme as string)
 
     let use_tabs = themes.includes('tabs')
     let use_pills = !use_tabs && themes.includes('pills')
@@ -55,7 +59,9 @@ Nav.List = function ({
     children,
     as: _as = 'ul',
     ...props
-}) {
+}: RebootUI.IComponentPropsWithChildren<{
+    as?: RebootUI.IPropAs<'ul' | 'ol'>
+}>) {
     _as = resolveJSXElement(_as, { allowedHTMLTags: ['ul', 'ol'] });
 
     return (
@@ -71,10 +77,13 @@ Nav.List = function ({
 Nav.Item = function ({
     children,
     link,
-    as: _as = link ? Nav.Link : 'li',
+    as: _as = link ? Nav.Link : 'li' as any,
     active = false,
     ...props
-}) {
+}: RebootUI.IComponentPropsWithChildren<{
+    link?: boolean
+    active?: boolean
+}>) {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
     return (
@@ -90,37 +99,39 @@ Nav.Item = function ({
     )
 }
 
-Nav.Link = React.forwardRef(
-    function ({
-        children,
-        as: _as = 'a',
-        active,
-        disabled,
-        ...props
-    }, ref) {
-        if (_as === 'a') _as = Anchor
-        const JSXEl = resolveJSXElement(_as, { allowedHTMLTags: ['a'] });
-    
-        return (
-            <JSXEl
-                {...props}
-                ref={ref}
-                className={rclassnames(props, [
-                    "nav-link",
-                    active && 'active',
-                    disabled && 'disabled',
-                ])}
-                {...disabled && {
-                    'aria-disabled': true,
-                    disabled: true,
-                    // un-tabfocusable
-                    tabindex: '-1',
-                }}
-            >
-                {children}
-            </JSXEl>
-        )
-    }
-)
+Nav.Link = function ({
+    children,
+    as: _as = 'a',
+    active,
+    disabled,
+    ...props
+}: RebootUI.IComponentPropsWithChildren<{
+    active?: boolean
+    disabled?: boolean
+    as: RebootUI.IPropAs<'a'>
+}>) {
+    if (_as === 'a')
+        _as = Anchor as any
+    const JSXEl = resolveJSXElement(_as, { allowedHTMLTags: ['a'] });
+
+    return (
+        <JSXEl
+            {...props}
+            className={rclassnames(props, [
+                "nav-link",
+                active && 'active',
+                disabled && 'disabled',
+            ])}
+            {...disabled && {
+                'aria-disabled': true,
+                disabled: true,
+                // un-tabfocusable
+                tabindex: '-1',
+            }}
+        >
+            {children}
+        </JSXEl>
+    )
+}
 
 export default Nav
