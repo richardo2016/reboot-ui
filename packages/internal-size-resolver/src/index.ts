@@ -1,22 +1,28 @@
-import { coerceInteger } from '@reboot-ui/common'
+import { coerceInteger, RebootUI } from '@reboot-ui/common'
 
-const VALID_RESPONSIVE_BRKPOINT = [
+const VALID_RESPONSIVE_BRKPOINT: RebootUI.SizeType[] = [
     'sm',
     'md',
     'lg',
     'xl',
 ]
 
-export function checkResponsiveBreakPoint (bk) {
+export function checkResponsiveBreakPoint (bk: RebootUI.BreakPointType) {
     if (!VALID_RESPONSIVE_BRKPOINT.includes(bk))
         throw new Error(`[checkResponsiveBreakPoint] invalid breakpoint ${bk}!`)
 }
 
+type OFFSET_ENUM_VALUE_TYPE_HOST = {
+    span?: OFFSET_ENUM_VALUE_TYPE
+    offset?: OFFSET_ENUM_VALUE_TYPE
+    rowCols?: OFFSET_ENUM_VALUE_TYPE
+}
 function resolveOffsetAboutBreakPointConfig (
-    input,
+    _input?: OFFSET_ENUM_VALUE_TYPE | OFFSET_ENUM_VALUE_TYPE_HOST,
     { numberAsKey = 'span' } = {}
 ) {
-    if (typeof input === 'number' || VALID_OFFSET_ENUM_VALUES.includes(input)) input = { [numberAsKey]: input };
+    let input: Exclude<typeof _input, OFFSET_ENUM_VALUE_TYPE> = {};
+    if (typeof _input === 'number' || VALID_OFFSET_ENUM_VALUES.includes(_input as any)) input = { [numberAsKey]: _input };
 
     const { span: spanValue, offset: offsetValue, rowCols } = input || {};
 
@@ -32,14 +38,26 @@ function resolveOffsetAboutBreakPointConfig (
     }
 }
 
-const VALID_OFFSET_ENUM_VALUES = ['auto'];
-function coerceResponsiveOfferValue (value, fallbackValue) {
-    if (VALID_OFFSET_ENUM_VALUES.includes(value)) return value
+type OFFSET_ENUM_VALUE = 'auto'
+type OFFSET_ENUM_VALUE_TYPE = OFFSET_ENUM_VALUE | number | boolean
+
+const VALID_OFFSET_ENUM_VALUES: OFFSET_ENUM_VALUE[] = ['auto'];
+function coerceResponsiveOfferValue (value?: OFFSET_ENUM_VALUE_TYPE, fallbackValue = undefined) {
+    if (VALID_OFFSET_ENUM_VALUES.includes(value as any)) return value
 
     return coerceInteger(value, fallbackValue)
 }
 
-function makeIntegerAboutClsFromBreakPointConfig (prefix = 'col', { value: intOrEnumValue, breakpoint = '' } = {}) {
+function makeIntegerAboutClsFromBreakPointConfig (
+    prefix = 'col',
+    {
+        value: intOrEnumValue,
+        breakpoint
+    }: {
+        value?: OFFSET_ENUM_VALUE_TYPE,
+        breakpoint?: RebootUI.BreakPointType
+    } = {}
+) {
     if (breakpoint)
         checkResponsiveBreakPoint(breakpoint)
 
@@ -83,9 +101,10 @@ function makeIntegerAboutClsFromBreakPointConfig (prefix = 'col', { value: intOr
 
 export function getRowColsClsNameListFromBreakPointConfig ({
     rowCols,
-
     ...input
-}) {
+} : {
+    rowCols?: number
+} & RebootUI.BreakPointValues) {
     const breakPointAboutClsList = []
 
     if (rowCols = coerceInteger(rowCols))
@@ -103,16 +122,14 @@ export function getRowColsClsNameListFromBreakPointConfig ({
     return breakPointAboutClsList
 }
 
-function isValidOffsetValue (value) {
-    return typeof value === 'number' || VALID_OFFSET_ENUM_VALUES.includes(value)
-}
-
 export function getOffsetAboutClsNameListFromBreakPointConfig ({
     span = undefined,
     offset = undefined,
-
     ...input
-}) {
+} : {
+    span?: OFFSET_ENUM_VALUE_TYPE
+    offset?: OFFSET_ENUM_VALUE_TYPE
+} & RebootUI.BreakPointValues<OFFSET_ENUM_VALUE_TYPE>) {
     const breakPointAboutClsList = []
 
     if ((span = coerceResponsiveOfferValue(span)))
@@ -136,7 +153,7 @@ export function getOffsetAboutClsNameListFromBreakPointConfig ({
     return breakPointAboutClsList
 }
 
-function resolveDirectionAboutBreakPointConfig (direction) {
+function filterResolveDirectionAboutBreakPointConfig (direction: any): RebootUI.DirectionType {
     switch (direction) {
         case 'left':
         case 'right':
@@ -150,7 +167,16 @@ function resolveDirectionAboutBreakPointConfig (direction) {
     return direction
 }
 
-function makeDirectionAboutClsFromBreadkPointConfig (prefix = '', { direction, breakpoint }) {
+function makeDirectionAboutClsFromBreadkPointConfig (
+    prefix = '',
+    {
+        direction,
+        breakpoint
+    } : {
+        direction: RebootUI.DirectionType
+        breakpoint?: RebootUI.BreakPointType
+    }
+) {
     if (breakpoint)
         checkResponsiveBreakPoint(breakpoint)
 
@@ -165,20 +191,22 @@ function makeDirectionAboutClsFromBreadkPointConfig (prefix = '', { direction, b
 }
 
 export function getDirectionAboutClsNameListFromBreakPointConfig (
-    prefix,
-    input = {}
+    prefix: string,
+    input: {
+        direction?: RebootUI.DirectionType
+    } & RebootUI.BreakPointValues = {}
 ) {
     const breakPointAboutClsList = []
 
-    let tmpDir
+    let tmpDir: RebootUI.DirectionType
     if (input.direction) {
-        tmpDir = resolveDirectionAboutBreakPointConfig(input.direction)
+        tmpDir = filterResolveDirectionAboutBreakPointConfig(input.direction)
         if (tmpDir) breakPointAboutClsList.push( makeDirectionAboutClsFromBreadkPointConfig(prefix, { direction: tmpDir } ) )
     }
 
     VALID_RESPONSIVE_BRKPOINT.forEach(breakpoint => {
         if (input[breakpoint]) {
-            tmpDir = resolveDirectionAboutBreakPointConfig(input[breakpoint])
+            tmpDir = filterResolveDirectionAboutBreakPointConfig(input[breakpoint])
             if (tmpDir)
                 breakPointAboutClsList.push( makeDirectionAboutClsFromBreadkPointConfig(prefix, { direction: tmpDir, breakpoint } ) )
         }

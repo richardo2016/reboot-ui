@@ -49,6 +49,20 @@ export namespace RebootUI {
         | 'link'
 
     export type BinarySizeType = 'lg' | 'sm'
+    export type SizeType = 'sm' | 'md' | 'lg' | 'xl'
+    export type BreakPointType = 'sm' | 'md' | 'lg' | 'xl'
+    export interface BreakPointValues<ValueType = number> {
+        sm?: ValueType
+        md?: ValueType
+        lg?: ValueType
+        xl?: ValueType
+    }
+
+    export type DirectionType = 
+        'left'
+        | 'right'
+        | 'top'
+        | 'bottom'
 
     export type IGetReactLikeComponentProps<TC> =
         TC extends React.Component<infer U, any> ? U : 
