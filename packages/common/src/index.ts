@@ -19,7 +19,7 @@ export { useInterval } from './utils/react-hooks/use-timer'
 export { flatten, arraify } from './utils/array'
 
 import { arraify } from './utils/array'
-import { PagiantionInfo } from 'utils/react-hooks/use-pagination'
+import { PagiantionInfo } from './utils/react-hooks/use-pagination'
 
 export namespace RebootUI {
     export type Nilable<T> = null | T

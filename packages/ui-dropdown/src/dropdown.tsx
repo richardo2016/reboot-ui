@@ -29,18 +29,14 @@ interface DropdownContextType {
 }
 const DropdownCtx = React.createContext<DropdownContextType>({} as DropdownContextType)
 
-const transitionStateClass: {
-    [k: string]: string
-} = {
+const transitionStateClass: { [k: string]: string } = {
     entering: 'show',
     entered: 'show',
     exiting: '',
     exited: ''
 }
 
-const transitionStateStyle: {
-    [k: string]: CSSProperties
-} = {
+const transitionStateStyle: { [k: string]: CSSProperties } = {
     exiting: {},
     exited: { opacity: 0 },
 }

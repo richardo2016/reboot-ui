@@ -14,7 +14,7 @@ export { coerceInteger, coerceFloat } from './utils/coerce';
 export { pick, omit } from './utils/object';
 export { useInterval } from './utils/react-hooks/use-timer';
 export { flatten, arraify } from './utils/array';
-import { PagiantionInfo } from 'utils/react-hooks/use-pagination';
+import { PagiantionInfo } from './utils/react-hooks/use-pagination';
 export declare namespace RebootUI {
     export type Nilable<T> = null | T;
     export type IComponentPropsWithChildren<T = any, REFT = any> = React.PropsWithChildren<React.Props<REFT> & React.HTMLAttributes<any> & {
@@ -89,8 +89,8 @@ export declare function parsePlacement(placement?: string): {
     placement: RebootUI.PlacementType;
     axis: RebootUI.AxisType;
 };
-export declare function resolveJSXElement(inputJSXElement: RebootUI.IPropAs, { default: defaultValue, allowedHTMLTags }?: {
+export declare function resolveJSXElement<P = any, T extends HTMLElement = any>(inputJSXElement: RebootUI.IPropAs, { default: defaultValue, allowedHTMLTags }?: {
     default?: React.ReactElement | React.ExoticComponent | string | null;
     allowedHTMLTags?: string[];
-}): RebootUI.IPropAs<string | null>;
+}): React.DetailedHTMLFactory<P, T> | React.FunctionComponentFactory<P> | React.ClassicFactory<P>;
 export declare function getHTMLAttributesFromProps(props: any): any;
