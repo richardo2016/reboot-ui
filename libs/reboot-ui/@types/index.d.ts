@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import Layout from '@reboot-ui/ui-layout';
 export { Layout };
 import Row from '@reboot-ui/ui-row';
@@ -65,5 +64,5 @@ import Form from '@reboot-ui/ui-form';
 export { Form };
 import Pagination from '@reboot-ui/ui-pagination';
 export { Pagination };
-declare const _default;
-export default _default;
+import * as RebootUI from './';
+export default RebootUI;

@@ -71,38 +71,6 @@ export { Form }
 import Pagination from '@reboot-ui/ui-pagination'
 export { Pagination }
 
-export default {
-    Layout,
-    Row,
-    Col,
-    Container,
-    Alert,
-    Navbar,
-    Nav,
-    NavTab,
-    Table,
-    Dropdown,
-    ButtonToolbar,
-    ButtonGroup,
-    Button,
-    Badge,
-    Breadcrumb,
-    Collapse,
-    Card,
-    Carousel,
-    InputGroup,
-    Input,
-    Checkbox,
-    Radio,
-    Select,
-    Textarea,
-    Popover,
-    Progress,
-    Spinner,
-    Jumbotron,
-    ListGroup,
-    Modal,
-    Tooltip,
-    Form,
-    Pagination,
-}
+// @ts-ignore
+import * as RebootUI from './'
+export default RebootUI

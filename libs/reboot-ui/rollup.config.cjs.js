@@ -12,6 +12,6 @@ module.exports = getConfigItem({
     ts_options: {"useTsconfigDeclarationDir":true},
     postConfig: (rollup_cfg) => {
         rollup_cfg.output.file = `dist/index.js`
-        rollup_cfg.output.exports = `named`
+        // rollup_cfg.output.exports = `named`
     }
 })
