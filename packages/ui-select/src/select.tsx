@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { resolveJSXElement, rclassnames, arraify, isReactTypeOf } from '@reboot-ui/common';
+import { resolveJSXElement, rclassnames, arraify, isReactTypeOf, RebootUI } from '@reboot-ui/common';
 
 const Select = function ({
     children,
@@ -8,9 +8,12 @@ const Select = function ({
     as: _as = 'select',
     multiple = false,
     size,
-    controlSize = '',
     ...props
-}) {
+}: RebootUI.IComponentPropsWithChildren<{
+    as?: RebootUI.IPropAs<'select'>
+    multiple?: boolean
+    size?: RebootUI.BinarySizeType
+}>) {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
     children = arraify(children).filter(item => isReactTypeOf(item, [Select.Option, 'option']))
@@ -34,7 +37,12 @@ Select.Option = function ({
     checked = false,
     selected = false,
     ...props
-}) {
+}: RebootUI.IComponentPropsWithChildren<{
+    as?: RebootUI.IPropAs<'option'>
+    value?: HTMLOptionElement['value']
+    checked?: boolean
+    selected?: boolean
+}>) {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
     return (
