@@ -1,7 +1,6 @@
-declare function noop(): void;
-export default function useListenerDispose(elSelector: string, event_name?: string, 
+import { RebootUI } from '../../';
+export default function useListenerDispose(elSelector: RebootUI.DOMSelector, event_name?: string, 
 /**
  * @notice wrap it with `useCallback` recommended
  */
-callback?: typeof noop, deps?: never[]): void;
-export {};
+callback?: RebootUI.DOMEventHandler, deps?: any[]): void;

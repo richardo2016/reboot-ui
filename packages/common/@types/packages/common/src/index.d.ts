@@ -15,9 +15,43 @@ export { pick, omit } from './utils/object';
 export { useInterval } from './utils/react-hooks/use-timer';
 export { flatten, arraify } from './utils/array';
 export declare namespace RebootUI {
-    type IComponentPropsWithChildren<T> = React.PropsWithChildren<{
-        as?: string;
+    export type Nilable<T> = null | T;
+    export type IComponentPropsWithChildren<T = {}, REFT = any> = React.PropsWithChildren<{
+        as?: string | React.ReactElement | null;
+        style?: React.CSSProperties;
+        className?: string;
+        class?: string;
+        ref?: React.MutableRefObject<REFT>;
     } & T>;
+    export type IPropAs<HTMLTags = any> = React.ReactElement | HTMLTags | string | React.ExoticComponent<any> | React.ForwardRefExoticComponent<any>;
+    export type IPropAsTagHeadings = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+    export type ThemeType = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'link';
+    export type BinarySizeType = 'lg' | 'sm';
+    export type SizeType = 'sm' | 'md' | 'lg' | 'xl';
+    export type BreakPointType = 'sm' | 'md' | 'lg' | 'xl';
+    export interface BreakPointValues<ValueType = number> {
+        sm?: ValueType;
+        md?: ValueType;
+        lg?: ValueType;
+        xl?: ValueType;
+    }
+    export type DirectionType = 'left' | 'right' | 'top' | 'bottom';
+    export type IGetReactLikeComponentProps<TC> = TC extends React.Component<infer U, any> ? U : TC extends React.FunctionComponent<infer U> ? U : never;
+    export type ValueOf<T> = T extends object ? T[keyof T] : never;
+    type EnterHandler = (node: HTMLElement, isAppearing: boolean) => void;
+    type ExitHandler = (node: HTMLElement) => void;
+    export interface TransitionGroupProps {
+        onEnter?: EnterHandler;
+        onEntering?: EnterHandler;
+        onEntered?: EnterHandler;
+        onExit?: ExitHandler;
+        onExiting?: ExitHandler;
+        onExited?: ExitHandler;
+    }
+    export type ReactRef<T = any, P = any> = Parameters<React.ForwardRefRenderFunction<T, P>>[1] | null;
+    export type DOMSelector = Document | HTMLElement | string;
+    export type DOMEventHandler = EventListener | EventListenerObject | null;
+    export {};
 }
 export declare const themes: string[];
 export declare const sizes: string[];
@@ -35,9 +69,11 @@ export declare const TransitionStates: {
 };
 export declare const headingTags: string[];
 export declare const inputTypes: string[];
-export declare function filterFormControlSize(size?: string): string | undefined;
-export declare function filterPlaceholderSize(size?: string): string | undefined;
-export declare function filterPaginationSize(size?: string): string | undefined;
+export declare function filterThemeName(theme?: string): RebootUI.ThemeType | undefined;
+export declare function filterRepsonsiveSize(size?: string): string | undefined;
+export declare function filterFormControlSize(size?: string): RebootUI.BinarySizeType | undefined;
+export declare function filterPlaceholderSize(size?: string): RebootUI.BinarySizeType | undefined;
+export declare function filterPaginationSize(size?: string): RebootUI.BinarySizeType | undefined;
 export declare function filterInputType(type?: string): string | undefined;
 export declare function filterAxis(axis?: string): string;
 export declare function filterPopperTrigger(trigger: string): string;
@@ -47,8 +83,8 @@ export declare function parsePlacement(placement?: string): {
     direction: string | undefined;
     axis: string | undefined;
 };
-export declare function resolveJSXElement(inputJSXElement: React.ReactElement | string, { default: defaultValue, allowedHTMLTags }?: {
-    default?: React.ReactNode;
+export declare function resolveJSXElement(inputJSXElement: RebootUI.IPropAs, { default: defaultValue, allowedHTMLTags }?: {
+    default?: React.ReactElement | React.ExoticComponent | string | null;
     allowedHTMLTags?: string[];
-}): {} | null;
+}): any;
 export declare function getHTMLAttributesFromProps(props: any): any;

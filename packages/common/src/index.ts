@@ -21,8 +21,9 @@ export { flatten, arraify } from './utils/array'
 import { arraify } from './utils/array'
 
 export namespace RebootUI {
+    export type Nilable<T> = null | T
     export type IComponentPropsWithChildren<T = {}, REFT = any> = React.PropsWithChildren<{
-        as?: string | React.ReactElement
+        as?: string | React.ReactElement | null
         style?: React.CSSProperties
         className?: string
         class?: string
@@ -74,7 +75,7 @@ export namespace RebootUI {
     type EndHandler = (node: HTMLElement, done: () => void) => void;
     type EnterHandler = (node: HTMLElement, isAppearing: boolean) => void;
     type ExitHandler = (node: HTMLElement) => void;
-    
+
     export interface TransitionGroupProps {
         onEnter?: EnterHandler
         onEntering?: EnterHandler
@@ -84,7 +85,10 @@ export namespace RebootUI {
         onExited?: ExitHandler
     }
 
-    export type ReactRef<T = any, P = any> = Parameters<React.ForwardRefRenderFunction<T, P>>[1]
+    export type ReactRef<T = any, P = any> = Parameters<React.ForwardRefRenderFunction<T, P>>[1] | null
+
+    export type DOMSelector = Document | HTMLElement | string
+    export type DOMEventHandler = EventListener | EventListenerObject | null
 }
 
 export const themes = json['theme-colors'].map(theme => theme.name)
@@ -315,7 +319,7 @@ export function resolveJSXElement (
         default: defaultValue = React.Fragment,
         allowedHTMLTags = undefined
     }: {
-        default?: React.ReactElement | React.ExoticComponent | string,
+        default?: React.ReactElement | React.ExoticComponent | string | null,
         allowedHTMLTags?: string[]
     } = {}
 ): any {

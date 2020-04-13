@@ -50,7 +50,7 @@ export default function CollapseProto ({
     onExit?: (node: HTMLElement) => void
     onExiting?: (node: HTMLElement) => void
     onExited?: (node: HTMLElement) => void
-}>, ref: React.RefObject<any>) {
+}>, ref?: RebootUI.ReactRef) {
     const JSXEl: any = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
 
     const [ collapse, setCollapse ] = React.useState(true)

@@ -1,19 +1,33 @@
 import React from 'react'
 
-import { isReactTypeOf, parseChildrenProp, rclassnames } from '@reboot-ui/common'
-import { useSelectorsListener } from '@reboot-ui/common'
-import { useDefaultValue } from '@reboot-ui/common'
-import { resolveJSXElement } from '@reboot-ui/common';
+import {
+    isReactTypeOf,
+    parseChildrenProp,
+    rclassnames,
+    useSelectorsListener,
+    useDefaultValue,
+    resolveJSXElement,
+    RebootUI
+} from '@reboot-ui/common'
+
 import CollapseProto from '@reboot-ui/icomponent-collapse'
 
-const Collapse = React.forwardRef(CollapseProto)
+const Collapse = (props: RebootUI.IComponentPropsWithChildren<
+    RebootUI.IGetReactLikeComponentProps<typeof CollapseProto>
+>) => {
+    const JSXElement = React.forwardRef(CollapseProto)
+    return <JSXElement {...props} />
+}
 
 Collapse.Uncontrolled = /* React.forwardRef */(
     ({
-        toggler: togglerSelector,
+        toggler: togglerSelector = document,
         defaultCollapsed = true,
         ...props
-    }) => {
+    }: RebootUI.IComponentPropsWithChildren<{
+        toggler: RebootUI.DOMSelector
+        defaultCollapsed?: boolean
+    }>) => {
         const [ collapse, setCollapse ] = React.useState(true)
         const initCollapsedRef = React.useRef(!!defaultCollapsed)
         useDefaultValue(!!defaultCollapsed, (defaultCollapsed) => {
@@ -53,14 +67,17 @@ Collapse.Group = function CollapseGroup ({
     as: _as = null,
     activeKey = null,
     ...props
-}) {
+}: RebootUI.IComponentPropsWithChildren<{
+    activeKey: RebootUI.Nilable<string | number>
+}>) {
     const JSXEl = resolveJSXElement(_as, { default: null, /* allowedHTMLTags: ['div'] */ });
 
     const context = React.createContext({ activeKey })
 
-    const { isFragment, childNodeList } = parseChildrenProp(childEles)
+    const { isFragment, childNodeList } = parseChildrenProp(childEles as React.ReactElement)
     
     const getAllPanels = () => {
+        let nextCloneProps: { collapse?: boolean } 
         const children = childNodeList
             .map((panel, idx) => {
                 if (!panel) return null;
@@ -71,7 +88,7 @@ Collapse.Group = function CollapseGroup ({
                 if (isReactTypeOf(panel, Collapse))
                     return panel
 
-                let nextCloneProps
+                
                 if (!panel.hasOwnProperty('key')) {
                     panel.key = `panel-${idx}`
                 }
@@ -87,7 +104,7 @@ Collapse.Group = function CollapseGroup ({
                 return panel
             })
 
-        return isFragment ? React.cloneElement(childEles, { children }) : children
+        return isFragment ? React.cloneElement(childEles as React.ReactElement, { children }) : children
     }
 
     if (!JSXEl) return getAllPanels()

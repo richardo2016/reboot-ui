@@ -9,7 +9,7 @@ export declare function parseChildrenProp(childEle: React.ReactElement): {
     childNodeList: any[];
 };
 export declare function rclassnames(props: Partial<any>, ...args: any[]): string | undefined;
-export declare function tryUseContext<T = any>(ContextRef: React.Context<T>, { fallbackValue }?: {
+export declare function tryUseContext<T extends {} = {}>(ContextRef: React.Context<T>, { fallbackValue }?: {
     fallbackValue?: {} | undefined;
-}): {};
+}): T;
 export declare function renderJSXFunc(children: Function | React.ReactNode, renderContext?: {}): any;

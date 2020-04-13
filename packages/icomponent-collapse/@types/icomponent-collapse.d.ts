@@ -1,4 +1,4 @@
-import React from 'react';
+/// <reference types="react" />
 import { RebootUI } from '@reboot-ui/common';
 /**
  * @notice this funciton is designed for `React.forwardRef`, wrap it before using it
@@ -10,4 +10,4 @@ export default function CollapseProto({ children, as: _as, collapse: propCollaps
     onExit?: (node: HTMLElement) => void;
     onExiting?: (node: HTMLElement) => void;
     onExited?: (node: HTMLElement) => void;
-}>, ref: React.RefObject<any>): JSX.Element;
+}>, ref?: RebootUI.ReactRef): JSX.Element;
