@@ -1,9 +1,12 @@
 import React from 'react'
 
-import { resolveJSXElement } from '@reboot-ui/common'
-import { rclassnames } from '@reboot-ui/common'
-
-import { filterThemeName, filterRepsonsiveSize } from '@reboot-ui/common'
+import {
+    resolveJSXElement,
+    rclassnames,
+    filterThemeName,
+    filterRepsonsiveSize,
+    RebootUI
+} from '@reboot-ui/common'
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/spinner/#supported-content
@@ -21,7 +24,7 @@ const Spinner = function ({
     type = '',
     size = '',
     ...props
-}) {
+}: RebootUI.IComponentPropsWithChildren) {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
     switch (type) {
