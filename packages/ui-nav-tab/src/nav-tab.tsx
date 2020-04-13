@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Transition } from 'react-transition-group'
 
-import { TransitionTimeouts, resolveJSXElement, rclassnames } from '@reboot-ui/common';
+import { TransitionTimeouts, resolveJSXElement, rclassnames, RebootUI } from '@reboot-ui/common';
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/nav/#supported-content
@@ -13,13 +13,8 @@ import { TransitionTimeouts, resolveJSXElement, rclassnames } from '@reboot-ui/c
 const NavTab = function ({
     children,
     as: _as = 'div',
-    /**
-     * @enum tabs
-     * @enum pills
-     */
-    theme = '',
     ...props
-}) {
+}: RebootUI.IComponentPropsWithChildren<{}>) {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
     return (
@@ -41,7 +36,10 @@ NavTab.Pane = React.forwardRef(
         fade = true,
         active = false,
         ...props
-    }, ref) {
+    }: RebootUI.IComponentPropsWithChildren<{
+        fade?: boolean
+        active?: boolean
+    }>, ref) {
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
         const [isShow, setIsShow] = React.useState(active)
@@ -54,7 +52,7 @@ NavTab.Pane = React.forwardRef(
 
         return (
             <Transition
-                {...Transition.defaultProps}
+                // {...Transition.defaultProps}
                 appear={false}
                 enter={true}
                 exit={true}
