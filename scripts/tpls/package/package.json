@@ -6,7 +6,7 @@
   "homepage": "https://github.com/<%= repoinfo.gitpath %>/tree/master/packages/<%= pkgdirname %>#readme",
   "license": "ISC",
   "main": "./<%= buildmeta.buildLib ? 'lib' : 'es' %>/index.js",
-  "types": "./<%- buildmeta.useTs ? '@types/index.d.ts' : '' %>",
+  "types": "<%- buildmeta.useTs ? '@types/index.d.ts' : '' %>",
   "module": "./es/index.js",
   "browser": "./<%= buildmeta.buildDist ? 'dist' : 'es' %>/index.js",
   "directories": {
@@ -14,7 +14,8 @@
     "test": "__tests__"
   },
   "files": [
-    "@types/**/*.d.ts",
+    "@types",
+    "./@types",
     "index.js",
     "scss",
     "lib",

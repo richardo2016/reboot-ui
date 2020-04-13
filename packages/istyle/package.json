@@ -32,14 +32,15 @@
     "url": "https://github.com/richardo2016/reboot-ui/issues"
   },
   "files": [
-    "@types/**/*.d.ts",
+    "@types",
+    "./@types",
     "index.js",
     "scss",
     "lib",
     "es",
     "dist"
   ],
-  "types": "./@types/index.d.ts",
+  "types": "@types/index.d.ts",
   "dependencies": {
     "@types/react": "^16.9.34"
   },
