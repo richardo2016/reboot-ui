@@ -2,12 +2,10 @@ import React from 'react';
 import { RebootUI } from '@reboot-ui/common';
 export declare type RideMode = 'carousel';
 declare const Carousel: {
-    ({ children, as: _as, slide, pause: pauseMode, ride: rideMode, interval, keyboard: controlledByKeyborad, crossFade, ...props }: React.PropsWithChildren<{
-        as?: string | React.ReactElement<any, string | ((props: any) => React.ReactElement<any, string | any | (new (props: any) => React.Component<any, any, any>)> | null) | (new (props: any) => React.Component<any, any, any>)> | undefined;
-        style?: React.CSSProperties | undefined;
-        className?: string | undefined;
+    (props: Pick<React.Props<any> & React.HTMLAttributes<any> & {
+        as?: any;
+        ref?: ((instance: any) => void) | React.RefObject<any> | null | undefined;
         class?: string | undefined;
-        ref?: React.MutableRefObject<any> | undefined;
     } & {
         pause: "hover";
         slide?: boolean | undefined;
@@ -17,72 +15,44 @@ declare const Carousel: {
         crossFade?: boolean | undefined;
         onMouseEnter?: ((evt: MouseEvent) => void) | undefined;
         onMouseLeave?: ((evt: MouseEvent) => void) | undefined;
-    }>, ref: ((instance: any) => void) | React.MutableRefObject<any> | null): JSX.Element;
-    Refable: React.ForwardRefExoticComponent<Pick<{
-        as?: string | React.ReactElement<any, string | ((props: any) => React.ReactElement<any, string | any | (new (props: any) => React.Component<any, any, any>)> | null) | (new (props: any) => React.Component<any, any, any>)> | undefined;
-        style?: React.CSSProperties | undefined;
-        className?: string | undefined;
+    }, "children" | "as" | "slide" | "pause" | "ride" | "interval" | "keyboard" | "crossFade" | "key" | "defaultChecked" | "defaultValue" | "suppressContentEditableWarning" | "suppressHydrationWarning" | "accessKey" | "className" | "contentEditable" | "contextMenu" | "dir" | "draggable" | "hidden" | "id" | "lang" | "placeholder" | "slot" | "spellCheck" | "style" | "tabIndex" | "title" | "translate" | "radioGroup" | "role" | "about" | "datatype" | "inlist" | "prefix" | "property" | "resource" | "typeof" | "vocab" | "autoCapitalize" | "autoCorrect" | "autoSave" | "color" | "itemProp" | "itemScope" | "itemType" | "itemID" | "itemRef" | "results" | "security" | "unselectable" | "inputMode" | "is" | "aria-activedescendant" | "aria-atomic" | "aria-autocomplete" | "aria-busy" | "aria-checked" | "aria-colcount" | "aria-colindex" | "aria-colspan" | "aria-controls" | "aria-current" | "aria-describedby" | "aria-details" | "aria-disabled" | "aria-dropeffect" | "aria-errormessage" | "aria-expanded" | "aria-flowto" | "aria-grabbed" | "aria-haspopup" | "aria-hidden" | "aria-invalid" | "aria-keyshortcuts" | "aria-label" | "aria-labelledby" | "aria-level" | "aria-live" | "aria-modal" | "aria-multiline" | "aria-multiselectable" | "aria-orientation" | "aria-owns" | "aria-placeholder" | "aria-posinset" | "aria-pressed" | "aria-readonly" | "aria-relevant" | "aria-required" | "aria-roledescription" | "aria-rowcount" | "aria-rowindex" | "aria-rowspan" | "aria-selected" | "aria-setsize" | "aria-sort" | "aria-valuemax" | "aria-valuemin" | "aria-valuenow" | "aria-valuetext" | "dangerouslySetInnerHTML" | "onCopy" | "onCopyCapture" | "onCut" | "onCutCapture" | "onPaste" | "onPasteCapture" | "onCompositionEnd" | "onCompositionEndCapture" | "onCompositionStart" | "onCompositionStartCapture" | "onCompositionUpdate" | "onCompositionUpdateCapture" | "onFocus" | "onFocusCapture" | "onBlur" | "onBlurCapture" | "onChange" | "onChangeCapture" | "onBeforeInput" | "onBeforeInputCapture" | "onInput" | "onInputCapture" | "onReset" | "onResetCapture" | "onSubmit" | "onSubmitCapture" | "onInvalid" | "onInvalidCapture" | "onLoad" | "onLoadCapture" | "onError" | "onErrorCapture" | "onKeyDown" | "onKeyDownCapture" | "onKeyPress" | "onKeyPressCapture" | "onKeyUp" | "onKeyUpCapture" | "onAbort" | "onAbortCapture" | "onCanPlay" | "onCanPlayCapture" | "onCanPlayThrough" | "onCanPlayThroughCapture" | "onDurationChange" | "onDurationChangeCapture" | "onEmptied" | "onEmptiedCapture" | "onEncrypted" | "onEncryptedCapture" | "onEnded" | "onEndedCapture" | "onLoadedData" | "onLoadedDataCapture" | "onLoadedMetadata" | "onLoadedMetadataCapture" | "onLoadStart" | "onLoadStartCapture" | "onPause" | "onPauseCapture" | "onPlay" | "onPlayCapture" | "onPlaying" | "onPlayingCapture" | "onProgress" | "onProgressCapture" | "onRateChange" | "onRateChangeCapture" | "onSeeked" | "onSeekedCapture" | "onSeeking" | "onSeekingCapture" | "onStalled" | "onStalledCapture" | "onSuspend" | "onSuspendCapture" | "onTimeUpdate" | "onTimeUpdateCapture" | "onVolumeChange" | "onVolumeChangeCapture" | "onWaiting" | "onWaitingCapture" | "onAuxClick" | "onAuxClickCapture" | "onClick" | "onClickCapture" | "onContextMenu" | "onContextMenuCapture" | "onDoubleClick" | "onDoubleClickCapture" | "onDrag" | "onDragCapture" | "onDragEnd" | "onDragEndCapture" | "onDragEnter" | "onDragEnterCapture" | "onDragExit" | "onDragExitCapture" | "onDragLeave" | "onDragLeaveCapture" | "onDragOver" | "onDragOverCapture" | "onDragStart" | "onDragStartCapture" | "onDrop" | "onDropCapture" | "onMouseDown" | "onMouseDownCapture" | "onMouseEnter" | "onMouseLeave" | "onMouseMove" | "onMouseMoveCapture" | "onMouseOut" | "onMouseOutCapture" | "onMouseOver" | "onMouseOverCapture" | "onMouseUp" | "onMouseUpCapture" | "onSelect" | "onSelectCapture" | "onTouchCancel" | "onTouchCancelCapture" | "onTouchEnd" | "onTouchEndCapture" | "onTouchMove" | "onTouchMoveCapture" | "onTouchStart" | "onTouchStartCapture" | "onPointerDown" | "onPointerDownCapture" | "onPointerMove" | "onPointerMoveCapture" | "onPointerUp" | "onPointerUpCapture" | "onPointerCancel" | "onPointerCancelCapture" | "onPointerEnter" | "onPointerEnterCapture" | "onPointerLeave" | "onPointerLeaveCapture" | "onPointerOver" | "onPointerOverCapture" | "onPointerOut" | "onPointerOutCapture" | "onGotPointerCapture" | "onGotPointerCaptureCapture" | "onLostPointerCapture" | "onLostPointerCaptureCapture" | "onScroll" | "onScrollCapture" | "onWheel" | "onWheelCapture" | "onAnimationStart" | "onAnimationStartCapture" | "onAnimationEnd" | "onAnimationEndCapture" | "onAnimationIteration" | "onAnimationIterationCapture" | "onTransitionEnd" | "onTransitionEndCapture" | "class"> & React.RefAttributes<any>): JSX.Element;
+    Indicators({ children, as: _as, ...props }: React.PropsWithChildren<React.Props<any> & React.HTMLAttributes<any> & {
+        as?: any;
+        ref?: ((instance: any) => void) | React.RefObject<any> | null | undefined;
         class?: string | undefined;
-        ref?: React.MutableRefObject<any> | undefined;
-    } & {
-        pause: "hover";
-        slide?: boolean | undefined;
-        ride?: "carousel" | undefined;
-        interval?: number | null | undefined;
-        keyboard?: boolean | undefined;
-        crossFade?: boolean | undefined;
-        onMouseEnter?: ((evt: MouseEvent) => void) | undefined;
-        onMouseLeave?: ((evt: MouseEvent) => void) | undefined;
-    }, "as" | "slide" | "pause" | "ride" | "interval" | "keyboard" | "crossFade" | "style" | "className" | "class" | "onMouseEnter" | "onMouseLeave"> & React.RefAttributes<any>>;
-    Indicators({ children, as: _as, ...props }: React.PropsWithChildren<{
-        as?: string | React.ReactElement<any, string | ((props: any) => React.ReactElement<any, string | any | (new (props: any) => React.Component<any, any, any>)> | null) | (new (props: any) => React.Component<any, any, any>)> | undefined;
-        style?: React.CSSProperties | undefined;
-        className?: string | undefined;
-        class?: string | undefined;
-        ref?: React.MutableRefObject<any> | undefined;
     } & {
         as?: string | React.ReactElement<any, string | ((props: any) => React.ReactElement<any, string | any | (new (props: any) => React.Component<any, any, any>)> | null) | (new (props: any) => React.Component<any, any, any>)> | React.ExoticComponent<any> | React.ForwardRefExoticComponent<any> | undefined;
     }>): JSX.Element;
-    Inner({ children, as: _as, ...props }: React.PropsWithChildren<{
-        as?: string | React.ReactElement<any, string | ((props: any) => React.ReactElement<any, string | any | (new (props: any) => React.Component<any, any, any>)> | null) | (new (props: any) => React.Component<any, any, any>)> | undefined;
-        style?: React.CSSProperties | undefined;
-        className?: string | undefined;
+    Inner({ children, as: _as, ...props }: React.PropsWithChildren<React.Props<any> & React.HTMLAttributes<any> & {
+        as?: any;
+        ref?: ((instance: any) => void) | React.RefObject<any> | null | undefined;
         class?: string | undefined;
-        ref?: React.MutableRefObject<any> | undefined;
     }>): JSX.Element;
-    Caption({ children, as: _as, ...props }: React.PropsWithChildren<{
-        as?: string | React.ReactElement<any, string | ((props: any) => React.ReactElement<any, string | any | (new (props: any) => React.Component<any, any, any>)> | null) | (new (props: any) => React.Component<any, any, any>)> | undefined;
-        style?: React.CSSProperties | undefined;
-        className?: string | undefined;
+    Caption({ children, as: _as, ...props }: React.PropsWithChildren<React.Props<any> & React.HTMLAttributes<any> & {
+        as?: any;
+        ref?: ((instance: any) => void) | React.RefObject<any> | null | undefined;
         class?: string | undefined;
-        ref?: React.MutableRefObject<any> | undefined;
     }>): JSX.Element;
-    Item: React.ForwardRefExoticComponent<Pick<{
-        as?: string | React.ReactElement<any, string | ((props: any) => React.ReactElement<any, string | any | (new (props: any) => React.Component<any, any, any>)> | null) | (new (props: any) => React.Component<any, any, any>)> | undefined;
-        style?: React.CSSProperties | undefined;
-        className?: string | undefined;
+    Item: React.ForwardRefExoticComponent<Pick<React.Props<any> & React.HTMLAttributes<any> & {
+        as?: any;
+        ref?: ((instance: any) => void) | React.RefObject<any> | null | undefined;
         class?: string | undefined;
-        ref?: React.MutableRefObject<any> | undefined;
     } & {
         interval?: number | undefined;
-    } & Partial<RebootUI.TransitionGroupProps>, "as" | "interval" | "style" | "className" | "class" | "onEnter" | "onEntering" | "onEntered" | "onExit" | "onExiting" | "onExited"> & React.RefAttributes<unknown>>;
-    Control({ children, as: _as, prev, next, active, ...props }: React.PropsWithChildren<{
-        as?: string | React.ReactElement<any, string | ((props: any) => React.ReactElement<any, string | any | (new (props: any) => React.Component<any, any, any>)> | null) | (new (props: any) => React.Component<any, any, any>)> | undefined;
-        style?: React.CSSProperties | undefined;
-        className?: string | undefined;
+    } & Partial<RebootUI.TransitionGroupProps>, "children" | "as" | "interval" | "key" | "defaultChecked" | "defaultValue" | "suppressContentEditableWarning" | "suppressHydrationWarning" | "accessKey" | "className" | "contentEditable" | "contextMenu" | "dir" | "draggable" | "hidden" | "id" | "lang" | "placeholder" | "slot" | "spellCheck" | "style" | "tabIndex" | "title" | "translate" | "radioGroup" | "role" | "about" | "datatype" | "inlist" | "prefix" | "property" | "resource" | "typeof" | "vocab" | "autoCapitalize" | "autoCorrect" | "autoSave" | "color" | "itemProp" | "itemScope" | "itemType" | "itemID" | "itemRef" | "results" | "security" | "unselectable" | "inputMode" | "is" | "aria-activedescendant" | "aria-atomic" | "aria-autocomplete" | "aria-busy" | "aria-checked" | "aria-colcount" | "aria-colindex" | "aria-colspan" | "aria-controls" | "aria-current" | "aria-describedby" | "aria-details" | "aria-disabled" | "aria-dropeffect" | "aria-errormessage" | "aria-expanded" | "aria-flowto" | "aria-grabbed" | "aria-haspopup" | "aria-hidden" | "aria-invalid" | "aria-keyshortcuts" | "aria-label" | "aria-labelledby" | "aria-level" | "aria-live" | "aria-modal" | "aria-multiline" | "aria-multiselectable" | "aria-orientation" | "aria-owns" | "aria-placeholder" | "aria-posinset" | "aria-pressed" | "aria-readonly" | "aria-relevant" | "aria-required" | "aria-roledescription" | "aria-rowcount" | "aria-rowindex" | "aria-rowspan" | "aria-selected" | "aria-setsize" | "aria-sort" | "aria-valuemax" | "aria-valuemin" | "aria-valuenow" | "aria-valuetext" | "dangerouslySetInnerHTML" | "onCopy" | "onCopyCapture" | "onCut" | "onCutCapture" | "onPaste" | "onPasteCapture" | "onCompositionEnd" | "onCompositionEndCapture" | "onCompositionStart" | "onCompositionStartCapture" | "onCompositionUpdate" | "onCompositionUpdateCapture" | "onFocus" | "onFocusCapture" | "onBlur" | "onBlurCapture" | "onChange" | "onChangeCapture" | "onBeforeInput" | "onBeforeInputCapture" | "onInput" | "onInputCapture" | "onReset" | "onResetCapture" | "onSubmit" | "onSubmitCapture" | "onInvalid" | "onInvalidCapture" | "onLoad" | "onLoadCapture" | "onError" | "onErrorCapture" | "onKeyDown" | "onKeyDownCapture" | "onKeyPress" | "onKeyPressCapture" | "onKeyUp" | "onKeyUpCapture" | "onAbort" | "onAbortCapture" | "onCanPlay" | "onCanPlayCapture" | "onCanPlayThrough" | "onCanPlayThroughCapture" | "onDurationChange" | "onDurationChangeCapture" | "onEmptied" | "onEmptiedCapture" | "onEncrypted" | "onEncryptedCapture" | "onEnded" | "onEndedCapture" | "onLoadedData" | "onLoadedDataCapture" | "onLoadedMetadata" | "onLoadedMetadataCapture" | "onLoadStart" | "onLoadStartCapture" | "onPause" | "onPauseCapture" | "onPlay" | "onPlayCapture" | "onPlaying" | "onPlayingCapture" | "onProgress" | "onProgressCapture" | "onRateChange" | "onRateChangeCapture" | "onSeeked" | "onSeekedCapture" | "onSeeking" | "onSeekingCapture" | "onStalled" | "onStalledCapture" | "onSuspend" | "onSuspendCapture" | "onTimeUpdate" | "onTimeUpdateCapture" | "onVolumeChange" | "onVolumeChangeCapture" | "onWaiting" | "onWaitingCapture" | "onAuxClick" | "onAuxClickCapture" | "onClick" | "onClickCapture" | "onContextMenu" | "onContextMenuCapture" | "onDoubleClick" | "onDoubleClickCapture" | "onDrag" | "onDragCapture" | "onDragEnd" | "onDragEndCapture" | "onDragEnter" | "onDragEnterCapture" | "onDragExit" | "onDragExitCapture" | "onDragLeave" | "onDragLeaveCapture" | "onDragOver" | "onDragOverCapture" | "onDragStart" | "onDragStartCapture" | "onDrop" | "onDropCapture" | "onMouseDown" | "onMouseDownCapture" | "onMouseEnter" | "onMouseLeave" | "onMouseMove" | "onMouseMoveCapture" | "onMouseOut" | "onMouseOutCapture" | "onMouseOver" | "onMouseOverCapture" | "onMouseUp" | "onMouseUpCapture" | "onSelect" | "onSelectCapture" | "onTouchCancel" | "onTouchCancelCapture" | "onTouchEnd" | "onTouchEndCapture" | "onTouchMove" | "onTouchMoveCapture" | "onTouchStart" | "onTouchStartCapture" | "onPointerDown" | "onPointerDownCapture" | "onPointerMove" | "onPointerMoveCapture" | "onPointerUp" | "onPointerUpCapture" | "onPointerCancel" | "onPointerCancelCapture" | "onPointerEnter" | "onPointerEnterCapture" | "onPointerLeave" | "onPointerLeaveCapture" | "onPointerOver" | "onPointerOverCapture" | "onPointerOut" | "onPointerOutCapture" | "onGotPointerCapture" | "onGotPointerCaptureCapture" | "onLostPointerCapture" | "onLostPointerCaptureCapture" | "onScroll" | "onScrollCapture" | "onWheel" | "onWheelCapture" | "onAnimationStart" | "onAnimationStartCapture" | "onAnimationEnd" | "onAnimationEndCapture" | "onAnimationIteration" | "onAnimationIterationCapture" | "onTransitionEnd" | "onTransitionEndCapture" | "class" | "onEnter" | "onEntering" | "onEntered" | "onExit" | "onExiting" | "onExited"> & React.RefAttributes<unknown>>;
+    Control({ children, as: _as, prev, next, active, ...props }: React.PropsWithChildren<React.Props<any> & React.HTMLAttributes<any> & {
+        as?: any;
+        ref?: ((instance: any) => void) | React.RefObject<any> | null | undefined;
         class?: string | undefined;
-        ref?: React.MutableRefObject<any> | undefined;
     } & {
         prev?: boolean | undefined;
         next?: boolean | undefined;
         active?: boolean | undefined;
     }>): JSX.Element;
-    PlaceholderImage({ children, as: _as, size, ...props }: React.PropsWithChildren<{
-        as?: string | React.ReactElement<any, string | ((props: any) => React.ReactElement<any, string | any | (new (props: any) => React.Component<any, any, any>)> | null) | (new (props: any) => React.Component<any, any, any>)> | undefined;
-        style?: React.CSSProperties | undefined;
-        className?: string | undefined;
+    PlaceholderImage({ children, as: _as, size, ...props }: React.PropsWithChildren<React.Props<any> & React.HTMLAttributes<any> & {
+        as?: any;
+        ref?: ((instance: any) => void) | React.RefObject<any> | null | undefined;
         class?: string | undefined;
-        ref?: React.MutableRefObject<any> | undefined;
     } & {
         size?: "lg" | "sm" | undefined;
     }>): JSX.Element;

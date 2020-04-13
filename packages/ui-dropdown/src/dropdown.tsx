@@ -47,7 +47,7 @@ const transitionStateStyle: { [k in RebootUI.TransitionStateNames]: CSSPropertie
 /**
  * @see https://getbootstrap.com/docs/4.4/components/dropdown/#supported-content
  */
-const Dropdown = function ({
+const DropdownProto = function ({
     children,
     as: _as = 'div',
     disabled = false,
@@ -175,9 +175,12 @@ const Dropdown = function ({
     )
 }
 
+const Dropdown = function (props: RebootUI.IGetReactLikeComponentProps<typeof DropdownProto>) {
+    return <DropdownProto {...props} />
+}
+
 export default Dropdown
 
-Dropdown.Refable = React.forwardRef(Dropdown)
 Dropdown.Menu = DropdownMenu;
 Dropdown.Item = DropdownItem;
 Dropdown.LinkItem = ({ ...props }) => <DropdownItem {...props} as={'a'} />
