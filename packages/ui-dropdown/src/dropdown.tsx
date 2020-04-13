@@ -29,16 +29,20 @@ interface DropdownContextType {
 }
 const DropdownCtx = React.createContext<DropdownContextType>({} as DropdownContextType)
 
-const transitionStateClass: { [k: string]: string } = {
+const transitionStateClass: { [k in RebootUI.TransitionStateNames]: string } = {
     entering: 'show',
     entered: 'show',
     exiting: '',
-    exited: ''
+    exited: '',
+    unmounted: '',
 }
 
-const transitionStateStyle: { [k: string]: CSSProperties } = {
+const transitionStateStyle: { [k in RebootUI.TransitionStateNames]: CSSProperties } = {
+    entering: {},
+    entered: {},
     exiting: {},
     exited: { opacity: 0 },
+    unmounted: {},
 }
 /**
  * @see https://getbootstrap.com/docs/4.4/components/dropdown/#supported-content
