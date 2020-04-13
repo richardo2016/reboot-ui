@@ -1,9 +1,17 @@
 import React from 'react'
 
-import { resolveJSXElement, rclassnames, tryUseContext } from '@reboot-ui/common';
+import { resolveJSXElement, rclassnames, tryUseContext, RebootUI } from '@reboot-ui/common';
 
-import { FormContext, FormControlContext, FormGroupContext } from './context'
-import { Col } from '../../ui-layout';
+import {
+    FormContext,
+    FormControlContext,
+    FormGroupContext,
+    FormContextType,
+    FormControlContextType,
+    FormGroupContextType
+} from './context'
+
+import Col from '@reboot-ui/ui-col';
 import { useToken } from './hooks';
 
 import makeControl from './control'
@@ -21,30 +29,39 @@ import makeSelect from './control-select'
  * @inner-content `.form-group`
  * @inner-content `.form-control`
  */
-const Form = React.forwardRef(
-    function ({
-        children,
-        as: _as = 'form',
-        inline = false,
-        /**
-         * @description html native attribute
-         */
-        novalidate = false,
-        /**
-         * @description status whether form validated, `rb` means the prop is reboot-owned
-         */
-        rbWasValidated = false,
-        ...props
-    }, ref) {
-        // const JSXEl = resolveJSXElement(_as, { allowedHTMLTags: ['form'] });
+const FormProto = React.forwardRef(
+    function (
+        {
+            children,
+            as: _as = 'form',
+            inline = false,
+            /**
+             * @description html native attribute
+             */
+            novalidate = false,
+            /**
+             * @description status whether form validated, `rb` means the prop is reboot-owned
+             */
+            rbWasValidated = false,
+            ...props
+        }: RebootUI.IComponentPropsWithChildren<{
+            inline?: boolean
+            novalidate?: boolean
+            rbWasValidated?: boolean
+        }>,
+        ref
+    ) {
+        const formHtmlElRef = React.useRef<HTMLFormElement | null>(null)
 
-        const formHtmlElRef = React.useRef(null)
-
-        const formCtx = {
+        const formCtx: FormContextType = {
             inline,
             novalidate,
             getFormHTMLElement: () => formHtmlElRef.current,
-            getValidity: () => !!formHtmlElRef.current && formHtmlElRef.checkValidity(),
+            getValidity: () => {
+                if (!formHtmlElRef.current) return false;
+
+                return formHtmlElRef.current.checkValidity();
+            },
         }
 
         return (
@@ -69,13 +86,19 @@ const Form = React.forwardRef(
     }
 )
 
+const Form = (props: RebootUI.IGetReactLikeComponentProps<typeof FormProto>) => {
+    return <FormProto {...props} />
+}
+
 Form.useForm = () => React.useContext(FormContext)
 
-Form.Row = function ({
-    children,
-    as: _as = 'div',
-    ...props
-}, ref) {
+Form.Row = function (
+    {
+        children,
+        as: _as = 'div',
+        ...props
+    }: RebootUI.IComponentPropsWithChildren
+) {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
 
     return (
@@ -91,19 +114,25 @@ Form.Row = function ({
 }
 
 Form.Group = React.forwardRef(
-    function ({
-        children,
-        as: _as = 'div',
-        /**
-         * @internal used by(not only by) Form.Label
-         */
-        [useToken(`groupForCheck`)]: $$groupForCheck = false,
-        /**
-         * @internal used by(not only by) [[self]]
-         */
-        [useToken(`groupForCheck_noGroup`)]: $$groupForCheck_noGroup = false,
-        ...props
-    }, ref) {
+    function (
+        {
+            children,
+            as: _as = 'div',
+            ...props
+        }: RebootUI.IComponentPropsWithChildren,
+        ref
+    ) {
+        const {
+            /**
+             * @internal used by(not only by) Form.Label
+             */
+            [useToken(`groupForCheck`)]: $$groupForCheck = false,
+            /**
+             * @internal used by(not only by) [[self]]
+             */
+            [useToken(`groupForCheck_noGroup`)]: $$groupForCheck_noGroup = false,
+        } = props || {};
+
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
         const formGrpCtx = {
@@ -134,11 +163,15 @@ Form.Label = function ({
     col: labelCol = {},
     custom,
     ...props
-}) {
+}: RebootUI.IComponentPropsWithChildren<{
+    for?: string
+    col?: Parameters<typeof Col.useColClass>[0]
+    custom?: boolean
+}>) {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
-    const formCtrlCtx = tryUseContext(FormControlContext)
-    const formGrpCtx = tryUseContext(FormGroupContext)
+    const formCtrlCtx = tryUseContext<FormControlContextType>(FormControlContext)
+    const formGrpCtx = tryUseContext<FormGroupContextType>(FormGroupContext)
 
     children = children || formCtrlCtx.label
     labelFor = labelFor || formCtrlCtx.controlId
@@ -147,14 +180,14 @@ Form.Label = function ({
 
     if (custom === undefined) custom = formCtrlCtx.custom
 
-    const $$inputType = formCtrlCtx[useToken('inputType')]
+    const $$inputType = (formCtrlCtx as any)[useToken('inputType')]
 
     return (
         <JSXEl
             {...props}
             {...labelFor && { for: labelFor }}
             className={rclassnames(props, [
-                formGrpCtx.inFormGroup && formGrpCtx[[useToken(`groupForCheck`)]] && !custom && 'form-check-label',
+                formGrpCtx.inFormGroup && (formGrpCtx as any)[useToken(`groupForCheck`)] && !custom && 'form-check-label',
                 custom && $$inputType === 'file' && 'custom-file-label',
                 custom && $$inputType && $$inputType !== 'file' && 'custom-control-label',
                 labelColClsList
@@ -177,10 +210,20 @@ const ValidationTip = function ({
      * @enum never
      */
     when: _when = false,
-
-    [useToken('clsKey')]: $$clsKey,
     ...props
-}) {
+}: RebootUI.IComponentPropsWithChildren<{
+    content?: React.ReactNode
+    when?: boolean
+    | 'valid'
+    | 'invalid'
+    | 'always'
+    | 'never'
+}>) {
+    const {
+        // @ts-ignore
+        [useToken('clsKey')]: $$clsKey,
+    } = props
+
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
     switch (_when) {
@@ -206,12 +249,18 @@ const ValidationTip = function ({
     )
 }
 
-Form.ValidationFeedback = function (props) {
-    return <ValidationTip {...props} {...{ [useToken('clsKey')]: 'feedback'}} />
+Form.ValidationFeedback = function (
+    props: RebootUI.IComponentPropsWithChildren
+) {
+    props = { ...props, ...{ [useToken('clsKey')]: 'feedback'} }
+    return <ValidationTip />
 }
 
-Form.ValidationTooltip = function (props) {
-    return <ValidationTip {...props} {...{ [useToken('clsKey')]: 'tooltip'}} />
+Form.ValidationTooltip = function (
+    props: RebootUI.IComponentPropsWithChildren
+) {
+    props = { ...props, ...{ [useToken('clsKey')]: 'tooltip'} }
+    return <ValidationTip />
 }
 
 Form.Text = function ({
@@ -219,7 +268,9 @@ Form.Text = function ({
     as: _as = 'span',
     muted = false,
     ...props
-}) {
+}: RebootUI.IComponentPropsWithChildren<{
+    muted?: boolean
+}>) {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
     return (

@@ -107,10 +107,10 @@ export function tryUseContext<T extends {} = {}> (
     ContextRef: React.Context<T>,
     { fallbackValue = {} } = {}
 ) {
-    let ctx = fallbackValue
-    try { ctx = React.useContext(ContextRef) } catch (error) {}
+    let ctxValue = fallbackValue
+    try { ctxValue = React.useContext<T>(ContextRef) } catch (error) {}
 
-    return ctx as T
+    return ctxValue as T
 }
 
 export function renderJSXFunc (

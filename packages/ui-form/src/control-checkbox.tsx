@@ -1,9 +1,9 @@
 import React from 'react'
-import { rclassnames } from '@reboot-ui/common'
+import { rclassnames, RebootUI } from '@reboot-ui/common'
 import { useToken } from './hooks'
 
-export default (Form) => {
-    Form.Checkbox = (props) => (
+export default (Form: any) => {
+    Form.Checkbox = (props: RebootUI.IComponentPropsWithChildren) => (
         <Form.Input
             {...props}
             type="checkbox"
@@ -14,7 +14,14 @@ export default (Form) => {
     Form.CheckGroup = ({
         inline = false,
         ...props
-    }) => {
+    }: RebootUI.IComponentPropsWithChildren<{
+        inline?: boolean
+    }>) => {
+        props = {
+            ...props,
+            [useToken(`groupForCheck`)]: true,
+            [useToken(`groupForCheck_noGroup`)]: !!inline,
+        }
         return (
             <Form.Group
                 className={rclassnames(props, [
@@ -22,10 +29,6 @@ export default (Form) => {
                     inline && `form-check-inline`,
                 ])}
                 {...props}
-                {...{
-                    [useToken(`groupForCheck`)]: true,
-                    [useToken(`groupForCheck_noGroup`)]: !!inline,
-                }}
             />
         )
     }

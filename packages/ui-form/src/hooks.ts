@@ -1,4 +1,4 @@
-import { pick, omit } from '@reboot-ui/common'
+import { pick, omit, RebootUI } from '@reboot-ui/common'
 import { rclassnames } from '@reboot-ui/common'
 import { FORM_SYMBOL_TOKEN } from "./symbols"
 
@@ -27,11 +27,11 @@ const CONTROL_PROPS = [
     'rbValid'
 ]
 
-export function useToken (str) {
+export function useToken (str: string) {
     return `${FORM_SYMBOL_TOKEN}$$${str}`
 }
 
-export function useControlProps (inputProps) {
+export function useControlProps (inputProps: RebootUI.IComponentPropsWithChildren) {
     const controlProps = pick(inputProps, CONTROL_PROPS)
     const fieldProps = omit(inputProps, CONTROL_PROPS)
 

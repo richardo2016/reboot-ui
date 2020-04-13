@@ -1,7 +1,8 @@
 import React from 'react'
+import { RebootUI } from '@reboot-ui/common'
 
-export default (Form) => {
-    Form.Range = (props) => (
+export default (Form: any) => {
+    Form.Range = (props: RebootUI.IComponentPropsWithChildren) => (
         <Form.Input
             {...props}
             type="range"

@@ -1,16 +1,22 @@
 import React from 'react'
 
 import { useControlProps } from './hooks'
-import Select from '../../ui-select'
+import Select from '@reboot-ui/ui-select'
 
-import { filterFormControlSize } from '@reboot-ui/common'
-import { rclassnames } from '@reboot-ui/common'
+import {
+    filterFormControlSize,
+    RebootUI,
+    rclassnames
+} from '@reboot-ui/common'
 
-export default (Form) => {
+export default (Form: any) => {
     Form.Select = React.forwardRef(
-        ({
-            ...props
-        }, ref) => {
+        (
+            {
+                ...props
+            }: RebootUI.IComponentPropsWithChildren,
+            ref
+        ) => {
             const [controlProps, fieldProps] = useControlProps(props)
     
             /**

@@ -4,15 +4,18 @@ import Input from '../../ui-input'
 import { useControlProps } from './hooks'
 import { FEEDBACK_POSTIONS } from './symbols'
 
-import { rclassnames } from '@reboot-ui/common'
+import { rclassnames, RebootUI } from '@reboot-ui/common'
 import { filterFormControlSize } from '@reboot-ui/common'
 
-export default (Form) => {
+export default (Form: any) => {
     Form.Input = React.forwardRef(
-        ({
-            id = '',
-            ...props
-        }, ref) => {
+        (
+            {
+                id = '',
+                ...props
+            }: RebootUI.IComponentPropsWithChildren,
+            ref
+        ) => {
             const [controlProps, fieldProps] = useControlProps(props)
 
             fieldProps.size = filterFormControlSize(controlProps.size)
