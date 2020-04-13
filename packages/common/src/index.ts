@@ -19,6 +19,7 @@ export { useInterval } from './utils/react-hooks/use-timer'
 export { flatten, arraify } from './utils/array'
 
 import { arraify } from './utils/array'
+import { PagiantionInfo } from 'utils/react-hooks/use-pagination'
 
 export namespace RebootUI {
     export type Nilable<T> = null | T
@@ -115,6 +116,8 @@ export namespace RebootUI {
 
     export type DOMSelector = Document | HTMLElement | string
     export type DOMEventHandler = EventListener | EventListenerObject | null
+
+    export type IPaginationInfo = PagiantionInfo
 }
 
 export const themes = json['theme-colors'].map(theme => theme.name)
@@ -347,7 +350,7 @@ export function parsePlacement(placement: string = 'bottom-start'): {
     }
 }
 
-export function resolveJSXElement (
+export function resolveJSXElement<P = any, T extends HTMLElement = any> (
     inputJSXElement: RebootUI.IPropAs,
     {
         default: defaultValue = React.Fragment,
@@ -356,9 +359,9 @@ export function resolveJSXElement (
         default?: React.ReactElement | React.ExoticComponent | string | null,
         allowedHTMLTags?: string[]
     } = {}
-): any {
+): React.DetailedHTMLFactory<P, T> | React.FunctionComponentFactory<P> | React.ClassicFactory<P> {
     if (!inputJSXElement)
-        return defaultValue
+        return defaultValue as any
 
     if (allowedHTMLTags && typeof inputJSXElement === 'string') {
         inputJSXElement = inputJSXElement.toString()

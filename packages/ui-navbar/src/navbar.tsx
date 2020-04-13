@@ -81,18 +81,7 @@ const useRefRegistry = (memberType: MemberType, ref: any) => {
 
     return [navbarCtx, ref]
 }
-
-/**
- * @see https://getbootstrap.com/docs/4.4/components/navbar/#supported-content
- * 
- * @inner-content `.navbar-brand`
- * @inner-content `.navbar-nav`
- * @inner-content `.navbar-toggler`
- * 
- * @inner-content `.navbar-text`
- * @inner-content `.collapse.navbar-collapse`
- */
-const Navbar = function (
+const NavbarProto = React.forwardRef(function (
     {
         children,
         as: _as = 'nav',
@@ -132,9 +121,23 @@ const Navbar = function (
             </JSXEl>
         </NavbarContext.Provider>
     )
-}
+})
 
-Navbar.Refable = React.forwardRef(Navbar)
+/**
+ * @see https://getbootstrap.com/docs/4.4/components/navbar/#supported-content
+ * 
+ * @inner-content `.navbar-brand`
+ * @inner-content `.navbar-nav`
+ * @inner-content `.navbar-toggler`
+ * 
+ * @inner-content `.navbar-text`
+ * @inner-content `.collapse.navbar-collapse`
+ */
+const Navbar = function (props: RebootUI.IComponentPropsWithChildren<
+    RebootUI.IGetReactLikeComponentProps<typeof NavbarProto>
+>) {
+    return <NavbarProto {...props} />
+}
 
 Navbar.Brand = function ({
     children,

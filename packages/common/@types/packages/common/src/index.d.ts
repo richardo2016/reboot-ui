@@ -14,6 +14,7 @@ export { coerceInteger, coerceFloat } from './utils/coerce';
 export { pick, omit } from './utils/object';
 export { useInterval } from './utils/react-hooks/use-timer';
 export { flatten, arraify } from './utils/array';
+import { PagiantionInfo } from 'utils/react-hooks/use-pagination';
 export declare namespace RebootUI {
     export type Nilable<T> = null | T;
     export type IComponentPropsWithChildren<T = any, REFT = any> = React.PropsWithChildren<React.Props<REFT> & React.HTMLAttributes<any> & {
@@ -22,8 +23,6 @@ export declare namespace RebootUI {
         class?: React.HTMLAttributes<any>['className'];
     } & T>;
     export type INoRefComponentHtmlPropsWithChildren<T = React.AllHTMLAttributes<any>, REFT = any> = React.PropsWithChildren<Omit<IComponentPropsWithChildren<T, REFT>, 'ref'>>;
-    export interface ForwardRefComponent<P extends RebootUI.IComponentPropsWithChildren = any> extends React.ForwardRefExoticComponent<P>, Record<string, any>, Function {
-    }
     export type IPropAs<HTMLTags = any> = React.ReactElement | HTMLTags | string | React.ExoticComponent<any> | React.ForwardRefExoticComponent<any>;
     export type IPropAsTagHeadings = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
     export type ThemeType = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'link';
@@ -56,6 +55,7 @@ export declare namespace RebootUI {
     export type ReactRef<T = any, P = any> = Parameters<React.ForwardRefRenderFunction<T, P>>[1] | null;
     export type DOMSelector = Document | HTMLElement | string;
     export type DOMEventHandler = EventListener | EventListenerObject | null;
+    export type IPaginationInfo = PagiantionInfo;
     export {};
 }
 export declare const themes: string[];
@@ -92,6 +92,5 @@ export declare function parsePlacement(placement?: string): {
 export declare function resolveJSXElement(inputJSXElement: RebootUI.IPropAs, { default: defaultValue, allowedHTMLTags }?: {
     default?: React.ReactElement | React.ExoticComponent | string | null;
     allowedHTMLTags?: string[];
-}): any;
+}): RebootUI.IPropAs<string | null>;
 export declare function getHTMLAttributesFromProps(props: any): any;
-export declare function rebootForwardRef<T, P = {}>(render: React.ForwardRefRenderFunction<T, P>): RebootUI.ForwardRefComponent<P>;

@@ -7,36 +7,49 @@ import {
     filterPaginationSize,
     usePagination,
     renderJSXFunc,
-    arraify,
+    RebootUI,
 } from '@reboot-ui/common'
 import Anchor from '@reboot-ui/icomponent-anchor';
 
 const symbol = Symbol('#pagination')
 
-const PagiContext = React.createContext({})
+interface PagiContextType {
+    symbol: Symbol
+    pagination: RebootUI.IPaginationInfo
+    computePagination: ReturnType<typeof usePagination>[2]
+    _updatePagi: ReturnType<typeof usePagination>[2]
+}
+const PagiContext = React.createContext<PagiContextType>({} as PagiContextType)
 
 function noop () {}
-const Pagination = React.forwardRef(
+const PaginationProto = React.forwardRef(
     function ({
         children,
         as: _as = 'ul',
         pagination: initPage = usePagination()[0],
         onChange = noop,
-        size = '',
+        size,
         ...props
-    }, ref) {
+    }: RebootUI.IComponentPropsWithChildren<{
+        as?: RebootUI.IPropAs
+        pagination?: RebootUI.IPaginationInfo
+        size?: RebootUI.BinarySizeType
+        onChange?: (pagi: RebootUI.IPaginationInfo) => any
+    }>, ref) {
         const JSXEl = resolveJSXElement(_as, { allowedHTMLTags: ['div', 'ol', 'ul'] });
 
         const [pagination, , computePagination] = usePagination(initPage);
 
         size = filterPaginationSize(size)
 
-        const ctxValue = {
+        const ctxValue: PagiContextType = {
             symbol: symbol,
             pagination,
             computePagination,
             _updatePagi: React.useCallback(
-                (type, payload) => onChange(computePagination(type, payload, {...pagination}))
+                (type, payload) => onChange(
+                    computePagination(type, payload, {...pagination})
+                )
                 , [pagination]
             )
         }
@@ -58,6 +71,12 @@ const Pagination = React.forwardRef(
     }
 )
 
+const Pagination = (props: RebootUI.IComponentPropsWithChildren<
+    RebootUI.IGetReactLikeComponentProps<typeof PaginationProto>
+>) => {
+    return <PaginationProto {...props} />
+}
+
 Pagination.usePagination = usePagination
 
 Pagination.useContextPagination = () => {
@@ -78,7 +97,10 @@ Pagination.Link = ({
     active = false,
     disabled = false,
     ...props
-}) => {
+}: RebootUI.IComponentPropsWithChildren<{
+    active?: boolean
+    disabled?: boolean
+}>) => {
     if (_as === 'a') _as = Anchor
 
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
@@ -109,7 +131,14 @@ Pagination.Item = function ({
     prev: _prev = false,
     next: _next = false,
     ...props
-}) {
+}: RebootUI.IComponentPropsWithChildren<{
+    page?: RebootUI.IPaginationInfo['page']
+    active?: boolean
+    disabled?: boolean
+    link?: boolean
+    prev?: boolean
+    next?: boolean
+}>) {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
     const LinkWrppaer = link ? Pagination.Link : React.Fragment
@@ -122,7 +151,7 @@ Pagination.Item = function ({
         children = active ? (
             <>
                 {page}{' '}
-                <span class="sr-only">(current)</span>
+                <span className="sr-only">(current)</span>
             </>
         ) : page
 
@@ -138,7 +167,7 @@ Pagination.Item = function ({
                 disabled && `disabled`,
                 active && `active`,
             ])}
-            onClick={(evt) => {
+            onClick={(evt: Parameters<React.MouseEventHandler>[0]) => {
                 if (!disabled) {
                     if (_prev) {
                         pagiCtx._updatePagi('prevPage')
