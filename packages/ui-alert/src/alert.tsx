@@ -35,7 +35,7 @@ const Alert = function ({
     show?: boolean,
     closable?: boolean,
     fade?: boolean,
-}>) {
+}>, ref: any) {
     const JSXEl: any = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
     const [dismiss, setDismiss] = React.useState(!propShow);
@@ -58,7 +58,7 @@ const Alert = function ({
             break
     }
 
-    const ref = props.ref || React.useRef(null)
+    ref = ref || React.createRef()
 
     React.useEffect((
         () => {

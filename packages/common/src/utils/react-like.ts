@@ -103,14 +103,14 @@ export function rclassnames (props: Partial<any>, ...args: any[]) {
     return clsList.join(' ')
 }
 
-export function tryUseContext<T = any> (
+export function tryUseContext<T extends {} = {}> (
     ContextRef: React.Context<T>,
     { fallbackValue = {} } = {}
 ) {
     let ctx = fallbackValue
     try { ctx = React.useContext(ContextRef) } catch (error) {}
 
-    return ctx
+    return ctx as T
 }
 
 export function renderJSXFunc (

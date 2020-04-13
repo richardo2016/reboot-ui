@@ -53,6 +53,24 @@ export namespace RebootUI {
     export type IGetReactLikeComponentProps<TC> =
         TC extends React.Component<infer U, any> ? U : 
         TC extends React.FunctionComponent<infer U> ? U : never
+
+    export type ValueOf<T> = T extends object ? T[keyof T] : never
+
+    // copy from `react-transition-group`
+    type EndHandler = (node: HTMLElement, done: () => void) => void;
+    type EnterHandler = (node: HTMLElement, isAppearing: boolean) => void;
+    type ExitHandler = (node: HTMLElement) => void;
+    
+    export interface TransitionGroupProps {
+        onEnter?: EnterHandler
+        onEntering?: EnterHandler
+        onEntered?: EnterHandler
+        onExit?: ExitHandler
+        onExiting?: ExitHandler
+        onExited?: ExitHandler
+    }
+
+    export type ReactRef<T = any, P = any> = Parameters<React.ForwardRefRenderFunction<T, P>>[1]
 }
 
 export const themes = json['theme-colors'].map(theme => theme.name)
@@ -180,16 +198,16 @@ export function filterRepsonsiveSize(size = '') {
     if (sizes.includes(size)) return size
 }
 
-export function filterFormControlSize(size = '') {
-    if (['sm', 'lg'].includes(size)) return size
+export function filterFormControlSize(size = ''): RebootUI.BinarySizeType | undefined {
+    if (['sm', 'lg'].includes(size)) return size as RebootUI.BinarySizeType
 }
 
-export function filterPlaceholderSize(size = '') {
-    if (['sm', 'lg'].includes(size)) return size
+export function filterPlaceholderSize(size = ''): RebootUI.BinarySizeType | undefined {
+    if (['sm', 'lg'].includes(size)) return size as RebootUI.BinarySizeType
 }
 
-export function filterPaginationSize(size = '') {
-    if (['sm', 'lg'].includes(size)) return size
+export function filterPaginationSize(size = ''): RebootUI.BinarySizeType | undefined {
+    if (['sm', 'lg'].includes(size)) return size as RebootUI.BinarySizeType
 }
 
 export function filterInputType(type = '') {

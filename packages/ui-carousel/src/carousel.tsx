@@ -4,20 +4,45 @@ import { Transition } from 'react-transition-group';
 
 import Anchor from '@reboot-ui/icomponent-anchor'
 
-import { resolveJSXElement } from '@reboot-ui/common'
-import { rclassnames, tryUseContext, isReactTypeOf } from '@reboot-ui/common'
-
-import { TransitionTimeouts, TransitionStates } from '@reboot-ui/common'
-import { filterPlaceholderSize } from '@reboot-ui/common'
-import { coerceInteger } from '@reboot-ui/common'
-import { arraify, flatten } from '@reboot-ui/common'
-import { useInterval } from '@reboot-ui/common'
-import { useKeyPress } from '@reboot-ui/common'
+import {
+    resolveJSXElement, RebootUI,
+    rclassnames,
+    tryUseContext,
+    isReactTypeOf,
+    TransitionTimeouts,
+    TransitionStates,
+    filterPlaceholderSize,
+    coerceInteger,
+    arraify,
+    flatten,
+    useInterval,
+    useKeyPress,
+} from '@reboot-ui/common'
 
 const RUNTIME_TOKEN = Date.now()
-const useToken = (str) => `${RUNTIME_TOKEN}_${str}`
+const useToken = (str: string) => `${RUNTIME_TOKEN}_${str}`
 
-const CarouselContext = React.createContext({})
+interface CarouselContextType {
+    symbol?: Symbol
+    switchType: RebootUI.ValueOf<typeof SWICH_TYPES> | undefined
+    itemDefaultInterval: number
+    slides: SlideInfo[]
+    getPlayInfo: () => ContextSlideInfo
+    _isCurrent: (ref: SlideInfo['itemIndexRef']) => boolean
+    _getSwitchInCls: (ref: SlideInfo['itemIndexRef'], tState: RebootUI.ValueOf<typeof TransitionStates>, startAnimation: boolean) => [
+        // direction
+        false | 'carousel-item-left' | 'carousel-item-right',
+        // order
+        false | 'carousel-item-next' | 'carousel-item-prev',
+        // active
+        false | 'active'
+    ]
+    _onSwitch: (nextIdx: number | 'prev' | 'next') => void
+    _toggleFreezingSlide: (nextFreeing?: boolean) => void
+    _addSlide: (sld: SlideInfo, idx?: number) => SlideInfo
+    _removeSlide: (sld: SlideInfo) => void
+}
+const CarouselContext = React.createContext<CarouselContextType>({} as any)
 
 const SWICH_TYPES = {
     FROM_LEFT_TO_RIGHT: 'FROM_LEFT_TO_RIGHT',
@@ -27,10 +52,26 @@ const SWICH_TYPES = {
 
 const symbol = Symbol('#Carousel')
 
-const useSlides = () => {
-    const slidesRef = React.useRef([])
-    const [_, setSlides] = React.useState([])
-    const update = ((value) => {
+interface SlideInfo {
+    interval: number
+    itemIndexRef: React.MutableRefObject<number>
+    ref?: RebootUI.ReactRef
+}
+
+interface ContextSlideInfo {
+    currentSlide: SlideInfo
+    currentIndex: number
+    paused: boolean
+    startedAutoplay: boolean
+}
+
+const useSlides = (): [
+    React.MutableRefObject<SlideInfo[]>,
+    (nextVal: SlideInfo[]) => void
+] => {
+    const slidesRef = React.useRef<SlideInfo[]>([])
+    const [_, setSlides] = React.useState<SlideInfo[]>([])
+    const update = ((value: SlideInfo[]) => {
         slidesRef.current = value;
         setSlides(Array.from(slidesRef.current))
     })
@@ -38,12 +79,16 @@ const useSlides = () => {
     return [slidesRef, update]
 }
 
-const useIndexInfo = (initIdx = 0) => {
+const useIndexInfo = (initIdx = 0): [
+    React.MutableRefObject<number>,
+    React.MutableRefObject<number>,
+    (nextVal: number) => void
+] => {
     const indexRef = React.useRef(initIdx)
     const lastIndexRef = React.useRef(initIdx)
     const [_, setCurIndex] = React.useState(initIdx)
 
-    const update = ((value) => {
+    const update = ((value: number) => {
         lastIndexRef.current = indexRef.current;
 
         indexRef.current = value;
@@ -53,9 +98,15 @@ const useIndexInfo = (initIdx = 0) => {
     return [lastIndexRef, indexRef, update]
 }
 
-const usePauseOnHover = (pauseMode) => {
-    const [ , setPause ] = React.useState(false)
-    const pauseRef = React.useRef(null)
+type PauseMode = 'hover'
+
+const usePauseOnHover = (pauseMode: PauseMode): [
+    React.MutableRefObject<boolean>,
+    () => void,
+    () => void,
+] => {
+    const [ , setPause ] = React.useState<boolean>(false)
+    const pauseRef = React.useRef<boolean>(true)
 
     const onMouseEnter = React.useCallback(() => {
         if (pauseMode === 'hover')
@@ -70,10 +121,14 @@ const usePauseOnHover = (pauseMode) => {
     return [pauseRef, onMouseEnter, onMouseLeave]
 }
 
-const useStartAutoplay = (rideMode) => {
+export type RideMode = 'carousel'
+const useStartAutoplay = (rideMode?: RideMode): [
+    React.MutableRefObject<boolean>,
+    () => void
+] => {
     const [, setStartAutoplay] = React.useState(false)
     // if rideMode === 'carousel, autoplay on load 
-    const ref = React.useRef(isAutoplayOnLoad(rideMode))
+    const ref = React.useRef<boolean>(isAutoplayOnLoad(rideMode))
 
     const onUserManulSwitched = React.useCallback(() => {
         setStartAutoplay(ref.current = true)
@@ -82,7 +137,10 @@ const useStartAutoplay = (rideMode) => {
     return [ref, onUserManulSwitched]
 }
 
-const useCarouseInterval = (_itv = DFLT_INTERVAL) => {
+const useCarouseInterval = (_itv = DFLT_INTERVAL): [
+   React.MutableRefObject<number>,
+   (nextVal: number) => void
+] => {
     const [, setInterval] = React.useState(_itv)
     const ref = React.useRef(_itv)
 
@@ -94,15 +152,18 @@ const useCarouseInterval = (_itv = DFLT_INTERVAL) => {
     return [ref, update]
 }
 
-const useKeyboard = (latestValue) => {
-    const ref = React.useRef(null)
+const useKeyboard = (latestValue: boolean | boolean) => {
+    const ref = React.useRef<boolean | null>(null)
     ref.current = latestValue
     return ref
 }
 
-const useFreezingAnimation = (value = false) => {
-    const ref = React.useRef(value)
-    const toggle = (nextValue = !ref.current) => {
+const useFreezingAnimation = (value = false): [
+    React.MutableRefObject<boolean>,
+    (nextVal?: boolean) => void
+] => {
+    const ref = React.useRef<boolean>(value)
+    const toggle = (nextValue: boolean = !ref.current) => {
         ref.current = nextValue
     }
     return [ref, toggle]
@@ -110,7 +171,7 @@ const useFreezingAnimation = (value = false) => {
 
 const DFLT_INTERVAL = 5000
 
-const isAutoplayOnLoad = (rideMode) => rideMode === 'carousel'
+const isAutoplayOnLoad = (rideMode: any) => rideMode === 'carousel'
 /**
  * @see https://getbootstrap.com/docs/4.4/components/carousel
  * 
@@ -118,284 +179,294 @@ const isAutoplayOnLoad = (rideMode) => rideMode === 'carousel'
  * @inner-content `.carousel-inner`
  * @inner-content `.carousel-item`
  */
-const Carousel = React.forwardRef(
-    function ({
-        children,
-        as: _as = 'div',
-        slide = true,
-        /**
-         * @description if set hover, pause on mouse enter carousel and resume on mouse leave carousel
-         * 
-         * @enum 'hover'
-         * 
-         * @default 'hover'
-         */
-        pause: pauseMode = 'hover',
-        /**
-         * 
-         * @enum carousel - autoplay on load
-         * @enum (default) - autoplay after user's first manul switch
-         */
-        ride: rideMode,
-        /**
-         * @description the interval at which the carousel automatically cycles
-         * 
-         * @default null
-         */
-        interval = isAutoplayOnLoad(rideMode) ? DFLT_INTERVAL : null,
-        /**
-         * @description whether the left-arrow and right-arrow keys could control the carousel
-         */
-        keyboard: controlledByKeyborad = false,
-        /**
-         * @description whether use fade animation when switch
-         */
-        crossFade = false,
-        ...props
-    }, ref) {
-        const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
+type CarouselType = RebootUI.IComponentPropsWithChildren<{
+    pause: 'hover'
+    slide?: boolean
+    ride?: RideMode
+    interval?: number | null
+    keyboard?: boolean
+    crossFade?: boolean
+    onMouseEnter?: (evt: MouseEvent) => void
+    onMouseLeave?: (evt: MouseEvent) => void
+}>
+const Carousel = function ({
+    children,
+    as: _as = 'div',
+    slide = true,
+    /**
+     * @description if set hover, pause on mouse enter carousel and resume on mouse leave carousel
+     * 
+     * @enum 'hover'
+     * 
+     * @default 'hover'
+     */
+    pause: pauseMode = 'hover',
+    /**
+     * 
+     * @enum carousel - autoplay on load
+     * @enum (default) - autoplay after user's first manul switch
+     */
+    ride: rideMode,
+    /**
+     * @description the interval at which the carousel automatically cycles
+     * 
+     * @default null
+     */
+    interval = isAutoplayOnLoad(rideMode) ? DFLT_INTERVAL : null,
+    /**
+     * @description whether the left-arrow and right-arrow keys could control the carousel
+     */
+    keyboard: controlledByKeyborad = false,
+    /**
+     * @description whether use fade animation when switch
+     */
+    crossFade = false,
+    ...props
+}: CarouselType, ref: RebootUI.ReactRef<any, CarouselType>) {
+    const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
+    const [slidesRef, setSlides] = useSlides()
+    const [lastIndexRef, currentIdxRef, setCurrentIdx] = useIndexInfo()
 
-        const [slidesRef, setSlides] = useSlides()
-        const [lastIndexRef, currentIdxRef, setCurrentIdx] = useIndexInfo()
+    const [freezingSwitchRef, setFreezingSwitch] = useFreezingAnimation(false)
+    const switchActiveIdx = React.useCallback((nextIdx) => {
+        if (freezingSwitchRef.current) return ;
 
-        const [freezingSwitchRef, setFreezingSwitch] = useFreezingAnimation(false)
-        const switchActiveIdx = React.useCallback((nextIdx) => {
-            if (freezingSwitchRef.current) return ;
+        nextIdx = coerceInteger(nextIdx, 0)
 
-            nextIdx = coerceInteger(nextIdx, 0)
+        if (nextIdx > slidesRef.current.length - 1)
+            nextIdx = 0
+        else if (nextIdx < 0)
+            nextIdx = slidesRef.current.length - 1
+        else
+            nextIdx = Math.min(nextIdx, slidesRef.current.length - 1)
 
-            if (nextIdx > slidesRef.current.length - 1)
-                nextIdx = 0
-            else if (nextIdx < 0)
-                nextIdx = slidesRef.current.length - 1
+        setCurrentIdx(nextIdx)
+    }, [])
+
+    const [pauseRef, onMouseEnter, onMouseLeave] = usePauseOnHover(pauseMode)
+    const [startedAutoplayRef, startAutoplay] = useStartAutoplay(rideMode)
+
+    const dirOffset = lastIndexRef.current - currentIdxRef.current
+    const switchType = (() => {
+        const itemsOffset = slidesRef.current.length - 1
+        if (dirOffset === 0) return SWICH_TYPES.NONE
+
+        if ((dirOffset > 0))
+            // over most right slide
+            if (dirOffset >= itemsOffset)
+                return SWICH_TYPES.FROM_LEFT_TO_RIGHT
             else
-                nextIdx = Math.min(nextIdx, slidesRef.current.length - 1)
+                return SWICH_TYPES.FROM_RIGHT_TO_LEFT
+        if (dirOffset < 0)
+            // over most left slide
+            if (Math.abs(dirOffset) >= itemsOffset)
+                return SWICH_TYPES.FROM_RIGHT_TO_LEFT
+            else
+                return SWICH_TYPES.FROM_LEFT_TO_RIGHT
+    })()
 
-            setCurrentIdx(nextIdx)
-        }, [switchActiveIdx])
+    const INTERVAL = coerceInteger(interval, 0)
+    interval_about: {
+        const [intervalRef, updateInterval] = useCarouseInterval(INTERVAL)
+        useInterval(() => {
+            if (!intervalRef.current) return ;
+            const playInfo = context.getPlayInfo()
 
-        const [pauseRef, onMouseEnter, onMouseLeave] = usePauseOnHover(pauseMode)
-        const [startedAutoplayRef, startAutoplay] = useStartAutoplay(rideMode)
+            if (playInfo.paused) return ;
+            if (!playInfo.startedAutoplay) return ;
 
-        const dirOffset = lastIndexRef.current - currentIdxRef.current
-        const switchType = (() => {
-            const itemsOffset = slidesRef.current.length - 1
-            if (dirOffset === 0) return SWICH_TYPES.NONE
+            context._onSwitch(playInfo.currentIndex + 1);
+        }, intervalRef.current)
+        // update interval(from item) on slide changed
+        React.useEffect(() => {
+            const currentSlide = context.getPlayInfo().currentSlide
 
-            if ((dirOffset > 0))
-                // over most right slide
-                if (dirOffset >= itemsOffset)
-                    return SWICH_TYPES.FROM_LEFT_TO_RIGHT
-                else
-                    return SWICH_TYPES.FROM_RIGHT_TO_LEFT
-            if (dirOffset < 0)
-                // over most left slide
-                if (Math.abs(dirOffset) >= itemsOffset)
-                    return SWICH_TYPES.FROM_RIGHT_TO_LEFT
-                else
-                    return SWICH_TYPES.FROM_LEFT_TO_RIGHT
-        })()
-
-        interval = coerceInteger(interval, 0)
-        interval_about: {
-            const [intervalRef, updateInterval] = useCarouseInterval(interval)
-            useInterval(() => {
-                if (!intervalRef.current) return ;
-                const playInfo = context.getPlayInfo()
-    
-                if (playInfo.paused) return ;
-                if (!playInfo.startedAutoplay) return ;
-    
-                context._onSwitch(playInfo.currentIndex + 1);
-            }, intervalRef.current)
-            // update interval(from item) on slide changed
-            React.useEffect(() => {
-                const currentSlide = context.getPlayInfo('currentSlide')
-    
-                if (!currentSlide) return 
-                const nextInterval = coerceInteger(currentSlide.interval, intervalRef.current)
-                if (nextInterval !== intervalRef.current)
-                    updateInterval(nextInterval)
-            }, [currentIdxRef.current])
-        }
-
-        keyboard_about: {
-            const _controlledRef = useKeyboard(controlledByKeyborad)
-            useKeyPress('ArrowLeft', {
-                keydown: () => {
-                    if (!_controlledRef.current) return ;
-                    context._onSwitch('prev')
-                }
-            })
-            useKeyPress('ArrowRight', {
-                keydown: () => {
-                    if (!_controlledRef.current) return ;
-                    context._onSwitch('next')
-                }
-            })
-        }
-        
-        const context = {
-            symbol,
-            switchType,
-            itemDefaultInterval: coerceInteger(interval, 0),
-            slides: slidesRef.current,
-            getPlayInfo (key) {
-                const info = {
-                    currentSlide: context.slides[currentIdxRef.current],
-                    currentIndex: currentIdxRef.current,
-                    pause: pauseRef.current,
-                    startedAutoplay: startedAutoplayRef.current,
-                }
-                switch (key) {
-                    case 'currentSlide':
-                    case 'currentIndex':
-                    case 'paused':
-                    case 'startedAutoplay':
-                        return info[key];
-                    default:
-                        return info
-                }
-            },
-            _isLast: (slideIndexRef) => {
-                return slideIndexRef.current === lastIndexRef.current
-            },
-            _isCurrent: (slideIndexRef) => {
-                return slideIndexRef.current === currentIdxRef.current
-            },
-            _getSwitchInCls: (_, tState, startAnimation) => {
-                return [
-                    // direction
-                    startAnimation && (tState === TransitionStates.ENTERING || tState === TransitionStates.EXITING) && (
-                        switchType === SWICH_TYPES.FROM_LEFT_TO_RIGHT ? 'carousel-item-left' : 'carousel-item-right'
-                    ),
-                    // order
-                    tState === TransitionStates.ENTERING && (
-                        switchType === SWICH_TYPES.FROM_LEFT_TO_RIGHT ? 'carousel-item-next' : 'carousel-item-prev'
-                    ),
-                    // active
-                    (tState === TransitionStates.ENTERED || tState === TransitionStates.EXITING) && 'active',
-                ]
-            },
-            _onSwitch: (nextIdx) => {
-                if (!startedAutoplayRef.current) startAutoplay()
-
-                switch (nextIdx) {
-                    case 'prev':
-                        switchActiveIdx(currentIdxRef.current - 1)
-                        break
-                    case 'next':
-                        switchActiveIdx(currentIdxRef.current + 1)
-                        break
-                    default:
-                        if (typeof nextIdx === 'number') {
-                            switchActiveIdx(nextIdx)
-                            break
-                        }
-                        throw new Error(`unexpected controlType! contact with author of reboot-ui!`)
-                }
-            },
-            _toggleFreezingSlide: (nextFreeing = false) => {
-                setFreezingSwitch(nextFreeing)
-            },
-            _addSlide: ({ ref, interval, itemIndexRef } = {}, idx) => {
-                const slides = slidesRef.current
-                idx = coerceInteger(idx, slides.length)
-
-                idx = Math.min(idx, slides.length)
-                idx = Math.max(idx, 0)
-
-                itemIndexRef.current = idx
-
-                const newSlide = { ref, interval, itemIndexRef }
-                const _slides = slides.slice(0, idx).concat(newSlide)
-                    .concat(slides.slice(idx + 1))
-                setSlides(_slides)
-
-                return newSlide
-            },
-            _removeSlide: (slide) => {
-                const _slides = Array.from(slidesRef.current)
-
-                const idx = _slides.findIndex(item => item === slide)
-                if (idx === -1) return idx;
-
-                _slides.splice(idx, 1)
-
-                setSlides(
-                    _slides.map((item, _idx) => {
-                        item.itemIndexRef.current = _idx
-                        return item
-                    })
-                )
-            }
-        }
-
-        const flattenedList = flatten(arraify(children))
-        let itemList = []
-        let controlList = []
-        let indicatorsNode = null
-        let restChildren = []
-        flattenedList.forEach(item => {
-            if (isReactTypeOf(item, Carousel.Item)) itemList.push(item)
-            else if (isReactTypeOf(item, Carousel.Control)) controlList.push(item)
-            else if (isReactTypeOf(item, Carousel.Indicators))
-                indicatorsNode = item
-            else restChildren.push(item)
-        })
-
-        if (indicatorsNode)
-            indicatorsNode = React.cloneElement(indicatorsNode, {
-                children: Array.from({ length: itemList.length }).map(
-                    (_, idx) => <CarouselIndicator {...{ [useToken('indicatorIndex')]: idx }} />
-                )
-            })
-
-        itemList.forEach((item, idx) => {
-            if (!isReactTypeOf(item, Carousel.Item)) return ;
-            itemList[idx] = React.cloneElement(item, { [useToken('itemIndex')]: idx })
-        })
-    
-        return (
-            <CarouselContext.Provider value={context}>
-                <JSXEl
-                    {...props}
-                    className={rclassnames(props, [
-                        `carousel`,
-                        slide && `slide`,
-                        crossFade && `carousel-fade`,
-                    ])}
-                    {...rideMode && {
-                        'data-ride': rideMode
-                    }}
-                    onMouseEnter={(nativeEvent) => {
-                        onMouseEnter()
-                        typeof props.onMouseEnter === 'function' && props.onMouseEnter(nativeEvent)
-                    }}
-                    onMouseLeave={(nativeEvent) => {
-                        onMouseLeave()
-                        typeof props.onMouseLeave === 'function' && props.onMouseLeave(nativeEvent)
-                    }}
-                    ref={ref}
-                >
-                    {indicatorsNode}
-                    <Carousel.Inner>
-                        {itemList}
-                    </Carousel.Inner>
-                    {controlList}
-                    {restChildren}
-                </JSXEl>
-            </CarouselContext.Provider>
-        )
+            if (!currentSlide) return 
+            const nextInterval = coerceInteger(currentSlide.interval, intervalRef.current)
+            if (nextInterval !== intervalRef.current)
+                updateInterval(nextInterval)
+        }, [currentIdxRef.current])
     }
-)
+
+    keyboard_about: {
+        const _controlledRef = useKeyboard(controlledByKeyborad)
+        useKeyPress('ArrowLeft', {
+            keydown: () => {
+                if (!_controlledRef.current) return ;
+                context._onSwitch('prev')
+            }
+        })
+        useKeyPress('ArrowRight', {
+            keydown: () => {
+                if (!_controlledRef.current) return ;
+                context._onSwitch('next')
+            }
+        })
+    }
+    
+    const context: CarouselContextType = {
+        symbol,
+        switchType,
+        itemDefaultInterval: coerceInteger(INTERVAL, 0),
+        slides: slidesRef.current,
+        getPlayInfo (
+            key?: keyof ContextSlideInfo
+        ): ContextSlideInfo {
+            const info: ContextSlideInfo = {
+                currentSlide: context.slides[currentIdxRef.current],
+                currentIndex: currentIdxRef.current,
+                paused: pauseRef.current,
+                startedAutoplay: startedAutoplayRef.current,
+            }
+
+            return info
+        },
+        _isCurrent: (slideIndexRef: SlideInfo['itemIndexRef']) => {
+            return slideIndexRef.current === currentIdxRef.current
+        },
+        _getSwitchInCls: (_, tState: RebootUI.ValueOf<typeof TransitionStates>, startAnimation: boolean) => {
+            return [
+                // direction
+                startAnimation && (tState === TransitionStates.ENTERING || tState === TransitionStates.EXITING) && (
+                    switchType === SWICH_TYPES.FROM_LEFT_TO_RIGHT ? 'carousel-item-left' : 'carousel-item-right'
+                ),
+                // order
+                tState === TransitionStates.ENTERING && (
+                    switchType === SWICH_TYPES.FROM_LEFT_TO_RIGHT ? 'carousel-item-next' : 'carousel-item-prev'
+                ),
+                // active
+                (tState === TransitionStates.ENTERED || tState === TransitionStates.EXITING) && 'active',
+            ]
+        },
+        _onSwitch: (nextIdx: number | 'prev' | 'next') => {
+            if (!startedAutoplayRef.current) startAutoplay()
+
+            switch (nextIdx) {
+                case 'prev':
+                    switchActiveIdx(currentIdxRef.current - 1)
+                    break
+                case 'next':
+                    switchActiveIdx(currentIdxRef.current + 1)
+                    break
+                default:
+                    if (typeof nextIdx === 'number') {
+                        switchActiveIdx(nextIdx)
+                        break
+                    }
+                    throw new Error(`unexpected controlType! contact with author of reboot-ui!`)
+            }
+        },
+        _toggleFreezingSlide: (nextFreeing = false) => {
+            setFreezingSwitch(nextFreeing)
+        },
+        _addSlide: ({
+            ref,
+            interval = INTERVAL,
+            itemIndexRef
+        }: SlideInfo, idx?: number) => {
+            const slides = slidesRef.current
+            idx = coerceInteger(idx, slides.length)
+
+            idx = Math.min(idx, slides.length)
+            idx = Math.max(idx, 0)
+
+            itemIndexRef.current = idx
+
+            const newSlide: SlideInfo = { ref, interval, itemIndexRef }
+            const _slides = slides.slice(0, idx).concat(newSlide)
+                .concat(slides.slice(idx + 1))
+            setSlides(_slides)
+
+            return newSlide
+        },
+        _removeSlide: (slide: SlideInfo) => {
+            const _slides = Array.from(slidesRef.current)
+
+            const idx = _slides.findIndex(item => item === slide)
+            if (idx === -1) return idx;
+
+            _slides.splice(idx, 1)
+
+            setSlides(
+                _slides.map((item, _idx) => {
+                    item.itemIndexRef.current = _idx
+                    return item
+                })
+            )
+        }
+    }
+
+    const flattenedList = flatten(arraify(children)) as React.ReactElement[]
+    let itemList: React.ReactElement[] = []
+    let controlList: React.ReactElement[] = []
+    let indicatorsNode = null
+    let restChildren: React.ReactElement[] = []
+    flattenedList.forEach(item => {
+        if (isReactTypeOf(item, Carousel.Item)) itemList.push(item)
+        else if (isReactTypeOf(item, Carousel.Control)) controlList.push(item)
+        else if (isReactTypeOf(item, Carousel.Indicators))
+            indicatorsNode = item
+        else restChildren.push(item)
+    })
+
+    if (indicatorsNode)
+        indicatorsNode = React.cloneElement(indicatorsNode, {
+            children: Array.from({ length: itemList.length }).map(
+                (_, idx) => {
+                    const props = { [useToken('indicatorIndex')]: idx };
+                    return <CarouselIndicator {...props} />
+                }
+            )
+        })
+
+    itemList.forEach((item, idx) => {
+        if (!isReactTypeOf(item, Carousel.Item)) return ;
+        itemList[idx] = React.cloneElement(item, { [useToken('itemIndex')]: idx })
+    })
+
+    return (
+        <CarouselContext.Provider value={context}>
+            <JSXEl
+                {...props}
+                className={rclassnames(props, [
+                    `carousel`,
+                    slide && `slide`,
+                    crossFade && `carousel-fade`,
+                ])}
+                {...rideMode && {
+                    'data-ride': rideMode
+                }}
+                onMouseEnter={(nativeEvent: MouseEvent) => {
+                    onMouseEnter()
+                    typeof props.onMouseEnter === 'function' && props.onMouseEnter(nativeEvent)
+                }}
+                onMouseLeave={(nativeEvent: MouseEvent) => {
+                    onMouseLeave()
+                    typeof props.onMouseLeave === 'function' && props.onMouseLeave(nativeEvent)
+                }}
+                ref={ref}
+            >
+                {indicatorsNode}
+                <Carousel.Inner>
+                    {itemList}
+                </Carousel.Inner>
+                {controlList}
+                {restChildren}
+            </JSXEl>
+        </CarouselContext.Provider>
+    )
+}
+
+Carousel.Refable = React.forwardRef(Carousel)
 
 Carousel.Indicators = function ({
     children,
     as: _as = 'ol',
     ...props
-}) {
+}: RebootUI.IComponentPropsWithChildren<{
+    as?: RebootUI.IPropAs<'ol' | 'ul'>
+}>) {
     const JSXEl = resolveJSXElement(_as, { allowedHTMLTags: ['ol', 'ul'] });
 
     return (
@@ -413,10 +484,10 @@ Carousel.Indicators = function ({
 const CarouselIndicator = function ({
     children,
     as: _as = 'li',
-    // active = false,
+    // @ts-ignore
     [useToken('indicatorIndex')]: $indicatorIndex,
     ...props
-}) {
+}: RebootUI.IComponentPropsWithChildren<{}>) {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
     
     const carouselCtx = tryUseContext(CarouselContext)
@@ -445,7 +516,7 @@ Carousel.Inner = function ({
     children,
     as: _as = 'div',
     ...props
-}) {
+}: RebootUI.IComponentPropsWithChildren<{}>) {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
     return (
@@ -464,7 +535,7 @@ Carousel.Caption = function ({
     children,
     as: _as = 'div',
     ...props
-}) {
+}: RebootUI.IComponentPropsWithChildren<{}>) {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
     return (
@@ -479,11 +550,14 @@ Carousel.Caption = function ({
     )
 }
 
-const useStartAnimation = (initState = false) => {
-    const ref = React.useRef(initState)
-    const [_, set] = React.useState(initState)
+const useStartAnimation = (initState = false): [
+    React.MutableRefObject<boolean>,
+    (nextVal: boolean) => void
+] => {
+    const ref = React.useRef<boolean>(initState)
+    const [_, set] = React.useState<boolean>(initState)
 
-    const update = ((value) => {
+    const update = ((value: boolean) => {
         ref.current = value;
         set(ref.current)
     })
@@ -492,19 +566,28 @@ const useStartAnimation = (initState = false) => {
 }
 
 Carousel.Item = React.forwardRef(
-    function ({
-        children,
-        as: _as = 'div',
-        /**
-         * @description individual interval for this carousel item
-         */
-        interval,
-        [useToken('itemIndex')]: $itemIndex,
-        ...props
-    }, ref) {
+    function (
+        {
+            children,
+            as: _as = 'div',
+            /**
+             * @description individual interval for this carousel item
+             */
+            interval,
+            ...props
+        }: RebootUI.IComponentPropsWithChildren<{
+            interval?: number
+        } & Partial<RebootUI.TransitionGroupProps>>,
+        ref
+    ) {
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
-        const itemIndexRef = React.useRef($itemIndex)
+        const {
+            // @ts-ignore
+            [useToken('itemIndex')]: $itemIndex,
+        } = props || {};
+
+        const itemIndexRef = React.useRef<number>($itemIndex)
     
         const carouselCtx = tryUseContext(CarouselContext)
         if (carouselCtx.symbol !== symbol)
@@ -517,11 +600,12 @@ Carousel.Item = React.forwardRef(
 
         const active = carouselCtx._isCurrent(itemIndexRef)
         if (interval === undefined) interval = coerceInteger(carouselCtx.itemDefaultInterval, 0)
-        else if (typeof interval !== null) interval = coerceInteger(interval, null)
+        else if (typeof interval !== null) interval = coerceInteger(interval)
 
+        const INTERVAL = interval
         // register item to carousel
         React.useEffect(() => {
-            const slide = carouselCtx._addSlide({ ref, interval, itemIndexRef })
+            const slide = carouselCtx._addSlide({ ref, interval: INTERVAL, itemIndexRef })
     
             return () => {
                 carouselCtx._removeSlide(slide)
@@ -588,12 +672,16 @@ Carousel.Item = React.forwardRef(
 
 Carousel.Control = function ({
     children,
-    as: _as = Anchor,
+    as: _as = Anchor as any,
     prev = false,
     next = !prev,
     active = false,
     ...props
-}) {
+}: RebootUI.IComponentPropsWithChildren<{
+    prev?: boolean
+    next?: boolean
+    active?: boolean
+}>) {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
     
     prev = !next
@@ -617,18 +705,20 @@ Carousel.Control = function ({
                 carouselCtx._onSwitch(controlType)
             }}
         >
-            <span class={`carousel-control-${controlType}-icon`} aria-hidden="true"></span>
-            <span class="sr-only">{dfltText}</span>
+            <span className={`carousel-control-${controlType}-icon`} aria-hidden="true"></span>
+            <span className="sr-only">{dfltText}</span>
         </JSXEl>
     )
 }
 
 Carousel.PlaceholderImage = function ({
     children,
-    as: _as = Anchor,
-    size = '',
+    as: _as = Anchor as any,
+    size,
     ...props
-}) {
+}: RebootUI.IComponentPropsWithChildren<{
+    size?: RebootUI.BinarySizeType
+}>) {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
     size = filterPlaceholderSize(size)

@@ -138,7 +138,13 @@ exports.getConfigItem = function (opts) {
 					[ '@babel/preset-env', {
 						"modules": false
 					} ],
-					(use_react || use_preact) && '@babel/preset-react'
+					(use_react || use_preact) && '@babel/preset-react',
+					[ '@babel/preset-typescript', {
+						isTSX: true,
+						allExtensions: true,
+						allowNamespaces: true,
+						allowDeclareFields: true
+					}]
 				].filter(x => x),
 				...babel_options
 			}),
