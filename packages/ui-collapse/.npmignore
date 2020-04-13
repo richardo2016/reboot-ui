@@ -6,3 +6,4 @@ src
 !es
 !lib
 !dist
+!*.d.ts

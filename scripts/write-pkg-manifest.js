@@ -144,17 +144,19 @@ packages.forEach(({
     if (useTs) {
       const dtsEntry = path.resolve(comDir, '@types/index.d.ts')
       if (!fs.existsSync(path.dirname(dtsEntry))) shelljs.mkdir(path.dirname(dtsEntry))
-      fs.writeFileSync(
-        dtsEntry,
-        ejs.render(ejs.render(readEjs('@types/index.d.ts'), ejsCtx))
-      )
+      if (!fs.existsSync(path.dirname(dtsEntry)))
+        fs.writeFileSync(
+          dtsEntry,
+          ejs.render(ejs.render(readEjs('@types/index.d.ts'), ejsCtx))
+        )
 
       const tsconfig = path.resolve(comDir, 'tsconfig.json')
       if (!fs.existsSync(path.dirname(tsconfig))) shelljs.mkdir(path.dirname(tsconfig))
-      fs.writeFileSync(
-        tsconfig,
-        ejs.render(ejs.render(readEjs('tsconfig.json'), ejsCtx))
-      )
+      if (!fs.existsSync(path.dirname(tsconfig)))
+        fs.writeFileSync(
+          tsconfig,
+          ejs.render(ejs.render(readEjs('tsconfig.json'), ejsCtx))
+        )
     }
   }
 
