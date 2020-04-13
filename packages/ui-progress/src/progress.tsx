@@ -1,10 +1,12 @@
 import React from 'react'
 
-import { resolveJSXElement } from '@reboot-ui/common'
-import { rclassnames } from '@reboot-ui/common'
-import { coerceFloat } from '@reboot-ui/common'
-
-import { filterThemeName } from '@reboot-ui/common'
+import {
+    resolveJSXElement,
+    RebootUI,
+    rclassnames,
+    coerceFloat,
+    filterThemeName
+} from '@reboot-ui/common'
 
 /**
  * @see https://getbootstrap.com/docs/4.4/components/progress/
@@ -17,7 +19,7 @@ const Progress = function ({
     children,
     as: _as = 'div',
     ...props
-}) {
+}: RebootUI.IComponentPropsWithChildren) {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
     return (
@@ -32,7 +34,7 @@ const Progress = function ({
     )
 }
 
-function formatValue (value, minnmal = 0) {
+function formatValue (value: any, minnmal = 0) {
     return Math.max(coerceFloat(value), minnmal)
 }
 
@@ -43,11 +45,19 @@ Progress.Bar = function ({
     min = 0,
     max = 100,
     label = children,
-    bgTheme = '',
+    bgTheme,
     striped = false,
     animated = false,
     ...props
-}) {
+}: RebootUI.IComponentPropsWithChildren<{
+    value?: number
+    min?: number
+    max?: number
+    label?: React.ReactNode
+    bgTheme?: RebootUI.ThemeType
+    striped?: boolean
+    animated?: boolean
+}>) {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
     min = formatValue(min)
