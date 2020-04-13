@@ -16,11 +16,14 @@ export { useInterval } from './utils/react-hooks/use-timer';
 export { flatten, arraify } from './utils/array';
 export declare namespace RebootUI {
     export type Nilable<T> = null | T;
-    export type IComponentPropsWithChildren<T = any, REFT = any> = React.PropsWithChildren<{
+    export type IComponentPropsWithChildren<T = any, REFT = any> = React.PropsWithChildren<React.Props<REFT> & React.HTMLAttributes<any> & {
         as?: IPropAs;
-        class?: string;
-    } & React.Props<REFT> & React.HTMLAttributes<any> & T>;
-    export type IComponentHtmlPropsWithChildren<T = React.AllHTMLAttributes<any>, REFT = any> = IComponentPropsWithChildren<T & React.HTMLAttributes<any>, REFT>;
+        ref?: React.Ref<REFT>;
+        class?: React.HTMLAttributes<any>['className'];
+    } & T>;
+    export type INoRefComponentHtmlPropsWithChildren<T = React.AllHTMLAttributes<any>, REFT = any> = React.PropsWithChildren<Omit<IComponentPropsWithChildren<T, REFT>, 'ref'>>;
+    export interface ForwardRefComponent<P extends RebootUI.IComponentPropsWithChildren = any> extends React.ForwardRefExoticComponent<P>, Record<string, any>, Function {
+    }
     export type IPropAs<HTMLTags = any> = React.ReactElement | HTMLTags | string | React.ExoticComponent<any> | React.ForwardRefExoticComponent<any>;
     export type IPropAsTagHeadings = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
     export type ThemeType = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'link';
@@ -49,6 +52,7 @@ export declare namespace RebootUI {
         onExiting?: ExitHandler;
         onExited?: ExitHandler;
     }
+    export type TransitionStateNames = 'exited' | 'entering' | 'entered' | 'exiting' | 'unmounted';
     export type ReactRef<T = any, P = any> = Parameters<React.ForwardRefRenderFunction<T, P>>[1] | null;
     export type DOMSelector = Document | HTMLElement | string;
     export type DOMEventHandler = EventListener | EventListenerObject | null;
@@ -71,7 +75,8 @@ export declare const TransitionStates: {
 export declare const headingTags: string[];
 export declare const inputTypes: string[];
 export declare function filterThemeName(theme?: string): RebootUI.ThemeType | undefined;
-export declare function filterRepsonsiveSize(size?: string): string | undefined;
+export declare function filterRepsonsiveSize(size?: string): RebootUI.BreakPointType | undefined;
+export declare function filterBinraySize(size?: string): RebootUI.BinarySizeType | undefined;
 export declare function filterFormControlSize(size?: string): RebootUI.BinarySizeType | undefined;
 export declare function filterPlaceholderSize(size?: string): RebootUI.BinarySizeType | undefined;
 export declare function filterPaginationSize(size?: string): RebootUI.BinarySizeType | undefined;
@@ -89,3 +94,4 @@ export declare function resolveJSXElement(inputJSXElement: RebootUI.IPropAs, { d
     allowedHTMLTags?: string[];
 }): any;
 export declare function getHTMLAttributesFromProps(props: any): any;
+export declare function rebootForwardRef<T, P = {}>(render: React.ForwardRefRenderFunction<T, P>): RebootUI.ForwardRefComponent<P>;
