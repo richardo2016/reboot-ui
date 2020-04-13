@@ -1,6 +1,6 @@
 {
   "name": "@reboot-ui/ui-checkbox",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "UI Component package of @reboot-ui",
   "author": "Richardo2016 <richardo2016@gmail.com>",
   "homepage": "https://github.com/richardo2016/reboot-ui/tree/master/packages/ui-checkbox#readme",
@@ -40,9 +40,9 @@
     "dist"
   ],
   "dependencies": {
-    "@reboot-ui/common": "^0.1.4",
-    "@reboot-ui/istyle": "^0.1.4",
-    "@reboot-ui/ui-input": "^0.1.5",
+    "@reboot-ui/common": "^0.1.5",
+    "@reboot-ui/istyle": "^0.1.5",
+    "@reboot-ui/ui-input": "^0.1.6",
     "@types/react": "^16.9.34"
   },
   "types": "./@types/index.d.ts",
