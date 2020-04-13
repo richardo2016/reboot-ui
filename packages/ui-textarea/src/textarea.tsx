@@ -1,26 +1,19 @@
 import React from 'react'
 
-import { rclassnames, tryUseContext } from '@reboot-ui/common';
-import { FormControlContext } from '../../ui-form/src/context';
+import Input from '@reboot-ui/ui-input'
+
+import { RebootUI } from '@reboot-ui/common'
 
 const Textarea = function ({
-    children,
-    as: _as = 'textarea',
-    autoresize = false,
     ...props
-}) {
-    const formCtrlCtx = tryUseContext(FormControlContext)
-
+}: Omit<RebootUI.IComponentPropsWithChildren<
+    RebootUI.IGetReactLikeComponentProps<typeof Input>
+>, 'type'>) {
     return (
-        <textarea
+        <Input
             {...props}
-            {...autoresize && { autoresize }}
-            className={rclassnames(props, [
-                formCtrlCtx.inFormContrl && 'form-control',
-            ])}
-        >
-            {children}
-        </textarea>
+            type="textarea"
+        />
     )
 }
 
