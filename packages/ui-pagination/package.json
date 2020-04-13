@@ -1,6 +1,6 @@
 {
   "name": "@reboot-ui/ui-pagination",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "UI Component package of @reboot-ui",
   "author": "Richardo2016 <richardo2016@gmail.com>",
   "homepage": "https://github.com/richardo2016/reboot-ui/tree/master/packages/ui-pagination#readme",
@@ -40,9 +40,9 @@
     "dist"
   ],
   "dependencies": {
-    "@reboot-ui/common": "^0.1.5",
-    "@reboot-ui/icomponent-anchor": "^0.1.5",
-    "@reboot-ui/istyle": "^0.1.5",
+    "@reboot-ui/common": "^0.1.6",
+    "@reboot-ui/icomponent-anchor": "^0.1.6",
+    "@reboot-ui/istyle": "^0.1.6",
     "@types/react": "^16.9.34"
   },
   "types": "./@types/index.d.ts",
