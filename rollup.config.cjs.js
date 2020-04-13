@@ -26,7 +26,7 @@ const docsConfig = getConfigItem({
                 // set `reboot-ui` for published version
                 "libraryName": "reboot-ui",
                 // set `es` for for published version
-                // "libraryDirectory": "es",
+                // "libraryDirectory": "src",
                 "customName": (name) => {
                     return `@reboot-ui/ui-${name}`
                 },

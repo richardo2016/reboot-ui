@@ -1,9 +1,4 @@
 import React from 'react';
-import { RebootUI } from '@reboot-ui/common';
-interface CardProps {
-    theme?: RebootUI.ThemeType;
-    borderTheme?: RebootUI.ThemeType;
-}
 /**
  * @see https://getbootstrap.com/docs/4.4/components/cards
  */
@@ -12,7 +7,10 @@ declare const Card: {
         as?: any;
         ref?: ((instance: any) => void) | React.RefObject<any> | null | undefined;
         class?: string | undefined;
-    } & CardProps>): JSX.Element;
+    } & {
+        theme?: "primary" | "secondary" | "success" | "danger" | "warning" | "info" | "light" | "dark" | "link" | undefined;
+        borderTheme?: "primary" | "secondary" | "success" | "danger" | "warning" | "info" | "light" | "dark" | "link" | undefined;
+    }>): JSX.Element;
     Title({ children, sub, as: _as, ...props }: React.PropsWithChildren<React.Props<any> & React.HTMLAttributes<any> & {
         as?: any;
         ref?: ((instance: any) => void) | React.RefObject<any> | null | undefined;
@@ -92,6 +90,9 @@ declare const Card: {
         title?: string | undefined;
         subTitle?: string | undefined;
         text?: string | undefined;
-    } & CardProps>): JSX.Element;
+    } & {
+        theme?: "primary" | "secondary" | "success" | "danger" | "warning" | "info" | "light" | "dark" | "link" | undefined;
+        borderTheme?: "primary" | "secondary" | "success" | "danger" | "warning" | "info" | "light" | "dark" | "link" | undefined;
+    }>): JSX.Element;
 };
 export default Card;

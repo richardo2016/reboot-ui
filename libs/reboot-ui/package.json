@@ -136,6 +136,5 @@
     "shelljs": "^0.8.3",
     "stylus": "^0.54.5",
     "typescript": "^3.7.5"
-  },
-  "gitHead": "9b5396e0dae5bb08afec4a67a13f1b69077f9c5a"
+  }
 }

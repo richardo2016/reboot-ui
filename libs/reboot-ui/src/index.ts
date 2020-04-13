@@ -1,42 +1,108 @@
-export { default as Layout } from '@reboot-ui/ui-layout/src/index.style'
-export { default as Row } from '@reboot-ui/ui-row/src/index.style'
-export { default as Col } from '@reboot-ui/ui-col/src/index.style'
-export { default as Container } from '@reboot-ui/ui-container/src/index.style'
+import Layout from '@reboot-ui/ui-layout'
+export { Layout }
+import Row from '@reboot-ui/ui-row'
+export { Row }
+import Col from '@reboot-ui/ui-col'
+export { Col }
+import Container from '@reboot-ui/ui-container'
+export { Container }
 
-export { default as Alert } from '@reboot-ui/ui-alert/src/index.style'
-export { default as Navbar } from '@reboot-ui/ui-navbar/src/index.style'
-export { default as Nav } from '@reboot-ui/ui-nav/src/index.style'
-export { default as NavTab } from '@reboot-ui/ui-nav-tab/src/index.style'
-export { default as Table } from '@reboot-ui/ui-table/src/index.style'
-export { default as Dropdown } from '@reboot-ui/ui-dropdown/src/index.style'
-export { default as ButtonToolbar } from '@reboot-ui/ui-button-toolbar/src/index.style'
-export { default as ButtonGroup } from '@reboot-ui/ui-button-group/src/index.style'
-export { default as Button } from '@reboot-ui/ui-button/src/index.style'
-export { default as Badge } from '@reboot-ui/ui-badge/src/index.style'
-export { default as Breadcrumb } from '@reboot-ui/ui-breadcrumb/src/index.style'
-export { default as Collapse } from '@reboot-ui/ui-collapse/src/index.style'
-export { default as Card } from '@reboot-ui/ui-card/src/index.style'
-export { default as Carousel } from '@reboot-ui/ui-carousel/src/index.style'
+import Alert from '@reboot-ui/ui-alert'
+export { Alert }
+import Navbar from '@reboot-ui/ui-navbar'
+export { Navbar }
+import Nav from '@reboot-ui/ui-nav'
+export { Nav }
+import NavTab from '@reboot-ui/ui-nav-tab'
+export { NavTab }
+import Table from '@reboot-ui/ui-table'
+export { Table }
+import Dropdown from '@reboot-ui/ui-dropdown'
+export { Dropdown }
+import ButtonToolbar from '@reboot-ui/ui-button-toolbar'
+export { ButtonToolbar }
+import ButtonGroup from '@reboot-ui/ui-button-group'
+export { ButtonGroup }
+import Button from '@reboot-ui/ui-button'
+export { Button }
+import Badge from '@reboot-ui/ui-badge'
+export { Badge }
+import Breadcrumb from '@reboot-ui/ui-breadcrumb'
+export { Breadcrumb }
+import Collapse from '@reboot-ui/ui-collapse'
+export { Collapse }
+import Card from '@reboot-ui/ui-card'
+export { Card }
+import Carousel from '@reboot-ui/ui-carousel'
+export { Carousel }
 
-export { default as InputGroup } from '@reboot-ui/ui-input-group/src/index.style'
-export { default as Input } from '@reboot-ui/ui-input/src/index.style'
-export { default as Checkbox } from '@reboot-ui/ui-checkbox/src/index.style'
-export { default as Radio } from '@reboot-ui/ui-radio/src/index.style'
-export { default as Select } from '@reboot-ui/ui-select/src/index.style'
-export { default as Textarea } from '@reboot-ui/ui-textarea/src/index.style'
+import InputGroup from '@reboot-ui/ui-input-group'
+export { InputGroup }
+import Input from '@reboot-ui/ui-input'
+export { Input }
+import Checkbox from '@reboot-ui/ui-checkbox'
+export { Checkbox }
+import Radio from '@reboot-ui/ui-radio'
+export { Radio }
+import Select from '@reboot-ui/ui-select'
+export { Select }
+import Textarea from '@reboot-ui/ui-textarea'
+export { Textarea }
 
-export { default as Popover } from '@reboot-ui/ui-popover/src/index.style'
-export { default as Progress } from '@reboot-ui/ui-progress/src/index.style'
-export { default as Spinner } from '@reboot-ui/ui-spinner/src/index.style'
-export { default as Jumbotron } from '@reboot-ui/ui-jumbotron/src/index.style'
-export { default as ListGroup } from '@reboot-ui/ui-list-group/src/index.style'
+import Popover from '@reboot-ui/ui-popover'
+export { Popover }
+import Progress from '@reboot-ui/ui-progress'
+export { Progress }
+import Spinner from '@reboot-ui/ui-spinner'
+export { Spinner }
+import Jumbotron from '@reboot-ui/ui-jumbotron'
+export { Jumbotron }
+import ListGroup from '@reboot-ui/ui-list-group'
+export { ListGroup }
 
-export { default as Modal } from '@reboot-ui/ui-modal/src/index.style'
-export { default as Tooltip } from '@reboot-ui/ui-tooltip/src/index.style'
+import Modal from '@reboot-ui/ui-modal'
+export { Modal }
+import Tooltip from '@reboot-ui/ui-tooltip'
+export { Tooltip }
 
-export { default as Form } from '@reboot-ui/ui-form/src/index.style'
+import Form from '@reboot-ui/ui-form'
+export { Form }
 
-export { default as Pagination } from '@reboot-ui/ui-pagination/src/index.style'
+import Pagination from '@reboot-ui/ui-pagination'
+export { Pagination }
 
-// import * as RebootUI from './'
-// export default RebootUI
+export default {
+    Layout,
+    Row,
+    Col,
+    Container,
+    Alert,
+    Navbar,
+    Nav,
+    NavTab,
+    Table,
+    Dropdown,
+    ButtonToolbar,
+    ButtonGroup,
+    Button,
+    Badge,
+    Breadcrumb,
+    Collapse,
+    Card,
+    Carousel,
+    InputGroup,
+    Input,
+    Checkbox,
+    Radio,
+    Select,
+    Textarea,
+    Popover,
+    Progress,
+    Spinner,
+    Jumbotron,
+    ListGroup,
+    Modal,
+    Tooltip,
+    Form,
+    Pagination,
+}

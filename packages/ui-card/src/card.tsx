@@ -32,11 +32,6 @@ function useCardContext (
 
     return { borderTheme, theme}
 }
-
-interface CardProps {
-    theme?: RebootUI.ThemeType
-    borderTheme?: RebootUI.ThemeType
-}
 /**
  * @see https://getbootstrap.com/docs/4.4/components/cards
  */
@@ -46,7 +41,10 @@ const Card = ({
     theme,
     borderTheme,
     ...props
-}: RebootUI.IComponentPropsWithChildren<CardProps>) => {
+}: RebootUI.IComponentPropsWithChildren<{
+    theme?: RebootUI.ThemeType
+    borderTheme?: RebootUI.ThemeType
+}>) => {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
     theme = filterThemeName(theme)
@@ -313,7 +311,10 @@ Card.Typical = function ({
     title?: string
     subTitle?: string
     text?: string
-} & CardProps>) {
+} & {
+    theme?: RebootUI.ThemeType
+    borderTheme?: RebootUI.ThemeType
+}>) {
     const titleNode = title && typeof title === 'string' ? <Card.Title>{title}</Card.Title> : title
     const subTitleNode = subTitle && typeof subTitle === 'string' ? <Card.Title sub>{subTitle}</Card.Title> : subTitle
     const textNode = text && typeof text === 'string' ? <Card.Text>{text}</Card.Text> : text
