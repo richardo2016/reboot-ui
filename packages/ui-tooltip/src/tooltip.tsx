@@ -2,29 +2,55 @@ import React from 'react'
 
 import { Transition } from 'react-transition-group';
 
-import { resolveJSXElement } from '@reboot-ui/common';
-import Popper from '@reboot-ui/icomponent-popper';
-import { rclassnames, tryUseContext, isReactTypeOf, parseChildrenProp } from '@reboot-ui/common';
-import { parsePlacement } from '@reboot-ui/common';
-import { TransitionTimeouts } from '@reboot-ui/common';
+import Popper, { IPopperOptions, FixupPopoverModifierConfig } from '@reboot-ui/icomponent-popper';
 
-const TooltipContext = React.createContext({
+import {
+    resolveJSXElement,
+    rclassnames,
+    tryUseContext,
+    isReactTypeOf,
+    parseChildrenProp,
+    parsePlacement,
+    TransitionTimeouts,
+    RebootUI,
+} from '@reboot-ui/common';
+
+interface TooltipContextType {
+    arrowRef: React.MutableRefObject<any> | null,
+    useArrow: boolean
+    fromOptions: {
+        direction: RebootUI.DirectionType
+        placement: RebootUI.PlacementType
+        axis?: RebootUI.AxisType
+    },
+    fromFixed: {
+        direction: RebootUI.DirectionType
+        placement: RebootUI.PlacementType
+        axis?: RebootUI.AxisType
+    },
+}
+
+const TooltipContext = React.createContext<TooltipContextType>({
     fromOptions: {},
     fromFixed: {},
     useArrow: true,
     arrowRef: null,
-})
+} as TooltipContextType)
 
-const transitionStateClass = {
+const transitionStateClass: { [k in RebootUI.TransitionStateNames]: string } = {
     entering: 'show',
     entered: 'show',
     exiting: '',
-    exited: ''
+    exited: '',
+    unmounted: '',
 }
 
-const transitionStateStyle = {
+const transitionStateStyle: { [k in RebootUI.TransitionStateNames]: React.CSSProperties } = {
+    entering: {},
+    entered: {},
     exiting: {},
     exited: { opacity: 0, visibility: 'hidden' },
+    unmounted: {},
 }
 
 /**
@@ -33,7 +59,7 @@ const transitionStateStyle = {
  * @inner-content `.tooltip`
  * @inner-content `.tooltip-inner`
  */
-const Tooltip = React.forwardRef(
+const TooltipProto = React.forwardRef(
     ({
         children: childEles,
         content = React.Fragment,
@@ -44,8 +70,14 @@ const Tooltip = React.forwardRef(
         popperOptions,
         arrow = true,
         ...props
-    }, ref) => {
-        const [fixedPlacement, setFixedPlacement] = React.useState(null)
+    }: RebootUI.IComponentPropsWithChildren<{
+        content?: React.ReactNode,
+        placement?: RebootUI.PlacementType
+        popperOptions?: IPopperOptions
+        dismissOnClickAway?: boolean
+        arrow?: boolean
+    }>, ref) => {
+        const [fixedPlacement, setFixedPlacement] = React.useState< RebootUI.Nilable<Required<IPopperOptions>['placement']> >(null)
         const pmInfo = parsePlacement(placement)
         
         fixupPopperOptions: {
@@ -60,11 +92,11 @@ const Tooltip = React.forwardRef(
 
                         setFixedPlacement(realPlacement)
                     }
-                }
+                } as FixupPopoverModifierConfig
             })
         }
 
-        const tooltipCtx = {
+        const tooltipCtx: TooltipContextType = {
             fromOptions: {
                 direction: pmInfo.direction,
                 placement: pmInfo.placement,
@@ -77,14 +109,14 @@ const Tooltip = React.forwardRef(
             arrowRef: React.useRef(null),
         }
 
-        let { childNodeList: children } = parseChildrenProp(childEles)
+        let { childNodeList: children } = parseChildrenProp(childEles as React.ReactElement)
         children = children.filter(x => x)
 
         const contentRef = React.useRef(null)
         if (!isReactTypeOf(content, Tooltip.Overlay)) {
             content = <Tooltip.Overlay ref={contentRef}>{content}</Tooltip.Overlay>
         } else {
-            content = React.cloneElement(content, { ref: contentRef })
+            content = React.cloneElement(content as React.ReactElement, { ref: contentRef })
         }
 
         return (
@@ -118,13 +150,13 @@ const Tooltip = React.forwardRef(
                                             if (state === 'exited' && !isShowPopup) return ;
 
                                             return React.cloneElement(
-                                                overlayElement,
+                                                (overlayElement as React.ReactElement),
                                                 {
-                                                    className: rclassnames(overlayElement.props, [
+                                                    className: rclassnames((overlayElement as React.ReactElement).props, [
                                                         transitionStateClass[state],
                                                     ]),
                                                     style: {
-                                                        ...overlayElement.props.style,
+                                                        ...(overlayElement as React.ReactElement).props.style,
                                                         ...transitionStateStyle[state],
                                                     }
                                                 }
@@ -143,12 +175,16 @@ const Tooltip = React.forwardRef(
     }
 )
 
+const Tooltip = (props: RebootUI.IGetReactLikeComponentProps<typeof TooltipProto>) => {
+    return <TooltipProto {...props} />
+}
+
 Tooltip.Overlay = React.forwardRef(
     ({
         children,
         as: _as = 'div',
         ...props
-    }, ref) => {
+    }: RebootUI.IComponentPropsWithChildren, ref) => {
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
 
         const tooltipCtx = tryUseContext(TooltipContext)

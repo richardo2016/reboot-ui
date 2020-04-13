@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react'
+import React from 'react'
 
 import { Transition } from 'react-transition-group';
 import Popper, { IPopperOptions, FixupPopoverModifierConfig } from '@reboot-ui/icomponent-popper';
@@ -42,7 +42,7 @@ const transitionStateClass: { [k in RebootUI.TransitionStateNames]: string } = {
     unmounted: '',
 }
 
-const transitionStateStyle: { [k in RebootUI.TransitionStateNames]: CSSProperties } = {
+const transitionStateStyle: { [k in RebootUI.TransitionStateNames]: React.CSSProperties } = {
     entering: {},
     entered: {},
     exiting: {},
