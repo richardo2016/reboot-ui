@@ -234,7 +234,7 @@ Dropdown.Toggle = React.forwardRef(
                     /**
                      * @description assign props to TogglerEl when not use split and JSXEL is null
                      * 
-                     * @why required in some case, e.g. Nav.DropdownItem
+                     * @why required in some case, e.g. Dropdown.AsNavItem
                      */
                     {...!_as && {
                         ...props,

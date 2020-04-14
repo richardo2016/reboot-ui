@@ -118,11 +118,6 @@ Form.Group = React.forwardRef(
         {
             children,
             as: _as = 'div',
-            ...props
-        }: RebootUI.IComponentPropsWithChildren,
-        ref
-    ) {
-        const {
             /**
              * @internal used by(not only by) Form.Label
              */
@@ -131,8 +126,10 @@ Form.Group = React.forwardRef(
              * @internal used by(not only by) [[self]]
              */
             [useToken(`groupForCheck_noGroup`)]: $$groupForCheck_noGroup = false,
-        } = props || {};
-
+            ...props
+        }: RebootUI.IComponentPropsWithChildren,
+        ref
+    ) {
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
         const formGrpCtx = {

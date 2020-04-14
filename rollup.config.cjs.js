@@ -34,7 +34,7 @@ const docsConfig = getConfigItem({
                 "style": true,
                 "customStyleName": (name) => {
                     if (isProduction) return `@reboot-ui/ui-${name}/es/index.scss`
-                    return path.resolve(__dirname, `packages/ui-${name}/src/index.scss`)
+                    return path.resolve(__dirname, `packages/ui-${name}/src/${name}.scss`)
                 },
             }]
         ]

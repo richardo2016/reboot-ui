@@ -49,7 +49,7 @@ const Sample = () => {
             <Nav.Item>
               <Nav.Link>Link</Nav.Link>
             </Nav.Item>
-            <Nav.DropdownItem>
+            <Dropdown.AsNavItem>
               Dropdown
               <Dropdown.Menu>
                 <Dropdown.Item as="a">Action</Dropdown.Item>
@@ -57,7 +57,7 @@ const Sample = () => {
                 <Dropdown.Item divider />
                 <Dropdown.Item as="a">Something else here</Dropdown.Item>
               </Dropdown.Menu>
-            </Nav.DropdownItem>
+            </Dropdown.AsNavItem>
             <Nav.Item>
               <Nav.Link disabled>Disabled</Nav.Link>
             </Nav.Item>
@@ -199,7 +199,7 @@ const Sample = () => {
             <Nav.Item>
               <Nav.Link>Pricing</Nav.Link>
             </Nav.Item>
-            <Nav.DropdownItem>
+            <Dropdown.AsNavItem>
               Dropdown link
               <Dropdown.Menu>
                 <Dropdown.Item as="a">Action</Dropdown.Item>
@@ -207,7 +207,7 @@ const Sample = () => {
                 <Dropdown.Item divider />
                 <Dropdown.Item as="a">Something else here</Dropdown.Item>
               </Dropdown.Menu>
-            </Nav.DropdownItem>
+            </Dropdown.AsNavItem>
           </Nav.List>
         </Navbar.Collapse>
       </Navbar>
