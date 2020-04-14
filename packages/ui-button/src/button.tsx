@@ -63,7 +63,7 @@ const Button = function ({
             break
     }
 
-    if (JSXEl === 'a') JSXEl = Anchor
+    if (JSXEl === 'a') JSXEl = Anchor as any
 
     const isJSXWithDisabledAttr = ['button', 'input'].some(x => x === JSXEl)
 

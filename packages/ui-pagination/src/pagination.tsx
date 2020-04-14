@@ -17,7 +17,7 @@ interface PagiContextType {
     symbol: Symbol
     pagination: RebootUI.IPaginationInfo
     computePagination: ReturnType<typeof usePagination>[2]
-    _updatePagi: ReturnType<typeof usePagination>[2]
+    _updatePagi: (...args: Parameters<ReturnType<typeof usePagination>[2]>) => void
 }
 const PagiContext = React.createContext<PagiContextType>({} as PagiContextType)
 
@@ -48,7 +48,11 @@ const PaginationProto = React.forwardRef(
             computePagination,
             _updatePagi: React.useCallback(
                 (type, payload) => onChange(
-                    computePagination(type, payload, {...pagination})
+                    computePagination(
+                        type,
+                        payload,
+                        {...pagination}
+                    ) as RebootUI.IPaginationInfo
                 )
                 , [pagination]
             )
@@ -132,7 +136,7 @@ Pagination.Item = function ({
     next: _next = false,
     ...props
 }: RebootUI.IComponentPropsWithChildren<{
-    page?: RebootUI.IPaginationInfo['page']
+    page?: RebootUI.IPaginationInfo['currentPage']
     active?: boolean
     disabled?: boolean
     link?: boolean

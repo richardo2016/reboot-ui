@@ -32,8 +32,7 @@
     "url": "https://github.com/richardo2016/reboot-ui/issues"
   },
   "files": [
-    "@types",
-    "./@types",
+    "types",
     "index.js",
     "scss",
     "lib",
@@ -45,7 +44,7 @@
     "@reboot-ui/istyle": "^0.1.7",
     "@types/react": "^16.9.34"
   },
-  "types": "@types/index.d.ts",
+  "types": "typings/index.d.ts",
   "devDependencies": {
     "@babel/core": "^7.8.4",
     "@babel/plugin-transform-runtime": "^7.8.3",

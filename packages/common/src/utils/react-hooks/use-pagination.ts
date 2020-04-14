@@ -1,6 +1,6 @@
 import React from 'react'
 
-export interface PagiantionInfo {
+export interface PaginationInfo {
     currentPage: number
     pageSize: number
     total: number
@@ -17,8 +17,8 @@ const getMaxPage = (
 const computePagination = (
     type: string,
     payload?: any,
-    pagination?: Partial<PagiantionInfo>
-): Partial<PagiantionInfo> => {
+    pagination?: Partial<PaginationInfo>
+): Partial<PaginationInfo> => {
     const {
         pageSize = 1,
         total = 0,
@@ -52,9 +52,9 @@ const computePagination = (
 }
 
 export default function usePagination(
-    initPagi?: Partial<PagiantionInfo>,
+    initPagi?: Partial<PaginationInfo>,
 ): [
-    PagiantionInfo,
+    PaginationInfo,
     (payload: any) => any,
     typeof computePagination
 ] {

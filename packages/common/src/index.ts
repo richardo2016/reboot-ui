@@ -19,7 +19,7 @@ export { useInterval } from './utils/react-hooks/use-timer'
 export { flatten, arraify } from './utils/array'
 
 import { arraify } from './utils/array'
-import { PagiantionInfo } from './utils/react-hooks/use-pagination'
+import { PaginationInfo } from './utils/react-hooks/use-pagination'
 
 export namespace RebootUI {
     export type Nilable<T> = null | T
@@ -117,7 +117,7 @@ export namespace RebootUI {
     export type DOMSelector = Document | HTMLElement | string
     export type DOMEventHandler = EventListener | EventListenerObject | null
 
-    export type IPaginationInfo = PagiantionInfo
+    export type IPaginationInfo = PaginationInfo
 }
 
 export const themes = json['theme-colors'].map(theme => theme.name)
@@ -359,7 +359,7 @@ export function resolveJSXElement<P = any, T extends HTMLElement = any> (
         default?: React.ReactElement | React.ExoticComponent | string | null,
         allowedHTMLTags?: string[]
     } = {}
-): React.DetailedHTMLFactory<P, T> | React.FunctionComponentFactory<P> | React.ClassicFactory<P> {
+): string | React.DetailedHTMLFactory<P, T> | React.FunctionComponentFactory<P> | React.ClassicFactory<P> {
     if (!inputJSXElement)
         return defaultValue as any
 
