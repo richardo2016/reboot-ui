@@ -32,7 +32,7 @@
     "url": "https://github.com/richardo2016/reboot-ui/issues"
   },
   "files": [
-    "types",
+    "typings",
     "index.js",
     "scss",
     "lib",
