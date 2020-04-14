@@ -7,7 +7,7 @@ const shelljs = require('shelljs');
 
 // `npm run build` -> `production` is true
 // `npm run dev` -> `production` is false
-const { isProduction: production } = require('./rollup-plugins/build-env')
+const { isProduction } = require('./rollup-plugins/build-env')
 const { getConfigItem } = require('./helpers/rollup-utils')
 const DOC_DIST_DIR = `docs`
 
@@ -16,7 +16,7 @@ const docsConfig = getConfigItem({
     format: 'iife',
     name: 'RebootUIDocs',
     mvvm_type: 'preact',
-    use_uglify: production,
+    use_uglify: isProduction,
     babel_options: {
         plugins: [
             /**
@@ -28,11 +28,13 @@ const docsConfig = getConfigItem({
                 // set `es` for for published version
                 // "libraryDirectory": "src",
                 "customName": (name) => {
-                    return `@reboot-ui/ui-${name}`
+                    if (isProduction) return `@reboot-ui/ui-${name}`
+                    return path.resolve(__dirname, `packages/ui-${name}/src/index.ts`)
                 },
                 "style": true,
                 "customStyleName": (name) => {
-                	return `@reboot-ui/ui-${name}/es/index.scss`
+                    if (isProduction) return `@reboot-ui/ui-${name}/es/index.scss`
+                    return path.resolve(__dirname, `packages/ui-${name}/src/index.scss`)
                 },
             }]
         ]
@@ -77,7 +79,7 @@ const docsConfig = getConfigItem({
                 return {
                     name: 'afterbuild',
                     writeBundle (bundle) {
-                        if (!production) return 
+                        if (!isProduction) return 
 
                         const ghdest = path.resolve(`./docs/reboot-ui/`)
                         const pdest = path.dirname(ghdest)

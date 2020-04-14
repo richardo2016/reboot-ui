@@ -139,9 +139,10 @@ const PopperProto = React.forwardRef(
             case 'click':
             default:
                 useClickaway(triggerElRef, undefined, {
-                    clickIn: (() => { setIsShowPopup(!isShowPopup) }),
-                    clickAway: (nativeEvent: MouseEvent) => {
+                    clickIn: React.useCallback(() => { setIsShowPopup(!isShowPopup) }, [isShowPopup]),
+                    clickAway: React.useCallback((nativeEvent: MouseEvent) => {
                         if (trigger === 'click' && !dismissOnClickAway) return ;
+                        
                         if (!isShowPopup) return ;
                         const clkAwayEl = nativeEvent.target
 
@@ -153,15 +154,15 @@ const PopperProto = React.forwardRef(
                         ) return ;
                         
                         setIsShowPopup(false)
-                    }
+                    }, [isShowPopup]),
                 })
                 break
             case 'hover':
                 useHoveraway(triggerElRef, {
-                    onIn: () => setIsShowPopup(true),
-                    onAway: () => {
+                    onIn: React.useCallback(() => setIsShowPopup(true), [isShowPopup]),
+                    onAway: React.useCallback(() => {
                         setIsShowPopup(false);
-                    },
+                    }, [isShowPopup]),
                 })
                 break
         }

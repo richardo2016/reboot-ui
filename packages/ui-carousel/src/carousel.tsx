@@ -19,9 +19,6 @@ import {
     useKeyPress,
 } from '@reboot-ui/common'
 
-const RUNTIME_TOKEN = Date.now()
-const useToken = (str: string) => `${RUNTIME_TOKEN}_${str}`
-
 interface CarouselContextType {
     symbol?: Symbol
     switchType: RebootUI.ValueOf<typeof SWICH_TYPES> | undefined
@@ -416,7 +413,7 @@ const CarouselProto = React.forwardRef(
             indicatorsNode = React.cloneElement(indicatorsNode, {
                 children: Array.from({ length: itemList.length }).map(
                     (_, idx) => {
-                        const props = { [useToken('indicatorIndex')]: idx };
+                        const props = { $$$indicatorIndex: idx };
                         return <CarouselIndicator {...props} />
                     }
                 )
@@ -424,7 +421,7 @@ const CarouselProto = React.forwardRef(
 
         itemList.forEach((item, idx) => {
             if (!isReactTypeOf(item, Carousel.Item)) return ;
-            itemList[idx] = React.cloneElement(item, { [useToken('itemIndex')]: idx })
+            itemList[idx] = React.cloneElement(item, { $$$itemIndex: idx })
         })
 
         return (
@@ -491,10 +488,11 @@ Carousel.Indicators = function ({
 const CarouselIndicator = function ({
     children,
     as: _as = 'li',
-    // @ts-ignore
-    [useToken('indicatorIndex')]: $indicatorIndex,
+    $$$indicatorIndex: $indicatorIndex,
     ...props
-}: RebootUI.IComponentPropsWithChildren<{}>) {
+}: RebootUI.IComponentPropsWithChildren<{
+    $$$indicatorIndex: number
+}>) {
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
     
     const carouselCtx = tryUseContext(CarouselContext)
@@ -581,20 +579,17 @@ Carousel.Item = React.forwardRef(
              * @description individual interval for this carousel item
              */
             interval,
+            $$$itemIndex: $itemIndex,
             ...props
         }: RebootUI.IComponentPropsWithChildren<{
             interval?: number
+            $$$itemIndex?: number
         } & Partial<RebootUI.TransitionGroupProps>>,
         ref
     ) {
         const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
-        const {
-            // @ts-ignore
-            [useToken('itemIndex')]: $itemIndex,
-        } = props || {};
-
-        const itemIndexRef = React.useRef<number>($itemIndex)
+        const itemIndexRef = React.useRef<number>($itemIndex as number)
     
         const carouselCtx = tryUseContext(CarouselContext)
         if (carouselCtx.symbol !== symbol)

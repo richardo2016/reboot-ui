@@ -25,9 +25,6 @@ export default function useClickaway (
         stopPropagation?: boolean
     } = {}
 ) {
-    clickAway = React.useCallback(clickAway as any, []);
-    clickIn = React.useCallback(clickIn as any, []);
-
     React.useLayoutEffect(() => {
         let bubleEl = typeof getTerminalElement === 'function' ? getTerminalElement() : getTerminalElement
 

@@ -3,11 +3,11 @@ export default function useHoveraway(hoveredElRef: React.MutableRefObject<HTMLEl
 /**
  * @notice wrap it with `useCallback` recommended
  */
-onAway, 
+onAway: handlerAway, 
 /**
  * @notice wrap it with `useCallback` recommended
  */
-onIn, }?: {
+onIn: handlerIn, }?: {
     onAway?: EventListener | EventListenerObject | undefined;
     onIn?: EventListener | EventListenerObject | undefined;
 }): void;

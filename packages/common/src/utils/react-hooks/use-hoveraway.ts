@@ -1,4 +1,5 @@
 import React from 'react'
+import { getHTMLElementFromJSXElement } from '../react-like';
 
 const noop: EventListenerOrEventListenerObject = () => void 0
 export default function useHoveraway (
@@ -7,19 +8,18 @@ export default function useHoveraway (
         /**
          * @notice wrap it with `useCallback` recommended
          */
-        onAway = noop,
+        onAway: handlerAway = noop,
         /**
          * @notice wrap it with `useCallback` recommended
          */
-        onIn = noop,
+        onIn: handlerIn = noop,
     } = {}
 ) {
-    const handlerAway = React.useCallback(onAway as any, []);
-    const handlerIn = React.useCallback(onIn as any, []);
-
     React.useLayoutEffect(() => {
-        const { current: hoveredEl } = hoveredElRef
-        if (!hoveredEl) return ;
+        const { current: hoveredRef } = hoveredElRef
+        if (!hoveredRef) return ;
+
+        const hoveredEl = getHTMLElementFromJSXElement(hoveredRef)
 
         hoveredEl.addEventListener('mouseenter', handlerIn)
         hoveredEl.addEventListener('mouseleave', handlerAway)

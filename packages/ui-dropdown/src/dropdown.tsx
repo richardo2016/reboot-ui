@@ -47,133 +47,136 @@ const transitionStateStyle: { [k in RebootUI.TransitionStateNames]: CSSPropertie
 /**
  * @see https://getbootstrap.com/docs/4.4/components/dropdown/#supported-content
  */
-const DropdownProto = function ({
-    children,
-    as: _as = 'div',
-    disabled = false,
-    /**
-     * @see placment option.placement in popper.js
-     */
-    placement = 'bottom-start',
-    popperOptions = {},
-    overlay = null,
-    ...props
-}: RebootUI.IComponentPropsWithChildren<{
-    disabled?: boolean
-    placement?: RebootUI.PlacementType
-    popperOptions?: IPopperOptions
-    overlay?: any
-}>, ref: RebootUI.ReactRef) {        
-    const [fixedPlacement, setFixedPlacement] = React.useState< RebootUI.Nilable<Required<IPopperOptions>['placement']> >(null)
-    const pmInfo = parsePlacement(placement)
-    
-    fixupPopperOptions: {
-        popperOptions = popperOptions || {};
-        popperOptions.modifiers = popperOptions.modifiers || [];
+const DropdownProto = React.forwardRef(
+    function ({
+        children,
+        as: _as = 'div',
+        disabled = false,
+        /**
+         * @see placment option.placement in popper.js
+         */
+        placement = 'bottom-start',
+        popperOptions = {},
+        overlay = null,
+        ...props
+    }: RebootUI.IComponentPropsWithChildren<{
+        disabled?: boolean
+        placement?: RebootUI.PlacementType
+        popperOptions?: IPopperOptions
+        overlay?: any
+    }>, ref: RebootUI.ReactRef) {        
+        const [fixedPlacement, setFixedPlacement] = React.useState< RebootUI.Nilable<Required<IPopperOptions>['placement']> >(null)
+        const pmInfo = parsePlacement(placement)
+        
+        fixupPopperOptions: {
+            popperOptions = popperOptions || {};
+            popperOptions.modifiers = popperOptions.modifiers || [];
 
-        popperOptions.modifiers.push({
-            name: Popper.useFixupPopoverToken('fixup-popper-placement'),
-            options: {
-                fixup: ({ realPlacement }) => {
-                    if (realPlacement === pmInfo.placement) return ;
+            popperOptions.modifiers.push({
+                name: Popper.useFixupPopoverToken('fixup-popper-placement'),
+                options: {
+                    fixup: ({ realPlacement }) => {
+                        if (realPlacement === pmInfo.placement) return ;
 
-                    setFixedPlacement(realPlacement)
-                }
-            } as FixupPopoverModifierConfig
-        })
-    }
-
-    const [toggleIsSplitButton, setToggleIsSplitButton] = React.useState(false)
-
-    const dropdownCtx: DropdownContextType = {
-        fromOptions: {
-            direction: pmInfo.direction,
-            placement: pmInfo.placement,
-        },
-        fromFixed: {
-            ...pmInfo,
-            ...fixedPlacement && parsePlacement(fixedPlacement)
-        },
-        useArrow: false,
-        _toggleIsSplitButton: toggleIsSplitButton,
-        _setToggleIsSplitButton: () => {
-            setToggleIsSplitButton(true)
+                        setFixedPlacement(realPlacement)
+                    }
+                } as FixupPopoverModifierConfig
+            })
         }
+
+        const [toggleIsSplitButton, setToggleIsSplitButton] = React.useState(false)
+
+        const dropdownCtx: DropdownContextType = {
+            fromOptions: {
+                direction: pmInfo.direction,
+                placement: pmInfo.placement,
+            },
+            fromFixed: {
+                ...pmInfo,
+                ...fixedPlacement && parsePlacement(fixedPlacement)
+            },
+            useArrow: false,
+            _toggleIsSplitButton: toggleIsSplitButton,
+            _setToggleIsSplitButton: () => {
+                setToggleIsSplitButton(true)
+            }
+        }
+
+        const { directionCls = '' } = parsePlacementFromDDCtx(dropdownCtx.fromOptions.placement)
+
+        if (toggleIsSplitButton)
+            _as = ButtonGroup
+
+        const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
+
+        return (
+            <>
+                <JSXEl
+                    {...props}
+                    ref={ref}
+                    className={rclassnames(props, [
+                        (
+                            JSXEl instanceof HTMLElement
+                            || typeof JSXEl === 'string' 
+                            || _as === Nav.Item
+                        ) && 'dropdown',
+                        directionCls
+                    ])}
+                >
+                    <DropdownCtx.Provider value={dropdownCtx}>
+                        <Popper
+                            {...props}
+                            disabled={disabled}
+                            children={children}
+                            placement={dropdownCtx.fromFixed.placement}
+                            popperOptions={popperOptions}
+                            overlayType={Dropdown.Menu}
+                            overlay={overlay}
+                            destroyOnUnmount={false}
+                            dismissOnClickAway={true}
+                            compose={({
+                                restChildren,
+                                overlayElement,
+                                isShowPopup,
+                            }) => {
+                                return (
+                                    <>
+                                        {restChildren}
+                                        {(
+                                            <Transition
+                                                in={isShowPopup}
+                                                timeout={{
+                                                    enter: TransitionTimeouts.Fade,
+                                                    exit: TransitionTimeouts.Fade,
+                                                }}
+                                            >
+                                                {(state) => {
+                                                    if (state === 'exited' && !isShowPopup) return ;
+                                                    
+                                                    return (
+                                                        React.cloneElement((overlayElement as React.ReactElement), {
+                                                            className: rclassnames((overlayElement as React.ReactElement).props, [
+                                                                transitionStateClass[state],
+                                                            ]),
+                                                            style: {
+                                                                ...transitionStateStyle[state],
+                                                                ...(overlayElement as React.ReactElement).props.style,
+                                                            }
+                                                        })
+                                                    )
+                                                }}
+                                            </Transition>
+                                        )}
+                                    </>
+                                )
+                            }}
+                        />
+                    </DropdownCtx.Provider>
+                </JSXEl>
+            </>
+        )
     }
-
-    const { directionCls = '' } = parsePlacementFromDDCtx(dropdownCtx.fromOptions.placement)
-
-    if (toggleIsSplitButton)
-        _as = ButtonGroup
-
-    const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: ['div'] */ });
-
-    return (
-        <>
-            <JSXEl
-                {...props}
-                ref={ref}
-                className={rclassnames(props, [
-                    (
-                        JSXEl instanceof HTMLElement
-                        || typeof JSXEl === 'string' 
-                        || _as === Nav.Item
-                    ) && 'dropdown',
-                    directionCls
-                ])}
-            >
-                <DropdownCtx.Provider value={dropdownCtx}>
-                    <Popper
-                        {...props}
-                        disabled={disabled}
-                        placement={dropdownCtx.fromFixed.placement}
-                        popperOptions={popperOptions}
-                        overlayType={Dropdown.Menu}
-                        overlay={overlay}
-                        destroyOnUnmount={false}
-                        dismissOnClickAway={true}
-                        compose={({
-                            restChildren,
-                            overlayElement,
-                            isShowPopup,
-                        }) => {
-                            return (
-                                <>
-                                    {restChildren}
-                                    {(
-                                        <Transition
-                                            in={isShowPopup}
-                                            timeout={{
-                                                enter: TransitionTimeouts.Fade,
-                                                exit: TransitionTimeouts.Fade,
-                                            }}
-                                        >
-                                            {(state) => {
-                                                if (state === 'exited' && !isShowPopup) return ;
-                                                
-                                                return (
-                                                    React.cloneElement((overlayElement as React.ReactElement), {
-                                                        className: rclassnames((overlayElement as React.ReactElement).props, [
-                                                            transitionStateClass[state],
-                                                        ]),
-                                                        style: {
-                                                            ...transitionStateStyle[state],
-                                                            ...(overlayElement as React.ReactElement).props.style,
-                                                        }
-                                                    })
-                                                )
-                                            }}
-                                        </Transition>
-                                    )}
-                                </>
-                            )
-                        }}
-                    />
-                </DropdownCtx.Provider>
-            </JSXEl>
-        </>
-    )
-}
+)
 
 const Dropdown = function (props: RebootUI.IGetReactLikeComponentProps<typeof DropdownProto>) {
     return <DropdownProto {...props} />
@@ -264,6 +267,8 @@ Dropdown.SplitButtonToggle = React.forwardRef(
             theme,
             size,
             outline,
+            // @ts-ignore
+            [useInternalPropToken('__internal_no_notify_dropdowncontext')]: __internal_no_notify_dropdowncontext = false,
             ...props
         }: RebootUI.IComponentPropsWithChildren<{
             theme?: RebootUI.IGetReactLikeComponentProps<typeof Button>['theme']
@@ -272,10 +277,6 @@ Dropdown.SplitButtonToggle = React.forwardRef(
         }>,
         ref
     ) {
-        const {
-            // @ts-ignore
-            [useInternalPropToken('__internal_no_notify_dropdowncontext')]: __internal_no_notify_dropdowncontext = false,
-        } = props;
 
         const ddCtx = tryUseContext(DropdownCtx)
         
@@ -322,7 +323,7 @@ Dropdown.SplitButtonToggle = React.forwardRef(
             )
         }
 
-        return <>{splitedButtonGroupTuple}</>;
+        return splitedButtonGroupTuple as any;
     }
 )
 

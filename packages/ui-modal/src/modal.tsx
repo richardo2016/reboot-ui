@@ -308,7 +308,7 @@ Modal.Content = ({
         ref,
         () => modalCtx.refModal.current || document,
         {
-            clickAway: () => {
+            clickAway: React.useCallback(() => {
                 if (modalCtx.useStaticBackdrop) {
                     modalCtx.onClickStaticDropback();
                     return ;
@@ -316,7 +316,7 @@ Modal.Content = ({
                 if (!modalCtx.isOpen) return ;
                 
                 modalCtx.onToggle();
-            }
+            }, [modalCtx.isOpen])
         }
     )
 

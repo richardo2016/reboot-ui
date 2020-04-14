@@ -210,6 +210,8 @@ const ValidationTip = function ({
      * @enum never
      */
     when: _when = false,
+    // @ts-ignore
+    [useToken('clsKey')]: $$clsKey,
     ...props
 }: RebootUI.IComponentPropsWithChildren<{
     content?: React.ReactNode
@@ -219,11 +221,6 @@ const ValidationTip = function ({
     | 'always'
     | 'never'
 }>) {
-    const {
-        // @ts-ignore
-        [useToken('clsKey')]: $$clsKey,
-    } = props
-
     const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
 
     switch (_when) {

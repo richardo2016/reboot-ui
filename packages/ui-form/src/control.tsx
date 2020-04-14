@@ -39,6 +39,18 @@ export default (Form: any) => {
                  * @description if wrap control with another element, if not set, its default value depends on value of `controlRefParentCol`
                  */
                 controlGroupedBy = !controlRefParentCol ? React.Fragment : 'div',
+                /**
+                 * @internal
+                 * @description determine the validation feedbackt position
+                 * 
+                 * @enum FEEDBACK_POSTIONS['before-labelbefore']
+                 * @enum FEEDBACK_POSTIONS['after-labelafter']
+                 * @enum FEEDBACK_POSTIONS['after-control']
+                 */
+                // @ts-ignore
+                [FEEDBACK_POSTIONS.KEY]: $$feedbackPos = FEEDBACK_POSTIONS['after-control'],
+                // @ts-ignore
+                [useToken('inputType')]: $$inputType,
                 ...props
             }: RebootUI.IComponentPropsWithChildren<{
                 controlAs?: RebootUI.IPropAs
@@ -56,21 +68,6 @@ export default (Form: any) => {
             }>,
             ref
         ) {
-            const {
-                /**
-                 * @internal
-                 * @description determine the validation feedbackt position
-                 * 
-                 * @enum FEEDBACK_POSTIONS['before-labelbefore']
-                 * @enum FEEDBACK_POSTIONS['after-labelafter']
-                 * @enum FEEDBACK_POSTIONS['after-control']
-                 */
-                // @ts-ignore
-                [FEEDBACK_POSTIONS.KEY]: $$feedbackPos = FEEDBACK_POSTIONS['after-control'],
-                // @ts-ignore
-                [useToken('inputType')]: $$inputType,
-            } = props
-
             const JSXEl = resolveJSXElement(_as, { /* allowedHTMLTags: [] */ });
     
             const formCtrlCtx: FormControlContextType = {
