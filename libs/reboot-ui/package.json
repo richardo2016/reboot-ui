@@ -1,6 +1,6 @@
 {
   "name": "reboot-ui",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "one UI library based on bootstrap 4, driven by (p)react",
   "scripts": {
     "boot": "lerna bootstrap --force-local",
@@ -50,8 +50,8 @@
     "@reboot-ui/ui-col": "^0.1.10",
     "@reboot-ui/ui-collapse": "^0.1.11",
     "@reboot-ui/ui-container": "^0.1.10",
-    "@reboot-ui/ui-dropdown": "^0.1.10",
-    "@reboot-ui/ui-form": "^0.1.10",
+    "@reboot-ui/ui-dropdown": "^0.1.11",
+    "@reboot-ui/ui-form": "^0.1.11",
     "@reboot-ui/ui-input": "^0.1.11",
     "@reboot-ui/ui-input-group": "^0.1.10",
     "@reboot-ui/ui-jumbotron": "^0.1.10",
