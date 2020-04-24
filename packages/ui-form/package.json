@@ -1,6 +1,6 @@
 {
   "name": "@reboot-ui/ui-form",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "UI Component package of @reboot-ui",
   "author": "Richardo2016 <richardo2016@gmail.com>",
   "homepage": "https://github.com/richardo2016/reboot-ui/tree/master/packages/ui-form#readme",
@@ -41,9 +41,9 @@
   ],
   "dependencies": {
     "@reboot-ui/common": "^0.1.10",
-    "@reboot-ui/internal-size-resolver": "^0.1.10",
+    "@reboot-ui/internal-size-resolver": "^0.1.11",
     "@reboot-ui/istyle": "^0.1.9",
-    "@reboot-ui/ui-col": "^0.1.10",
+    "@reboot-ui/ui-col": "^0.1.11",
     "@reboot-ui/ui-select": "^0.1.10",
     "@types/react": "^16.9.34"
   },
