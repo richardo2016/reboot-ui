@@ -23,6 +23,7 @@ function resolveOffsetAboutBreakPointConfig (
 ) {
     let input: Exclude<typeof _input, OFFSET_ENUM_VALUE_TYPE> = {};
     if (typeof _input === 'number' || VALID_OFFSET_ENUM_VALUES.includes(_input as any)) input = { [numberAsKey]: _input };
+    else if (typeof _input === 'object') input = {..._input};
 
     const { span: spanValue, offset: offsetValue, rowCols } = input || {};
 
